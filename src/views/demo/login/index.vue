@@ -57,8 +57,8 @@ const { title, getDropdownItemStyle, getDropdownItemClass } = useNav();
 const { locale, translationCh, translationEn } = useTranslationLang();
 
 const ruleForm = reactive({
-  username: "jk989w99w9w",
-  password: "rcms@666666",
+  username: "superAdmin",
+  password: "e10adc3949",
   verifyCode: ""
 });
 
@@ -68,7 +68,7 @@ const onLogin = async (formEl: FormInstance | undefined) => {
     if (valid) {
       loading.value = true;
       useUserStoreHook()
-        .loginByUsername({ userId: ruleForm.username, password: "666666" })
+        .loginByUsername({ userId: ruleForm.username, password: "e10adc3949" })
         .then(res => {
           if (res.success) {
             // 获取后端路由

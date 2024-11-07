@@ -81,7 +81,7 @@ const filterMethod = (query: string, node: treeNode) => {
       show-checkbox
       :height="500"
       :filter-method="filterMethod"
-      :default-expanded-keys="expandedKeys"
+      accordion
     >
       <template #default="{ data }">
         <span>{{ transformI18n(data.meta.title) }}</span>
