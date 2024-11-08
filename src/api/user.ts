@@ -79,7 +79,7 @@ export const getLogin = (data?: object) => {
 export const refreshTokenApi = (data?: object) => {
   return http.request<RefreshTokenResult>(
     "post",
-    "/test/services/rcms/user/login/refresh",
+    "/test/services/rcms/user/refresh/login",
     { data }
   );
 };

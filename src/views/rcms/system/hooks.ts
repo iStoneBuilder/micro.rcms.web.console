@@ -53,6 +53,18 @@ export function usePublicHooks() {
     };
   });
 
+  const tagName = computed(() => {
+    const data = {
+      platform: "平台",
+      enterprise: "企业",
+      merchant: "商户"
+    };
+    return (key: string) => {
+      const index: string = key;
+      return data[index];
+    };
+  });
+
   return {
     /** 当前网页是否为`dark`模式 */
     isDark,
@@ -60,6 +72,7 @@ export function usePublicHooks() {
     switchStyle,
     /** 表现更鲜明的`el-tag`组件  */
     tagStyle,
-    tagEnterprise
+    tagEnterprise,
+    tagName
   };
 }

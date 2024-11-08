@@ -5,13 +5,13 @@ import { isPhone, isEmail } from "@pureadmin/utils";
 /** 自定义表单规则校验 */
 export const formRules = reactive(<FormRules>{
   parentId: [
-    { required: true, message: "上级企业(商户)为必填项", trigger: "blur" }
+    { required: true, message: "上级企业(商户)为必填项", trigger: "change" }
   ],
   name: [
     { required: true, message: "企业(商户)名称为必填项", trigger: "blur" }
   ],
   type: [
-    { required: true, message: "企业(商户)类型为必填项", trigger: "blur" }
+    { required: true, message: "企业(商户)类型为必填项", trigger: "change" }
   ],
   phone: [
     {

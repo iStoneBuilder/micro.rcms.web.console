@@ -19,7 +19,7 @@ export function useDept() {
   const formRef = ref();
   const dataList = ref([]);
   const loading = ref(true);
-  const { tagEnterprise } = usePublicHooks();
+  const { tagEnterprise, tagName } = usePublicHooks();
 
   const columns: TableColumnList = [
     {
@@ -49,16 +49,16 @@ export function useDept() {
       minWidth: 80,
       cellRenderer: ({ row, props }) => (
         <el-tag size={props.size} style={tagEnterprise.value(row.type)}>
-          {row.status === 1 ? "平台" : "企业"}
+          {tagName.value(row.type)}
         </el-tag>
       )
     },
     {
       label: "创建时间",
       minWidth: 200,
-      prop: "createTime",
-      formatter: ({ createTime }) =>
-        dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
+      prop: "createDate",
+      formatter: ({ createDate }) =>
+        dayjs(createDate).format("YYYY-MM-DD HH:mm:ss")
     },
     {
       label: "备注",
@@ -85,7 +85,8 @@ export function useDept() {
 
   async function onSearch() {
     loading.value = true;
-    const { data } = await getEnterpriseList(); // 这里是返回一维数组结构，前端自行处理成树结构，返回格式要求：唯一id加父节点parentId，parentId取父节点id
+    // 这里是返回一维数组结构，前端自行处理成树结构，返回格式要求：唯一id加父节点parentId，parentId取父节点id
+    const { data } = await getEnterpriseList();
     let newData = data;
     if (!isAllEmpty(form.name)) {
       // 前端搜索部门名称

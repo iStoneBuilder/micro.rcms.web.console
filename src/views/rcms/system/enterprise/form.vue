@@ -73,11 +73,13 @@ defineExpose({ getRef });
       </re-col>
       <re-col :value="12" :xs="24" :sm="24">
         <el-form-item label="类型" prop="type">
-          <el-input
+          <el-select
             v-model="newFormInline.type"
-            clearable
             placeholder="请输入类型(企业/商户)"
-          />
+            clearable
+          >
+            <el-option label="企业" value="enterprise" />
+          </el-select>
         </el-form-item>
       </re-col>
       <re-col :value="12" :xs="24" :sm="24">
