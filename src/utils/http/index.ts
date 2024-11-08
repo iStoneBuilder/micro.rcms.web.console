@@ -13,6 +13,8 @@ import { stringify } from "qs";
 import NProgress from "../progress";
 import { getToken, formatToken } from "@/utils/auth";
 import { useUserStoreHook } from "@/store/modules/user";
+import { message } from "@/utils/message";
+import { reLogin } from "../../utils/login";
 
 // 相关配置请参考：www.axios-js.com/zh-cn/docs/#axios-request-config-1
 const defaultConfig: AxiosRequestConfig = {
@@ -74,10 +76,11 @@ class PureHttp {
           return config;
         }
         /** 请求白名单，放置一些不需要`token`的接口（通过设置请求白名单，防止`token`过期后再请求造成的死循环问题） */
-        const whiteList = ["/refresh-token", "/login"];
+        const whiteList = ["/refresh-token", "/login", "/refresh/login"];
         return whiteList.some(url => config.url.endsWith(url))
           ? config
           : new Promise(resolve => {
+              console.log(new Date(), config);
               const data = getToken();
               if (data) {
                 const now = new Date().getTime();
@@ -138,6 +141,15 @@ class PureHttp {
       (error: PureHttpError) => {
         const $error = error;
         $error.isCancelRequest = Axios.isCancel($error);
+        console.log("------------", error);
+        // 刷新登录也无法实现则重新登录
+        if (
+          error.status === 401 &&
+          error?.config?.url.endsWith("user/refresh/login")
+        ) {
+          message("Warning类型消息", { customClass: "el", type: "warning" });
+          reLogin();
+        }
         // 关闭进度条动画
         NProgress.done();
         // 所有的响应异常 区分来源为取消请求/非取消请求
