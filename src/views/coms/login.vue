@@ -7,6 +7,7 @@ import { loginRules } from "../demo/login/utils/rule";
 import type { FormInstance } from "element-plus";
 import { useUserStoreHook } from "@/store/modules/user";
 import { message } from "@/utils/message";
+import { closeAllDialog } from "@/components/ReDialog";
 
 import User from "@iconify-icons/ri/user-3-fill";
 import Lock from "@iconify-icons/ri/lock-fill";
@@ -48,6 +49,8 @@ const onLogin = async (formEl: FormInstance | undefined) => {
         .then(res => {
           if (res.success) {
             message(t("login.pureLoginSuccess"), { type: "success" });
+            closeAllDialog();
+            location.reload();
           } else {
             message(t("login.pureLoginFail"), { type: "error" });
           }

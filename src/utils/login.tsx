@@ -7,6 +7,7 @@ export function reLogin() {
     width: "294px",
     title: `重新登录`,
     closeOnPressEscape: false,
+    closeOnClickModal: false,
     showClose: false,
     hideFooter: true,
     contentRenderer: () => h(forms)

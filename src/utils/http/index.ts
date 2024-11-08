@@ -13,8 +13,7 @@ import { stringify } from "qs";
 import NProgress from "../progress";
 import { getToken, formatToken } from "@/utils/auth";
 import { useUserStoreHook } from "@/store/modules/user";
-import { message } from "@/utils/message";
-import { reLogin } from "../../utils/login";
+import { handleRequestError } from "../common";
 
 // 相关配置请参考：www.axios-js.com/zh-cn/docs/#axios-request-config-1
 const defaultConfig: AxiosRequestConfig = {
@@ -80,7 +79,6 @@ class PureHttp {
         return whiteList.some(url => config.url.endsWith(url))
           ? config
           : new Promise(resolve => {
-              console.log(new Date(), config);
               const data = getToken();
               if (data) {
                 const now = new Date().getTime();
@@ -96,10 +94,12 @@ class PureHttp {
                         config.headers["Authorization"] = formatToken(token);
                         PureHttp.requests.forEach(cb => cb(token));
                         PureHttp.requests = [];
-                      })
-                      .finally(() => {
+                        // 请求成功
                         PureHttp.isRefreshing = false;
                       });
+                    // .finally(() => {
+                    //   PureHttp.isRefreshing = false;
+                    // });
                   }
                   resolve(PureHttp.retryOriginalRequest(config));
                 } else {
@@ -141,17 +141,10 @@ class PureHttp {
       (error: PureHttpError) => {
         const $error = error;
         $error.isCancelRequest = Axios.isCancel($error);
-        console.log("------------", error);
-        // 刷新登录也无法实现则重新登录
-        if (
-          error.status === 401 &&
-          error?.config?.url.endsWith("user/refresh/login")
-        ) {
-          message("Warning类型消息", { customClass: "el", type: "warning" });
-          reLogin();
-        }
         // 关闭进度条动画
         NProgress.done();
+        // 处理异常提示
+        handleRequestError(error.status, error?.response?.data);
         // 所有的响应异常 区分来源为取消请求/非取消请求
         return Promise.reject($error);
       }
