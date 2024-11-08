@@ -15,7 +15,8 @@ const props = withDefaults(defineProps<FormProps>(), {
     email: "",
     sort: 0,
     status: 1,
-    remark: ""
+    remark: "",
+    type: ""
   })
 });
 
@@ -39,7 +40,7 @@ defineExpose({ getRef });
   >
     <el-row :gutter="30">
       <re-col>
-        <el-form-item label="上级部门">
+        <el-form-item label="上级" prop="parentId">
           <el-cascader
             v-model="newFormInline.parentId"
             class="w-full"
@@ -52,7 +53,7 @@ defineExpose({ getRef });
             }"
             clearable
             filterable
-            placeholder="请选择上级部门"
+            placeholder="请选择上级企业(商户)"
           >
             <template #default="{ node, data }">
               <span>{{ data.name }}</span>
@@ -61,22 +62,30 @@ defineExpose({ getRef });
           </el-cascader>
         </el-form-item>
       </re-col>
-
       <re-col :value="12" :xs="24" :sm="24">
-        <el-form-item label="部门名称" prop="name">
+        <el-form-item label="名称" prop="name">
           <el-input
             v-model="newFormInline.name"
             clearable
-            placeholder="请输入部门名称"
+            placeholder="请输入企业(商户)名称"
           />
         </el-form-item>
       </re-col>
       <re-col :value="12" :xs="24" :sm="24">
-        <el-form-item label="部门负责人">
+        <el-form-item label="类型" prop="type">
+          <el-input
+            v-model="newFormInline.type"
+            clearable
+            placeholder="请输入类型(企业/商户)"
+          />
+        </el-form-item>
+      </re-col>
+      <re-col :value="12" :xs="24" :sm="24">
+        <el-form-item label="负责人">
           <el-input
             v-model="newFormInline.principal"
             clearable
-            placeholder="请输入部门负责人"
+            placeholder="请输入负责人"
           />
         </el-form-item>
       </re-col>
@@ -108,19 +117,6 @@ defineExpose({ getRef });
             :min="0"
             :max="9999"
             controls-position="right"
-          />
-        </el-form-item>
-      </re-col>
-      <re-col :value="12" :xs="24" :sm="24">
-        <el-form-item label="部门状态">
-          <el-switch
-            v-model="newFormInline.status"
-            inline-prompt
-            :active-value="1"
-            :inactive-value="0"
-            active-text="启用"
-            inactive-text="停用"
-            :style="switchStyle"
           />
         </el-form-item>
       </re-col>

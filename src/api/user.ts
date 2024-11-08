@@ -77,7 +77,11 @@ export const getLogin = (data?: object) => {
 
 /** 刷新`token` */
 export const refreshTokenApi = (data?: object) => {
-  return http.request<RefreshTokenResult>("post", "/refresh-token", { data });
+  return http.request<RefreshTokenResult>(
+    "post",
+    "/test/services/rcms/user/login/refresh",
+    { data }
+  );
 };
 
 /** 账户设置-个人信息 */

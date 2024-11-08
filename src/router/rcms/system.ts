@@ -2,7 +2,7 @@ export default {
   path: "/system",
   redirect: "/system/enterprise",
   meta: {
-    icon: "ri:file-info-line",
+    icon: "ri:settings-3-line",
     title: "系统管理",
     rank: 1
   },
@@ -17,6 +17,14 @@ export default {
     },
     {
       path: "/system/enterprise1",
+      name: "商户管理",
+      component: () => import("@/views/rcms/system/enterprise/index.vue"),
+      meta: {
+        title: "商户管理"
+      }
+    },
+    {
+      path: "/system/enterprise3",
       name: "角色管理",
       component: () => import("@/views/rcms/system/enterprise/index.vue"),
       meta: {

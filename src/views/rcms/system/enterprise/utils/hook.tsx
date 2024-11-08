@@ -115,7 +115,7 @@ export function useDept() {
 
   function openDialog(title = "新增", row?: FormItemProps) {
     addDialog({
-      title: `${title}部门`,
+      title: `${title}企业(商户)`,
       props: {
         formInline: {
           higherDeptOptions: formatHigherDeptOptions(cloneDeep(dataList.value)),
