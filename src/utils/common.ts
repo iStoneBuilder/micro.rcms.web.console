@@ -20,9 +20,9 @@ export interface HttpError {
   data: ErrorData;
 }
 
-export function handleRequestError(code: number, data: Object) {
+export function handleRequestError(code: number, data: Object, uri: string) {
   // 刷新登录也无法实现则重新登录
-  if (code === 401) {
+  if (code === 401 && uri.endsWith("user/refresh/login")) {
     message("登录信息失效，请重新登录", {
       duration: 3000,
       customClass: "el",

@@ -8,6 +8,7 @@ import { addDialog } from "@/components/ReDialog";
 import { reactive, ref, onMounted, h } from "vue";
 import type { FormItemProps } from "./types";
 import { cloneDeep, isAllEmpty, deviceDetection } from "@pureadmin/utils";
+import { findSelected } from "@/utils/common";
 
 export function useDept() {
   const form = reactive({
@@ -116,11 +117,14 @@ export function useDept() {
   }
 
   function openDialog(title = "新增", row?: FormItemProps) {
+    const options = formatHigherDeptOptions(cloneDeep(dataList.value));
+    const selected = findSelected(options, row?.parentId);
+    console.log(selected);
     addDialog({
       title: `${title}企业(商户)`,
       props: {
         formInline: {
-          higherDeptOptions: formatHigherDeptOptions(cloneDeep(dataList.value)),
+          higherDeptOptions: options,
           parentId: row?.parentId ?? 0,
           name: row?.name ?? "",
           principal: row?.principal ?? "",
@@ -132,7 +136,7 @@ export function useDept() {
           level: row?.level ?? 2,
           type: row?.type ?? "",
           isEdit: title === "修改",
-          pType: row?.pType ?? ""
+          pType: selected.type
         }
       },
       width: "40%",
