@@ -37,7 +37,9 @@ export const useUserStore = defineStore({
     // 是否勾选了登录页的免登录
     isRemembered: false,
     // 登录页的免登录存储几天，默认7天
-    loginDay: 7
+    loginDay: 7,
+    //** 账户企业信息 */
+    extraInfo: storageLocal().getItem<DataInfo<number>>(userKey)?.extraInfo
   }),
   actions: {
     /** 存储头像 */
@@ -59,6 +61,10 @@ export const useUserStore = defineStore({
     /** 存储按钮级别权限 */
     SET_PERMS(permissions: Array<string>) {
       this.permissions = permissions;
+    },
+    /** 登录企业信息 */
+    SET_EXTRA(extraInfo: object) {
+      this.extraInfo = extraInfo;
     },
     /** 存储前端生成的验证码 */
     SET_VERIFYCODE(verifyCode: string) {

@@ -2,8 +2,7 @@ import dayjs from "dayjs";
 import editForm from "../form.vue";
 import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
-// import { getDeptList } from "@/api/system";
-import { getEnterpriseList } from "@/api/rcms/enterprise";
+import { getEnterpriseList, createEnterprise } from "@/api/rcms/enterprise";
 import { usePublicHooks } from "../../hooks";
 import { addDialog } from "@/components/ReDialog";
 import { reactive, ref, onMounted, h } from "vue";
@@ -25,8 +24,18 @@ export function useDept() {
     {
       label: "企业名称",
       prop: "name",
-      width: 180,
+      width: 200,
       align: "left"
+    },
+    {
+      label: "类型",
+      prop: "type",
+      minWidth: 80,
+      cellRenderer: ({ row, props }) => (
+        <el-tag size={props.size} style={tagEnterprise.value(row.type)}>
+          {tagName.value(row.type)}
+        </el-tag>
+      )
     },
     {
       label: "负责人",
@@ -44,18 +53,8 @@ export function useDept() {
       minWidth: 240
     },
     {
-      label: "类型",
-      prop: "type",
-      minWidth: 80,
-      cellRenderer: ({ row, props }) => (
-        <el-tag size={props.size} style={tagEnterprise.value(row.type)}>
-          {tagName.value(row.type)}
-        </el-tag>
-      )
-    },
-    {
       label: "创建时间",
-      minWidth: 200,
+      minWidth: 160,
       prop: "createDate",
       formatter: ({ createDate }) =>
         dayjs(createDate).format("YYYY-MM-DD HH:mm:ss")
@@ -126,8 +125,10 @@ export function useDept() {
           phone: row?.phone ?? "",
           email: row?.email ?? "",
           sort: row?.sort ?? 0,
-          status: row?.status ?? 1,
-          remark: row?.remark ?? ""
+          status: row?.status ?? "Y",
+          remark: row?.remark ?? "",
+          level: row?.level ?? 2,
+          type: row?.type ?? "enterprise"
         }
       },
       width: "40%",
@@ -146,12 +147,13 @@ export function useDept() {
           done(); // 关闭弹框
           onSearch(); // 刷新表格数据
         }
-        FormRef.validate(valid => {
+        FormRef.validate(async valid => {
           if (valid) {
-            console.log("curData", curData);
             // 表单规则校验通过
             if (title === "新增") {
               // 实际开发先调用新增接口，再进行下面操作
+              const { data } = await createEnterprise(curData);
+              console.log(data, "===========");
               chores();
             } else {
               // 实际开发先调用修改接口，再进行下面操作

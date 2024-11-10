@@ -143,8 +143,10 @@ class PureHttp {
         $error.isCancelRequest = Axios.isCancel($error);
         // 关闭进度条动画
         NProgress.done();
-        // 处理异常提示
-        handleRequestError(error.status, error?.response?.data);
+        // 处理异常提示(刷新Token异常时才退出登录页面)
+        if ((error.request.responseURL + "").endsWith("user/refresh/login")) {
+          handleRequestError(error.status, error?.response?.data as Object);
+        }
         // 所有的响应异常 区分来源为取消请求/非取消请求
         return Promise.reject($error);
       }

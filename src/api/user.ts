@@ -19,6 +19,13 @@ export type UserResult = {
     refreshToken: string;
     /** `accessToken`的过期时间（格式'xxxx/xx/xx xx:xx:xx'） */
     expires: Date;
+    /** 账户企业信息 */
+    extraInfo: {
+      id: string;
+      code: string;
+      name: string;
+      type: string;
+    };
   };
 };
 

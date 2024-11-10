@@ -42,9 +42,9 @@ export function usePublicHooks() {
         "--el-tag-border-color": isDark.value ? "#58191c" : "#ffa39e"
       },
       merchant: {
-        "--el-tag-text-color": isDark.value ? "#e84749" : "#cf1322",
-        "--el-tag-bg-color": isDark.value ? "#2b1316" : "#fff1f0",
-        "--el-tag-border-color": isDark.value ? "#58191c" : "#ffa39e"
+        "--el-tag-text-color": isDark.value ? "#ff9900" : "#f49507",
+        "--el-tag-bg-color": isDark.value ? "#b2956996" : "#fff5e6",
+        "--el-tag-border-color": isDark.value ? "#efa9458a" : "#ffcb80"
       }
     };
     return (key: string) => {

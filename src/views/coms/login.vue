@@ -50,7 +50,9 @@ const onLogin = async (formEl: FormInstance | undefined) => {
           if (res.success) {
             message(t("login.pureLoginSuccess"), { type: "success" });
             closeAllDialog();
-            location.reload();
+            setTimeout(() => {
+              location.reload();
+            }, 200);
           } else {
             message(t("login.pureLoginFail"), { type: "error" });
           }

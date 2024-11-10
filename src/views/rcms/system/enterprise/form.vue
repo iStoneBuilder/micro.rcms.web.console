@@ -14,9 +14,10 @@ const props = withDefaults(defineProps<FormProps>(), {
     phone: "",
     email: "",
     sort: 0,
-    status: 1,
+    status: "Y",
     remark: "",
-    type: ""
+    type: "",
+    level: 0
   })
 });
 
@@ -79,6 +80,7 @@ defineExpose({ getRef });
             clearable
           >
             <el-option label="企业" value="enterprise" />
+            <el-option label="商户" value="merchant" />
           </el-select>
         </el-form-item>
       </re-col>

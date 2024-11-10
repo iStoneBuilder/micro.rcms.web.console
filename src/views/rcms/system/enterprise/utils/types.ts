@@ -6,9 +6,10 @@ interface FormItemProps {
   phone: string | number;
   email: string;
   sort: number;
-  status: number;
+  status: string;
   remark: string;
   type: string;
+  level: number;
 }
 interface FormProps {
   formInline: FormItemProps;

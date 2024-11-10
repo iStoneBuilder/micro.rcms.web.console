@@ -36,6 +36,12 @@ export type setType = {
   fixedHeader: boolean;
   hiddenSideBar: boolean;
 };
+export type extraType = {
+  id: string;
+  code: string;
+  name: string;
+  type: string;
+};
 
 export type userType = {
   avatar?: string;
@@ -47,4 +53,5 @@ export type userType = {
   currentPage?: number;
   isRemembered?: boolean;
   loginDay?: number;
+  extraInfo?: extraType;
 };
