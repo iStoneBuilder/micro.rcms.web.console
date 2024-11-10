@@ -41,23 +41,23 @@ function onFullscreen() {
       :model="form"
       class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px] overflow-auto"
     >
-      <el-form-item label="部门名称：" prop="name">
+      <el-form-item label="名称：" prop="name">
         <el-input
           v-model="form.name"
-          placeholder="请输入部门名称"
+          placeholder="请输入名称"
           clearable
           class="!w-[180px]"
         />
       </el-form-item>
-      <el-form-item label="状态：" prop="status">
+      <el-form-item label="类型：" prop="type">
         <el-select
-          v-model="form.status"
-          placeholder="请选择状态"
+          v-model="form.type"
+          placeholder="请选择类型"
           clearable
           class="!w-[180px]"
         >
-          <el-option label="启用" :value="1" />
-          <el-option label="停用" :value="0" />
+          <el-option label="企业" value="enterprise" />
+          <el-option label="商户" value="merchant" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -82,7 +82,7 @@ function onFullscreen() {
       @refresh="onSearch"
       @fullscreen="onFullscreen"
     >
-      <template #buttons>
+      <!-- <template #buttons>
         <el-button
           type="primary"
           :icon="useRenderIcon(AddFill)"
@@ -90,7 +90,7 @@ function onFullscreen() {
         >
           新增
         </el-button>
-      </template>
+      </template> -->
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
           ref="tableRef"
@@ -129,7 +129,9 @@ function onFullscreen() {
               type="primary"
               :size="size"
               :icon="useRenderIcon(AddFill)"
-              @click="openDialog('新增', { parentId: row.id } as any)"
+              @click="
+                openDialog('新增', { parentId: row.id, pType: row.type } as any)
+              "
             >
               新增
             </el-button>

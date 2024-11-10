@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, nextTick } from "vue";
 import ReCol from "@/components/ReCol";
 import { formRules } from "./utils/rule";
 import { FormProps } from "./utils/types";
 import { usePublicHooks } from "../hooks";
+import { findSelected } from "@/utils/common";
 
 const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
@@ -17,7 +18,9 @@ const props = withDefaults(defineProps<FormProps>(), {
     status: "Y",
     remark: "",
     type: "",
-    level: 0
+    level: 0,
+    isEdit: false,
+    pType: ""
   })
 });
 
@@ -28,6 +31,12 @@ const newFormInline = ref(props.formInline);
 function getRef() {
   return ruleFormRef.value;
 }
+const handleChange = value => {
+  nextTick(() => {
+    const selected = findSelected(newFormInline.value.higherDeptOptions, value);
+    newFormInline.value.pType = selected.type;
+  });
+};
 
 defineExpose({ getRef });
 </script>
@@ -43,6 +52,7 @@ defineExpose({ getRef });
       <re-col>
         <el-form-item label="上级" prop="parentId">
           <el-cascader
+            ref="pemRef"
             v-model="newFormInline.parentId"
             class="w-full"
             :options="newFormInline.higherDeptOptions"
@@ -55,6 +65,8 @@ defineExpose({ getRef });
             clearable
             filterable
             placeholder="请选择上级企业(商户)"
+            :disabled="newFormInline.isEdit"
+            @change="handleChange"
           >
             <template #default="{ node, data }">
               <span>{{ data.name }}</span>
@@ -78,8 +90,13 @@ defineExpose({ getRef });
             v-model="newFormInline.type"
             placeholder="请输入类型(企业/商户)"
             clearable
+            :disabled="newFormInline.isEdit"
           >
-            <el-option label="企业" value="enterprise" />
+            <el-option
+              v-if="newFormInline.pType === 'platform'"
+              label="企业"
+              value="enterprise"
+            />
             <el-option label="商户" value="merchant" />
           </el-select>
         </el-form-item>

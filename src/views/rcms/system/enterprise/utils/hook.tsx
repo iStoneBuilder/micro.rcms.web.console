@@ -12,7 +12,7 @@ import { cloneDeep, isAllEmpty, deviceDetection } from "@pureadmin/utils";
 export function useDept() {
   const form = reactive({
     name: "",
-    status: null
+    type: null
   });
 
   const formRef = ref();
@@ -91,9 +91,9 @@ export function useDept() {
       // 前端搜索部门名称
       newData = newData.filter(item => item.name.includes(form.name));
     }
-    if (!isAllEmpty(form.status)) {
+    if (!isAllEmpty(form.type)) {
       // 前端搜索状态
-      newData = newData.filter(item => item.status === form.status);
+      newData = newData.filter(item => item.type === form.type);
     }
     dataList.value = handleTree(newData); // 处理成树结构
     setTimeout(() => {
@@ -102,7 +102,9 @@ export function useDept() {
   }
 
   function formatHigherDeptOptions(treeList) {
-    // 根据返回数据的status字段值判断追加是否禁用disabled字段，返回处理后的树结构，用于上级部门级联选择器的展示（实际开发中也是如此，不可能前端需要的每个字段后端都会返回，这时需要前端自行根据后端返回的某些字段做逻辑处理）
+    // 根据返回数据的status字段值判断追加是否禁用disabled字段，返回处理后的树结构，
+    // 用于上级部门级联选择器的展示（实际开发中也是如此，不可能前端需要的每个字段后端都会返回，
+    // 这时需要前端自行根据后端返回的某些字段做逻辑处理）
     if (!treeList || !treeList.length) return;
     const newTreeList = [];
     for (let i = 0; i < treeList.length; i++) {
@@ -128,7 +130,9 @@ export function useDept() {
           status: row?.status ?? "Y",
           remark: row?.remark ?? "",
           level: row?.level ?? 2,
-          type: row?.type ?? "enterprise"
+          type: row?.type ?? "",
+          isEdit: title === "修改",
+          pType: row?.pType ?? ""
         }
       },
       width: "40%",

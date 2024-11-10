@@ -39,3 +39,18 @@ export function handleRequestError(code: number, data: Object) {
     });
   }
 }
+
+export function findSelected(options, id) {
+  for (let option of options) {
+    if (option.id === id) {
+      return option;
+    }
+    if (option.children) {
+      const selectedChild = findSelected(option.children, id);
+      if (selectedChild) {
+        return selectedChild;
+      }
+    }
+  }
+  return null;
+}

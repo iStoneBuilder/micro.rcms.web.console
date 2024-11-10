@@ -10,6 +10,8 @@ interface FormItemProps {
   remark: string;
   type: string;
   level: number;
+  isEdit: boolean;
+  pType: string;
 }
 interface FormProps {
   formInline: FormItemProps;
