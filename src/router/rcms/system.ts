@@ -16,9 +16,9 @@ export default {
       }
     },
     {
-      path: "/system/enterprise1",
+      path: "/system/merchant",
       name: "商户管理",
-      component: () => import("@/views/rcms/system/enterprise/index.vue"),
+      component: () => import("@/views/rcms/system/merchant/index.vue"),
       meta: {
         title: "商户管理"
       }
@@ -32,11 +32,27 @@ export default {
       }
     },
     {
-      path: "/system/enterprise2",
+      path: "/system/account",
       name: "账户管理",
-      component: () => import("@/views/rcms/system/enterprise/index.vue"),
+      component: () => import("@/views/rcms/system/accounts/index.vue"),
       meta: {
         title: "账户管理"
+      }
+    },
+    {
+      path: "/system/account1",
+      name: "支付配置",
+      component: () => import("@/views/rcms/system/accounts/index.vue"),
+      meta: {
+        title: "支付配置"
+      }
+    },
+    {
+      path: "/system/enterprise4",
+      name: "用户管理",
+      component: () => import("@/views/rcms/system/enterprise/index.vue"),
+      meta: {
+        title: "用户管理"
       }
     }
   ]

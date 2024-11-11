@@ -1,19 +1,19 @@
 import { http } from "@/utils/http";
 import type { ResultArray, ResultData } from "./types";
 
-export const getEnterpriseList = (data?: object) => {
+export const getAccountList = (data?: object) => {
   return http.request<ResultArray>(
     "get",
-    "/test/services/rcms/enterprise/records?id=100000000000",
+    "/test/services/rcms/account/records",
     {
       data
     }
   );
 };
-export const createEnterprise = (data?: object) => {
+export const createAccount = (data?: object) => {
   return http.request<ResultData>(
     "post",
-    "/test/services/rcms/enterprise/records",
+    "/test/services/rcms/account/records",
     {
       data
     }

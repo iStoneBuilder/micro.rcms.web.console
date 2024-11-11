@@ -1,0 +1,133 @@
+<script setup lang="ts">
+import { ref } from "vue";
+import ReCol from "@/components/ReCol";
+import { formRules } from "../utils/rule";
+import { FormProps } from "../utils/types";
+import { usePublicHooks } from "../../hooks";
+
+const props = withDefaults(defineProps<FormProps>(), {
+  formInline: () => ({
+    title: "新增",
+    higherDeptOptions: [],
+    parentId: 0,
+    nickname: "",
+    username: "",
+    password: "",
+    phone: "",
+    email: "",
+    sex: "",
+    status: 1,
+    remark: ""
+  })
+});
+
+const ruleFormRef = ref();
+const { switchStyle } = usePublicHooks();
+const newFormInline = ref(props.formInline);
+
+function getRef() {
+  return ruleFormRef.value;
+}
+
+defineExpose({ getRef });
+</script>
+
+<template>
+  <el-form
+    ref="ruleFormRef"
+    :model="newFormInline"
+    :rules="formRules"
+    label-width="80px"
+  >
+    <el-row :gutter="30">
+      <re-col :value="23" :xs="24" :sm="24">
+        <el-form-item label="账户" prop="nickname">
+          <el-input
+            v-model="newFormInline.nickname"
+            clearable
+            placeholder="请输入账户"
+          />
+        </el-form-item>
+      </re-col>
+      <re-col :value="23" :xs="24" :sm="24">
+        <el-form-item label="账户名称" prop="username">
+          <el-input
+            v-model="newFormInline.username"
+            clearable
+            placeholder="请输入账户名称"
+          />
+        </el-form-item>
+      </re-col>
+
+      <re-col :value="23" :xs="24" :sm="24">
+        <el-form-item label="密码" prop="password">
+          <el-input
+            v-model="newFormInline.password"
+            clearable
+            placeholder="请输入密码"
+          />
+        </el-form-item>
+      </re-col>
+      <re-col :value="23" :xs="24" :sm="24">
+        <el-form-item label="所属商户">
+          <el-cascader
+            v-model="newFormInline.parentId"
+            class="w-full"
+            :options="newFormInline.higherDeptOptions"
+            :props="{
+              value: 'id',
+              label: 'name',
+              emitPath: false,
+              checkStrictly: true
+            }"
+            clearable
+            filterable
+            placeholder="请选择归属商户"
+          >
+            <template #default="{ node, data }">
+              <span>{{ data.name }}</span>
+              <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
+            </template>
+          </el-cascader>
+        </el-form-item>
+      </re-col>
+      <re-col :value="23" :xs="24" :sm="24">
+        <el-form-item label="账户类型">
+          <el-select
+            v-model="newFormInline.sex"
+            placeholder="请选择用户性别"
+            class="w-full"
+            clearable
+          >
+            <el-option label="程序" value="app" />
+            <el-option label="账户" value="account" />
+          </el-select>
+        </el-form-item>
+      </re-col>
+
+      <re-col :value="23" :xs="24" :sm="24">
+        <el-form-item label="状态">
+          <el-switch
+            v-model="newFormInline.status"
+            inline-prompt
+            :active-value="1"
+            :inactive-value="0"
+            active-text="启用"
+            inactive-text="停用"
+            :style="switchStyle"
+          />
+        </el-form-item>
+      </re-col>
+
+      <re-col :value="23" :xs="24" :sm="24">
+        <el-form-item label="备注">
+          <el-input
+            v-model="newFormInline.remark"
+            placeholder="请输入备注信息"
+            type="textarea"
+          />
+        </el-form-item>
+      </re-col>
+    </el-row>
+  </el-form>
+</template>
