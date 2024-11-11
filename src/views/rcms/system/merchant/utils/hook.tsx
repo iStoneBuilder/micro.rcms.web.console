@@ -8,7 +8,7 @@ import { addDialog } from "@/components/ReDialog";
 import { reactive, ref, onMounted, h } from "vue";
 import type { FormItemProps } from "./types";
 import { cloneDeep, isAllEmpty, deviceDetection } from "@pureadmin/utils";
-import { findSelected } from "@/utils/common";
+import { findSelected, getEnterpriseId } from "@/utils/common";
 
 export function useDept() {
   const form = reactive({
@@ -86,7 +86,7 @@ export function useDept() {
   async function onSearch() {
     loading.value = true;
     // 这里是返回一维数组结构，前端自行处理成树结构，返回格式要求：唯一id加父节点parentId，parentId取父节点id
-    const { data } = await getEnterpriseList();
+    const { data } = await getEnterpriseList({ id: getEnterpriseId() });
     let newData = data;
     if (!isAllEmpty(form.name)) {
       // 前端搜索部门名称

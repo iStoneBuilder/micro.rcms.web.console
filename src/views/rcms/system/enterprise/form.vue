@@ -49,7 +49,7 @@ defineExpose({ getRef });
     label-width="82px"
   >
     <el-row :gutter="30">
-      <re-col>
+      <re-col :value="23" :xs="24" :sm="24">
         <el-form-item label="上级" prop="parentId">
           <el-cascader
             ref="pemRef"
@@ -75,7 +75,7 @@ defineExpose({ getRef });
           </el-cascader>
         </el-form-item>
       </re-col>
-      <re-col :value="12" :xs="24" :sm="24">
+      <re-col :value="23" :xs="24" :sm="24">
         <el-form-item label="名称" prop="name">
           <el-input
             v-model="newFormInline.name"
@@ -84,7 +84,7 @@ defineExpose({ getRef });
           />
         </el-form-item>
       </re-col>
-      <re-col :value="12" :xs="24" :sm="24">
+      <re-col :value="23" :xs="24" :sm="24">
         <el-form-item label="类型" prop="type">
           <el-select
             v-model="newFormInline.type"
@@ -101,7 +101,7 @@ defineExpose({ getRef });
           </el-select>
         </el-form-item>
       </re-col>
-      <re-col :value="12" :xs="24" :sm="24">
+      <re-col :value="23" :xs="24" :sm="24">
         <el-form-item label="负责人">
           <el-input
             v-model="newFormInline.principal"
@@ -111,7 +111,7 @@ defineExpose({ getRef });
         </el-form-item>
       </re-col>
 
-      <re-col :value="12" :xs="24" :sm="24">
+      <re-col :value="23" :xs="24" :sm="24">
         <el-form-item label="手机号" prop="phone">
           <el-input
             v-model="newFormInline.phone"
@@ -120,7 +120,7 @@ defineExpose({ getRef });
           />
         </el-form-item>
       </re-col>
-      <re-col :value="12" :xs="24" :sm="24">
+      <re-col :value="23" :xs="24" :sm="24">
         <el-form-item label="邮箱" prop="email">
           <el-input
             v-model="newFormInline.email"
@@ -130,7 +130,7 @@ defineExpose({ getRef });
         </el-form-item>
       </re-col>
 
-      <re-col :value="12" :xs="24" :sm="24">
+      <re-col :value="23" :xs="24" :sm="24">
         <el-form-item label="排序">
           <el-input-number
             v-model="newFormInline.sort"
@@ -142,7 +142,7 @@ defineExpose({ getRef });
         </el-form-item>
       </re-col>
 
-      <re-col>
+      <re-col :value="23" :xs="24" :sm="24">
         <el-form-item label="备注">
           <el-input
             v-model="newFormInline.remark"

@@ -46,6 +46,12 @@ export function getToken(): DataInfo<number> {
     : storageLocal().getItem(userKey);
 }
 
+export function getUserInfo(): DataInfo<number> {
+  return Cookies.get(userKey)
+    ? JSON.parse(Cookies.get(userKey))
+    : storageLocal().getItem(userKey);
+}
+
 /**
  * @description 设置`token`以及一些必要信息并采用无感刷新`token`方案
  * 无感刷新：后端返回`accessToken`（访问接口使用的`token`）、`refreshToken`（用于调用刷新`accessToken`的接口时所需的`token`，`refreshToken`的过期时间（比如30天）应大于`accessToken`的过期时间（比如2小时））、`expires`（`accessToken`的过期时间）

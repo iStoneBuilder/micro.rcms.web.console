@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-
+import { getUserInfo } from "@/utils/auth";
 import { message } from "@/utils/message";
 import { reLogin } from "./login";
 
@@ -53,4 +53,9 @@ export function findSelected(options, id) {
     }
   }
   return null;
+}
+
+export function getEnterpriseId() {
+  const userInfo = getUserInfo();
+  return userInfo?.extraInfo?.id ?? "000000000000";
 }

@@ -14,6 +14,7 @@ import type { FormItemProps, RoleFormItemProps } from "./types";
 import { getKeyList, isAllEmpty, deviceDetection } from "@pureadmin/utils";
 import { getRoleIds, getAllRoleList } from "@/api/system";
 import { getAccountPageList } from "@/api/rcms/account";
+import { getEnterpriseId } from "@/utils/common";
 
 import { getEnterpriseList } from "@/api/rcms/enterprise";
 import {
@@ -283,7 +284,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
         formInline: {
           title,
           higherDeptOptions: formatHigherDeptOptions(higherDeptOptions.value),
-          parentId: row?.dept.id ?? 0,
+          // enterpriseId: row?.enterpriseId ?? 0,
           nickname: row?.nickname ?? "",
           username: row?.username ?? "",
           password: row?.password ?? "",
@@ -360,8 +361,8 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
   /** 重置密码 */
   function handleReset(row) {
     addDialog({
-      title: `重置 ${row.username} 用户的密码`,
-      width: "30%",
+      title: `重置 ${row.name} 的密码`,
+      width: "400px",
       draggable: true,
       closeOnClickModal: false,
       fullscreen: deviceDetection(),
@@ -418,7 +419,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
         ruleFormRef.value.validate(valid => {
           if (valid) {
             // 表单规则校验通过
-            message(`已成功重置 ${row.username} 用户的密码`, {
+            message(`已成功重置 ${row.name} 用户的密码`, {
               type: "success"
             });
             console.log(pwdForm.newPwd);
@@ -436,11 +437,11 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     // 选中的角色列表
     const ids = (await getRoleIds({ userId: row.id })).data ?? [];
     addDialog({
-      title: `分配 ${row.username} 用户的角色`,
+      title: `分配角色`,
       props: {
         formInline: {
-          username: row?.username ?? "",
-          nickname: row?.nickname ?? "",
+          code: row?.code ?? "",
+          name: row?.name ?? "",
           roleOptions: roleOptions.value ?? [],
           ids
         }
@@ -465,7 +466,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     onSearch();
 
     // 归属部门
-    const { data } = await getEnterpriseList();
+    const { data } = await getEnterpriseList({ id: getEnterpriseId() });
     higherDeptOptions.value = handleTree(data);
     treeData.value = handleTree(data);
     treeLoading.value = false;

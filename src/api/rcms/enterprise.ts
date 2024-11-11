@@ -1,12 +1,12 @@
 import { http } from "@/utils/http";
 import type { ResultArray, ResultData } from "./types";
 
-export const getEnterpriseList = (data?: object) => {
+export const getEnterpriseList = (params?: object) => {
   return http.request<ResultArray>(
     "get",
-    "/test/services/rcms/enterprise/records?id=100000000000",
+    "/test/services/rcms/enterprise/records",
     {
-      data
+      params
     }
   );
 };
