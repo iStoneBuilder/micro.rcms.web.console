@@ -68,17 +68,17 @@ const {
         :model="form"
         class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px] overflow-auto"
       >
-        <el-form-item label="账户：" prop="username">
+        <el-form-item label="账户：" prop="code">
           <el-input
-            v-model="form.username"
+            v-model="form.code"
             placeholder="请输入账户"
             clearable
             class="!w-[180px]"
           />
         </el-form-item>
-        <el-form-item label="账户名称：" prop="phone">
+        <el-form-item label="账户名称：" prop="name">
           <el-input
-            v-model="form.phone"
+            v-model="form.name"
             placeholder="请输入名称"
             clearable
             class="!w-[180px]"

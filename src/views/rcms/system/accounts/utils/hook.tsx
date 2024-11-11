@@ -12,7 +12,8 @@ import type { PaginationProps } from "@pureadmin/table";
 import ReCropperPreview from "@/components/ReCropperPreview";
 import type { FormItemProps, RoleFormItemProps } from "./types";
 import { getKeyList, isAllEmpty, deviceDetection } from "@pureadmin/utils";
-import { getRoleIds, getUserList, getAllRoleList } from "@/api/system";
+import { getRoleIds, getAllRoleList } from "@/api/system";
+import { getAccountPageList } from "@/api/rcms/account";
 
 import { getEnterpriseList } from "@/api/rcms/enterprise";
 import {
@@ -36,10 +37,10 @@ import {
 export function useUser(tableRef: Ref, treeRef: Ref) {
   const form = reactive({
     // 左侧部门树的id
-    deptId: "",
-    username: "",
-    phone: "",
-    status: ""
+    enterpriseId: null,
+    code: null,
+    name: null,
+    status: null
   });
   const formRef = ref();
   const ruleFormRef = ref();
@@ -68,31 +69,31 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     // },
     {
       label: "账户",
-      prop: "username",
+      prop: "code",
       minWidth: 130
     },
     {
       label: "账户名称",
-      prop: "nickname",
+      prop: "name",
       minWidth: 130
     },
     {
       label: "账户类型",
-      prop: "sex",
+      prop: "type",
       minWidth: 90,
       cellRenderer: ({ row, props }) => (
         <el-tag
           size={props.size}
-          type={row.sex === 1 ? "danger" : null}
+          type={row.type === 1 ? "danger" : null}
           effect="plain"
         >
-          {row.sex === 1 ? "账户" : "程序"}
+          {row.type === "account" ? "账户" : "程序"}
         </el-tag>
       )
     },
     {
       label: "所属商户(企业)",
-      prop: "dept.name",
+      prop: "merchant",
       minWidth: 90
     },
     {
@@ -104,8 +105,8 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
           size={scope.props.size === "small" ? "small" : "default"}
           loading={switchLoadMap.value[scope.index]?.loading}
           v-model={scope.row.status}
-          active-value={1}
-          inactive-value={0}
+          active-value={"Y"}
+          inactive-value={"N"}
           active-text="已启用"
           inactive-text="已停用"
           inline-prompt
@@ -239,11 +240,11 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
 
   async function onSearch() {
     loading.value = true;
-    const { data } = await getUserList(toRaw(form));
-    dataList.value = data.list;
-    pagination.total = data.total;
-    pagination.pageSize = data.pageSize;
-    pagination.currentPage = data.currentPage;
+    const { data } = await getAccountPageList(1, 15, toRaw(form));
+    dataList.value = data.data;
+    pagination.total = data.meta.totalRows;
+    pagination.pageSize = data.meta.pageSize;
+    pagination.currentPage = data.meta.curPage;
 
     setTimeout(() => {
       loading.value = false;
@@ -253,13 +254,13 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
   const resetForm = formEl => {
     if (!formEl) return;
     formEl.resetFields();
-    form.deptId = "";
+    form.enterpriseId = null;
     treeRef.value.onTreeReset();
     onSearch();
   };
 
   function onTreeSelect({ id, selected }) {
-    form.deptId = selected ? id : "";
+    form.enterpriseId = selected ? id : null;
     onSearch();
   }
 
