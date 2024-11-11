@@ -82,15 +82,6 @@ function onFullscreen() {
       @refresh="onSearch"
       @fullscreen="onFullscreen"
     >
-      <!-- <template #buttons>
-        <el-button
-          type="primary"
-          :icon="useRenderIcon(AddFill)"
-          @click="openDialog()"
-        >
-          新增
-        </el-button>
-      </template> -->
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
           ref="tableRef"
@@ -113,17 +104,20 @@ function onFullscreen() {
         >
           <template #operation="{ row }">
             <el-button
+              v-perms="'permission:enterprise:update'"
               class="reset-margin"
               link
               :type="row.parentId == 0 ? 'info' : 'primary'"
               :size="size"
               :icon="useRenderIcon(EditPen)"
-              :disabled="row?.parentId == 0"
+              :disabled="row.disabled"
               @click="openDialog('修改', row)"
             >
               修改
             </el-button>
+
             <el-button
+              v-perms="'permission:enterprise:create'"
               class="reset-margin"
               link
               type="primary"
@@ -139,6 +133,7 @@ function onFullscreen() {
             >
               <template #reference>
                 <el-button
+                  v-perms="'permission:enterprise:delete'"
                   class="reset-margin"
                   link
                   :type="row.parentId == 0 ? 'info' : 'primary'"

@@ -96,7 +96,11 @@ export function useDept() {
       // 前端搜索状态
       newData = newData.filter(item => item.type === form.type);
     }
-    dataList.value = handleTree(newData); // 处理成树结构
+    const treeData = handleTree(newData);
+    if (treeData.length > 0) {
+      treeData[0].disabled = true;
+    }
+    dataList.value = treeData; // 处理成树结构
     setTimeout(() => {
       loading.value = false;
     }, 500);

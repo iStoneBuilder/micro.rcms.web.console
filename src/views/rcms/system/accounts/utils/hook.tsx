@@ -34,6 +34,7 @@ import {
   reactive,
   onMounted
 } from "vue";
+import { nextTick } from "process";
 
 export function useUser(tableRef: Ref, treeRef: Ref) {
   const form = reactive({
@@ -57,7 +58,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
   const selectedNum = ref(0);
   const pagination = reactive<PaginationProps>({
     total: 0,
-    pageSize: 10,
+    pageSize: 15,
     currentPage: 1,
     background: true
   });
@@ -206,11 +207,17 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
   }
 
   function handleSizeChange(val: number) {
-    console.log(`${val} items per page`);
+    pagination.pageSize = val;
+    nextTick(() => {
+      onSearch();
+    });
   }
 
   function handleCurrentChange(val: number) {
-    console.log(`current page: ${val}`);
+    pagination.currentPage = val;
+    nextTick(() => {
+      onSearch();
+    });
   }
 
   /** 当CheckBox选择项发生变化时会触发该事件 */
@@ -241,9 +248,13 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
 
   async function onSearch() {
     loading.value = true;
-    const { data } = await getAccountPageList(1, 15, toRaw(form));
+    const { data } = await getAccountPageList(
+      pagination.currentPage,
+      pagination.pageSize,
+      toRaw(form)
+    );
     dataList.value = data.data;
-    pagination.total = data.meta.totalRows;
+    pagination.total = data.meta.totalPage;
     pagination.pageSize = data.meta.pageSize;
     pagination.currentPage = data.meta.curPage;
 

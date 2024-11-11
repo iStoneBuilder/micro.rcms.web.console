@@ -109,7 +109,7 @@ function onFullscreen() {
               :type="row.parentId == 0 ? 'info' : 'primary'"
               :size="size"
               :icon="useRenderIcon(EditPen)"
-              :disabled="row?.parentId == 0"
+              :disabled="row.disabled"
               @click="openDialog('修改', row)"
             >
               修改
@@ -120,6 +120,7 @@ function onFullscreen() {
               type="primary"
               :size="size"
               :icon="useRenderIcon(AddFill)"
+              :disabled="row.disabled"
               @click="openDialog('新增', { parentId: row.id } as any)"
             >
               新增
@@ -134,7 +135,7 @@ function onFullscreen() {
                   link
                   :type="row.parentId == 0 ? 'info' : 'primary'"
                   :size="size"
-                  :disabled="row?.parentId == 0"
+                  :disabled="row.disabled"
                   :icon="useRenderIcon(Delete)"
                 >
                   删除
