@@ -10,7 +10,6 @@ const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
     higherDeptOptions: [],
     parentId: 0,
-    id: "",
     name: "",
     principal: "",
     phone: "",
@@ -65,7 +64,7 @@ defineExpose({ getRef });
             }"
             clearable
             filterable
-            placeholder="请选择上级企业(商户)"
+            placeholder="请选择上级角色"
             :disabled="newFormInline.isEdit"
             @change="handleChange"
           >
@@ -77,72 +76,36 @@ defineExpose({ getRef });
         </el-form-item>
       </re-col>
       <re-col :value="23" :xs="24" :sm="24">
-        <el-form-item label="名称" prop="name">
+        <el-form-item label="角色编码" prop="name">
           <el-input
             v-model="newFormInline.name"
             clearable
-            placeholder="请输入企业(商户)名称"
+            placeholder="请输入角色编码"
           />
         </el-form-item>
       </re-col>
       <re-col :value="23" :xs="24" :sm="24">
-        <el-form-item label="类型" prop="type">
+        <el-form-item label="角色名称">
+          <el-input
+            v-model="newFormInline.principal"
+            clearable
+            placeholder="请输入角色名称"
+          />
+        </el-form-item>
+      </re-col>
+      <re-col :value="23" :xs="24" :sm="24">
+        <el-form-item label="角色所属" prop="type">
           <el-select
             v-model="newFormInline.type"
-            placeholder="请输入类型(企业/商户)"
+            placeholder="请选择(企业/商户)"
             clearable
             :disabled="newFormInline.isEdit"
           >
-            <el-option
-              v-if="newFormInline.pType === 'platform'"
-              label="企业"
-              value="enterprise"
-            />
+            <el-option label="企业" value="enterprise" />
             <el-option label="商户" value="merchant" />
           </el-select>
         </el-form-item>
       </re-col>
-      <re-col :value="23" :xs="24" :sm="24">
-        <el-form-item label="负责人">
-          <el-input
-            v-model="newFormInline.principal"
-            clearable
-            placeholder="请输入负责人"
-          />
-        </el-form-item>
-      </re-col>
-
-      <re-col :value="23" :xs="24" :sm="24">
-        <el-form-item label="手机号" prop="phone">
-          <el-input
-            v-model="newFormInline.phone"
-            clearable
-            placeholder="请输入手机号"
-          />
-        </el-form-item>
-      </re-col>
-      <re-col :value="23" :xs="24" :sm="24">
-        <el-form-item label="邮箱" prop="email">
-          <el-input
-            v-model="newFormInline.email"
-            clearable
-            placeholder="请输入邮箱"
-          />
-        </el-form-item>
-      </re-col>
-
-      <re-col :value="23" :xs="24" :sm="24">
-        <el-form-item label="排序">
-          <el-input-number
-            v-model="newFormInline.sort"
-            class="!w-full"
-            :min="0"
-            :max="9999"
-            controls-position="right"
-          />
-        </el-form-item>
-      </re-col>
-
       <re-col :value="23" :xs="24" :sm="24">
         <el-form-item label="备注">
           <el-input

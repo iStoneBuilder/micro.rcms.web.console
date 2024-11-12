@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { hasPerms } from "@/utils/auth";
 import { useDept } from "./utils/hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
@@ -104,7 +105,7 @@ function onFullscreen() {
         >
           <template #operation="{ row }">
             <el-button
-              v-perms="'permission:enterprise:update'"
+              v-if="hasPerms('permission:enterprise:update')"
               class="reset-margin"
               link
               :type="row.parentId == 0 ? 'info' : 'primary'"
@@ -117,7 +118,7 @@ function onFullscreen() {
             </el-button>
 
             <el-button
-              v-perms="'permission:enterprise:create'"
+              v-if="hasPerms('permission:enterprise:create')"
               class="reset-margin"
               link
               type="primary"
@@ -127,24 +128,19 @@ function onFullscreen() {
             >
               新增
             </el-button>
-            <el-popconfirm
-              :title="`是否确认删除部门名称为${row.name}的这条数据`"
-              @confirm="handleDelete(row)"
+
+            <el-button
+              v-if="hasPerms('permission:enterprise:delete')"
+              class="reset-margin"
+              link
+              :type="row.parentId == 0 ? 'info' : 'primary'"
+              :size="size"
+              :disabled="row.disabled"
+              :icon="useRenderIcon(Delete)"
+              @click="handleDelete(row)"
             >
-              <template #reference>
-                <el-button
-                  v-perms="'permission:enterprise:delete'"
-                  class="reset-margin"
-                  link
-                  :type="row.parentId == 0 ? 'info' : 'primary'"
-                  :size="size"
-                  :disabled="row?.parentId == 0"
-                  :icon="useRenderIcon(Delete)"
-                >
-                  删除
-                </el-button>
-              </template>
-            </el-popconfirm>
+              删除
+            </el-button>
           </template>
         </pure-table>
       </template>

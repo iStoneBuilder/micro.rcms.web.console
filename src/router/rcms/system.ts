@@ -24,9 +24,9 @@ export default {
       }
     },
     {
-      path: "/system/enterprise3",
+      path: "/system/rolelist",
       name: "角色管理",
-      component: () => import("@/views/rcms/system/enterprise/index.vue"),
+      component: () => import("@/views/rcms/system/rolemange/index.vue"),
       meta: {
         title: "角色管理"
       }

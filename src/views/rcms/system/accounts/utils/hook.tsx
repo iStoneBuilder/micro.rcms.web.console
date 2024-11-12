@@ -94,7 +94,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       )
     },
     {
-      label: "所属商户(企业)",
+      label: "账户所属",
       prop: "merchant",
       minWidth: 90
     },

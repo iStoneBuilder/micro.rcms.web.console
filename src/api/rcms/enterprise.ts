@@ -19,3 +19,18 @@ export const createEnterprise = (data?: object) => {
     }
   );
 };
+export const deleteEnterprise = (id?: string) => {
+  return http.request<ResultData>(
+    "delete",
+    `/test/services/rcms/enterprise/records/${id}`
+  );
+};
+export const updateEnterprise = (id: string, data?: object) => {
+  return http.request<ResultData>(
+    "put",
+    `/test/services/rcms/enterprise/records/${id}`,
+    {
+      data
+    }
+  );
+};

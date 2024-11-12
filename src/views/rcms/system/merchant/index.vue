@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { hasPerms } from "@/utils/auth";
 import { useDept } from "./utils/hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
@@ -104,6 +105,7 @@ function onFullscreen() {
         >
           <template #operation="{ row }">
             <el-button
+              v-if="hasPerms('permission:enterprise:update')"
               class="reset-margin"
               link
               :type="row.parentId == 0 ? 'info' : 'primary'"
@@ -115,12 +117,12 @@ function onFullscreen() {
               修改
             </el-button>
             <el-button
+              v-if="hasPerms('permission:enterprise:create')"
               class="reset-margin"
               link
               type="primary"
               :size="size"
               :icon="useRenderIcon(AddFill)"
-              :disabled="row.disabled"
               @click="openDialog('新增', { parentId: row.id } as any)"
             >
               新增
@@ -131,6 +133,7 @@ function onFullscreen() {
             >
               <template #reference>
                 <el-button
+                  v-if="hasPerms('permission:enterprise:delete')"
                   class="reset-margin"
                   link
                   :type="row.parentId == 0 ? 'info' : 'primary'"
