@@ -28,7 +28,8 @@ export default [
       }
     ]
   },
-  // 下面是一个无layout菜单的例子（一个全屏空白页面），因为这种情况极少发生，所以只需要在前端配置即可（配置路径：src/router/modules/remaining.ts）
+  // 下面是一个无layout菜单的例子（一个全屏空白页面），因为这种情况极少发生，
+  // 所以只需要在前端配置即可（配置路径：src / router / modules / remaining.ts）
   {
     path: "/empty",
     name: "Empty",
@@ -45,6 +46,16 @@ export default [
     component: () => import("@/views/demo/account-settings/index.vue"),
     meta: {
       title: $t("buttons.pureAccountSettings"),
+      showLink: false,
+      rank: 104
+    }
+  },
+  {
+    path: "/dashboard",
+    name: "dashboard",
+    component: () => import("@/views/demo/welcome/index.vue"),
+    meta: {
+      title: "概览",
       showLink: false,
       rank: 104
     }
