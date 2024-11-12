@@ -2,7 +2,10 @@ import dayjs from "dayjs";
 import editForm from "../form.vue";
 import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
-import { createEnterprise } from "@/api/rcms/enterprise";
+import {
+  createEnterprise,
+  getEnterpriseListByPid
+} from "@/api/rcms/enterprise";
 import { getRoleList } from "@/api/rcms/rolemanage";
 import { addDialog } from "@/components/ReDialog";
 import { reactive, ref, onMounted, h } from "vue";
@@ -107,9 +110,16 @@ export function useDept() {
     return newTreeList;
   }
 
-  function openDialog(title = "新增", row?: FormItemProps) {
+  async function openDialog(title = "新增", row?: FormItemProps) {
     const options = formatHigherDeptOptions(cloneDeep(dataList.value));
     const selected = findSelected(options, row?.parentId);
+    let merchants = [];
+    if (selected) {
+      const { data } = await getEnterpriseListByPid({
+        parentId: selected?.enterpriseId
+      });
+      merchants = data;
+    }
     addDialog({
       title: `${title}角色`,
       props: {
@@ -117,16 +127,12 @@ export function useDept() {
           higherDeptOptions: options,
           parentId: row?.parentId ?? 0,
           name: row?.name ?? "",
-          principal: row?.principal ?? "",
-          phone: row?.phone ?? "",
-          email: row?.email ?? "",
-          sort: row?.sort ?? 0,
-          status: row?.status ?? "Y",
-          remark: row?.remark ?? "",
-          level: row?.level ?? 2,
-          type: row?.type ?? "",
+          id: row?.id ?? "",
+          code: row?.code ?? "",
+          description: row?.description ?? "",
           isEdit: title === "修改",
-          pType: selected?.type ?? ""
+          enterpriseId: row?.enterpriseId ?? "",
+          merchants: merchants
         }
       },
       width: "500px",

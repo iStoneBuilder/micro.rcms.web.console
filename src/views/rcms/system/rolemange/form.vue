@@ -5,22 +5,19 @@ import { formRules } from "./utils/rule";
 import { FormProps } from "./utils/types";
 import { usePublicHooks } from "../hooks";
 import { findSelected } from "@/utils/common";
+import { getEnterpriseListByPid } from "@/api/rcms/enterprise";
 
 const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
     higherDeptOptions: [],
     parentId: 0,
     name: "",
-    principal: "",
-    phone: "",
-    email: "",
-    sort: 0,
-    status: "Y",
-    remark: "",
-    type: "",
-    level: 0,
+    id: "",
+    code: "",
+    description: "",
+    enterpriseId: "",
     isEdit: false,
-    pType: ""
+    merchants: []
   })
 });
 
@@ -32,9 +29,18 @@ function getRef() {
   return ruleFormRef.value;
 }
 const handleChange = value => {
-  nextTick(() => {
+  nextTick(async () => {
     const selected = findSelected(newFormInline.value.higherDeptOptions, value);
-    newFormInline.value.pType = selected.type;
+    // 设置上级角色所在商户
+    newFormInline.value.merchants = [];
+    newFormInline.value.enterpriseId = "";
+    if (selected) {
+      // 加载角色可选商户
+      const { data } = await getEnterpriseListByPid({
+        parentId: selected?.enterpriseId
+      });
+      newFormInline.value.merchants = data;
+    }
   });
 };
 
@@ -76,40 +82,45 @@ defineExpose({ getRef });
         </el-form-item>
       </re-col>
       <re-col :value="23" :xs="24" :sm="24">
-        <el-form-item label="角色编码" prop="name">
+        <el-form-item label="角色编码" prop="code">
           <el-input
-            v-model="newFormInline.name"
+            v-model="newFormInline.code"
             clearable
             placeholder="请输入角色编码"
+            :disabled="newFormInline.isEdit"
           />
         </el-form-item>
       </re-col>
       <re-col :value="23" :xs="24" :sm="24">
-        <el-form-item label="角色名称">
+        <el-form-item label="角色名称" prop="name">
           <el-input
-            v-model="newFormInline.principal"
+            v-model="newFormInline.name"
             clearable
             placeholder="请输入角色名称"
           />
         </el-form-item>
       </re-col>
       <re-col :value="23" :xs="24" :sm="24">
-        <el-form-item label="角色所属" prop="type">
+        <el-form-item label="角色所属" prop="enterpriseId">
           <el-select
-            v-model="newFormInline.type"
+            v-model="newFormInline.enterpriseId"
             placeholder="请选择(企业/商户)"
             clearable
             :disabled="newFormInline.isEdit"
           >
-            <el-option label="企业" value="enterprise" />
-            <el-option label="商户" value="merchant" />
+            <el-option
+              v-for="item in newFormInline.merchants"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            />
           </el-select>
         </el-form-item>
       </re-col>
       <re-col :value="23" :xs="24" :sm="24">
         <el-form-item label="备注">
           <el-input
-            v-model="newFormInline.remark"
+            v-model="newFormInline.description"
             placeholder="请输入备注信息"
             type="textarea"
           />

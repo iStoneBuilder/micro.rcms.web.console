@@ -5,7 +5,7 @@ export default {
   path: "/about",
   redirect: "/about/index",
   meta: {
-    icon: "ri:file-info-line",
+    icon: "ep:data-analysis",
     title: "框架DEMO",
     rank: about
   },

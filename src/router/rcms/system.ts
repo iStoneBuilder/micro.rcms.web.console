@@ -4,7 +4,7 @@ export default {
   meta: {
     icon: "ri:settings-3-line",
     title: "系统管理",
-    rank: 1
+    rank: 10
   },
   children: [
     {
@@ -12,6 +12,7 @@ export default {
       name: "企业管理",
       component: () => import("@/views/rcms/system/enterprise/index.vue"),
       meta: {
+        icon: "ep:office-building",
         title: "企业管理"
       }
     },
@@ -20,6 +21,7 @@ export default {
       name: "商户管理",
       component: () => import("@/views/rcms/system/enterprise/index.vue"),
       meta: {
+        icon: "ep:office-building",
         title: "商户管理"
       }
     },
@@ -28,6 +30,7 @@ export default {
       name: "角色管理",
       component: () => import("@/views/rcms/system/rolemange/index.vue"),
       meta: {
+        icon: "ri:admin-line",
         title: "角色管理"
       }
     },
@@ -36,6 +39,7 @@ export default {
       name: "账户管理",
       component: () => import("@/views/rcms/system/accounts/index.vue"),
       meta: {
+        icon: "ri:user-5-line",
         title: "账户管理"
       }
     },
@@ -44,6 +48,7 @@ export default {
       name: "支付配置",
       component: () => import("@/views/rcms/system/accounts/index.vue"),
       meta: {
+        icon: "ri:wechat-pay-line",
         title: "支付配置"
       }
     },
@@ -52,6 +57,7 @@ export default {
       name: "用户管理",
       component: () => import("@/views/rcms/system/enterprise/index.vue"),
       meta: {
+        icon: "ri:user-6-line",
         title: "用户管理"
       }
     }

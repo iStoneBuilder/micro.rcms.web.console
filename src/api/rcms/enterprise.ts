@@ -34,3 +34,13 @@ export const updateEnterprise = (id: string, data?: object) => {
     }
   );
 };
+
+export const getEnterpriseListByPid = (params?: object) => {
+  return http.request<ResultArray>(
+    "get",
+    "/test/services/rcms/enterprise/records/list",
+    {
+      params
+    }
+  );
+};
