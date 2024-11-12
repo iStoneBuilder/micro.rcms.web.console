@@ -18,7 +18,7 @@ export default {
     {
       path: "/system/merchant",
       name: "商户管理",
-      component: () => import("@/views/rcms/system/merchant/index.vue"),
+      component: () => import("@/views/rcms/system/enterprise/index.vue"),
       meta: {
         title: "商户管理"
       }

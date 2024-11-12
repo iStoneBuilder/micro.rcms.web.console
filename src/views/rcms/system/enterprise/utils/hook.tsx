@@ -199,11 +199,15 @@ export function useDept() {
         type: "warning",
         draggable: true
       }
-    ).then(async () => {
-      const { data } = await deleteEnterprise(row?.id);
-      console.log(data);
-      onSearch();
-    });
+    )
+      .then(async () => {
+        const { data } = await deleteEnterprise(row?.id);
+        console.log(data);
+        onSearch();
+      })
+      .catch(() => {
+        console.log("取消删除");
+      });
   }
 
   onMounted(() => {
