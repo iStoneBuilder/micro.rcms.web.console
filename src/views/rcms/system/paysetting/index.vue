@@ -39,7 +39,6 @@ const {
     <PureTableBar
       title="支付配置"
       :columns="columns"
-      :tableRef="tableRef?.getTableRef()"
       @refresh="onSearch"
       @fullscreen="onFullscreen"
     >

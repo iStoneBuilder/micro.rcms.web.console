@@ -39,7 +39,6 @@ const {
     <PureTableBar
       title="SIM卡"
       :columns="columns"
-      :tableRef="tableRef?.getTableRef()"
       @refresh="onSearch"
       @fullscreen="onFullscreen"
     >

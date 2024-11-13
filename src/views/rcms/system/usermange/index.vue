@@ -39,20 +39,17 @@ const {
     <PureTableBar
       title="角色管理"
       :columns="columns"
-      :tableRef="tableRef?.getTableRef()"
       @refresh="onSearch"
       @fullscreen="onFullscreen"
     >
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
           ref="tableRef"
+          row-key="id"
           adaptive
           :adaptiveConfig="{ offsetBottom: 120 }"
           align-whole="center"
-          row-key="id"
-          showOverflowTooltip
           table-layout="auto"
-          default-expand-all
           :loading="loading"
           :size="size"
           :data="dataList"
