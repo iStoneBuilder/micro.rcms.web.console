@@ -2,11 +2,14 @@ import dayjs from "dayjs";
 import editForm from "../form.vue";
 import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
+import { ElMessageBox } from "element-plus";
+import { getEnterpriseListByPid } from "@/api/rcms/enterprise";
 import {
-  createEnterprise,
-  getEnterpriseListByPid
-} from "@/api/rcms/enterprise";
-import { getRoleList } from "@/api/rcms/rolemanage";
+  getRoleList,
+  createRole,
+  updateRole,
+  deleteRole
+} from "@/api/rcms/rolemanage";
 import { addDialog } from "@/components/ReDialog";
 import { reactive, ref, onMounted, h } from "vue";
 import type { FormItemProps } from "./types";
@@ -145,7 +148,7 @@ export function useDept() {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
         function chores() {
-          message(`您${title}了部门名称为${curData.name}的这条数据`, {
+          message(`${title}成功！`, {
             type: "success"
           });
           done(); // 关闭弹框
@@ -156,11 +159,11 @@ export function useDept() {
             // 表单规则校验通过
             if (title === "新增") {
               // 实际开发先调用新增接口，再进行下面操作
-              const { data } = await createEnterprise(curData);
-              console.log(data, "===========");
+              await createRole(curData);
               chores();
             } else {
               // 实际开发先调用修改接口，再进行下面操作
+              await updateRole(curData.id, curData);
               chores();
             }
           }
@@ -170,8 +173,29 @@ export function useDept() {
   }
 
   function handleDelete(row) {
-    message(`您删除了部门名称为${row.name}的这条数据`, { type: "success" });
-    onSearch();
+    if (row?.children && row?.children.length > 0) {
+      message(`存在下级角色，禁止删除！`, {
+        type: "warning"
+      });
+      return;
+    }
+    ElMessageBox.confirm(
+      "如果当前角色已被使用，禁止删除，是否继续?",
+      "温馨提示",
+      {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning",
+        draggable: true
+      }
+    )
+      .then(async () => {
+        await deleteRole(row?.id);
+        onSearch();
+      })
+      .catch(() => {
+        console.log("取消删除");
+      });
   }
 
   onMounted(() => {

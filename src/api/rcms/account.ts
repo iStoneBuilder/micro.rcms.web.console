@@ -23,3 +23,18 @@ export const createAccount = (data?: object) => {
     }
   );
 };
+export const updateAccount = (code: string, data?: object) => {
+  return http.request<ResultData>(
+    "put",
+    `/test/services/rcms/account/records/${code}`,
+    {
+      data
+    }
+  );
+};
+export const deleteAccount = (code?: string) => {
+  return http.request<ResultData>(
+    "delete",
+    `/test/services/rcms/role/records/${code}`
+  );
+};

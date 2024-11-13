@@ -9,15 +9,13 @@ const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
     title: "新增",
     higherDeptOptions: [],
-    parentId: 0,
-    nickname: "",
-    username: "",
-    password: "",
-    phone: "",
-    email: "",
-    sex: "",
-    status: 1,
-    remark: ""
+    enterpriseId: "",
+    code: "",
+    name: "",
+    type: "",
+    status: "",
+    description: "",
+    isEdit: false
   })
 });
 
@@ -41,18 +39,19 @@ defineExpose({ getRef });
   >
     <el-row :gutter="30">
       <re-col :value="23" :xs="24" :sm="24">
-        <el-form-item label="账户" prop="nickname">
+        <el-form-item label="账户编码" prop="code">
           <el-input
-            v-model="newFormInline.nickname"
+            v-model="newFormInline.code"
             clearable
-            placeholder="请输入账户"
+            placeholder="请输入账户编码"
+            :disabled="newFormInline.isEdit"
           />
         </el-form-item>
       </re-col>
       <re-col :value="23" :xs="24" :sm="24">
-        <el-form-item label="账户名称" prop="username">
+        <el-form-item label="账户名称" prop="name">
           <el-input
-            v-model="newFormInline.username"
+            v-model="newFormInline.name"
             clearable
             placeholder="请输入账户名称"
           />
@@ -60,18 +59,9 @@ defineExpose({ getRef });
       </re-col>
 
       <re-col :value="23" :xs="24" :sm="24">
-        <el-form-item label="密码" prop="password">
-          <el-input
-            v-model="newFormInline.password"
-            clearable
-            placeholder="请输入密码"
-          />
-        </el-form-item>
-      </re-col>
-      <re-col :value="23" :xs="24" :sm="24">
-        <el-form-item label="所属商户">
+        <el-form-item label="所属商户" prop="enterpriseId">
           <el-cascader
-            v-model="newFormInline.parentId"
+            v-model="newFormInline.enterpriseId"
             class="w-full"
             :options="newFormInline.higherDeptOptions"
             :props="{
@@ -82,7 +72,8 @@ defineExpose({ getRef });
             }"
             clearable
             filterable
-            placeholder="请选择归属商户"
+            placeholder="请选择所属商户"
+            :disabled="newFormInline.isEdit"
           >
             <template #default="{ node, data }">
               <span>{{ data.name }}</span>
@@ -92,12 +83,13 @@ defineExpose({ getRef });
         </el-form-item>
       </re-col>
       <re-col :value="23" :xs="24" :sm="24">
-        <el-form-item label="账户类型">
+        <el-form-item label="账户类型" prop="type">
           <el-select
-            v-model="newFormInline.sex"
-            placeholder="请选择用户性别"
+            v-model="newFormInline.type"
+            placeholder="请选择账户类型"
             class="w-full"
             clearable
+            :disabled="newFormInline.isEdit"
           >
             <el-option label="程序" value="app" />
             <el-option label="账户" value="account" />
@@ -110,8 +102,8 @@ defineExpose({ getRef });
           <el-switch
             v-model="newFormInline.status"
             inline-prompt
-            :active-value="1"
-            :inactive-value="0"
+            :active-value="'Y'"
+            :inactive-value="'N'"
             active-text="启用"
             inactive-text="停用"
             :style="switchStyle"
@@ -122,7 +114,7 @@ defineExpose({ getRef });
       <re-col :value="23" :xs="24" :sm="24">
         <el-form-item label="备注">
           <el-input
-            v-model="newFormInline.remark"
+            v-model="newFormInline.description"
             placeholder="请输入备注信息"
             type="textarea"
           />

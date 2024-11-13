@@ -124,24 +124,18 @@ function onFullscreen() {
             >
               权限
             </el-button>
-            <el-popconfirm
-              :title="`是否确认删除名称为${row.name}的这条数据`"
-              @confirm="handleDelete(row)"
+            <el-button
+              v-if="hasPerms('permission:enterprise:delete')"
+              class="reset-margin"
+              link
+              :type="row.parentId == 0 ? 'info' : 'primary'"
+              :size="size"
+              :disabled="row.disabled"
+              :icon="useRenderIcon(Delete)"
+              @click="handleDelete(row)"
             >
-              <template #reference>
-                <el-button
-                  v-if="hasPerms('permission:enterprise:delete')"
-                  class="reset-margin"
-                  link
-                  :type="row.parentId == 0 ? 'info' : 'primary'"
-                  :size="size"
-                  :disabled="row.disabled"
-                  :icon="useRenderIcon(Delete)"
-                >
-                  删除
-                </el-button>
-              </template>
-            </el-popconfirm>
+              删除
+            </el-button>
           </template>
         </pure-table>
       </template>

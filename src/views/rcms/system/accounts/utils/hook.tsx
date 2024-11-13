@@ -13,7 +13,12 @@ import ReCropperPreview from "@/components/ReCropperPreview";
 import type { FormItemProps, RoleFormItemProps } from "./types";
 import { getKeyList, isAllEmpty, deviceDetection } from "@pureadmin/utils";
 import { getRoleIds, getAllRoleList } from "@/api/system";
-import { getAccountPageList } from "@/api/rcms/account";
+import {
+  getAccountPageList,
+  createAccount,
+  updateAccount,
+  deleteAccount
+} from "@/api/rcms/account";
 import { getEnterpriseId } from "@/utils/common";
 
 import { getEnterpriseList } from "@/api/rcms/enterprise";
@@ -63,12 +68,6 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     background: true
   });
   const columns: TableColumnList = [
-    // {
-    //   label: "勾选列", // 如果需要表格多选，此处label必须设置
-    //   type: "selection",
-    //   fixed: "left",
-    //   reserveSelection: true // 数据刷新后保留选项
-    // },
     {
       label: "账户",
       prop: "code",
@@ -155,12 +154,12 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
   const curScore = ref();
   const roleOptions = ref([]);
 
-  function onChange({ row, index }) {
+  function onChange({ row }) {
     ElMessageBox.confirm(
       `确认要<strong>${
-        row.status === 0 ? "停用" : "启用"
+        row.status === "N" ? "停用" : "启用"
       }</strong><strong style='color:var(--el-color-primary)'>${
-        row.username
+        row.name
       }</strong>用户吗?`,
       "系统提示",
       {
@@ -171,29 +170,14 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
         draggable: true
       }
     )
-      .then(() => {
-        switchLoadMap.value[index] = Object.assign(
-          {},
-          switchLoadMap.value[index],
-          {
-            loading: true
-          }
-        );
-        setTimeout(() => {
-          switchLoadMap.value[index] = Object.assign(
-            {},
-            switchLoadMap.value[index],
-            {
-              loading: false
-            }
-          );
-          message("已成功修改用户状态", {
-            type: "success"
-          });
-        }, 300);
+      .then(async () => {
+        await updateAccount(row.code, { status: row.status });
+        message("已成功修改用户状态", {
+          type: "success"
+        });
       })
       .catch(() => {
-        row.status === 0 ? (row.status = 1) : (row.status = 0);
+        row.status === "N" ? (row.status = "Y") : (row.status = "N");
       });
   }
 
@@ -202,7 +186,19 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
   }
 
   function handleDelete(row) {
-    message(`您删除了用户编号为${row.id}的这条数据`, { type: "success" });
+    ElMessageBox.confirm(`确认是否删除账户: ${row.name} `, "温馨提示", {
+      confirmButtonText: "确认",
+      cancelButtonText: "取消",
+      type: "warning",
+      draggable: true
+    })
+      .then(async () => {
+        await deleteAccount(row?.code);
+        onSearch();
+      })
+      .catch(() => {
+        console.log("取消删除");
+      });
     onSearch();
   }
 
@@ -295,15 +291,13 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
         formInline: {
           title,
           higherDeptOptions: formatHigherDeptOptions(higherDeptOptions.value),
-          // enterpriseId: row?.enterpriseId ?? 0,
-          nickname: row?.nickname ?? "",
-          username: row?.username ?? "",
-          password: row?.password ?? "",
-          phone: row?.phone ?? "",
-          email: row?.email ?? "",
-          sex: row?.sex ?? "",
-          status: row?.status ?? 1,
-          remark: row?.remark ?? ""
+          enterpriseId: row?.enterpriseId ?? 0,
+          code: row?.code ?? "",
+          name: row?.name ?? "",
+          type: row?.type ?? "account",
+          status: row?.status ?? "Y",
+          description: row?.description ?? "",
+          isEdit: title === "修改"
         }
       },
       width: "400px",
@@ -316,21 +310,23 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
         function chores() {
-          message(`您${title}了用户名称为${curData.username}的这条数据`, {
+          message(`您${title}了用户名称为${curData.name}的这条数据`, {
             type: "success"
           });
           done(); // 关闭弹框
           onSearch(); // 刷新表格数据
         }
-        FormRef.validate(valid => {
+        FormRef.validate(async valid => {
           if (valid) {
-            console.log("curData", curData);
+            console.log("curData", curData, btoa("12345678"));
             // 表单规则校验通过
             if (title === "新增") {
               // 实际开发先调用新增接口，再进行下面操作
+              await createAccount(curData);
               chores();
             } else {
               // 实际开发先调用修改接口，再进行下面操作
+              await updateAccount(curData.code, curData);
               chores();
             }
           }
