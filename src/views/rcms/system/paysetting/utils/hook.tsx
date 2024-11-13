@@ -11,33 +11,33 @@ export function userManage() {
 
   const columns: TableColumnList = [
     {
-      label: "登录账号",
-      prop: "name",
-      width: 200,
-      align: "left"
-    },
-    {
-      label: "用户昵称",
-      prop: "name",
-      width: 200,
-      align: "left"
-    },
-    {
       label: "所属企业",
       prop: "name",
       width: 300,
       align: "left"
     },
     {
-      label: "商户",
+      label: "支付方式",
+      prop: "name",
+      width: 200,
+      align: "left"
+    },
+    {
+      label: "状态",
+      prop: "name",
+      width: 200,
+      align: "left"
+    },
+    {
+      label: "渠道",
       prop: "name",
       width: 300,
       align: "left"
     },
     {
-      label: "注册时间",
+      label: "创建时间",
       prop: "name",
-      width: 300,
+      width: 240,
       align: "left"
     },
     {

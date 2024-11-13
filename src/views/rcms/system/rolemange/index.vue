@@ -154,7 +154,3 @@ function onFullscreen() {
   }
 }
 </style>
-
-function defineOptions(arg0: { name: string; }) { throw new Error("Function not
-implemented."); } function defineOptions(arg0: { name: string; }) { throw new
-Error("Function not implemented."); }

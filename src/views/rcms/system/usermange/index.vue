@@ -6,50 +6,27 @@ import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
 import Delete from "@iconify-icons/ep/delete";
-import EditPen from "@iconify-icons/ep/edit-pen";
-
-const columns: TableColumnList = [
-  {
-    label: "登录账号",
-    prop: "name",
-    width: 200,
-    align: "left"
-  },
-  {
-    label: "用户昵称",
-    prop: "name",
-    width: 200,
-    align: "left"
-  },
-  {
-    label: "所属企业",
-    prop: "name",
-    width: 300,
-    align: "left"
-  },
-  {
-    label: "商户",
-    prop: "name",
-    width: 300,
-    align: "left"
-  },
-  {
-    label: "注册时间",
-    prop: "name",
-    width: 300,
-    align: "left"
-  }
-];
-
-const loading = ref(true);
-const tableRef = ref();
-const dataList = ref([]);
-
-const { searchForm, viewDetail, handleDelete } = userManage();
 
 defineOptions({
   name: "UserManage"
 });
+
+function onFullscreen() {
+  // 重置表格高度
+  tableRef.value.setAdaptive();
+}
+
+const tableRef = ref();
+const {
+  loading,
+  columns,
+  pagination,
+  dataList,
+  searchForm,
+  onSearch,
+  viewDetail,
+  handleDelete
+} = userManage();
 </script>
 
 <template>
@@ -58,16 +35,19 @@ defineOptions({
       :is="searchForm.component"
       class="search-form bg-bg_color w-[99/100] pt-[12px] overflow-auto"
     />
+
     <PureTableBar
-      title="用户管理"
+      title="角色管理"
       :columns="columns"
       :tableRef="tableRef?.getTableRef()"
+      @refresh="onSearch"
+      @fullscreen="onFullscreen"
     >
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
           ref="tableRef"
           adaptive
-          :adaptiveConfig="{ offsetBottom: 45 }"
+          :adaptiveConfig="{ offsetBottom: 120 }"
           align-whole="center"
           row-key="id"
           showOverflowTooltip
@@ -77,6 +57,7 @@ defineOptions({
           :size="size"
           :data="dataList"
           :columns="dynamicColumns"
+          :pagination="{ ...pagination, size }"
           :header-cell-style="{
             background: 'var(--el-fill-color-light)',
             color: 'var(--el-text-color-primary)'
@@ -89,21 +70,18 @@ defineOptions({
               link
               :type="row.parentId == 0 ? 'info' : 'primary'"
               :size="size"
-              :icon="useRenderIcon(EditPen)"
+              :icon="useRenderIcon(Delete)"
               :disabled="row.disabled"
-              @click="viewDetail('详情', row)"
             >
               详情
             </el-button>
             <el-button
-              v-if="hasPerms('permission:enterprise:delete')"
+              v-if="hasPerms('permission:role:permission')"
               class="reset-margin"
               link
-              :type="row.parentId == 0 ? 'info' : 'primary'"
+              type="primary"
               :size="size"
-              :disabled="row.disabled"
               :icon="useRenderIcon(Delete)"
-              @click="handleDelete('删除', row)"
             >
               删除
             </el-button>

@@ -1,8 +1,8 @@
 export default [
   {
-    path: "/welcome1",
-    name: "Welcome1",
-    component: () => import("@/views/demo/welcome/index.vue"),
+    path: "/sim",
+    name: "SIM卡管理",
+    component: () => import("@/views/rcms/unitewifi/sim/merchant/index.vue"),
     meta: {
       icon: "ri:bank-card-line",
       title: "SIM卡管理",
@@ -10,18 +10,19 @@ export default [
     },
     children: [
       {
-        path: "/welcome11",
-        name: "Welcome11",
-        component: () => import("@/views/demo/welcome/index.vue"),
+        path: "/sim/merchant",
+        name: "SIM卡商",
+        component: () =>
+          import("@/views/rcms/unitewifi/sim/merchant/index.vue"),
         meta: {
           title: "SIM卡商",
           showLink: true
         }
       },
       {
-        path: "/welcome12",
-        name: "Welcome12",
-        component: () => import("@/views/demo/welcome/index.vue"),
+        path: "/sim/info",
+        name: "SIM卡",
+        component: () => import("@/views/rcms/unitewifi/sim/sim/index.vue"),
         meta: {
           title: "SIM卡",
           showLink: true

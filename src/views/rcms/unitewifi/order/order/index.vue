@@ -37,7 +37,7 @@ const {
     />
 
     <PureTableBar
-      title="支付配置"
+      title="SIM卡"
       :columns="columns"
       :tableRef="tableRef?.getTableRef()"
       @refresh="onSearch"
