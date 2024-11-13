@@ -37,7 +37,7 @@ const {
     />
 
     <PureTableBar
-      title="SIM卡"
+      title="订单统计"
       :columns="columns"
       @refresh="onSearch"
       @fullscreen="onFullscreen"

@@ -31,9 +31,9 @@ export default [
     ]
   },
   {
-    path: "/welcome2",
-    name: "Welcome2",
-    component: () => import("@/views/demo/welcome/index.vue"),
+    path: "/device",
+    name: "设备管理",
+    component: () => import("@/views/rcms/unitewifi/device/terminal/index.vue"),
     meta: {
       icon: "ri:device-line",
       title: "设备管理",
@@ -41,72 +41,78 @@ export default [
     },
     children: [
       {
-        path: "/welcome21",
+        path: "/device/terminal",
         name: "Welcome21",
-        component: () => import("@/views/demo/welcome/index.vue"),
+        component: () =>
+          import("@/views/rcms/unitewifi/device/terminal/index.vue"),
         meta: {
           title: "终端设备",
           showLink: true
         }
       },
       {
-        path: "/welcome221",
-        name: "Welcome221",
-        component: () => import("@/views/demo/welcome/index.vue"),
+        path: "/device/type",
+        name: "设备类型",
+        component: () => import("@/views/rcms/unitewifi/device/type/index.vue"),
         meta: {
           title: "设备类型",
           showLink: true
         }
       },
       {
-        path: "/welcome22",
-        name: "Welcome22",
-        component: () => import("@/views/demo/welcome/index.vue"),
+        path: "/device/group",
+        name: "设备分组",
+        component: () =>
+          import("@/views/rcms/unitewifi/device/group/index.vue"),
         meta: {
           title: "设备分组",
           showLink: true
         }
       },
       {
-        path: "/welcome23",
-        name: "Welcome23",
-        component: () => import("@/views/demo/welcome/index.vue"),
+        path: "/device/store",
+        name: "设备入库",
+        component: () =>
+          import("@/views/rcms/unitewifi/device/store/index.vue"),
         meta: {
           title: "设备入库",
           showLink: true
         }
       },
       {
-        path: "/welcome24",
-        name: "Welcome24",
-        component: () => import("@/views/demo/welcome/index.vue"),
+        path: "/device/divide",
+        name: "设备分发",
+        component: () =>
+          import("@/views/rcms/unitewifi/device/divide/index.vue"),
         meta: {
           title: "设备分发",
           showLink: true
         }
       },
       {
-        path: "/welcome25",
-        name: "Welcome25",
-        component: () => import("@/views/demo/welcome/index.vue"),
+        path: "/device/order",
+        name: "设备套餐",
+        component: () =>
+          import("@/views/rcms/unitewifi/device/order/index.vue"),
         meta: {
           title: "设备套餐",
           showLink: true
         }
       },
       {
-        path: "/welcome26",
-        name: "Welcome26",
-        component: () => import("@/views/demo/welcome/index.vue"),
+        path: "/device/name",
+        name: "设备实名",
+        component: () => import("@/views/rcms/unitewifi/device/name/index.vue"),
         meta: {
           title: "设备实名",
           showLink: true
         }
       },
       {
-        path: "/welcome27",
-        name: "Welcome27",
-        component: () => import("@/views/demo/welcome/index.vue"),
+        path: "/device/check",
+        name: "设备诊断",
+        component: () =>
+          import("@/views/rcms/unitewifi/device/check/index.vue"),
         meta: {
           title: "设备诊断",
           showLink: true
@@ -115,37 +121,37 @@ export default [
     ]
   },
   {
-    path: "/welcome3",
-    name: "Welcome3",
-    component: () => import("@/views/demo/welcome/index.vue"),
+    path: "/order",
+    name: "套餐管理",
+    component: () => import("@/views/rcms/unitewifi/order/thali/index.vue"),
     meta: {
       icon: "ep:goods",
-      title: "套餐订单",
+      title: "套餐管理",
       showLink: true
     },
     children: [
       {
-        path: "/welcome31",
-        name: "Welcome31",
-        component: () => import("@/views/demo/welcome/index.vue"),
+        path: "/order/thali",
+        name: "套餐配置",
+        component: () => import("@/views/rcms/unitewifi/order/thali/index.vue"),
         meta: {
           title: "套餐配置",
           showLink: true
         }
       },
       {
-        path: "/welcome32",
-        name: "Welcome32",
-        component: () => import("@/views/demo/welcome/index.vue"),
+        path: "/order/order",
+        name: "套餐订单",
+        component: () => import("@/views/rcms/unitewifi/order/order/index.vue"),
         meta: {
           title: "套餐订单",
           showLink: true
         }
       },
       {
-        path: "/welcome33",
-        name: "Welcome33",
-        component: () => import("@/views/demo/welcome/index.vue"),
+        path: "/order/stat",
+        name: "订单统计",
+        component: () => import("@/views/rcms/unitewifi/order/stat/index.vue"),
         meta: {
           title: "订单统计",
           showLink: true
@@ -156,7 +162,7 @@ export default [
   {
     path: "/welcome4",
     name: "Welcome4",
-    component: () => import("@/views/demo/welcome/index.vue"),
+    component: () => import("@/views/rcms/unitewifi/device/terminal/index.vue"),
     meta: {
       icon: "ri:bar-chart-box-line",
       title: "统计报表",
@@ -166,7 +172,8 @@ export default [
       {
         path: "/welcome41",
         name: "Welcome41",
-        component: () => import("@/views/demo/welcome/index.vue"),
+        component: () =>
+          import("@/views/rcms/unitewifi/device/terminal/index.vue"),
         meta: {
           title: "流量卡上报",
           showLink: true
@@ -175,7 +182,8 @@ export default [
       {
         path: "/welcome42",
         name: "Welcome42",
-        component: () => import("@/views/demo/welcome/index.vue"),
+        component: () =>
+          import("@/views/rcms/unitewifi/device/terminal/index.vue"),
         meta: {
           title: "设备流量上报",
           showLink: true
@@ -184,7 +192,8 @@ export default [
       {
         path: "/welcome43",
         name: "Welcome43",
-        component: () => import("@/views/demo/welcome/index.vue"),
+        component: () =>
+          import("@/views/rcms/unitewifi/device/terminal/index.vue"),
         meta: {
           title: "流量卡统计",
           showLink: true
@@ -193,7 +202,8 @@ export default [
       {
         path: "/welcome44",
         name: "Welcome44",
-        component: () => import("@/views/demo/welcome/index.vue"),
+        component: () =>
+          import("@/views/rcms/unitewifi/device/terminal/index.vue"),
         meta: {
           title: "设备流量统计",
           showLink: true
@@ -202,7 +212,8 @@ export default [
       {
         path: "/welcome45",
         name: "Welcome45",
-        component: () => import("@/views/demo/welcome/index.vue"),
+        component: () =>
+          import("@/views/rcms/unitewifi/device/terminal/index.vue"),
         meta: {
           title: "卡商流量统计",
           showLink: true

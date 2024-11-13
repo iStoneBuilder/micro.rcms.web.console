@@ -37,7 +37,7 @@ const {
     />
 
     <PureTableBar
-      title="SIM卡"
+      title="诊断设备"
       :columns="columns"
       @refresh="onSearch"
       @fullscreen="onFullscreen"
