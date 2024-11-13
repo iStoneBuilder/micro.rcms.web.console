@@ -38,7 +38,6 @@ const {
   onbatchDel,
   openDialog,
   onTreeSelect,
-  handleUpdate,
   handleDelete,
   handleUpload,
   handleReset,
@@ -186,6 +185,7 @@ const {
               >
                 删除
               </el-button>
+
               <el-dropdown>
                 <el-button
                   class="ml-3 mt-[2px]"
@@ -193,7 +193,6 @@ const {
                   type="primary"
                   :size="size"
                   :icon="useRenderIcon(More)"
-                  @click="handleUpdate(row)"
                 />
                 <template #dropdown>
                   <el-dropdown-menu>
@@ -218,7 +217,7 @@ const {
                         :icon="useRenderIcon(Password)"
                         @click="handleReset(row)"
                       >
-                        重置密码
+                        修改密码
                       </el-button>
                     </el-dropdown-item>
                     <el-dropdown-item>

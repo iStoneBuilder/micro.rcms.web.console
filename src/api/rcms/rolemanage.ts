@@ -26,3 +26,13 @@ export const deleteRole = (id?: string) => {
     `/test/services/rcms/role/records/${id}`
   );
 };
+
+export const getEnterpriseRoleList = (params?: object) => {
+  return http.request<ResultArray>(
+    "get",
+    "/test/services/rcms/role/records/list",
+    {
+      params
+    }
+  );
+};

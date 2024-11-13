@@ -17,6 +17,7 @@ interface FormProps {
 interface RoleFormItemProps {
   code: string;
   name: string;
+  merchant: string;
   /** 角色列表 */
   roleOptions: any[];
   /** 选中的角色列表 */

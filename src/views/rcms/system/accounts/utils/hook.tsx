@@ -1,5 +1,6 @@
 import "./reset.css";
 import dayjs from "dayjs";
+import { REGEXP_PWD } from "./rule";
 import roleForm from "../form/role.vue";
 import editForm from "../form/index.vue";
 import { zxcvbn } from "@zxcvbn-ts/core";
@@ -12,13 +13,13 @@ import type { PaginationProps } from "@pureadmin/table";
 import ReCropperPreview from "@/components/ReCropperPreview";
 import type { FormItemProps, RoleFormItemProps } from "./types";
 import { getKeyList, isAllEmpty, deviceDetection } from "@pureadmin/utils";
-import { getRoleIds, getAllRoleList } from "@/api/system";
 import {
   getAccountPageList,
   createAccount,
   updateAccount,
   deleteAccount
 } from "@/api/rcms/account";
+import { getEnterpriseRoleList } from "@/api/rcms/rolemanage";
 import { getEnterpriseId } from "@/utils/common";
 
 import { getEnterpriseList } from "@/api/rcms/enterprise";
@@ -71,17 +72,17 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     {
       label: "账户",
       prop: "code",
-      minWidth: 130
+      width: 130
     },
     {
       label: "账户名称",
       prop: "name",
-      minWidth: 130
+      width: 150
     },
     {
       label: "账户类型",
       prop: "type",
-      minWidth: 90,
+      width: 80,
       cellRenderer: ({ row, props }) => (
         <el-tag
           size={props.size}
@@ -95,12 +96,17 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     {
       label: "账户所属",
       prop: "merchant",
-      minWidth: 90
+      width: 200
+    },
+    {
+      label: "角色",
+      prop: "roles",
+      width: 300
     },
     {
       label: "状态",
       prop: "status",
-      minWidth: 90,
+      width: 90,
       cellRenderer: scope => (
         <el-switch
           size={scope.props.size === "small" ? "small" : "default"}
@@ -118,7 +124,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     },
     {
       label: "创建时间",
-      minWidth: 90,
+      width: 220,
       prop: "createTime",
       formatter: ({ createTime }) =>
         dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
@@ -152,7 +158,6 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
   ];
   // 当前密码强度（0-4）
   const curScore = ref();
-  const roleOptions = ref([]);
 
   function onChange({ row }) {
     ElMessageBox.confirm(
@@ -179,10 +184,6 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       .catch(() => {
         row.status === "N" ? (row.status = "Y") : (row.status = "N");
       });
-  }
-
-  function handleUpdate(row) {
-    console.log(row);
   }
 
   function handleDelete(row) {
@@ -380,8 +381,19 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
               prop="newPwd"
               rules={[
                 {
-                  required: true,
-                  message: "请输入新密码",
+                  validator: (rule, value, callback) => {
+                    if (value === "") {
+                      callback(new Error("请输入新密码"));
+                    } else if (!REGEXP_PWD.test(value)) {
+                      callback(
+                        new Error(
+                          "密码格式应为8-18位数字、字母、符号的任意两种组合"
+                        )
+                      );
+                    } else {
+                      callback();
+                    }
+                  },
                   trigger: "blur"
                 }
               ]}
@@ -423,14 +435,14 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       ),
       closeCallBack: () => (pwdForm.newPwd = ""),
       beforeSure: done => {
-        ruleFormRef.value.validate(valid => {
+        ruleFormRef.value.validate(async valid => {
           if (valid) {
+            // 根据实际业务使用pwdForm.newPwd和row里的某些字段去调用重置用户密码接口即可
+            await updateAccount(row.code, { password: btoa(pwdForm.newPwd) });
             // 表单规则校验通过
             message(`已成功重置 ${row.name} 用户的密码`, {
               type: "success"
             });
-            console.log(pwdForm.newPwd);
-            // 根据实际业务使用pwdForm.newPwd和row里的某些字段去调用重置用户密码接口即可
             done(); // 关闭弹框
             onSearch(); // 刷新表格数据
           }
@@ -442,15 +454,18 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
   /** 分配角色 */
   async function handleRole(row) {
     // 选中的角色列表
-    const ids = (await getRoleIds({ userId: row.id })).data ?? [];
+    const { data } = await getEnterpriseRoleList({
+      enterpriseId: row.enterpriseId
+    });
     addDialog({
       title: `分配角色`,
       props: {
         formInline: {
           code: row?.code ?? "",
           name: row?.name ?? "",
-          roleOptions: roleOptions.value ?? [],
-          ids
+          merchant: row?.merchant ?? "",
+          roleOptions: data ?? [],
+          ids: row?.roles?.split(",") ?? []
         }
       },
       width: "400px",
@@ -459,11 +474,15 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       contentRenderer: () => h(roleForm),
-      beforeSure: (done, { options }) => {
+      beforeSure: async (done, { options }) => {
         const curData = options.props.formInline as RoleFormItemProps;
-        console.log("curIds", curData.ids);
         // 根据实际业务使用curData.ids和row里的某些字段去调用修改角色接口即可
+        await updateAccount(row.code, { roles: curData.ids.toString() });
         done(); // 关闭弹框
+        message(`授权 ${row.name} 账户成功！`, {
+          type: "success"
+        });
+        onSearch(); // 刷新表格数据
       }
     });
   }
@@ -477,9 +496,6 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     higherDeptOptions.value = handleTree(data);
     treeData.value = handleTree(data);
     treeLoading.value = false;
-
-    // 角色列表
-    roleOptions.value = (await getAllRoleList()).data;
   });
 
   return {
@@ -498,7 +514,6 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     onbatchDel,
     openDialog,
     onTreeSelect,
-    handleUpdate,
     handleDelete,
     handleUpload,
     handleReset,
