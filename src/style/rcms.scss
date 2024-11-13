@@ -4,3 +4,39 @@
     text-align: center;
   }
 }
+.rcms-main{
+  .plus-search .plus-form__row{
+    row-gap: 0px !important;
+  }
+  .p-4{
+    padding: 1rem 2px;
+  }
+  .justify-between{
+    .justify-around{
+      justify-content: flex-end;
+      .mr-4{
+        align-items: flex-start;
+        width: 95%;
+        position: absolute;
+      }
+      svg{
+        position: sticky;
+      }
+    }
+  }
+  .plus-search__button__wrapper{
+    .el-form-item__content{
+      display: flex !important;
+      justify-content: end !important;
+      flex-flow: row-reverse !important;  //关键
+      .el-button{
+        margin-left: 12px;
+        margin-right: 0px;
+        float: right;
+      }
+      .el-button:first-child{
+        float: left;
+      }
+    }
+  }
+}

@@ -1,11 +1,11 @@
 export default [
   {
     path: "/sim",
-    name: "SIM卡管理",
+    name: "卡管理",
     component: () => import("@/views/rcms/unitewifi/sim/merchant/index.vue"),
     meta: {
       icon: "ri:bank-card-line",
-      title: "SIM卡管理",
+      title: "卡管理",
       showLink: true
     },
     children: [

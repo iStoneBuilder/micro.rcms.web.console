@@ -11,39 +11,81 @@ export function userManage() {
 
   const columns: TableColumnList = [
     {
-      label: "登录账号",
+      label: "ICCID",
       prop: "name",
       width: 200,
-      align: "left"
-    },
-    {
-      label: "用户昵称",
-      prop: "name",
-      width: 200,
-      align: "left"
-    },
-    {
-      label: "所属企业",
-      prop: "name",
-      width: 300,
       align: "left"
     },
     {
       label: "商户",
       prop: "name",
-      width: 300,
+      minWidth: 100,
       align: "left"
     },
     {
-      label: "注册时间",
+      label: "卡商",
       prop: "name",
-      width: 300,
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "使用设备",
+      prop: "name",
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "运营商",
+      prop: "name",
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "剩余流量",
+      prop: "name",
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "网络类型",
+      prop: "name",
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "流量状态",
+      prop: "name",
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "入网分配",
+      prop: "name",
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "实名状态",
+      prop: "name",
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "SIM卡分类",
+      prop: "name",
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "备注",
+      prop: "name",
+      minWidth: 100,
       align: "left"
     },
     {
       label: "操作",
       fixed: "right",
-      width: 210,
+      width: 240,
       slot: "operation"
     }
   ];
@@ -68,7 +110,7 @@ export function userManage() {
     loading.value = true;
     console.log(searchData, new Date());
     setTimeout(() => {
-      dataList.value = [];
+      dataList.value = [{}];
       loading.value = false;
     }, 500);
   }
