@@ -44,18 +44,18 @@ export default {
       }
     },
     {
-      path: "/system/account1",
+      path: "/system/paySetting",
       name: "支付配置",
-      component: () => import("@/views/rcms/system/accounts/index.vue"),
+      component: () => import("@/views/rcms/system/paysetting/index.vue"),
       meta: {
         icon: "ri:wechat-pay-line",
         title: "支付配置"
       }
     },
     {
-      path: "/system/enterprise4",
+      path: "/system/userManage",
       name: "用户管理",
-      component: () => import("@/views/rcms/system/enterprise/index.vue"),
+      component: () => import("@/views/rcms/system/usermange/index.vue"),
       meta: {
         icon: "ri:user-6-line",
         title: "用户管理"

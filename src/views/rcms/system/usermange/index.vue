@@ -1,0 +1,127 @@
+<script setup lang="ts">
+import { ref } from "vue";
+import { hasPerms } from "@/utils/auth";
+import { userManage } from "./utils/hook";
+import { PureTableBar } from "@/components/RePureTableBar";
+import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+
+import Delete from "@iconify-icons/ep/delete";
+import EditPen from "@iconify-icons/ep/edit-pen";
+
+const columns: TableColumnList = [
+  {
+    label: "登录账号",
+    prop: "name",
+    width: 200,
+    align: "left"
+  },
+  {
+    label: "用户昵称",
+    prop: "name",
+    width: 200,
+    align: "left"
+  },
+  {
+    label: "所属企业",
+    prop: "name",
+    width: 300,
+    align: "left"
+  },
+  {
+    label: "商户",
+    prop: "name",
+    width: 300,
+    align: "left"
+  },
+  {
+    label: "注册时间",
+    prop: "name",
+    width: 300,
+    align: "left"
+  }
+];
+
+const loading = ref(true);
+const tableRef = ref();
+const dataList = ref([]);
+
+const { searchForm, viewDetail, handleDelete } = userManage();
+
+defineOptions({
+  name: "UserManage"
+});
+</script>
+
+<template>
+  <div class="main">
+    <component
+      :is="searchForm.component"
+      class="search-form bg-bg_color w-[99/100] pt-[12px] overflow-auto"
+    />
+    <PureTableBar
+      title="用户管理"
+      :columns="columns"
+      :tableRef="tableRef?.getTableRef()"
+    >
+      <template v-slot="{ size, dynamicColumns }">
+        <pure-table
+          ref="tableRef"
+          adaptive
+          :adaptiveConfig="{ offsetBottom: 45 }"
+          align-whole="center"
+          row-key="id"
+          showOverflowTooltip
+          table-layout="auto"
+          default-expand-all
+          :loading="loading"
+          :size="size"
+          :data="dataList"
+          :columns="dynamicColumns"
+          :header-cell-style="{
+            background: 'var(--el-fill-color-light)',
+            color: 'var(--el-text-color-primary)'
+          }"
+        >
+          <template #operation="{ row }">
+            <el-button
+              v-if="hasPerms('permission:role:update')"
+              class="reset-margin"
+              link
+              :type="row.parentId == 0 ? 'info' : 'primary'"
+              :size="size"
+              :icon="useRenderIcon(EditPen)"
+              :disabled="row.disabled"
+              @click="viewDetail('详情', row)"
+            >
+              详情
+            </el-button>
+            <el-button
+              v-if="hasPerms('permission:enterprise:delete')"
+              class="reset-margin"
+              link
+              :type="row.parentId == 0 ? 'info' : 'primary'"
+              :size="size"
+              :disabled="row.disabled"
+              :icon="useRenderIcon(Delete)"
+              @click="handleDelete('删除', row)"
+            >
+              删除
+            </el-button>
+          </template>
+        </pure-table>
+      </template>
+    </PureTableBar>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+:deep(.el-table__inner-wrapper::before) {
+  height: 0;
+}
+
+.search-form {
+  :deep(.el-form-item) {
+    margin-bottom: 12px;
+  }
+}
+</style>

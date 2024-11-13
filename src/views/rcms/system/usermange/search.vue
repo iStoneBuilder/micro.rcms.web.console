@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { searchManage } from "./utils/hook";
 import "plus-pro-components/es/components/search/style/css";
 import { type PlusColumn, PlusSearch } from "plus-pro-components";
 
-const state = ref({
-  status: "0",
-  time: new Date().toString()
-});
+// 设置默认值
+const state = ref({});
+
+const { handleSearchImpl } = searchManage();
 
 const columns: PlusColumn[] = [
   {
@@ -137,13 +138,13 @@ const columns: PlusColumn[] = [
 ];
 
 const handleChange = (values: any) => {
-  console.log(values, "change");
+  handleSearchImpl("change", values);
 };
 const handleSearch = (values: any) => {
-  console.log(values, "search");
+  handleSearchImpl("search", values);
 };
 const handleRest = () => {
-  console.log("handleRest");
+  handleSearchImpl("rest", {});
 };
 </script>
 

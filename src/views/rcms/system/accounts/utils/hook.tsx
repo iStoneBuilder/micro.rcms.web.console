@@ -19,7 +19,7 @@ import {
   updateAccount,
   deleteAccount
 } from "@/api/rcms/account";
-import { getEnterpriseRoleList } from "@/api/rcms/rolemanage";
+import { getEnterpriseRoleList, getRoleList } from "@/api/rcms/rolemanage";
 import { getEnterpriseId } from "@/utils/common";
 
 import { getEnterpriseList } from "@/api/rcms/enterprise";
@@ -50,6 +50,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     name: null,
     status: null
   });
+  const allRole = ref([]);
   const formRef = ref();
   const ruleFormRef = ref();
   const dataList = ref([]);
@@ -100,7 +101,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     },
     {
       label: "角色",
-      prop: "roles",
+      prop: "rNames",
       width: 300
     },
     {
@@ -250,7 +251,23 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       pagination.pageSize,
       toRaw(form)
     );
-    dataList.value = data.data;
+    const accounts = data.data;
+    // 处理角色显示
+    accounts.forEach(item => {
+      const roles = item?.roles?.split(",") ?? [];
+      const names = [];
+      roles.forEach(code => {
+        for (let index = 0; index < allRole.value.length; index++) {
+          const iRole = allRole.value[index];
+          if (iRole.code === code) {
+            names.push(iRole.name);
+            break;
+          }
+        }
+      });
+      item.rNames = names.join(",");
+    });
+    dataList.value = accounts;
     pagination.total = data.meta.totalPage;
     pagination.pageSize = data.meta.pageSize;
     pagination.currentPage = data.meta.curPage;
@@ -487,15 +504,21 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     });
   }
 
-  onMounted(async () => {
-    treeLoading.value = true;
-    onSearch();
-
+  async function loadEnterPriseTree() {
     // 归属部门
     const { data } = await getEnterpriseList({ id: getEnterpriseId() });
     higherDeptOptions.value = handleTree(data);
     treeData.value = handleTree(data);
     treeLoading.value = false;
+  }
+
+  onMounted(async () => {
+    treeLoading.value = true;
+    //  加载角色数据
+    const { data } = await getRoleList({ id: getEnterpriseId() });
+    allRole.value = data;
+    onSearch();
+    loadEnterPriseTree();
   });
 
   return {

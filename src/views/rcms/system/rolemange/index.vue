@@ -12,7 +12,7 @@ import AddFill from "@iconify-icons/ri/add-circle-line";
 import Menu from "@iconify-icons/ep/menu";
 
 defineOptions({
-  name: "Enterprise"
+  name: "RoleManage"
 });
 
 const formRef = ref();
@@ -148,13 +148,13 @@ function onFullscreen() {
   height: 0;
 }
 
-.main-content {
-  margin: 24px 24px 0 !important;
-}
-
 .search-form {
   :deep(.el-form-item) {
     margin-bottom: 12px;
   }
 }
 </style>
+
+function defineOptions(arg0: { name: string; }) { throw new Error("Function not
+implemented."); } function defineOptions(arg0: { name: string; }) { throw new
+Error("Function not implemented."); }
