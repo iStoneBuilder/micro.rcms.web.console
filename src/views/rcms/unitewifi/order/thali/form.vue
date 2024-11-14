@@ -3,6 +3,8 @@ import { ref, withDefaults, defineProps } from "vue";
 import ReCol from "@/components/ReCol";
 import { formRules } from "./utils/rule";
 import { FormProps } from "./utils/types";
+import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+import Question from "@iconify-icons/ep/question-filled";
 
 const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({ name: "", id: "", code: "", sort: 0, remark: "" })
@@ -25,8 +27,8 @@ defineExpose({ getRef });
     label-width="120px"
   >
     <el-row :gutter="30">
-      <re-col :value="12" :xs="24" :sm="24">
-        <el-form-item label="套餐名称" prop="name">
+      <re-col :value="24" :xs="24" :sm="24">
+        <el-form-item label="套餐名称" prop="parentId">
           <el-input
             v-model="newFormInline.name"
             clearable
@@ -35,7 +37,30 @@ defineExpose({ getRef });
         </el-form-item>
       </re-col>
       <re-col :value="12" :xs="24" :sm="24">
+        <el-form-item label="套餐类型" prop="type">
+          <el-select v-model="newFormInline.name" clearable>
+            <el-option label="国内套餐" value="enterprise" />
+            <el-option label="国际套餐" value="merchant" />
+          </el-select>
+        </el-form-item>
+      </re-col>
+      <re-col :value="12" :xs="24" :sm="24">
         <el-form-item label="计费类型" prop="type">
+          <template v-slot:label>
+            <span class="rcms-form-tip">
+              <span>计费类型</span>
+              <span>
+                <el-tooltip
+                  class="item"
+                  content="累积计费：有效期内总共可用流量为套餐流量，按月计费：有效期内每月可用流量为套餐流量"
+                  effect="dark"
+                  placement="top"
+                >
+                  <component :is="useRenderIcon(Question)" />
+                </el-tooltip>
+              </span>
+            </span>
+          </template>
           <el-select
             v-model="newFormInline.name"
             placeholder="请选择计费类型"
@@ -121,6 +146,21 @@ defineExpose({ getRef });
       </re-col>
       <re-col :value="12" :xs="24" :sm="24">
         <el-form-item label="限制购买次数">
+          <template v-slot:label>
+            <span class="rcms-form-tip">
+              <span>限制购买次数</span>
+              <span>
+                <el-tooltip
+                  class="item"
+                  content="0表示不限制购买次数"
+                  effect="dark"
+                  placement="top"
+                >
+                  <component :is="useRenderIcon(Question)" />
+                </el-tooltip>
+              </span>
+            </span>
+          </template>
           <el-input-number
             v-model="newFormInline.sort"
             class="!w-full"
