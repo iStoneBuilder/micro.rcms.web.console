@@ -26,6 +26,7 @@ const {
   dataList,
   searchForm,
   onSearch,
+  openDialog,
   viewDetail,
   handleDelete
 } = userManage();
@@ -38,7 +39,12 @@ const {
       class="search-form bg-bg_color w-[99/100] pt-[12px] overflow-auto"
     />
     <div class="rcms-table-btn">
-      <el-button type="primary" plain :icon="useRenderIcon(AddFill)">
+      <el-button
+        type="primary"
+        plain
+        :icon="useRenderIcon(AddFill)"
+        @click="openDialog()"
+      >
         新增
       </el-button>
       <el-button type="danger" plain :icon="useRenderIcon(Delete)">
@@ -80,6 +86,7 @@ const {
               :size="size"
               :icon="useRenderIcon(EditPen)"
               :disabled="row.disabled"
+              @click="openDialog('修改', row)"
             >
               编辑
             </el-button>

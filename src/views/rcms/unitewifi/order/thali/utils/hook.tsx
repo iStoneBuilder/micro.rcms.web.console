@@ -1,11 +1,17 @@
 import { nextTick } from "process";
+import { message } from "@/utils/message";
+import editForm from "../form.vue";
 import Search from "../search.vue";
-import { onMounted, ref, reactive } from "vue";
+import { addDialog } from "@/components/ReDialog";
+import { onMounted, ref, reactive, h } from "vue";
+import type { FormItemProps } from "./types";
 import type { PaginationProps } from "@pureadmin/table";
+import { deviceDetection } from "@pureadmin/utils";
 
 let searchData = {};
 // index方法字段
 export function userManage() {
+  const formRef = ref();
   const dataList = ref([]);
   const loading = ref();
 
@@ -104,6 +110,51 @@ export function userManage() {
   function viewDetail(title: string, row: object) {
     console.log(title, row);
   }
+  function openDialog(title = "新增", row?: FormItemProps) {
+    console.log(title, row);
+    addDialog({
+      title: `${title}套餐`,
+      props: {
+        formInline: {
+          id: row?.id ?? "",
+          name: row?.name ?? "",
+          code: row?.code ?? "",
+          sort: row?.sort ?? 0,
+          remark: row?.remark ?? ""
+        }
+      },
+      width: "800px",
+      draggable: true,
+      fullscreen: deviceDetection(),
+      fullscreenIcon: true,
+      closeOnClickModal: false,
+      contentRenderer: () => h(editForm, { ref: formRef, formInline: null }),
+      beforeSure: (done, { options }) => {
+        const FormRef = formRef.value.getRef();
+        const curData = options.props.formInline as FormItemProps;
+        function chores() {
+          message(`${title}数据成功！`, {
+            type: "success"
+          });
+          done(); // 关闭弹框
+          onSearch(); // 刷新表格数据
+        }
+        FormRef.validate(async valid => {
+          if (valid) {
+            // 表单规则校验通过
+            if (title === "新增") {
+              // 实际开发先调用新增接口，再进行下面操作
+              console.log(curData);
+              chores();
+            } else {
+              // 实际开发先调用修改接口，再进行下面操作
+              chores();
+            }
+          }
+        });
+      }
+    });
+  }
   function handleDelete(title: string, row: object) {
     console.log(title, row);
   }
@@ -126,7 +177,8 @@ export function userManage() {
     searchForm,
     onSearch,
     viewDetail,
-    handleDelete
+    handleDelete,
+    openDialog
   };
 }
 // 查询条件
