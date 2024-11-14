@@ -6,6 +6,7 @@ import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
 import Delete from "@iconify-icons/ep/delete";
+import Upload from "@iconify-icons/ri/file-upload-line";
 
 defineOptions({
   name: "UserManage"
@@ -31,7 +32,7 @@ const {
 <template>
   <div class="main rcms-main">
     <div class="rcms-table-btn">
-      <el-button type="success" plain :icon="useRenderIcon(Delete)">
+      <el-button type="success" plain :icon="useRenderIcon(Upload)">
         导入
       </el-button>
     </div>

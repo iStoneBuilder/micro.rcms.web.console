@@ -48,7 +48,7 @@ const columns: PlusColumn[] = [
     ]
   },
   {
-    label: "是否上级",
+    label: "是否上架",
     prop: "time",
     valueType: "date-picker"
   },

@@ -7,6 +7,15 @@ import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
 import Delete from "@iconify-icons/ep/delete";
 import More from "@iconify-icons/ep/more-filled";
+import Device from "@iconify-icons/ep/cellphone";
+import Active from "@iconify-icons/ep/coin";
+import Pointer from "@iconify-icons/ep/pointer";
+import Wallet from "@iconify-icons/ep/wallet";
+import Transform from "@iconify-icons/ep/bottom-right";
+import ShutDown from "@iconify-icons/ri/shut-down-line";
+import InitInstall from "@iconify-icons/ri/install-line";
+import StoreDev from "@iconify-icons/ri/layout-grid-line";
+import shareDev from "@iconify-icons/ri/folder-shared-line";
 
 defineOptions({
   name: "UserManage"
@@ -26,7 +35,8 @@ const {
   searchForm,
   onSearch,
   viewDetail,
-  handleDelete
+  handleDelete,
+  goToDivice
 } = userManage();
 </script>
 
@@ -40,25 +50,25 @@ const {
       <el-button type="danger" plain :icon="useRenderIcon(Delete)">
         删除
       </el-button>
-      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+      <el-button type="primary" plain :icon="useRenderIcon(Device)">
         设备分组
       </el-button>
-      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+      <el-button type="primary" plain :icon="useRenderIcon(Active)">
         设备激活
       </el-button>
-      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+      <el-button type="primary" plain :icon="useRenderIcon(Pointer)">
         设备控制
       </el-button>
-      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+      <el-button type="primary" plain :icon="useRenderIcon(Wallet)">
         设备充值
       </el-button>
-      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+      <el-button type="primary" plain :icon="useRenderIcon(Transform)">
         转移套餐
       </el-button>
-      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+      <el-button type="primary" plain :icon="useRenderIcon(ShutDown)">
         设备停机
       </el-button>
-      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+      <el-button type="primary" plain :icon="useRenderIcon(InitInstall)">
         设备初始化
       </el-button>
 
@@ -67,12 +77,17 @@ const {
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>
-              <el-button link type="primary" :icon="useRenderIcon(Delete)">
+              <el-button link type="primary" :icon="useRenderIcon(StoreDev)">
                 设备入库
               </el-button>
             </el-dropdown-item>
             <el-dropdown-item>
-              <el-button link type="primary" :icon="useRenderIcon(Delete)">
+              <el-button
+                link
+                type="primary"
+                :icon="useRenderIcon(shareDev)"
+                @click="goToDivice"
+              >
                 设备分发
               </el-button>
             </el-dropdown-item>
