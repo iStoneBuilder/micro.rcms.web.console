@@ -36,14 +36,22 @@
           </el-button>
         </div>
       </template>
+      <template #table-title>
+        <el-row class="button-row">
+          <el-button type="primary" plain :icon="Plus"> 新增 </el-button>
+          <el-button type="danger" plain :icon="Delete"> 删除 </el-button>
+        </el-row>
+      </template>
     </PlusPage>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { h, Fragment } from "vue";
+import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import type { PlusColumn, PageInfo } from "plus-pro-components";
 import { ElButton } from "element-plus";
-import { Plus, Delete } from "@element-plus/icons-vue";
+import { Plus, Delete, Setting, EditPen } from "@element-plus/icons-vue";
 import { Search, Refresh, ArrowDown, ArrowUp } from "@element-plus/icons-vue";
 import list from "mock/list";
 import { getPermissionPageList } from "@/api/rcms/permission";
@@ -79,10 +87,11 @@ const method = {
 function handleMethodShow(value: string) {
   return method[value];
 }
+function handleClickButton(e, value, index, row, item) {}
 
 const tableConfig: PlusColumn[] = [
   {
-    label: "接口名称",
+    label: "字典项",
     minWidth: 200,
     prop: "name",
     tableColumnProps: {
@@ -90,62 +99,41 @@ const tableConfig: PlusColumn[] = [
     }
   },
   {
-    label: "权限编码",
+    label: "字典项名称",
     minWidth: 300,
     prop: "authCode"
   },
   {
-    label: "接口路径",
+    label: "描述",
     minWidth: 500,
-    prop: "path"
-  },
-  {
-    label: "接口类型",
-    width: 100,
-    prop: "type",
-    tableColumnProps: {
-      align: "center"
-    }
-  },
-  {
-    label: "请求方式",
-    width: 100,
-    prop: "method",
-    valueType: "tag",
-    hideInSearch: true,
-    tableColumnProps: {
-      align: "center"
-    },
-    fieldProps: value => ({
-      type: handleMethodShow(value as string)
-    })
-  },
-  {
-    label: "OpenApi",
-    width: 100,
-    prop: "isOpenApi",
-    valueType: "tag",
-    tableColumnProps: {
-      align: "center"
-    },
-    fieldProps: value => ({
-      type: value === "Y" ? "success" : "primary"
-    }),
-    fieldSlots: {
-      default: ({ value }) => (value === "Y" ? "是" : "否")
-    },
+    prop: "path",
     hideInSearch: true
   },
   {
-    label: "OpenApi",
-    width: 100,
-    prop: "isOpenApi",
-    valueType: "select",
-    hideInTable: true,
-    options: [
-      { value: "Y", label: "是" },
-      { value: "N", label: "否" }
-    ]
+    label: "自定义操作栏",
+    width: 250,
+    prop: "path",
+    tableColumnProps: {
+      align: "center"
+    },
+    render: (value, { index, row }) => {
+      const buttons = ["编辑", "删除", "配置"];
+      const CustomButton = buttons.map(item =>
+        h(
+          ElButton,
+          {
+            type: item === "删除" ? "danger" : "primary",
+            plain: true,
+            link: true,
+            icon:
+              item === "删除" ? Delete : item === "配置" ? Setting : EditPen,
+            onClick: e => handleClickButton(e, value, index, row, item)
+          },
+          () => item
+        )
+      );
+      return h(Fragment, CustomButton);
+    }
   }
 ];
 </script>
