@@ -23,9 +23,11 @@ import "element-plus/dist/index.css";
 // 导入字体图标
 import "./assets/iconfont/iconfont.js";
 import "./assets/iconfont/iconfont.css";
-
+// 导入plus-pro-components 及其样式
+import "plus-pro-components/index.css";
+import PlusProComponents from "plus-pro-components";
 const app = createApp(App);
-
+app.use(PlusProComponents);
 // 自定义指令
 import * as directives from "@/directives";
 Object.keys(directives).forEach(key => {
