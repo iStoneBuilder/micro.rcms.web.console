@@ -71,9 +71,9 @@ export default {
       }
     },
     {
-      path: "/system/userManage2",
+      path: "/system/dict",
       name: "字典管理",
-      component: () => import("@/views/rcms/system/usermange/index.vue"),
+      component: () => import("@/views/rcms/frame/dict/index.vue"),
       meta: {
         icon: "ep:tickets",
         title: "字典管理"
