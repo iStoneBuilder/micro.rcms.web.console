@@ -1,11 +1,12 @@
 import { nextTick } from "process";
 import Search from "../search.vue";
-import { onMounted, ref, reactive } from "vue";
+import { type Ref, onMounted, ref, reactive, toRaw } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
+import { getPermissionPageList } from "@/api/rcms/permission";
 
 let searchData = {};
 
-export function userManage() {
+export function userManage(tableRef: Ref) {
   const dataList = ref([]);
   const loading = ref();
 
@@ -18,39 +19,47 @@ export function userManage() {
     },
     {
       label: "权限编码",
-      prop: "name",
+      prop: "authCode",
       minWidth: 200,
       align: "left"
     },
     {
       label: "接口路径",
-      prop: "name",
+      prop: "path",
       minWidth: 500,
       align: "left"
     },
     {
       label: "接口类型",
-      prop: "name",
+      prop: "type",
       minWidth: 200,
       align: "left"
     },
     {
       label: "请求方式",
-      prop: "name",
-      minWidth: 200,
-      align: "left"
+      prop: "method",
+      minWidth: 100,
+      align: "center",
+      cellRenderer: ({ row, props }) => (
+        <el-tag size={props.size} type="success" effect="plain">
+          {row.method}
+        </el-tag>
+      )
     },
     {
       label: "OpenApi",
-      prop: "name",
-      minWidth: 200,
-      align: "left"
-    },
-    {
-      label: "操作",
-      fixed: "right",
-      width: 120,
-      slot: "operation"
+      prop: "isOpenApi",
+      minWidth: 100,
+      align: "center",
+      cellRenderer: ({ row, props }) => (
+        <el-tag
+          size={props.size}
+          type={row.isOpenApi === "Y" ? "success" : "primary"}
+          effect="plain"
+        >
+          {row.isOpenApi === "Y" ? "是" : "否"}
+        </el-tag>
+      )
     }
   ];
   const pagination = reactive<PaginationProps>({
@@ -64,17 +73,32 @@ export function userManage() {
     title: "查询表单",
     component: Search
   };
-  function viewDetail(title: string, row: object) {
-    console.log(title, row);
+  function handleSizeChange(val: number) {
+    pagination.pageSize = val;
+    nextTick(() => {
+      onSearch();
+    });
   }
-  function handleDelete(title: string, row: object) {
-    console.log(title, row);
+
+  function handleCurrentChange(val: number) {
+    pagination.currentPage = val;
+    nextTick(() => {
+      onSearch();
+    });
   }
-  function onSearch() {
+  async function onSearch() {
     loading.value = true;
-    console.log(searchData, new Date());
+    console.log(tableRef);
+    const { data } = await getPermissionPageList(
+      pagination.currentPage,
+      pagination.pageSize,
+      toRaw(searchData)
+    );
+    dataList.value = data.data;
+    pagination.total = data.meta.totalRows;
+    pagination.pageSize = data.meta.pageSize;
+    pagination.currentPage = data.meta.curPage;
     setTimeout(() => {
-      dataList.value = [{}, {}, {}, {}, {}, {}, {}, {}];
       loading.value = false;
     }, 500);
   }
@@ -88,8 +112,8 @@ export function userManage() {
     dataList,
     searchForm,
     onSearch,
-    viewDetail,
-    handleDelete
+    handleSizeChange,
+    handleCurrentChange
   };
 }
 
@@ -98,7 +122,7 @@ export function searchManage() {
   function handleSearchImpl(op: string, search: object) {
     searchData = search;
     nextTick(() => {
-      userManage()?.onSearch();
+      // userManage()?.onSearch();
     });
   }
   return { handleSearchImpl };

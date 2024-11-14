@@ -268,7 +268,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       item.rNames = names.join(",");
     });
     dataList.value = accounts;
-    pagination.total = data.meta.totalPage;
+    pagination.total = data.meta.totalRows;
     pagination.pageSize = data.meta.pageSize;
     pagination.currentPage = data.meta.curPage;
 

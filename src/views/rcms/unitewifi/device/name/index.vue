@@ -62,7 +62,7 @@ const {
             color: 'var(--el-text-color-primary)'
           }"
         >
-          <template #operation="{ row }">
+          <!-- <template #operation="{ row }">
             <el-button
               v-if="hasPerms('permission:role:permission')"
               class="reset-margin"
@@ -73,7 +73,7 @@ const {
             >
               删除
             </el-button>
-          </template>
+          </template> -->
         </pure-table>
       </template>
     </PureTableBar>

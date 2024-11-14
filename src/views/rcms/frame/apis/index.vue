@@ -11,12 +11,13 @@ defineOptions({
   name: "UserManage"
 });
 
+const tableRef = ref();
+
 function onFullscreen() {
   // 重置表格高度
   tableRef.value.setAdaptive();
 }
 
-const tableRef = ref();
 const {
   loading,
   columns,
@@ -24,9 +25,9 @@ const {
   dataList,
   searchForm,
   onSearch,
-  viewDetail,
-  handleDelete
-} = userManage();
+  handleSizeChange,
+  handleCurrentChange
+} = userManage(tableRef);
 </script>
 
 <template>
@@ -61,21 +62,9 @@ const {
             background: 'var(--el-fill-color-light)',
             color: 'var(--el-text-color-primary)'
           }"
-        >
-          <template #operation="{ row }">
-            <el-button
-              v-if="hasPerms('permission:role:update')"
-              class="reset-margin"
-              link
-              :type="row.parentId == 0 ? 'info' : 'primary'"
-              :size="size"
-              :icon="useRenderIcon(Delete)"
-              :disabled="row.disabled"
-            >
-              接口授权
-            </el-button>
-          </template>
-        </pure-table>
+          @page-size-change="handleSizeChange"
+          @page-current-change="handleCurrentChange"
+        />
       </template>
     </PureTableBar>
   </div>

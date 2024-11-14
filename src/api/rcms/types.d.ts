@@ -12,7 +12,7 @@ export type ResultPage = {
   data?: {
     data: Array<any>;
     meta: {
-      totalPage: number;
+      totalRows: number;
       pageSize: number;
       curPage: number;
     };
