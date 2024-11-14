@@ -8,22 +8,7 @@
   .plus-search .plus-form__row{
     row-gap: 0px !important;
   }
-  .p-4{
-    padding: 1rem 2px;
-  }
-  .justify-between{
-    .justify-around{
-      justify-content: flex-end;
-      .mr-4{
-        align-items: flex-start;
-        width: 95%;
-        position: absolute;
-      }
-      svg{
-        position: sticky;
-      }
-    }
-  }
+  // 所属按钮交换位置
   .plus-search__button__wrapper{
     .el-form-item__content{
       display: flex !important;
@@ -38,5 +23,35 @@
         float: left;
       }
     }
+  }
+  .rcms-table-btn{
+    height: 60px;
+    background: wheat;
+    width: 80%;
+    margin-top: 8px;
+    margin-bottom: -68px;
+    line-height: 60px;
+    margin-left: 10px;
+  }
+  .rcms-table-form{
+    height: 60px;
+    background: wheat;
+    width: 80%;
+    margin-top: 8px;
+    margin-bottom: -68px;
+    line-height: 60px;
+    margin-left: 10px;
+    .el-input__wrapper{
+      border-radius: 0;
+    }
+    button{
+      margin-left: 0;
+      position: relative;
+      border-radius: 0;
+    }
+  }
+  .rcms-alert{
+    background: white;
+    padding: 10px;
   }
 }

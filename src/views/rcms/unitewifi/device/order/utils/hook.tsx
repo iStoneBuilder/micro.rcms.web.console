@@ -11,40 +11,64 @@ export function userManage() {
 
   const columns: TableColumnList = [
     {
-      label: "登录账号",
+      label: "设备SN",
       prop: "name",
       width: 200,
       align: "left"
     },
     {
-      label: "用户昵称",
+      label: "用户名",
       prop: "name",
       width: 200,
       align: "left"
     },
     {
-      label: "所属企业",
+      label: "套餐名称",
       prop: "name",
-      width: 300,
+      minWidth: 100,
       align: "left"
     },
     {
-      label: "商户",
+      label: "剩余流量(MB)",
       prop: "name",
-      width: 300,
+      minWidth: 100,
       align: "left"
     },
     {
-      label: "注册时间",
+      label: "生效时间",
       prop: "name",
-      width: 300,
+      minWidth: 100,
       align: "left"
     },
     {
-      label: "操作",
-      fixed: "right",
-      width: 210,
-      slot: "operation"
+      label: "过期时间",
+      prop: "name",
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "当前已用流量(MB)",
+      prop: "name",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "总共已用流量(MB)",
+      prop: "name",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "是否限速",
+      prop: "name",
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "限速值(Kbps)",
+      prop: "name",
+      minWidth: 100,
+      align: "left"
     }
   ];
   const pagination = reactive<PaginationProps>({
@@ -68,7 +92,7 @@ export function userManage() {
     loading.value = true;
     console.log(searchData, new Date());
     setTimeout(() => {
-      dataList.value = [];
+      dataList.value = [{}];
       loading.value = false;
     }, 500);
   }

@@ -1,5 +1,3 @@
-import { nextTick } from "process";
-import Search from "../search.vue";
 import { onMounted, ref, reactive } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 
@@ -11,33 +9,45 @@ export function userManage() {
 
   const columns: TableColumnList = [
     {
-      label: "登录账号",
+      label: "类型名称",
       prop: "name",
       width: 200,
       align: "left"
     },
     {
-      label: "用户昵称",
+      label: "类型编号",
       prop: "name",
       width: 200,
       align: "left"
     },
     {
-      label: "所属企业",
+      label: "销售名称",
       prop: "name",
-      width: 300,
+      minWidth: 100,
       align: "left"
     },
     {
-      label: "商户",
+      label: "设备型号",
       prop: "name",
-      width: 300,
+      minWidth: 100,
       align: "left"
     },
     {
-      label: "注册时间",
+      label: "本地卡模式",
       prop: "name",
-      width: 300,
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "状态",
+      prop: "name",
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "备注",
+      prop: "name",
+      minWidth: 100,
       align: "left"
     },
     {
@@ -53,11 +63,6 @@ export function userManage() {
     currentPage: 1,
     background: true
   });
-  const searchForm = {
-    key: "search",
-    title: "查询表单",
-    component: Search
-  };
   function viewDetail(title: string, row: object) {
     console.log(title, row);
   }
@@ -68,7 +73,7 @@ export function userManage() {
     loading.value = true;
     console.log(searchData, new Date());
     setTimeout(() => {
-      dataList.value = [];
+      dataList.value = [{}];
       loading.value = false;
     }, 500);
   }
@@ -80,20 +85,8 @@ export function userManage() {
     columns,
     pagination,
     dataList,
-    searchForm,
     onSearch,
     viewDetail,
     handleDelete
   };
-}
-
-export function searchManage() {
-  // 处理搜索页面的操作
-  function handleSearchImpl(op: string, search: object) {
-    searchData = search;
-    nextTick(() => {
-      userManage()?.onSearch();
-    });
-  }
-  return { handleSearchImpl };
 }

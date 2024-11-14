@@ -30,14 +30,24 @@ const {
 </script>
 
 <template>
-  <div class="main">
+  <div class="main rcms-main">
     <component
       :is="searchForm.component"
       class="search-form bg-bg_color w-[99/100] pt-[12px] overflow-auto"
     />
-
+    <div class="rcms-table-btn">
+      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+        选择分发
+      </el-button>
+      <el-button type="danger" plain :icon="useRenderIcon(Delete)">
+        迁移设备
+      </el-button>
+      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+        查看分发记录
+      </el-button>
+    </div>
     <PureTableBar
-      title="设备分发"
+      title=""
       :columns="columns"
       @refresh="onSearch"
       @fullscreen="onFullscreen"
@@ -61,31 +71,7 @@ const {
             background: 'var(--el-fill-color-light)',
             color: 'var(--el-text-color-primary)'
           }"
-        >
-          <template #operation="{ row }">
-            <el-button
-              v-if="hasPerms('permission:role:update')"
-              class="reset-margin"
-              link
-              :type="row.parentId == 0 ? 'info' : 'primary'"
-              :size="size"
-              :icon="useRenderIcon(Delete)"
-              :disabled="row.disabled"
-            >
-              详情
-            </el-button>
-            <el-button
-              v-if="hasPerms('permission:role:permission')"
-              class="reset-margin"
-              link
-              type="primary"
-              :size="size"
-              :icon="useRenderIcon(Delete)"
-            >
-              删除
-            </el-button>
-          </template>
-        </pure-table>
+        />
       </template>
     </PureTableBar>
   </div>

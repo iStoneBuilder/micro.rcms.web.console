@@ -22,7 +22,6 @@ const {
   columns,
   pagination,
   dataList,
-  searchForm,
   onSearch,
   viewDetail,
   handleDelete
@@ -30,14 +29,17 @@ const {
 </script>
 
 <template>
-  <div class="main">
-    <component
-      :is="searchForm.component"
-      class="search-form bg-bg_color w-[99/100] pt-[12px] overflow-auto"
-    />
-
+  <div class="main rcms-main">
+    <div class="rcms-table-btn">
+      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+        新增
+      </el-button>
+      <el-button type="danger" plain :icon="useRenderIcon(Delete)">
+        删除
+      </el-button>
+    </div>
     <PureTableBar
-      title="设备类型"
+      title=""
       :columns="columns"
       @refresh="onSearch"
       @fullscreen="onFullscreen"
@@ -73,6 +75,16 @@ const {
               :disabled="row.disabled"
             >
               详情
+            </el-button>
+            <el-button
+              v-if="hasPerms('permission:role:permission')"
+              class="reset-margin"
+              link
+              type="primary"
+              :size="size"
+              :icon="useRenderIcon(Delete)"
+            >
+              编辑
             </el-button>
             <el-button
               v-if="hasPerms('permission:role:permission')"

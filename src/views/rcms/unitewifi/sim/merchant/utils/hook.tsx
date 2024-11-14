@@ -56,7 +56,7 @@ export function userManage() {
     loading.value = true;
     console.log(searchData, new Date());
     setTimeout(() => {
-      dataList.value = [{}];
+      dataList.value = [{}, {}, {}, {}, {}];
       loading.value = false;
     }, 500);
   }

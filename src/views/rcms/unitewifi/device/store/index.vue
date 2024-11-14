@@ -22,7 +22,6 @@ const {
   columns,
   pagination,
   dataList,
-  searchForm,
   onSearch,
   viewDetail,
   handleDelete
@@ -30,14 +29,14 @@ const {
 </script>
 
 <template>
-  <div class="main">
-    <component
-      :is="searchForm.component"
-      class="search-form bg-bg_color w-[99/100] pt-[12px] overflow-auto"
-    />
-
+  <div class="main rcms-main">
+    <div class="rcms-table-btn">
+      <el-button type="success" plain :icon="useRenderIcon(Delete)">
+        导入
+      </el-button>
+    </div>
     <PureTableBar
-      title="设备入库"
+      title=""
       :columns="columns"
       @refresh="onSearch"
       @fullscreen="onFullscreen"

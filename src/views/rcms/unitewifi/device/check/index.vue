@@ -17,12 +17,12 @@ function onFullscreen() {
 }
 
 const tableRef = ref();
+const form = ref({ sn: "" });
 const {
   loading,
   columns,
   pagination,
   dataList,
-  searchForm,
   onSearch,
   viewDetail,
   handleDelete
@@ -30,14 +30,26 @@ const {
 </script>
 
 <template>
-  <div class="main">
-    <component
-      :is="searchForm.component"
-      class="search-form bg-bg_color w-[99/100] pt-[12px] overflow-auto"
-    />
-
+  <div class="main rcms-main">
+    <div class="rcms-alert">
+      <el-alert
+        title="温馨提示：如果所有指标都正常，但设备仍然无法上网，建议对设备进行复位后重试。仍无法正常上网再联系工程师支持解决!"
+        type="error"
+        :closable="false"
+      />
+    </div>
+    <div class="rcms-table-form">
+      <el-input
+        v-model="form.sn"
+        clearable
+        size="large"
+        placeholder="请输入设备SN"
+        style="width: 240px"
+      />
+      <el-button type="primary" size="large"> 一键诊断 </el-button>
+    </div>
     <PureTableBar
-      title="设备诊断"
+      title=""
       :columns="columns"
       @refresh="onSearch"
       @fullscreen="onFullscreen"

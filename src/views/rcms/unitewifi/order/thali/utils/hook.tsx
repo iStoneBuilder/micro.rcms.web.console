@@ -4,46 +4,89 @@ import { onMounted, ref, reactive } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 
 let searchData = {};
-
+// index方法字段
 export function userManage() {
   const dataList = ref([]);
   const loading = ref();
 
   const columns: TableColumnList = [
     {
-      label: "登录账号",
+      label: "套餐名称",
+      prop: "name",
+      width: 200,
+      fixed: "left",
+      align: "left"
+    },
+    {
+      label: "套餐编号",
       prop: "name",
       width: 200,
       align: "left"
     },
     {
-      label: "用户昵称",
+      label: "所属商户",
       prop: "name",
-      width: 200,
+      minWidth: 200,
       align: "left"
     },
     {
-      label: "所属企业",
+      label: "成本价格(¥)",
       prop: "name",
-      width: 300,
+      minWidth: 200,
       align: "left"
     },
     {
-      label: "商户",
+      label: "套餐价格(¥)",
       prop: "name",
-      width: 300,
+      minWidth: 200,
       align: "left"
     },
     {
-      label: "注册时间",
+      label: "计费类型",
       prop: "name",
-      width: 300,
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "套餐总流量(GB)",
+      prop: "name",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "是否限速",
+      prop: "name",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "有效时长",
+      prop: "name",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "是否上架",
+      prop: "name",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "赠送月份",
+      prop: "name",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "是否赠送",
+      prop: "name",
+      minWidth: 200,
       align: "left"
     },
     {
       label: "操作",
       fixed: "right",
-      width: 210,
+      width: 300,
       slot: "operation"
     }
   ];
@@ -68,7 +111,7 @@ export function userManage() {
     loading.value = true;
     console.log(searchData, new Date());
     setTimeout(() => {
-      dataList.value = [];
+      dataList.value = [{}];
       loading.value = false;
     }, 500);
   }
@@ -86,7 +129,7 @@ export function userManage() {
     handleDelete
   };
 }
-
+// 查询条件
 export function searchManage() {
   // 处理搜索页面的操作
   function handleSearchImpl(op: string, search: object) {

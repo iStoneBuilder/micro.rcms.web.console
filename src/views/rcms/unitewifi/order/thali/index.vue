@@ -6,6 +6,9 @@ import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
 import Delete from "@iconify-icons/ep/delete";
+import AddFill from "@iconify-icons/ri/add-circle-line";
+import EditPen from "@iconify-icons/ep/edit-pen";
+import Setting from "@iconify-icons/ep/setting";
 
 defineOptions({
   name: "UserManage"
@@ -15,7 +18,6 @@ function onFullscreen() {
   // 重置表格高度
   tableRef.value.setAdaptive();
 }
-
 const tableRef = ref();
 const {
   loading,
@@ -28,16 +30,23 @@ const {
   handleDelete
 } = userManage();
 </script>
-
+<!-- 套餐配置 -->
 <template>
-  <div class="main">
+  <div class="main rcms-main">
     <component
       :is="searchForm.component"
       class="search-form bg-bg_color w-[99/100] pt-[12px] overflow-auto"
     />
-
+    <div class="rcms-table-btn">
+      <el-button type="primary" plain :icon="useRenderIcon(AddFill)">
+        新增
+      </el-button>
+      <el-button type="danger" plain :icon="useRenderIcon(Delete)">
+        删除
+      </el-button>
+    </div>
     <PureTableBar
-      title="套餐配置"
+      title=""
       :columns="columns"
       @refresh="onSearch"
       @fullscreen="onFullscreen"
@@ -69,10 +78,10 @@ const {
               link
               :type="row.parentId == 0 ? 'info' : 'primary'"
               :size="size"
-              :icon="useRenderIcon(Delete)"
+              :icon="useRenderIcon(EditPen)"
               :disabled="row.disabled"
             >
-              详情
+              编辑
             </el-button>
             <el-button
               v-if="hasPerms('permission:role:permission')"
@@ -83,6 +92,16 @@ const {
               :icon="useRenderIcon(Delete)"
             >
               删除
+            </el-button>
+            <el-button
+              v-if="hasPerms('permission:role:permission')"
+              class="reset-margin"
+              link
+              type="primary"
+              :size="size"
+              :icon="useRenderIcon(Setting)"
+            >
+              售卖范围配置
             </el-button>
           </template>
         </pure-table>

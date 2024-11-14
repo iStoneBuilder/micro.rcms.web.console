@@ -6,6 +6,7 @@ import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
 import Delete from "@iconify-icons/ep/delete";
+import More from "@iconify-icons/ep/more-filled";
 
 defineOptions({
   name: "UserManage"
@@ -30,14 +31,57 @@ const {
 </script>
 
 <template>
-  <div class="main">
+  <div class="main rcms-main">
     <component
       :is="searchForm.component"
       class="search-form bg-bg_color w-[99/100] pt-[12px] overflow-auto"
     />
+    <div class="rcms-table-btn">
+      <el-button type="danger" plain :icon="useRenderIcon(Delete)">
+        删除
+      </el-button>
+      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+        设备分组
+      </el-button>
+      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+        设备激活
+      </el-button>
+      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+        设备控制
+      </el-button>
+      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+        设备充值
+      </el-button>
+      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+        转移套餐
+      </el-button>
+      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+        设备停机
+      </el-button>
+      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+        设备初始化
+      </el-button>
 
+      <el-dropdown style="margin: 15px 0 0 10px">
+        <el-button type="primary" plain :icon="useRenderIcon(More)" />
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>
+              <el-button link type="primary" :icon="useRenderIcon(Delete)">
+                设备入库
+              </el-button>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <el-button link type="primary" :icon="useRenderIcon(Delete)">
+                设备分发
+              </el-button>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </div>
     <PureTableBar
-      title="诊断设备"
+      title=""
       :columns="columns"
       @refresh="onSearch"
       @fullscreen="onFullscreen"
@@ -72,7 +116,7 @@ const {
               :icon="useRenderIcon(Delete)"
               :disabled="row.disabled"
             >
-              详情
+              编辑
             </el-button>
             <el-button
               v-if="hasPerms('permission:role:permission')"

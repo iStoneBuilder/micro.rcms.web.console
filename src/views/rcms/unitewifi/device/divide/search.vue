@@ -17,7 +17,7 @@ const columns: PlusColumn[] = [
     tooltip: "名称最多显示6个字符"
   },
   {
-    label: "状态",
+    label: "入库批次号",
     prop: "status",
     valueType: "select",
     options: [
@@ -67,7 +67,7 @@ const handleRest = () => {
     :columns="columns"
     :show-number="3"
     :col-props="{ xs: 1, sm: 1, md: 6, lg: 6, xl: 6 }"
-    label-width="80"
+    label-width="120"
     label-position="right"
     @change="handleChange"
     @search="handleSearch"

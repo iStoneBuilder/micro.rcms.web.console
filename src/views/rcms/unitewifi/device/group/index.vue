@@ -30,14 +30,22 @@ const {
 </script>
 
 <template>
-  <div class="main">
+  <div class="main rcms-main">
     <component
       :is="searchForm.component"
       class="search-form bg-bg_color w-[99/100] pt-[12px] overflow-auto"
     />
 
+    <div class="rcms-table-btn">
+      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+        新增
+      </el-button>
+      <el-button type="danger" plain :icon="useRenderIcon(Delete)">
+        删除
+      </el-button>
+    </div>
     <PureTableBar
-      title="设备分组"
+      title=""
       :columns="columns"
       @refresh="onSearch"
       @fullscreen="onFullscreen"
@@ -72,7 +80,7 @@ const {
               :icon="useRenderIcon(Delete)"
               :disabled="row.disabled"
             >
-              详情
+              编辑
             </el-button>
             <el-button
               v-if="hasPerms('permission:role:permission')"

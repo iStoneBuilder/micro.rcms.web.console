@@ -11,39 +11,51 @@ export function userManage() {
 
   const columns: TableColumnList = [
     {
-      label: "登录账号",
+      label: "设备SN",
       prop: "name",
       width: 200,
       align: "left"
     },
     {
-      label: "用户昵称",
+      label: "实名用户",
       prop: "name",
       width: 200,
       align: "left"
     },
     {
-      label: "所属企业",
+      label: "ICCID",
       prop: "name",
-      width: 300,
+      minWidth: 200,
       align: "left"
     },
     {
-      label: "商户",
+      label: "认证方式",
       prop: "name",
-      width: 300,
+      minWidth: 200,
       align: "left"
     },
     {
-      label: "注册时间",
+      label: "认证状态",
       prop: "name",
-      width: 300,
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "认证时间",
+      prop: "name",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "通过时间",
+      prop: "name",
+      minWidth: 200,
       align: "left"
     },
     {
       label: "操作",
       fixed: "right",
-      width: 210,
+      width: 100,
       slot: "operation"
     }
   ];

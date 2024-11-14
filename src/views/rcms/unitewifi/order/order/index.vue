@@ -30,14 +30,19 @@ const {
 </script>
 
 <template>
-  <div class="main">
+  <div class="main rcms-main">
     <component
       :is="searchForm.component"
       class="search-form bg-bg_color w-[99/100] pt-[12px] overflow-auto"
     />
 
+    <div class="rcms-table-btn">
+      <el-button type="success" plain :icon="useRenderIcon(Delete)">
+        导出
+      </el-button>
+    </div>
     <PureTableBar
-      title="套餐订单"
+      title=""
       :columns="columns"
       @refresh="onSearch"
       @fullscreen="onFullscreen"
@@ -82,7 +87,7 @@ const {
               :size="size"
               :icon="useRenderIcon(Delete)"
             >
-              删除
+              申请退款
             </el-button>
           </template>
         </pure-table>

@@ -36,23 +36,23 @@ const {
       class="search-form bg-bg_color w-[99/100] pt-[12px] overflow-auto"
     />
 
+    <div class="rcms-table-btn">
+      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+        停机/复机
+      </el-button>
+      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+        SIM卡导入
+      </el-button>
+      <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+        流量校准
+      </el-button>
+    </div>
     <PureTableBar
       title=""
       :columns="columns"
       @refresh="onSearch"
       @fullscreen="onFullscreen"
     >
-      <template #buttons>
-        <el-button type="primary" plain :icon="useRenderIcon(Delete)">
-          停机/复机
-        </el-button>
-        <el-button type="primary" plain :icon="useRenderIcon(Delete)">
-          SIM卡导入
-        </el-button>
-        <el-button type="primary" plain :icon="useRenderIcon(Delete)">
-          流量校准
-        </el-button>
-      </template>
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
           ref="tableRef"

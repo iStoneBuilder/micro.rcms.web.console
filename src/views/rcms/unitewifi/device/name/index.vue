@@ -30,14 +30,14 @@ const {
 </script>
 
 <template>
-  <div class="main">
+  <div class="main rcms-main">
     <component
       :is="searchForm.component"
       class="search-form bg-bg_color w-[99/100] pt-[12px] overflow-auto"
     />
 
     <PureTableBar
-      title="设备实名"
+      title=""
       :columns="columns"
       @refresh="onSearch"
       @fullscreen="onFullscreen"
@@ -63,17 +63,6 @@ const {
           }"
         >
           <template #operation="{ row }">
-            <el-button
-              v-if="hasPerms('permission:role:update')"
-              class="reset-margin"
-              link
-              :type="row.parentId == 0 ? 'info' : 'primary'"
-              :size="size"
-              :icon="useRenderIcon(Delete)"
-              :disabled="row.disabled"
-            >
-              详情
-            </el-button>
             <el-button
               v-if="hasPerms('permission:role:permission')"
               class="reset-margin"

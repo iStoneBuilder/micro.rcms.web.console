@@ -11,13 +11,13 @@ export function userManage() {
 
   const columns: TableColumnList = [
     {
-      label: "登录账号",
+      label: "设备组",
       prop: "name",
       width: 200,
       align: "left"
     },
     {
-      label: "用户昵称",
+      label: "编号",
       prop: "name",
       width: 200,
       align: "left"
@@ -25,19 +25,19 @@ export function userManage() {
     {
       label: "所属企业",
       prop: "name",
-      width: 300,
+      minWidth: 100,
       align: "left"
     },
     {
       label: "商户",
       prop: "name",
-      width: 300,
+      minWidth: 100,
       align: "left"
     },
     {
-      label: "注册时间",
+      label: "创建时间",
       prop: "name",
-      width: 300,
+      minWidth: 100,
       align: "left"
     },
     {
@@ -68,7 +68,7 @@ export function userManage() {
     loading.value = true;
     console.log(searchData, new Date());
     setTimeout(() => {
-      dataList.value = [];
+      dataList.value = [{}];
       loading.value = false;
     }, 500);
   }

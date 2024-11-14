@@ -11,39 +11,69 @@ export function userManage() {
 
   const columns: TableColumnList = [
     {
-      label: "登录账号",
+      label: "设备SN",
       prop: "name",
       width: 200,
       align: "left"
     },
     {
-      label: "用户昵称",
+      label: "IMEI",
       prop: "name",
       width: 200,
       align: "left"
     },
     {
-      label: "所属企业",
+      label: "上网模式",
       prop: "name",
-      width: 300,
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "在线?",
+      prop: "name",
+      minWidth: 100,
       align: "left"
     },
     {
       label: "商户",
       prop: "name",
-      width: 300,
+      minWidth: 100,
       align: "left"
     },
     {
-      label: "注册时间",
+      label: "设备类型",
       prop: "name",
-      width: 300,
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "设备组",
+      prop: "name",
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "入库批次号",
+      prop: "name",
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "检测状态",
+      prop: "name",
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "设备状态",
+      prop: "name",
+      minWidth: 100,
       align: "left"
     },
     {
       label: "操作",
       fixed: "right",
-      width: 210,
+      width: 160,
       slot: "operation"
     }
   ];
@@ -68,7 +98,7 @@ export function userManage() {
     loading.value = true;
     console.log(searchData, new Date());
     setTimeout(() => {
-      dataList.value = [];
+      dataList.value = [{}, {}];
       loading.value = false;
     }, 500);
   }

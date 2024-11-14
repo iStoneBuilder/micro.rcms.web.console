@@ -11,39 +11,45 @@ export function userManage() {
 
   const columns: TableColumnList = [
     {
-      label: "登录账号",
-      prop: "name",
-      width: 200,
-      align: "left"
-    },
-    {
-      label: "用户昵称",
-      prop: "name",
-      width: 200,
-      align: "left"
-    },
-    {
-      label: "所属企业",
-      prop: "name",
-      width: 300,
-      align: "left"
-    },
-    {
       label: "商户",
       prop: "name",
-      width: 300,
+      width: 200,
       align: "left"
     },
     {
-      label: "注册时间",
+      label: "总金额(¥)",
       prop: "name",
-      width: 300,
+      width: 200,
+      align: "left"
+    },
+    {
+      label: "平台支付金额(¥)",
+      prop: "name",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "用户支付金额(¥)",
+      prop: "name",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "退款金额(¥)",
+      prop: "name",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "统计月份",
+      prop: "name",
+      minWidth: 200,
       align: "left"
     },
     {
       label: "操作",
       fixed: "right",
-      width: 210,
+      width: 120,
       slot: "operation"
     }
   ];
@@ -68,7 +74,7 @@ export function userManage() {
     loading.value = true;
     console.log(searchData, new Date());
     setTimeout(() => {
-      dataList.value = [];
+      dataList.value = [{}];
       loading.value = false;
     }, 500);
   }

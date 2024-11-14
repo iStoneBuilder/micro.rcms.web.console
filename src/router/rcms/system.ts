@@ -60,6 +60,33 @@ export default {
         icon: "ri:user-6-line",
         title: "用户管理"
       }
+    },
+    {
+      path: "/system/userManage1",
+      name: "栏目管理",
+      component: () => import("@/views/rcms/system/usermange/index.vue"),
+      meta: {
+        icon: "ri:align-center",
+        title: "栏目管理"
+      }
+    },
+    {
+      path: "/system/userManage2",
+      name: "字典管理",
+      component: () => import("@/views/rcms/system/usermange/index.vue"),
+      meta: {
+        icon: "ep:tickets",
+        title: "字典管理"
+      }
+    },
+    {
+      path: "/system/userManage3",
+      name: "接口管理",
+      component: () => import("@/views/rcms/system/usermange/index.vue"),
+      meta: {
+        icon: "ri:usb-line",
+        title: "接口管理"
+      }
     }
   ]
 } satisfies RouteConfigsTable;

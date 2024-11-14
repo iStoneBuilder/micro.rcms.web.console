@@ -11,13 +11,13 @@ const { handleSearchImpl } = searchManage();
 
 const columns: PlusColumn[] = [
   {
-    label: "名称",
+    label: "设备SN",
     prop: "name",
     valueType: "copy",
     tooltip: "名称最多显示6个字符"
   },
   {
-    label: "状态",
+    label: "用户名",
     prop: "status",
     valueType: "select",
     options: [
@@ -44,7 +44,7 @@ const columns: PlusColumn[] = [
     ]
   },
   {
-    label: "时间",
+    label: "套餐名",
     prop: "time",
     valueType: "date-picker"
   }
@@ -67,7 +67,7 @@ const handleRest = () => {
     :columns="columns"
     :show-number="3"
     :col-props="{ xs: 1, sm: 1, md: 6, lg: 6, xl: 6 }"
-    label-width="80"
+    label-width="120"
     label-position="right"
     @change="handleChange"
     @search="handleSearch"

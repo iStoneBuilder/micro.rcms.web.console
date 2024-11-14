@@ -1,5 +1,3 @@
-import { nextTick } from "process";
-import Search from "../search.vue";
 import { onMounted, ref, reactive } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 
@@ -11,40 +9,28 @@ export function userManage() {
 
   const columns: TableColumnList = [
     {
-      label: "登录账号",
+      label: "入库批次号",
       prop: "name",
-      width: 200,
+      minWidth: 100,
       align: "left"
     },
     {
-      label: "用户昵称",
+      label: "入库设备数",
       prop: "name",
-      width: 200,
+      minWidth: 100,
       align: "left"
     },
     {
-      label: "所属企业",
+      label: "操作者",
       prop: "name",
-      width: 300,
+      minWidth: 100,
       align: "left"
     },
     {
-      label: "商户",
+      label: "操作时间",
       prop: "name",
-      width: 300,
+      minWidth: 100,
       align: "left"
-    },
-    {
-      label: "注册时间",
-      prop: "name",
-      width: 300,
-      align: "left"
-    },
-    {
-      label: "操作",
-      fixed: "right",
-      width: 210,
-      slot: "operation"
     }
   ];
   const pagination = reactive<PaginationProps>({
@@ -53,11 +39,6 @@ export function userManage() {
     currentPage: 1,
     background: true
   });
-  const searchForm = {
-    key: "search",
-    title: "查询表单",
-    component: Search
-  };
   function viewDetail(title: string, row: object) {
     console.log(title, row);
   }
@@ -80,20 +61,8 @@ export function userManage() {
     columns,
     pagination,
     dataList,
-    searchForm,
     onSearch,
     viewDetail,
     handleDelete
   };
-}
-
-export function searchManage() {
-  // 处理搜索页面的操作
-  function handleSearchImpl(op: string, search: object) {
-    searchData = search;
-    nextTick(() => {
-      userManage()?.onSearch();
-    });
-  }
-  return { handleSearchImpl };
 }
