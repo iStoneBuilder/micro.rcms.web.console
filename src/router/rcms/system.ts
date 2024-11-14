@@ -80,9 +80,9 @@ export default {
       }
     },
     {
-      path: "/system/userManage3",
+      path: "/system/apis",
       name: "接口管理",
-      component: () => import("@/views/rcms/system/usermange/index.vue"),
+      component: () => import("@/views/rcms/frame/apis/index.vue"),
       meta: {
         icon: "ri:usb-line",
         title: "接口管理"
