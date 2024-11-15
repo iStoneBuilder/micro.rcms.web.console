@@ -10,26 +10,79 @@
         showNumber: 3
       }"
       :table="{
-        isSelection: true
+        isSelection: true,
+        onSelectionChange: handleSelect
       }"
       :default-page-info="defaultPageInfo"
       :default-page-size-list="[5, 15, 20, 50]"
-    />
+    >
+      <template #table-title>
+        <div class="rcms-plus-bar" style="display: flex">
+          <el-row class="button-row" style="width: 300px; padding-right: 10px">
+            <el-select
+              v-model="selectAccount"
+              placeholder="请选择程序账户"
+              class="w-full"
+              clearable
+            >
+              <el-option
+                v-for="item in appAccount"
+                :key="item.code"
+                :label="item.name"
+                :value="item.code"
+              />
+            </el-select>
+          </el-row>
+          <el-row class="button-row">
+            <el-button
+              v-if="hasPerms('permission:role:update')"
+              type="primary"
+              plain
+              :icon="Plus"
+              @click="handleAccountPerm"
+            >
+              授权
+            </el-button>
+          </el-row>
+        </div>
+      </template>
+    </PlusPage>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { message } from "@/utils/message";
+import { ref, reactive, onMounted } from "vue";
+import { hasPerms } from "@/utils/auth";
 import type { PlusColumn, PageInfo } from "plus-pro-components";
 import { ElButton } from "element-plus";
 import { Plus, Delete } from "@element-plus/icons-vue";
 import { Search, Refresh, ArrowDown, ArrowUp } from "@element-plus/icons-vue";
-import list from "mock/list";
+import { getAccountPageList } from "@/api/rcms/account";
 import { getPermissionPageList } from "@/api/rcms/permission";
 
 const defaultPageInfo = {
   page: 1,
   pageSize: 15
 };
+interface State {
+  /**
+   * 当前选择多行的id集合
+   */
+  selectedIds: string[];
+}
+const state = reactive<State>({
+  selectedIds: []
+});
+const appAccount = ref([]);
+async function loadAppAccount() {
+  const { data } = await getAccountPageList(1, 100, { type: "app" });
+  appAccount.value = data.data;
+}
+
+onMounted(() => {
+  loadAppAccount();
+});
 
 const getList = async (query: PageInfo) => {
   const { page = 1, pageSize = 15 } = query || {};
@@ -126,4 +179,24 @@ const tableConfig: PlusColumn[] = [
     ]
   }
 ];
+const selectAccount = ref();
+function handleSelect(data: any) {
+  state.selectedIds = [...data].map(item => item.code);
+}
+function handleAccountPerm() {
+  if (!selectAccount.value) {
+    message(`请选择需要授权的程序账户`, {
+      type: "warning",
+      duration: 5000
+    });
+    return;
+  }
+  if (!state.selectedIds.length) {
+    message(`请选择OpenApi授权，非OpenApi不允许授权程序账户访问`, {
+      type: "warning",
+      duration: 5000
+    });
+    return;
+  }
+}
 </script>
