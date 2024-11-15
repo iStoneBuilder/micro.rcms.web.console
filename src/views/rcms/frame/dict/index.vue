@@ -55,8 +55,10 @@
     />
     <PlusDialog
       v-model="show"
+      class="rcms-plus-dialog"
       title="字典子项配置"
       width="80%"
+      top="5%"
       :hasFooter="false"
     >
       <component

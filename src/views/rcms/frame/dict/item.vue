@@ -43,10 +43,17 @@
       v-if="visible"
       v-model:visible="visible"
       v-model="form"
-      :form="{ columns, labelPosition: 'top', rules }"
+      :form="{
+        columns,
+        labelPosition: 'top',
+        rules,
+        colProps: { span: 12 },
+        rowProps: { gutter: 20 },
+        labelWidth: '80px'
+      }"
       :dialog="{
-        title: title + '字典项',
-        width: '500px',
+        title: title + '字典子项',
+        width: '600px',
         top: '12vh',
         loading
       }"
@@ -74,6 +81,7 @@ import {
 import { hasPerms } from "@/utils/auth";
 
 import { defaultPageInfo, buildChildColum, State } from "./hook";
+import { colProps, rowProps } from "element-plus";
 
 const router = useRouter();
 

@@ -45,6 +45,7 @@ export function buildColum(handleClickButton: Function) {
         align: "center"
       },
       tableColumnProps: {
+        fixed: "right",
         align: "center"
       },
       render: (value, { index, row }) => {
@@ -159,7 +160,10 @@ export function buildChildColum(handleClickButton: Function) {
       minWidth: 200,
       prop: "description",
       valueType: "textarea",
-      hideInSearch: true
+      hideInSearch: true,
+      colProps: {
+        span: 24
+      }
     },
     {
       label: "操作",
@@ -171,6 +175,7 @@ export function buildChildColum(handleClickButton: Function) {
         align: "center"
       },
       tableColumnProps: {
+        fixed: "right",
         align: "center"
       },
       render: (value, { index, row }) => {
