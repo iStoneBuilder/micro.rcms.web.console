@@ -1,7 +1,7 @@
 <template>
   <div class="rcms-plus-page">
     <PlusPage
-      :columns="tableConfig"
+      :columns="columns"
       has-index-column
       :request="getList"
       :search="{
@@ -22,6 +22,7 @@
             type="primary"
             plain
             :icon="Plus"
+            @click="handleCreate"
           >
             新增
           </el-button>
@@ -36,24 +37,32 @@
         </el-row>
       </template>
     </PlusPage>
+    <!-- 弹窗编辑 -->
+    <PlusDialogForm
+      v-if="visible"
+      v-model:visible="visible"
+      v-model="form"
+      :form="{ columns, labelPosition: 'top', rules }"
+      :dialog="{
+        title: dialogTitle + '用户组',
+        width: '500px',
+        top: '12vh',
+        loading
+      }"
+      @confirm="handleSubmit"
+      @cancel="handleCancel"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { h, Fragment } from "vue";
-import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+import { reactive, computed, toRefs } from "vue";
 import type { PlusColumn, PageInfo } from "plus-pro-components";
-import { ElButton } from "element-plus";
-import { Plus, Delete, Setting, EditPen } from "@element-plus/icons-vue";
-import { Search, Refresh, ArrowDown, ArrowUp } from "@element-plus/icons-vue";
-import list from "mock/list";
+import { Plus, Delete } from "@element-plus/icons-vue";
 import { getClassifyPageList } from "@/api/rcms/classifyitem";
-import { renderPermBtn, hasPerms } from "@/utils/auth";
+import { hasPerms } from "@/utils/auth";
 
-const defaultPageInfo = {
-  page: 1,
-  pageSize: 15
-};
+import { defaultPageInfo, buildColum, State } from "./hook";
 
 const getList = async (query: PageInfo) => {
   const { page = 1, pageSize = 15 } = query || {};
@@ -71,64 +80,69 @@ const getList = async (query: PageInfo) => {
   return { data: data.data, success: true, total: data.meta.totalRows };
 };
 
-const method = {
-  GET: "success",
-  PUT: "primary",
-  POST: "warning",
-  DELETE: "danger"
-};
-
-function handleMethodShow(value: string) {
-  return method[value];
-}
 function handleClickButton(e, value, index, row, item) {
   console.log(e, value, index, row, item);
 }
 
-const buttons = [
-  { name: "编辑", type: "primary", perm: null, icon: EditPen },
-  { name: "删除", type: "danger", perm: null, icon: Delete },
-  { name: "配置", type: "primary", perm: "aaa", icon: Setting }
-];
+const columns: PlusColumn[] = buildColum(handleClickButton);
 
-const tableConfig: PlusColumn[] = [
-  {
-    label: "字典项",
-    minWidth: 200,
-    prop: "name",
-    tableColumnProps: {
-      showOverflowTooltip: true
-    }
+const state = reactive<State>({
+  visible: false,
+  loading: false,
+  isCreate: true,
+  form: {
+    classifyName: "",
+    classifyCode: "",
+    description: ""
   },
-  {
-    label: "字典项名称",
-    minWidth: 300,
-    prop: "authCode"
-  },
-  {
-    label: "描述",
-    minWidth: 500,
-    prop: "path",
-    hideInSearch: true
-  },
-  {
-    label: "操作",
-    width: 250,
-    prop: "path",
-    hideInSearch: true,
-    tableColumnProps: {
-      align: "center"
-    },
-    render: (value, { index, row }) => {
-      const CustomButton = renderPermBtn(
-        buttons,
-        handleClickButton,
-        value,
-        index,
-        row
-      );
-      return h(Fragment, CustomButton);
-    }
+  rules: {
+    classifyCode: [
+      {
+        required: true,
+        message: "请输入字典项"
+      }
+    ],
+    classifyName: [
+      {
+        required: true,
+        message: "请输入字典项名称"
+      }
+    ]
   }
-];
+});
+const dialogTitle = computed(() => (state.isCreate ? "新增" : "编辑"));
+// 创建
+const handleCreate = (): void => {
+  state.form = {
+    classifyName: "",
+    classifyCode: "",
+    description: ""
+  };
+  state.isCreate = true;
+  state.visible = true;
+};
+// 取消
+const handleCancel = () => {
+  state.visible = false;
+};
+
+// 提交表单成功
+const handleSubmit = async () => {
+  try {
+    state.loading = true;
+    const params = { ...state.form };
+    // if (state.isCreate) {
+    //   await GroupServe.create(params);
+    //   ElMessage.success("创建成功");
+    // } else {
+    //   await GroupServe.update(params);
+    //   ElMessage.success("更新成功");
+    // }
+    // handleCancel();
+    // refresh();
+  } catch (error) {}
+  state.loading = false;
+};
+
+const { form, loading, rules, visible } = toRefs(state);
 </script>
