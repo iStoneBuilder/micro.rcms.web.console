@@ -11,7 +11,8 @@
         showNumber: 3
       }"
       :table="{
-        isSelection: true
+        isSelection: true,
+        adaptive: { offsetBottom: 100 }
       }"
       :default-page-info="defaultPageInfo"
       :default-page-size-list="[5, 15, 20, 50]"

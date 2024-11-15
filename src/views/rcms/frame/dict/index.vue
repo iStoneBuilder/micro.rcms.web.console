@@ -11,7 +11,8 @@
         showNumber: 3
       }"
       :table="{
-        isSelection: true
+        isSelection: true,
+        adaptive: { offsetBottom: 80 }
       }"
       :default-page-info="defaultPageInfo"
       :default-page-size-list="[5, 15, 20, 50]"
@@ -67,7 +68,7 @@
       class="rcms-plus-dialog"
       title="字典子项配置"
       width="80%"
-      top="5%"
+      top="2%"
       :hasFooter="false"
     >
       <component
