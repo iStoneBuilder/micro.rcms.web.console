@@ -53,17 +53,6 @@
       @confirm="handleSubmit"
       @cancel="handleCancel"
     />
-    <PlusDialog
-      v-model="show"
-      title="字典子项配置"
-      width="80%"
-      :hasFooter="false"
-    >
-      <component
-        :is="item.component"
-        class="search-form bg-bg_color w-[99/100] pt-[12px] overflow-auto"
-      />
-    </PlusDialog>
   </div>
 </template>
 
@@ -83,16 +72,8 @@ import {
   updateClassify
 } from "@/api/rcms/classifyitem";
 import { hasPerms } from "@/utils/auth";
-import Item from "./item.vue";
 
-import { defaultPageInfo, buildColum, State } from "./hook";
-const show = ref(false);
-
-const item = {
-  key: "search",
-  title: "查询表单",
-  component: Item
-};
+import { defaultPageInfo, buildChildColum, State } from "./hook";
 
 const router = useRouter();
 
@@ -129,13 +110,12 @@ function handleClickButton(e, value, index, row, item) {
       // handleDelete();
       break;
     case "配置":
-      show.value = true;
       //router.push({ path: "/system/dict/item" });
       break;
   }
 }
 
-const columns: PlusColumn[] = buildColum(handleClickButton);
+const columns: PlusColumn[] = buildChildColum(handleClickButton);
 const REGEXP_CODE = /^[a-zA-Z][a-zA-Z0-9_]*[a-zA-Z]$/;
 const state = reactive<State>({
   visible: false,
