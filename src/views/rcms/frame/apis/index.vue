@@ -14,29 +14,7 @@
       }"
       :default-page-info="defaultPageInfo"
       :default-page-size-list="[5, 15, 20, 50]"
-    >
-      <template
-        #search-footer="{
-          handleReset,
-          handleSearch,
-          handleUnfold,
-          isShowUnfold
-        }"
-      >
-        <div style="display: flex">
-          <el-button type="primary" :icon="Search" @click="handleSearch"
-            >搜索</el-button
-          >
-          <el-button :icon="Refresh" @click="handleReset">重置</el-button>
-          <el-button
-            :icon="isShowUnfold ? ArrowUp : ArrowDown"
-            @click="handleUnfold"
-          >
-            {{ isShowUnfold ? "收起" : "展开" }}
-          </el-button>
-        </div>
-      </template>
-    </PlusPage>
+    />
   </div>
 </template>
 

@@ -80,4 +80,20 @@
       }
     }
   }
+  // 所属按钮交换位置
+  .plus-search__button__wrapper{
+    .el-form-item__content{
+      display: flex !important;
+      justify-content: end !important;
+      flex-flow: row-reverse !important;  //关键
+      .el-button{
+        margin-left: 12px;
+        margin-right: 0px;
+        float: right;
+      }
+      .el-button:first-child{
+        float: left;
+      }
+    }
+  }
 }

@@ -15,31 +15,24 @@
       :default-page-info="defaultPageInfo"
       :default-page-size-list="[5, 15, 20, 50]"
     >
-      <template
-        #search-footer="{
-          handleReset,
-          handleSearch,
-          handleUnfold,
-          isShowUnfold
-        }"
-      >
-        <div style="display: flex">
-          <el-button type="primary" :icon="Search" @click="handleSearch"
-            >搜索</el-button
-          >
-          <el-button :icon="Refresh" @click="handleReset">重置</el-button>
-          <el-button
-            :icon="isShowUnfold ? ArrowUp : ArrowDown"
-            @click="handleUnfold"
-          >
-            {{ isShowUnfold ? "收起" : "展开" }}
-          </el-button>
-        </div>
-      </template>
       <template #table-title>
         <el-row class="button-row">
-          <el-button type="primary" plain :icon="Plus"> 新增 </el-button>
-          <el-button type="danger" plain :icon="Delete"> 删除 </el-button>
+          <el-button
+            v-if="hasPerms('permission:role:update')"
+            type="primary"
+            plain
+            :icon="Plus"
+          >
+            新增
+          </el-button>
+          <el-button
+            v-if="hasPerms('permission:role:update')"
+            type="danger"
+            plain
+            :icon="Delete"
+          >
+            删除
+          </el-button>
         </el-row>
       </template>
     </PlusPage>
@@ -55,7 +48,7 @@ import { Plus, Delete, Setting, EditPen } from "@element-plus/icons-vue";
 import { Search, Refresh, ArrowDown, ArrowUp } from "@element-plus/icons-vue";
 import list from "mock/list";
 import { getPermissionPageList } from "@/api/rcms/permission";
-import { renderPermBtn } from "@/utils/auth";
+import { renderPermBtn, hasPerms } from "@/utils/auth";
 
 const defaultPageInfo = {
   page: 1,
