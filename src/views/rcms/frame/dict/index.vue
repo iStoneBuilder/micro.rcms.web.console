@@ -1,6 +1,7 @@
 <template>
   <div class="rcms-plus-page">
     <PlusPage
+      ref="plusPageInstance"
       :columns="columns"
       has-index-column
       :request="getList"
@@ -44,7 +45,7 @@
       v-model="form"
       :form="{ columns, labelPosition: 'top', rules }"
       :dialog="{
-        title: dialogTitle + '用户组',
+        title: title + '字典项',
         width: '500px',
         top: '12vh',
         loading
@@ -56,10 +57,19 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, computed, toRefs } from "vue";
-import type { PlusColumn, PageInfo } from "plus-pro-components";
+import { message } from "@/utils/message";
+import { reactive, computed, toRefs, ref } from "vue";
+import type {
+  PlusColumn,
+  PageInfo,
+  PlusPageInstance
+} from "plus-pro-components";
 import { Plus, Delete } from "@element-plus/icons-vue";
-import { getClassifyPageList } from "@/api/rcms/classifyitem";
+import {
+  getClassifyPageList,
+  createClassify,
+  updateClassify
+} from "@/api/rcms/classifyitem";
 import { hasPerms } from "@/utils/auth";
 
 import { defaultPageInfo, buildColum, State } from "./hook";
@@ -79,17 +89,22 @@ const getList = async (query: PageInfo) => {
   });
   return { data: data.data, success: true, total: data.meta.totalRows };
 };
+const plusPageInstance = ref<PlusPageInstance | null>(null);
+// 重新请求列表接口
+const refresh = () => {
+  plusPageInstance.value?.getList();
+};
 
 function handleClickButton(e, value, index, row, item) {
   console.log(e, value, index, row, item);
 }
 
 const columns: PlusColumn[] = buildColum(handleClickButton);
-
+const REGEXP_CODE = /^[a-zA-Z][a-zA-Z0-9_]*[a-zA-Z]$/;
 const state = reactive<State>({
   visible: false,
   loading: false,
-  isCreate: true,
+  isCreate: false,
   form: {
     classifyName: "",
     classifyCode: "",
@@ -100,17 +115,40 @@ const state = reactive<State>({
       {
         required: true,
         message: "请输入字典项"
+      },
+      {
+        validator: (rule, value, callback) => {
+          if (!REGEXP_CODE.test(value)) {
+            callback(
+              new Error("字典项包含：字母、下划线、数字，必须字母开始结尾")
+            );
+          }
+          if (value.length > 100) {
+            callback(new Error("字典项最多包含100个字符"));
+          }
+          callback();
+        },
+        trigger: "blur"
       }
     ],
     classifyName: [
       {
         required: true,
         message: "请输入字典项名称"
+      },
+      {
+        validator: (rule, value, callback) => {
+          if (value.length > 100) {
+            callback(new Error("字典项名称最多包含100个字符"));
+          }
+          callback();
+        },
+        trigger: "blur"
       }
     ]
   }
 });
-const dialogTitle = computed(() => (state.isCreate ? "新增" : "编辑"));
+const title = computed(() => (state.isCreate ? "新增" : "编辑"));
 // 创建
 const handleCreate = (): void => {
   state.form = {
@@ -131,15 +169,21 @@ const handleSubmit = async () => {
   try {
     state.loading = true;
     const params = { ...state.form };
-    // if (state.isCreate) {
-    //   await GroupServe.create(params);
-    //   ElMessage.success("创建成功");
-    // } else {
-    //   await GroupServe.update(params);
-    //   ElMessage.success("更新成功");
-    // }
-    // handleCancel();
-    // refresh();
+    if (state.isCreate) {
+      await createClassify(params);
+      message(`${title.value}成功！`, {
+        type: "success"
+      });
+    } else {
+      await updateClassify(params.classifyCode, params);
+      message(`${title.value}成功！`, {
+        type: "success"
+      });
+    }
+    // 关闭弹出框
+    handleCancel();
+    // 刷新列表
+    refresh();
   } catch (error) {}
   state.loading = false;
 };
