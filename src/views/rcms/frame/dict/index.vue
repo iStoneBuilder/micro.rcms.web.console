@@ -47,7 +47,7 @@ import { ElButton } from "element-plus";
 import { Plus, Delete, Setting, EditPen } from "@element-plus/icons-vue";
 import { Search, Refresh, ArrowDown, ArrowUp } from "@element-plus/icons-vue";
 import list from "mock/list";
-import { getPermissionPageList } from "@/api/rcms/permission";
+import { getClassifyPageList } from "@/api/rcms/classifyitem";
 import { renderPermBtn, hasPerms } from "@/utils/auth";
 
 const defaultPageInfo = {
@@ -60,7 +60,7 @@ const getList = async (query: PageInfo) => {
   const params = query;
   delete params.page;
   delete params.pageSize;
-  const { data } = await getPermissionPageList(page, pageSize, params);
+  const { data } = await getClassifyPageList(page, pageSize, params);
 
   // 等待2s
   await new Promise(resolve => {
