@@ -93,7 +93,6 @@ export const childButtons = [
   { name: "编辑", type: "primary", perm: null, icon: EditPen },
   { name: "删除", type: "danger", perm: null, icon: Delete }
 ];
-
 export function buildChildColum(handleClickButton: Function) {
   const columns: PlusColumn[] = [
     {
@@ -123,7 +122,12 @@ export function buildChildColum(handleClickButton: Function) {
     {
       label: "是否启用",
       minWidth: 100,
-      prop: "classifyName"
+      prop: "classifyName",
+      valueType: "select",
+      options: [
+        { value: "Y", label: "是" },
+        { value: "N", label: "否" }
+      ]
     },
     {
       label: "扩展1",

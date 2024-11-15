@@ -43,7 +43,16 @@
       v-if="visible"
       v-model:visible="visible"
       v-model="form"
-      :form="{ columns, labelPosition: 'top', rules }"
+      class="rcms-plus-form"
+      :form="{
+        columns,
+        labelPosition: 'left',
+        rules,
+        labelWidth: '100px',
+        colProps: {
+          span: 23
+        }
+      }"
       :dialog="{
         title: title + '字典项',
         width: '500px',
