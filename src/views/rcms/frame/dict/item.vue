@@ -67,7 +67,7 @@
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
 import { message } from "@/utils/message";
-import { reactive, computed, toRefs, ref } from "vue";
+import { reactive, computed, toRefs, ref, defineProps } from "vue";
 import type {
   PlusColumn,
   PageInfo,
@@ -75,23 +75,24 @@ import type {
 } from "plus-pro-components";
 import { Plus, Delete } from "@element-plus/icons-vue";
 import {
-  getClassifyPageList,
+  getClassifyItemList,
   createClassify,
   updateClassify
 } from "@/api/rcms/classifyitem";
 import { hasPerms } from "@/utils/auth";
-
 import { defaultPageInfo, buildChildColum, State } from "./hook";
-import { colProps, rowProps } from "element-plus";
 
 const router = useRouter();
-
-const getList = async (query: PageInfo) => {
+const props = defineProps<{
+  currentRow: any;
+}>();
+const getList = async (query: PageInfo & { classifyCode: string }) => {
   const { page = 1, pageSize = 15 } = query || {};
-  const params = query;
+  const params = { ...query };
   delete params.page;
   delete params.pageSize;
-  const { data } = await getClassifyPageList(page, pageSize, params);
+  params.classifyCode = props.currentRow.classifyCode;
+  const { data } = await getClassifyItemList(page, pageSize, params);
 
   // 等待2s
   await new Promise(resolve => {

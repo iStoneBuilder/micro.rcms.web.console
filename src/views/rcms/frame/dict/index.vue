@@ -74,6 +74,7 @@
       <component
         :is="item.component"
         class="search-form bg-bg_color w-[99/100] pt-[12px] overflow-auto"
+        :currentRow="currentRow"
       />
     </PlusDialog>
   </div>
@@ -97,12 +98,13 @@ import {
 } from "@/api/rcms/classifyitem";
 import { hasPerms } from "@/utils/auth";
 import Item from "./item.vue";
-import { defaultPageInfo, buildColum, State, buildEditColum } from "./hook";
+import { defaultPageInfo, buildColum, State } from "./hook";
 
 const show = ref(false);
+const currentRow = ref({});
 const item = {
-  key: "search",
-  title: "查询表单",
+  key: "Item",
+  title: "子项配置",
   component: Item
 };
 const REGEXP_CODE = /^[a-zA-Z][a-zA-Z0-9_]*[a-zA-Z]$/;
@@ -147,6 +149,7 @@ function handleClickButton(e, value, index, row, item) {
       handleDelete(row);
       break;
     case "配置":
+      currentRow.value = { ...row };
       show.value = true;
       break;
   }
@@ -218,6 +221,7 @@ const handleDelete = async (row): Promise<void> => {
   message(`删除成功！`, {
     type: "success"
   });
+  refresh();
 };
 // 取消
 const handleCancel = () => {

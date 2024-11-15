@@ -1,4 +1,4 @@
-import { h, Fragment, computed } from "vue";
+import { h, Fragment } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 import type { FormRules } from "element-plus";
 import { Delete, Setting, EditPen } from "@element-plus/icons-vue";
@@ -65,31 +65,6 @@ export function buildColum(handleClickButton: Function) {
   ];
   return columns;
 }
-export function buildEditColum(state: any) {
-  const columns: PlusColumn[] = [
-    {
-      label: "字典项",
-      minWidth: 200,
-      prop: "classifyCode",
-      fieldProps: computed(() => ({
-        disabled: !state?.isCreate
-      }))
-    },
-    {
-      label: "字典项名称",
-      minWidth: 100,
-      prop: "classifyName"
-    },
-    {
-      label: "描述",
-      minWidth: 500,
-      prop: "description",
-      valueType: "textarea",
-      hideInSearch: true
-    }
-  ];
-  return columns;
-}
 export interface State {
   /**
    * 表单弹窗是否可见
@@ -124,7 +99,7 @@ export const childButtons = [
 export function buildChildColum(handleClickButton: Function) {
   const columns: PlusColumn[] = [
     {
-      label: "编码",
+      label: "项编码",
       minWidth: 200,
       prop: "classifyCode",
       columnsProps: {
@@ -133,7 +108,7 @@ export function buildChildColum(handleClickButton: Function) {
     },
     {
       label: "名称",
-      minWidth: 100,
+      minWidth: 200,
       prop: "classifyName"
     },
     {

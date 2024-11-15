@@ -40,3 +40,16 @@ export const deleteClassify = (id?: string) => {
     `/test/services/rcms/classify/records/${id}`
   );
 };
+export const getClassifyItemList = (
+  curPage: number,
+  pageSize: number,
+  params?: object
+) => {
+  return http.request<ResultPage>(
+    "get",
+    `/test/services/rcms/classify/records/item/page/${curPage}/${pageSize}`,
+    {
+      params
+    }
+  );
+};
