@@ -55,6 +55,7 @@ import { Plus, Delete, Setting, EditPen } from "@element-plus/icons-vue";
 import { Search, Refresh, ArrowDown, ArrowUp } from "@element-plus/icons-vue";
 import list from "mock/list";
 import { getPermissionPageList } from "@/api/rcms/permission";
+import { renderPermBtn } from "@/utils/auth";
 
 const defaultPageInfo = {
   page: 1,
@@ -87,7 +88,15 @@ const method = {
 function handleMethodShow(value: string) {
   return method[value];
 }
-function handleClickButton(e, value, index, row, item) {}
+function handleClickButton(e, value, index, row, item) {
+  console.log(e, value, index, row, item);
+}
+
+const buttons = [
+  { name: "编辑", type: "primary", perm: null, icon: EditPen },
+  { name: "删除", type: "danger", perm: null, icon: Delete },
+  { name: "配置", type: "primary", perm: "aaa", icon: Setting }
+];
 
 const tableConfig: PlusColumn[] = [
   {
@@ -110,27 +119,20 @@ const tableConfig: PlusColumn[] = [
     hideInSearch: true
   },
   {
-    label: "自定义操作栏",
+    label: "操作",
     width: 250,
     prop: "path",
+    hideInSearch: true,
     tableColumnProps: {
       align: "center"
     },
     render: (value, { index, row }) => {
-      const buttons = ["编辑", "删除", "配置"];
-      const CustomButton = buttons.map(item =>
-        h(
-          ElButton,
-          {
-            type: item === "删除" ? "danger" : "primary",
-            plain: true,
-            link: true,
-            icon:
-              item === "删除" ? Delete : item === "配置" ? Setting : EditPen,
-            onClick: e => handleClickButton(e, value, index, row, item)
-          },
-          () => item
-        )
+      const CustomButton = renderPermBtn(
+        buttons,
+        handleClickButton,
+        value,
+        index,
+        row
       );
       return h(Fragment, CustomButton);
     }

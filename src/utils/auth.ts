@@ -1,4 +1,6 @@
 import Cookies from "js-cookie";
+import { h } from "vue";
+import { ElButton } from "element-plus";
 import { useUserStoreHook } from "@/store/modules/user";
 import { storageLocal, isString, isIncludeAllChildren } from "@pureadmin/utils";
 
@@ -166,4 +168,39 @@ export const hasPerms = (value: string | Array<string>): boolean => {
     ? permissions.includes(value)
     : isIncludeAllChildren(value, permissions);
   return isAuths ? true : false;
+};
+
+export type btn = {
+  name: string;
+  type: any;
+  perm: string;
+  icon: object;
+};
+export type renderBtns = Array<btn>;
+
+export const renderPermBtn = (
+  buttons: renderBtns,
+  handleClickButton: Function,
+  value: PointerEvent,
+  index: number,
+  row: any
+) => {
+  const CustomButton = buttons.map(item => {
+    if (item.perm === null || item.perm === "" || hasPerms(item.perm)) {
+      return h(
+        ElButton,
+        {
+          type: item.type,
+          plain: true,
+          link: true,
+          disabled: false,
+          icon: item.icon,
+          onClick: e => handleClickButton(e, value, index, row, item)
+        },
+        () => item.name
+      );
+    }
+    return h("", {}, "");
+  });
+  return CustomButton;
 };
