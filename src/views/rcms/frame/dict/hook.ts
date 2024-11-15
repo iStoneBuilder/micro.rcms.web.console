@@ -1,4 +1,4 @@
-import { h, Fragment } from "vue";
+import { h, Fragment, computed } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 import type { FormRules } from "element-plus";
 import { Delete, Setting, EditPen } from "@element-plus/icons-vue";
@@ -21,6 +21,9 @@ export function buildColum(handleClickButton: Function) {
       prop: "classifyCode",
       columnsProps: {
         showOverflowTooltip: true
+      },
+      fieldProps: {
+        disabled: false
       }
     },
     {
@@ -58,6 +61,31 @@ export function buildColum(handleClickButton: Function) {
         );
         return h(Fragment, CustomButton);
       }
+    }
+  ];
+  return columns;
+}
+export function buildEditColum(state: any) {
+  const columns: PlusColumn[] = [
+    {
+      label: "字典项",
+      minWidth: 200,
+      prop: "classifyCode",
+      fieldProps: computed(() => ({
+        disabled: !state?.isCreate
+      }))
+    },
+    {
+      label: "字典项名称",
+      minWidth: 100,
+      prop: "classifyName"
+    },
+    {
+      label: "描述",
+      minWidth: 500,
+      prop: "description",
+      valueType: "textarea",
+      hideInSearch: true
     }
   ];
   return columns;

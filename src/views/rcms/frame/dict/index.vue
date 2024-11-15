@@ -3,7 +3,6 @@
     <PlusPage
       ref="plusPageInstance"
       :columns="columns"
-      has-index-column
       :request="getList"
       :search="{
         labelWidth: '100px',
@@ -11,6 +10,7 @@
         showNumber: 3
       }"
       :table="{
+        hasIndexColumn: true,
         isSelection: true,
         adaptive: { offsetBottom: 70 }
       }"
@@ -97,16 +97,15 @@ import {
 } from "@/api/rcms/classifyitem";
 import { hasPerms } from "@/utils/auth";
 import Item from "./item.vue";
+import { defaultPageInfo, buildColum, State, buildEditColum } from "./hook";
 
-import { defaultPageInfo, buildColum, State } from "./hook";
 const show = ref(false);
-
 const item = {
   key: "search",
   title: "查询表单",
   component: Item
 };
-
+const REGEXP_CODE = /^[a-zA-Z][a-zA-Z0-9_]*[a-zA-Z]$/;
 const router = useRouter();
 
 const getList = async (query: PageInfo) => {
@@ -129,12 +128,18 @@ const plusPageInstance = ref<PlusPageInstance | null>(null);
 const refresh = () => {
   plusPageInstance.value?.getList();
 };
-
+function disabledColumns(columns: Array<any>, disabled: boolean) {
+  columns[0].fieldProps = {
+    disabled: disabled
+  };
+}
 function handleClickButton(e, value, index, row, item) {
   switch (item.name) {
     case "编辑":
       state.form = { ...row } as any;
       state.isCreate = false;
+      // 编辑时设置不能修改项
+      disabledColumns(columns, true);
       state.visible = true;
       break;
     case "删除":
@@ -147,8 +152,6 @@ function handleClickButton(e, value, index, row, item) {
   }
 }
 
-const columns: PlusColumn[] = buildColum(handleClickButton);
-const REGEXP_CODE = /^[a-zA-Z][a-zA-Z0-9_]*[a-zA-Z]$/;
 const state = reactive<State>({
   visible: false,
   loading: false,
@@ -196,6 +199,8 @@ const state = reactive<State>({
     ]
   }
 });
+const columns: PlusColumn[] = buildColum(handleClickButton);
+
 const title = computed(() => (state.isCreate ? "新增" : "编辑"));
 // 创建
 const handleCreate = (): void => {
@@ -204,6 +209,7 @@ const handleCreate = (): void => {
     classifyCode: "",
     description: ""
   };
+  disabledColumns(columns, false);
   state.isCreate = true;
   state.visible = true;
 };

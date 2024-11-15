@@ -10,6 +10,7 @@
         showNumber: 3
       }"
       :table="{
+        hasIndexColumn: true,
         isSelection: true,
         onSelectionChange: handleSelect
       }"
