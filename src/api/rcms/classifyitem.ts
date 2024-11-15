@@ -34,3 +34,9 @@ export const updateClassify = (id: string, data?: object) => {
     }
   );
 };
+export const deleteClassify = (id?: string) => {
+  return http.request<ResultData>(
+    "delete",
+    `/test/services/rcms/classify/records/${id}`
+  );
+};

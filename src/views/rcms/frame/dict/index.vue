@@ -12,7 +12,7 @@
       }"
       :table="{
         isSelection: true,
-        adaptive: { offsetBottom: 80 }
+        adaptive: { offsetBottom: 70 }
       }"
       :default-page-info="defaultPageInfo"
       :default-page-size-list="[5, 15, 20, 50]"
@@ -92,7 +92,8 @@ import { Plus, Delete } from "@element-plus/icons-vue";
 import {
   getClassifyPageList,
   createClassify,
-  updateClassify
+  updateClassify,
+  deleteClassify
 } from "@/api/rcms/classifyitem";
 import { hasPerms } from "@/utils/auth";
 import Item from "./item.vue";
@@ -138,11 +139,10 @@ function handleClickButton(e, value, index, row, item) {
       break;
     case "删除":
       // state.isBatch = false;
-      // handleDelete();
+      handleDelete(row);
       break;
     case "配置":
       show.value = true;
-      //router.push({ path: "/system/dict/item" });
       break;
   }
 }
@@ -206,6 +206,12 @@ const handleCreate = (): void => {
   };
   state.isCreate = true;
   state.visible = true;
+};
+const handleDelete = async (row): Promise<void> => {
+  await deleteClassify(row?.classifyCode);
+  message(`删除成功！`, {
+    type: "success"
+  });
 };
 // 取消
 const handleCancel = () => {
