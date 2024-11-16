@@ -28,23 +28,35 @@ function onFullscreen() {
 
 const tableRef = ref();
 const {
+  state,
   loading,
   columns,
   pagination,
   dataList,
-  searchForm,
+  searchColumns,
   onSearch,
   viewDetail,
-  handleDelete
+  handleDelete,
+  handleChange,
+  handleSearch,
+  handleReset
 } = userManage();
 </script>
 
 <template>
   <div class="main rcms-main">
-    <component
-      :is="searchForm.component"
-      class="search-form bg-bg_color w-[99/100] pt-[12px] overflow-auto"
-    />
+    <el-card>
+      <PlusSearch
+        :columns="searchColumns"
+        :show-number="3"
+        :col-props="{ xs: 1, sm: 1, md: 6, lg: 6, xl: 6 }"
+        label-width="120"
+        label-position="right"
+        @change="handleChange"
+        @search="handleSearch"
+        @reset="handleReset"
+      />
+    </el-card>
     <div class="rcms-table-btn">
       <el-button
         type="danger"

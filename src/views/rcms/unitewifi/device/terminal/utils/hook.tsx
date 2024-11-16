@@ -1,14 +1,14 @@
-import { nextTick } from "process";
-import Search from "../search.vue";
 import { onMounted, ref, reactive } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
-
-let searchData = {};
+import type { PlusColumn } from "plus-pro-components";
 
 export function userManage() {
   const dataList = ref([]);
   const loading = ref();
-
+  const state = ref({
+    status: "0",
+    time: new Date().toString()
+  });
   const columns: TableColumnList = [
     {
       type: "selection",
@@ -81,17 +81,65 @@ export function userManage() {
       slot: "operation"
     }
   ];
+
+  const searchColumns: PlusColumn[] = [
+    {
+      label: "名称",
+      prop: "name",
+      valueType: "copy",
+      tooltip: "名称最多显示6个字符"
+    },
+    {
+      label: "名称",
+      prop: "name",
+      valueType: "copy",
+      tooltip: "名称最多显示6个字符"
+    },
+    {
+      label: "名称",
+      prop: "name",
+      valueType: "copy",
+      tooltip: "名称最多显示6个字符"
+    },
+    {
+      label: "状态",
+      prop: "status",
+      valueType: "select",
+      options: [
+        {
+          label: "未解决",
+          value: "0",
+          color: "red"
+        },
+        {
+          label: "已解决",
+          value: "1",
+          color: "blue"
+        },
+        {
+          label: "解决中",
+          value: "2",
+          color: "yellow"
+        },
+        {
+          label: "失败",
+          value: "3",
+          color: "red"
+        }
+      ]
+    },
+    {
+      label: "时间",
+      prop: "time",
+      valueType: "date-picker"
+    }
+  ];
   const pagination = reactive<PaginationProps>({
     total: 0,
     pageSize: 15,
     currentPage: 1,
     background: true
   });
-  const searchForm = {
-    key: "search",
-    title: "查询表单",
-    component: Search
-  };
   function viewDetail(title: string, row: object) {
     console.log(title, row);
   }
@@ -101,34 +149,38 @@ export function userManage() {
   }
   function onSearch() {
     loading.value = true;
-    console.log(searchData, new Date());
     setTimeout(() => {
       dataList.value = [{}, {}];
       loading.value = false;
     }, 500);
   }
+  const handleChange = (values: any) => {
+    console.log(values, "change");
+    onSearch();
+  };
+  const handleSearch = (values: any) => {
+    console.log(values, "search");
+    onSearch();
+  };
+  const handleReset = () => {
+    console.log("handleReset");
+    onSearch();
+  };
   onMounted(() => {
     onSearch();
   });
   return {
+    state,
     loading,
     columns,
     pagination,
     dataList,
-    searchForm,
+    searchColumns,
     onSearch,
     viewDetail,
-    handleDelete
+    handleDelete,
+    handleChange,
+    handleSearch,
+    handleReset
   };
-}
-
-export function searchManage() {
-  // 处理搜索页面的操作
-  function handleSearchImpl(op: string, search: object) {
-    searchData = search;
-    nextTick(() => {
-      userManage()?.onSearch();
-    });
-  }
-  return { handleSearchImpl };
 }

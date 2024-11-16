@@ -5,9 +5,6 @@
   }
 }
 .rcms-main{
-  .plus-search .plus-form__row{
-    row-gap: 0px !important;
-  }
   // 所属按钮交换位置
   .plus-search__button__wrapper{
     .el-form-item__content{
@@ -53,6 +50,14 @@
   .rcms-alert{
     background: white;
     padding: 10px;
+  }
+  .el-card.is-always-shadow{
+    box-shadow: none ;
+    border-radius: 0;
+    border-color: transparent;
+    .el-card__body{
+      padding: 14px;
+    }
   }
 }
 .rcms-form-tip{
