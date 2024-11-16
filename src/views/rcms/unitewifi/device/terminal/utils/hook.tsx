@@ -1,6 +1,5 @@
 import { nextTick } from "process";
 import Search from "../search.vue";
-import { router } from "@/router";
 import { onMounted, ref, reactive } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 
@@ -11,6 +10,10 @@ export function userManage() {
   const loading = ref();
 
   const columns: TableColumnList = [
+    {
+      type: "selection",
+      align: "left"
+    },
     {
       label: "设备SN",
       prop: "name",
@@ -94,6 +97,7 @@ export function userManage() {
   }
   function handleDelete(title: string, row: object) {
     console.log(title, row);
+    onSearch();
   }
   function onSearch() {
     loading.value = true;
@@ -106,9 +110,6 @@ export function userManage() {
   onMounted(() => {
     onSearch();
   });
-  function goToDivice() {
-    router.push({ path: "/device/divide" });
-  }
   return {
     loading,
     columns,
@@ -117,8 +118,7 @@ export function userManage() {
     searchForm,
     onSearch,
     viewDetail,
-    handleDelete,
-    goToDivice
+    handleDelete
   };
 }
 

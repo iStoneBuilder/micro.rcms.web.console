@@ -35,8 +35,7 @@ const {
   searchForm,
   onSearch,
   viewDetail,
-  handleDelete,
-  goToDivice
+  handleDelete
 } = userManage();
 </script>
 
@@ -47,7 +46,12 @@ const {
       class="search-form bg-bg_color w-[99/100] pt-[12px] overflow-auto"
     />
     <div class="rcms-table-btn">
-      <el-button type="danger" plain :icon="useRenderIcon(Delete)">
+      <el-button
+        type="danger"
+        plain
+        :icon="useRenderIcon(Delete)"
+        @click="handleDelete('', {})"
+      >
         删除
       </el-button>
       <el-button type="primary" plain :icon="useRenderIcon(Device)">
@@ -71,29 +75,9 @@ const {
       <el-button type="primary" plain :icon="useRenderIcon(InitInstall)">
         设备初始化
       </el-button>
-
-      <el-dropdown style="margin: 15px 0 0 10px">
-        <el-button type="primary" plain :icon="useRenderIcon(More)" />
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>
-              <el-button link type="primary" :icon="useRenderIcon(StoreDev)">
-                设备入库
-              </el-button>
-            </el-dropdown-item>
-            <el-dropdown-item>
-              <el-button
-                link
-                type="primary"
-                :icon="useRenderIcon(shareDev)"
-                @click="goToDivice"
-              >
-                设备分发
-              </el-button>
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
+      <el-button type="primary" plain :icon="useRenderIcon(InitInstall)">
+        批量初始化
+      </el-button>
     </div>
     <PureTableBar
       title=""
