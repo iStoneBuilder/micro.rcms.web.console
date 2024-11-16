@@ -62,9 +62,9 @@ export default {
       }
     },
     {
-      path: "/system/userManage1",
+      path: "/system/menu",
       name: "栏目管理",
-      component: () => import("@/views/rcms/system/usermange/index.vue"),
+      component: () => import("@/views/rcms/frame/menu/index.vue"),
       meta: {
         icon: "ri:align-center",
         title: "栏目管理"
