@@ -135,6 +135,10 @@ export function userManage() {
     console.log(title, row);
     onSearch();
   }
+  function handleUpdate(title: string, row: object) {
+    console.log(title, row);
+    onSearch();
+  }
   function onSearch() {
     loading.value = true;
     setTimeout(() => {
@@ -167,6 +171,7 @@ export function userManage() {
     onSearch,
     viewDetail,
     handleDelete,
+    handleUpdate,
     handleChange,
     handleSearch,
     handleReset

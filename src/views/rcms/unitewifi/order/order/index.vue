@@ -6,6 +6,9 @@ import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
 import Delete from "@iconify-icons/ep/delete";
+import Document from "@iconify-icons/ep/document";
+import Postcard from "@iconify-icons/ep/postcard";
+import Export from "@iconify-icons/ri/file-excel-2-line";
 
 defineOptions({
   name: "UserManage"
@@ -37,7 +40,7 @@ const {
     />
 
     <div class="rcms-table-btn">
-      <el-button type="success" plain :icon="useRenderIcon(Delete)">
+      <el-button type="success" plain :icon="useRenderIcon(Export)">
         导出
       </el-button>
     </div>
@@ -74,7 +77,7 @@ const {
               link
               :type="row.parentId == 0 ? 'info' : 'primary'"
               :size="size"
-              :icon="useRenderIcon(Delete)"
+              :icon="useRenderIcon(Document)"
               :disabled="row.disabled"
             >
               详情
@@ -85,7 +88,7 @@ const {
               link
               type="primary"
               :size="size"
-              :icon="useRenderIcon(Delete)"
+              :icon="useRenderIcon(Postcard)"
             >
               申请退款
             </el-button>

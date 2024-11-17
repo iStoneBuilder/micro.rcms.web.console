@@ -11,6 +11,10 @@ export function userManage() {
 
   const columns: TableColumnList = [
     {
+      type: "selection",
+      align: "left"
+    },
+    {
       label: "订单号",
       prop: "name",
       width: 200,

@@ -16,6 +16,7 @@ import ShutDown from "@iconify-icons/ri/shut-down-line";
 import InitInstall from "@iconify-icons/ri/install-line";
 import StoreDev from "@iconify-icons/ri/layout-grid-line";
 import shareDev from "@iconify-icons/ri/folder-shared-line";
+import EditPen from "@iconify-icons/ep/edit-pen";
 
 defineOptions({
   name: "UserManage"
@@ -37,6 +38,7 @@ const {
   onSearch,
   viewDetail,
   handleDelete,
+  handleUpdate,
   handleChange,
   handleSearch,
   handleReset
@@ -122,10 +124,10 @@ const {
               v-if="hasPerms('permission:role:update')"
               class="reset-margin"
               link
-              :type="row.parentId == 0 ? 'info' : 'primary'"
+              type="primary"
               :size="size"
-              :icon="useRenderIcon(Delete)"
-              :disabled="row.disabled"
+              :icon="useRenderIcon(EditPen)"
+              @click="handleUpdate('', row)"
             >
               编辑
             </el-button>
@@ -133,9 +135,10 @@ const {
               v-if="hasPerms('permission:role:permission')"
               class="reset-margin"
               link
-              type="primary"
+              type="danger"
               :size="size"
               :icon="useRenderIcon(Delete)"
+              @click="handleDelete('', row)"
             >
               删除
             </el-button>
