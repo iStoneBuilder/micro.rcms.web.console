@@ -90,18 +90,6 @@ export function userManage() {
       tooltip: "名称最多显示6个字符"
     },
     {
-      label: "名称",
-      prop: "name",
-      valueType: "copy",
-      tooltip: "名称最多显示6个字符"
-    },
-    {
-      label: "名称",
-      prop: "name",
-      valueType: "copy",
-      tooltip: "名称最多显示6个字符"
-    },
-    {
       label: "状态",
       prop: "status",
       valueType: "select",

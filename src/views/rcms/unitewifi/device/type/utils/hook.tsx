@@ -9,6 +9,10 @@ export function userManage() {
 
   const columns: TableColumnList = [
     {
+      type: "selection",
+      align: "left"
+    },
+    {
       label: "类型名称",
       prop: "name",
       width: 200,
