@@ -1,7 +1,13 @@
 import editForm from "../form.vue";
 import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
-import { getMenuList } from "@/api/system";
+import { ElMessageBox } from "element-plus";
+import {
+  getMenuList,
+  createMenu,
+  updateMenu,
+  deleteMenu
+} from "@/api/rcms/menu";
 import { transformI18n } from "@/plugins/i18n";
 import { addDialog } from "@/components/ReDialog";
 import { reactive, ref, onMounted, h } from "vue";
@@ -17,19 +23,6 @@ export function useMenu() {
   const formRef = ref();
   const dataList = ref([]);
   const loading = ref(true);
-
-  const getMenuType = (type, text = false) => {
-    switch (type) {
-      case 0:
-        return text ? "菜单" : "primary";
-      case 1:
-        return text ? "iframe" : "warning";
-      case 2:
-        return text ? "外链" : "danger";
-      case 3:
-        return text ? "按钮" : "info";
-    }
-  };
 
   const columns: TableColumnList = [
     {
@@ -48,20 +41,6 @@ export function useMenu() {
       )
     },
     {
-      label: "菜单类型",
-      prop: "menuType",
-      width: 100,
-      cellRenderer: ({ row, props }) => (
-        <el-tag
-          size={props.size}
-          type={getMenuType(row.menuType)}
-          effect="plain"
-        >
-          {getMenuType(row.menuType, true)}
-        </el-tag>
-      )
-    },
-    {
       label: "路由路径",
       prop: "path"
     },
@@ -77,7 +56,7 @@ export function useMenu() {
     },
     {
       label: "排序",
-      prop: "rank",
+      prop: "rankSort",
       width: 100
     },
     {
@@ -141,11 +120,12 @@ export function useMenu() {
           menuType: row?.menuType ?? 0,
           higherMenuOptions: formatHigherMenuOptions(cloneDeep(dataList.value)),
           parentId: row?.parentId ?? 0,
+          id: row?.id ?? "",
           title: row?.title ?? "",
           name: row?.name ?? "",
           path: row?.path ?? "",
           component: row?.component ?? "",
-          rank: row?.rank ?? 99,
+          rankSort: row?.rankSort ?? 1,
           redirect: row?.redirect ?? "",
           icon: row?.icon ?? "",
           extraIcon: row?.extraIcon ?? "",
@@ -172,24 +152,23 @@ export function useMenu() {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
         function chores() {
-          message(
-            `您${title}了菜单名称为${transformI18n(curData.title)}的这条数据`,
-            {
-              type: "success"
-            }
-          );
+          message(`${title}成功！`, {
+            type: "success"
+          });
           done(); // 关闭弹框
           onSearch(); // 刷新表格数据
         }
-        FormRef.validate(valid => {
+        FormRef.validate(async valid => {
           if (valid) {
             console.log("curData", curData);
             // 表单规则校验通过
             if (title === "新增") {
               // 实际开发先调用新增接口，再进行下面操作
+              await createMenu(curData);
               chores();
             } else {
               // 实际开发先调用修改接口，再进行下面操作
+              await updateMenu(curData.id, curData);
               chores();
             }
           }
@@ -199,9 +178,26 @@ export function useMenu() {
   }
 
   function handleDelete(row) {
-    message(`您删除了菜单名称为${transformI18n(row.title)}的这条数据`, {
-      type: "success"
-    });
+    if (row?.children && row?.children.length > 0) {
+      message(`存在下级菜单，禁止删除！`, {
+        type: "warning"
+      });
+      return;
+    }
+    ElMessageBox.confirm("你确定删除当前数据吗，是否继续?", "温馨提示", {
+      confirmButtonText: "确认",
+      cancelButtonText: "取消",
+      type: "warning",
+      draggable: true
+    })
+      .then(async () => {
+        const { data } = await deleteMenu(row?.id);
+        console.log(data);
+        onSearch();
+      })
+      .catch(() => {
+        console.log("取消删除");
+      });
     onSearch();
   }
 

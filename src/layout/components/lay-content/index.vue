@@ -56,13 +56,13 @@ const getSectionStyle = computed(() => {
     !hideTabs.value && layout
       ? showModel.value == "chrome"
         ? "padding-top: 85px;"
-        : "padding-top: 81px;"
+        : "padding-top: 110px;"
       : "",
     hideTabs.value && !layout.value ? "padding-top: 48px;" : "",
     !hideTabs.value && !layout.value
       ? showModel.value == "chrome"
         ? "padding-top: 85px;"
-        : "padding-top: 81px;"
+        : "padding-top: 110px;"
       : "",
     props.fixedHeader
       ? ""

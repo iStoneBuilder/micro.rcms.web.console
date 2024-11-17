@@ -37,7 +37,7 @@ const {
     />
 
     <PureTableBar
-      title="角色管理"
+      title=""
       :columns="columns"
       @refresh="onSearch"
       @fullscreen="onFullscreen"

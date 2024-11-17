@@ -70,6 +70,7 @@
 
     /* fixed-header 属性左上角动画 */
     transition: width var(--pure-transition-duration);
+    background: var(--pure-bg-color);
   }
 
   .main-hidden {
