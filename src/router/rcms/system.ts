@@ -67,6 +67,7 @@ export default {
       component: () => import("@/views/rcms/frame/menu/index.vue"),
       meta: {
         icon: "ri:align-center",
+        keepAlive: true,
         title: "栏目管理"
       }
     },
@@ -76,6 +77,7 @@ export default {
       component: () => import("@/views/rcms/frame/dict/index.vue"),
       meta: {
         icon: "ep:tickets",
+        keepAlive: true,
         title: "字典管理"
       }
     },
@@ -85,6 +87,7 @@ export default {
       component: () => import("@/views/rcms/frame/apis/index.vue"),
       meta: {
         icon: "ri:usb-line",
+        keepAlive: true,
         title: "接口管理"
       }
     }

@@ -85,7 +85,7 @@ function onFullscreen() {
         <pure-table
           ref="tableRef"
           adaptive
-          :adaptiveConfig="{ offsetBottom: 45 }"
+          :adaptiveConfig="{ offsetBottom: 60 }"
           align-whole="center"
           row-key="id"
           showOverflowTooltip

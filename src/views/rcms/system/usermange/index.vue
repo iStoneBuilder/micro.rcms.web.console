@@ -47,7 +47,7 @@ const {
           ref="tableRef"
           row-key="id"
           adaptive
-          :adaptiveConfig="{ offsetBottom: 120 }"
+          :adaptiveConfig="{ offsetBottom: 124 }"
           align-whole="center"
           table-layout="auto"
           :loading="loading"

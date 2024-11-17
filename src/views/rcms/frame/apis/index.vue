@@ -12,7 +12,10 @@
       :table="{
         hasIndexColumn: true,
         isSelection: true,
-        onSelectionChange: handleSelect
+        onSelectionChange: handleSelect,
+        adaptive: {
+          offsetBottom: 65
+        }
       }"
       :default-page-info="defaultPageInfo"
       :default-page-size-list="[5, 15, 20, 50]"
