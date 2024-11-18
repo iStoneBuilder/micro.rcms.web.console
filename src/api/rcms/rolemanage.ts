@@ -2,14 +2,22 @@ import { http } from "@/utils/http";
 import type { ResultArray, ResultData } from "./types";
 
 export const getRoleList = (params?: object) => {
-  return http.request<ResultArray>("get", "/test/services/rcms/base/role/records", {
-    params
-  });
+  return http.request<ResultArray>(
+    "get",
+    "/test/services/rcms/base/role/records",
+    {
+      params
+    }
+  );
 };
 export const createRole = (data?: object) => {
-  return http.request<ResultData>("post", "/test/services/rcms/base/role/records", {
-    data
-  });
+  return http.request<ResultData>(
+    "post",
+    "/test/services/rcms/base/role/records",
+    {
+      data
+    }
+  );
 };
 export const updateRole = (id: string, data?: object) => {
   return http.request<ResultData>(
