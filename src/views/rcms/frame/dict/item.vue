@@ -230,7 +230,7 @@ const handleSubmit = async () => {
 
 const handleDelete = async (row, isBatch) => {
   state.loading = true;
-  await deleteClassifyItem(row);
+  await deleteClassifyItem(row?.itemId);
   message(`删除成功！`, {
     type: "success"
   });

@@ -2,7 +2,7 @@ import Cookies from "js-cookie";
 import { getUserInfo, getToken } from "@/utils/auth";
 import { message } from "@/utils/message";
 import { reLogin } from "./login";
-import { router } from "@/router";
+import { useUserStoreHook } from "@/store/modules/user";
 
 export function setCookieByKey(key: string, value: string) {
   Cookies.set(key, value);
@@ -41,20 +41,20 @@ export function handleRequestError(code: number, data: Object, uri: string) {
         type: "warning"
       });
       if (checkExpiredTime()) {
-        router.push("/login");
+        useUserStoreHook().logOut();
       } else {
         reLogin();
       }
-      return;
     }
+  } else {
+    const errorMessage: string =
+      (data as HttpError)?.data?.message || "服务异常，请稍后重试！";
+    message(errorMessage, {
+      duration: 3000,
+      customClass: "el",
+      type: "warning"
+    });
   }
-  const errorMessage: string =
-    (data as HttpError)?.data?.message || "服务异常，请稍后重试！";
-  message(errorMessage, {
-    duration: 3000,
-    customClass: "el",
-    type: "warning"
-  });
 }
 
 export function findSelected(options, id) {

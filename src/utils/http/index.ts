@@ -96,10 +96,10 @@ class PureHttp {
                         PureHttp.requests = [];
                         // 请求成功
                         PureHttp.isRefreshing = false;
-                      })
-                      .finally(() => {
-                        PureHttp.isRefreshing = false;
                       });
+                    // .finally(() => {
+                    //   PureHttp.isRefreshing = false;
+                    // });
                   }
                   resolve(PureHttp.retryOriginalRequest(config));
                 } else {
