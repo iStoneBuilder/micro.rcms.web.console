@@ -131,6 +131,7 @@ const state = reactive<ChildState>({
   loading: false,
   isCreate: false,
   form: {
+    classifyCode: "",
     itemId: "",
     itemCode: "",
     itemName: "",
@@ -191,6 +192,7 @@ const title = computed(() => (state.isCreate ? "新增" : "编辑"));
 // 创建
 const handleCreate = (): void => {
   state.form = {
+    classifyCode: props?.currentRow?.classifyCode,
     itemId: "",
     itemCode: "",
     itemName: "",
@@ -209,6 +211,7 @@ const handleSubmit = async () => {
   try {
     state.loading = true;
     const params = { ...state.form };
+    params.classifyCode = props.currentRow.classifyCode;
     if (state.isCreate) {
       await createClassifyItem(params);
       message(`${title.value}成功！`, {
@@ -234,6 +237,8 @@ const handleDelete = async (row, isBatch) => {
   message(`删除成功！`, {
     type: "success"
   });
+  // 刷新列表
+  refresh();
   state.loading = false;
 };
 

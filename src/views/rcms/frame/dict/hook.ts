@@ -109,6 +109,7 @@ export interface ChildState {
    * 表单
    */
   form: {
+    classifyCode: string;
     itemId: string;
     itemCode: string;
     itemName: string;
