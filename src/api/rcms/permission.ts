@@ -1,5 +1,5 @@
 import { http } from "@/utils/http";
-import type { ResultPage } from "./types";
+import type { ResultPage, ResultData } from "./types";
 
 export const getPermissionPageList = (
   curPage: number,
@@ -11,6 +11,15 @@ export const getPermissionPageList = (
     `/test/services/rcms/base/permission/records/page/${curPage}/${pageSize}`,
     {
       params
+    }
+  );
+};
+export const refreshPerm = (data?: object) => {
+  return http.request<ResultData>(
+    "post",
+    "/test/services/rcms/base/permission/records/refresh",
+    {
+      data
     }
   );
 };

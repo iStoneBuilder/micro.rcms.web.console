@@ -1,6 +1,7 @@
 <template>
   <div class="rcms-plus-page">
     <PlusPage
+      ref="plusPageInstance"
       :columns="tableConfig"
       has-index-column
       :request="getList"
@@ -48,22 +49,37 @@
               授权
             </el-button>
           </el-row>
+          <el-row class="button-row" style="padding-left: 10px">
+            <el-button
+              v-if="hasPerms('permission:role:update')"
+              type="primary"
+              plain
+              :icon="Plus"
+              @click="handleRefreshPerm"
+            >
+              同步接口
+            </el-button>
+          </el-row>
         </div>
       </template>
     </PlusPage>
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="tsx" setup>
 import { message } from "@/utils/message";
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, onMounted, h } from "vue";
 import { hasPerms } from "@/utils/auth";
-import type { PlusColumn, PageInfo } from "plus-pro-components";
+import type {
+  PlusColumn,
+  PageInfo,
+  PlusPageInstance
+} from "plus-pro-components";
 import { ElButton } from "element-plus";
 import { Plus, Delete } from "@element-plus/icons-vue";
 import { Search, Refresh, ArrowDown, ArrowUp } from "@element-plus/icons-vue";
 import { getAccountPageList } from "@/api/rcms/account";
-import { getPermissionPageList } from "@/api/rcms/permission";
+import { getPermissionPageList, refreshPerm } from "@/api/rcms/permission";
 
 const defaultPageInfo = {
   page: 1,
@@ -90,7 +106,7 @@ onMounted(() => {
 
 const getList = async (query: PageInfo) => {
   const { page = 1, pageSize = 15 } = query || {};
-  const params = query;
+  const params = { ...query };
   delete params.page;
   delete params.pageSize;
   const { data } = await getPermissionPageList(page, pageSize, params);
@@ -99,7 +115,7 @@ const getList = async (query: PageInfo) => {
   await new Promise(resolve => {
     setTimeout(() => {
       resolve("");
-    }, 100);
+    }, 300);
   });
   return { data: data.data, success: true, total: data.meta.totalRows };
 };
@@ -126,13 +142,8 @@ const tableConfig: PlusColumn[] = [
   },
   {
     label: "权限编码",
-    minWidth: 300,
+    minWidth: 250,
     prop: "authCode"
-  },
-  {
-    label: "接口路径",
-    minWidth: 500,
-    prop: "path"
   },
   {
     label: "接口类型",
@@ -146,14 +157,12 @@ const tableConfig: PlusColumn[] = [
     label: "请求方式",
     width: 100,
     prop: "method",
-    valueType: "tag",
-    hideInSearch: true,
     tableColumnProps: {
       align: "center"
     },
-    fieldProps: value => ({
-      type: handleMethodShow(value as string)
-    })
+    render: (value: any) => {
+      return h(<el-tag type={handleMethodShow(value)}>{value}</el-tag>);
+    }
   },
   {
     label: "OpenApi",
@@ -163,11 +172,11 @@ const tableConfig: PlusColumn[] = [
     tableColumnProps: {
       align: "center"
     },
-    fieldProps: value => ({
+    fieldProps: (value: string) => ({
       type: value === "Y" ? "success" : "primary"
     }),
     fieldSlots: {
-      default: ({ value }) => (value === "Y" ? "是" : "否")
+      default: ({ value }) => (value === "Y" ? "是" : value === "N" ? "否" : "")
     },
     hideInSearch: true
   },
@@ -181,12 +190,23 @@ const tableConfig: PlusColumn[] = [
       { value: "Y", label: "是" },
       { value: "N", label: "否" }
     ]
+  },
+  {
+    label: "接口路径",
+    minWidth: 500,
+    prop: "path"
   }
 ];
 const selectAccount = ref();
+
 function handleSelect(data: any) {
   state.selectedIds = [...data].map(item => item.code);
 }
+const plusPageInstance = ref<PlusPageInstance | null>(null);
+// 重新请求列表接口
+const refresh = () => {
+  plusPageInstance.value?.getList();
+};
 function handleAccountPerm() {
   if (!selectAccount.value) {
     message(`请选择需要授权的程序账户`, {
@@ -202,5 +222,19 @@ function handleAccountPerm() {
     });
     return;
   }
+}
+async function handleRefreshPerm() {
+  await refreshPerm({});
+  // 等待2s
+  await new Promise(resolve => {
+    setTimeout(() => {
+      resolve("");
+    }, 100);
+  });
+  message(`同步系统接口数据成功`, {
+    type: "success",
+    duration: 1000
+  });
+  refresh();
 }
 </script>
