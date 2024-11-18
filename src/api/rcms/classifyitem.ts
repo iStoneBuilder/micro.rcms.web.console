@@ -47,9 +47,35 @@ export const getClassifyItemList = (
 ) => {
   return http.request<ResultPage>(
     "get",
-    `/test/services/rcms/classify/records/item/page/${curPage}/${pageSize}`,
+    `/test/services/rcms/classify/item/records/page/${curPage}/${pageSize}`,
     {
       params
     }
+  );
+};
+
+export const createClassifyItem = (data?: object) => {
+  return http.request<ResultData>(
+    "post",
+    "/test/services/rcms/classify/item/records",
+    {
+      data
+    }
+  );
+};
+
+export const updateClassifyItem = (id: string, data?: object) => {
+  return http.request<ResultData>(
+    "put",
+    `/test/services/rcms/classify/item/records/${id}`,
+    {
+      data
+    }
+  );
+};
+export const deleteClassifyItem = (id?: string) => {
+  return http.request<ResultData>(
+    "delete",
+    `/test/services/rcms/classify/item/records/${id}`
   );
 };

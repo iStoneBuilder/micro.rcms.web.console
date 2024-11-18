@@ -91,6 +91,34 @@ export interface State {
    */
   rules: FormRules;
 }
+
+export interface ChildState {
+  /**
+   * 表单弹窗是否可见
+   */
+  visible: boolean;
+  /**
+   *  提交loading
+   */
+  loading: boolean;
+  /**
+   * 是否是创建
+   */
+  isCreate: boolean;
+  /**
+   * 表单
+   */
+  form: {
+    itemId: string;
+    itemCode: string;
+    itemName: string;
+    description?: string;
+  };
+  /**
+   * 校验
+   */
+  rules: FormRules;
+}
 // 子项目配置
 export const childButtons = [
   { name: "编辑", type: "primary", perm: null, icon: EditPen },
@@ -101,31 +129,28 @@ export function buildChildColum(handleClickButton: Function) {
     {
       label: "项编码",
       minWidth: 200,
-      prop: "classifyCode",
-      columnsProps: {
-        showOverflowTooltip: true
-      }
+      prop: "itemCode"
     },
     {
       label: "名称",
       minWidth: 200,
-      prop: "classifyName"
+      prop: "itemName"
     },
     {
       label: "语言",
       minWidth: 100,
-      prop: "classifyName"
+      prop: "language"
     },
     {
       label: "排序",
       minWidth: 100,
-      prop: "classifyName",
+      prop: "itemIndex",
       hideInSearch: true
     },
     {
-      label: "是否启用",
+      label: "启用",
       minWidth: 100,
-      prop: "classifyName",
+      prop: "isEnabled",
       valueType: "select",
       options: [
         { value: "Y", label: "是" },
@@ -135,31 +160,31 @@ export function buildChildColum(handleClickButton: Function) {
     {
       label: "扩展1",
       minWidth: 100,
-      prop: "classifyName",
+      prop: "itemAttr1",
       hideInSearch: true
     },
     {
       label: "扩展2",
       minWidth: 100,
-      prop: "classifyName",
+      prop: "itemAttr2",
       hideInSearch: true
     },
     {
       label: "扩展3",
       minWidth: 100,
-      prop: "classifyName",
+      prop: "itemAttr3",
       hideInSearch: true
     },
     {
       label: "扩展4",
       minWidth: 100,
-      prop: "classifyName",
+      prop: "itemAttr4",
       hideInSearch: true
     },
     {
       label: "扩展5",
       minWidth: 100,
-      prop: "classifyName",
+      prop: "itemAttr5",
       hideInSearch: true
     },
     {
@@ -169,7 +194,7 @@ export function buildChildColum(handleClickButton: Function) {
       valueType: "textarea",
       hideInSearch: true,
       colProps: {
-        span: 24
+        span: 23
       }
     },
     {

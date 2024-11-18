@@ -3,7 +3,6 @@
     <PlusPage
       ref="plusPageInstance"
       :columns="columns"
-      has-index-column
       :request="getList"
       :search="{
         labelWidth: '100px',
@@ -11,6 +10,7 @@
         showNumber: 3
       }"
       :table="{
+        hasIndexColumn: true,
         isSelection: true,
         adaptive: { offsetBottom: 100 }
       }"
@@ -33,6 +33,7 @@
             type="danger"
             plain
             :icon="Delete"
+            @click="handleDelete({}, true)"
           >
             删除
           </el-button>
@@ -44,18 +45,19 @@
       v-if="visible"
       v-model:visible="visible"
       v-model="form"
+      class="rcms-plus-form"
       :form="{
         columns,
-        labelPosition: 'top',
+        labelPosition: 'left',
+        labelWidth: '80px',
         rules,
-        colProps: { span: 12 },
-        rowProps: { gutter: 20 },
-        labelWidth: '80px'
+        colProps: { span: 23 },
+        rowProps: { gutter: 24 }
       }"
       :dialog="{
         title: title + '字典子项',
-        width: '600px',
-        top: '12vh',
+        width: '40%',
+        top: '10vh',
         loading
       }"
       @confirm="handleSubmit"
@@ -76,11 +78,12 @@ import type {
 import { Plus, Delete } from "@element-plus/icons-vue";
 import {
   getClassifyItemList,
-  createClassify,
-  updateClassify
+  createClassifyItem,
+  updateClassifyItem,
+  deleteClassifyItem
 } from "@/api/rcms/classifyitem";
 import { hasPerms } from "@/utils/auth";
-import { defaultPageInfo, buildChildColum, State } from "./hook";
+import { defaultPageInfo, buildChildColum, ChildState } from "./hook";
 
 const router = useRouter();
 const props = defineProps<{
@@ -116,60 +119,70 @@ function handleClickButton(e, value, index, row, item) {
       state.visible = true;
       break;
     case "删除":
-      // state.isBatch = false;
-      // handleDelete();
-      break;
-    case "配置":
-      //router.push({ path: "/system/dict/item" });
+      handleDelete(row, false);
       break;
   }
 }
 
 const columns: PlusColumn[] = buildChildColum(handleClickButton);
 const REGEXP_CODE = /^[a-zA-Z][a-zA-Z0-9_]*[a-zA-Z]$/;
-const state = reactive<State>({
+const state = reactive<ChildState>({
   visible: false,
   loading: false,
   isCreate: false,
   form: {
-    classifyName: "",
-    classifyCode: "",
+    itemId: "",
+    itemCode: "",
+    itemName: "",
     description: ""
   },
   rules: {
-    classifyCode: [
+    itemCode: [
       {
         required: true,
-        message: "请输入字典项"
+        message: "请输入项编码"
       },
       {
         validator: (rule, value, callback) => {
-          if (!REGEXP_CODE.test(value)) {
-            callback(
-              new Error("字典项包含：字母、下划线、数字，必须字母开始结尾")
-            );
-          }
-          if (value.length > 100) {
-            callback(new Error("字典项最多包含100个字符"));
+          if (value.length > 50) {
+            callback(new Error("字典项最多包含50个字符"));
           }
           callback();
         },
         trigger: "blur"
       }
     ],
-    classifyName: [
+    itemName: [
       {
         required: true,
         message: "请输入字典项名称"
       },
       {
         validator: (rule, value, callback) => {
-          if (value.length > 100) {
-            callback(new Error("字典项名称最多包含100个字符"));
+          if (value.length > 50) {
+            callback(new Error("字典项名称最多包含50个字符"));
           }
           callback();
         },
         trigger: "blur"
+      }
+    ],
+    language: [
+      {
+        required: true,
+        message: "请选择语言"
+      }
+    ],
+    itemIndex: [
+      {
+        required: true,
+        message: "请设置排序"
+      }
+    ],
+    isEnabled: [
+      {
+        required: true,
+        message: "是否启用"
       }
     ]
   }
@@ -178,8 +191,9 @@ const title = computed(() => (state.isCreate ? "新增" : "编辑"));
 // 创建
 const handleCreate = (): void => {
   state.form = {
-    classifyName: "",
-    classifyCode: "",
+    itemId: "",
+    itemCode: "",
+    itemName: "",
     description: ""
   };
   state.isCreate = true;
@@ -196,12 +210,12 @@ const handleSubmit = async () => {
     state.loading = true;
     const params = { ...state.form };
     if (state.isCreate) {
-      await createClassify(params);
+      await createClassifyItem(params);
       message(`${title.value}成功！`, {
         type: "success"
       });
     } else {
-      await updateClassify(params.classifyCode, params);
+      await updateClassifyItem(params.itemId, params);
       message(`${title.value}成功！`, {
         type: "success"
       });
@@ -211,6 +225,15 @@ const handleSubmit = async () => {
     // 刷新列表
     refresh();
   } catch (error) {}
+  state.loading = false;
+};
+
+const handleDelete = async (row, isBatch) => {
+  state.loading = true;
+  await deleteClassifyItem(row);
+  message(`删除成功！`, {
+    type: "success"
+  });
   state.loading = false;
 };
 
