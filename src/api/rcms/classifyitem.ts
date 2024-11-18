@@ -8,7 +8,7 @@ export const getClassifyPageList = (
 ) => {
   return http.request<ResultPage>(
     "get",
-    `/test/services/rcms/classify/records/page/${curPage}/${pageSize}`,
+    `/test/services/rcms/base/classify/records/page/${curPage}/${pageSize}`,
     {
       params
     }
@@ -18,7 +18,7 @@ export const getClassifyPageList = (
 export const createClassify = (data?: object) => {
   return http.request<ResultData>(
     "post",
-    "/test/services/rcms/classify/records",
+    "/test/services/rcms/base/classify/records",
     {
       data
     }
@@ -28,7 +28,7 @@ export const createClassify = (data?: object) => {
 export const updateClassify = (id: string, data?: object) => {
   return http.request<ResultData>(
     "put",
-    `/test/services/rcms/classify/records/${id}`,
+    `/test/services/rcms/base/classify/records/${id}`,
     {
       data
     }
@@ -37,7 +37,7 @@ export const updateClassify = (id: string, data?: object) => {
 export const deleteClassify = (id?: string) => {
   return http.request<ResultData>(
     "delete",
-    `/test/services/rcms/classify/records/${id}`
+    `/test/services/rcms/base/classify/records/${id}`
   );
 };
 export const getClassifyItemList = (
@@ -47,7 +47,7 @@ export const getClassifyItemList = (
 ) => {
   return http.request<ResultPage>(
     "get",
-    `/test/services/rcms/classify/item/records/page/${curPage}/${pageSize}`,
+    `/test/services/rcms/base/classify/item/records/page/${curPage}/${pageSize}`,
     {
       params
     }
@@ -57,7 +57,7 @@ export const getClassifyItemList = (
 export const createClassifyItem = (data?: object) => {
   return http.request<ResultData>(
     "post",
-    "/test/services/rcms/classify/item/records",
+    "/test/services/rcms/base/classify/item/records",
     {
       data
     }
@@ -67,7 +67,7 @@ export const createClassifyItem = (data?: object) => {
 export const updateClassifyItem = (id: string, data?: object) => {
   return http.request<ResultData>(
     "put",
-    `/test/services/rcms/classify/item/records/${id}`,
+    `/test/services/rcms/base/classify/item/records/${id}`,
     {
       data
     }
@@ -76,6 +76,6 @@ export const updateClassifyItem = (id: string, data?: object) => {
 export const deleteClassifyItem = (id?: string) => {
   return http.request<ResultData>(
     "delete",
-    `/test/services/rcms/classify/item/records/${id}`
+    `/test/services/rcms/base/classify/item/records/${id}`
   );
 };

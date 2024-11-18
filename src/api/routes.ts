@@ -10,6 +10,6 @@ export const getAsyncRoutes = () => {
 // export const getAsyncRoutes = () => {
 //   return http.request<Result>(
 //     "get",
-//     "/test/services/rcms/menu/records/tree/router"
+//     "/test/services/rcms/base/menu/records/tree/router"
 //   );
 // };

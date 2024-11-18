@@ -8,7 +8,7 @@ export const getPermissionPageList = (
 ) => {
   return http.request<ResultPage>(
     "get",
-    `/test/services/rcms/permission/records/page/${curPage}/${pageSize}`,
+    `/test/services/rcms/base/permission/records/page/${curPage}/${pageSize}`,
     {
       params
     }
