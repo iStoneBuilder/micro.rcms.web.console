@@ -12,21 +12,30 @@
       :table="{
         hasIndexColumn: true,
         isSelection: true,
-        adaptive: { offsetBottom: 70 }
+        adaptive: { offsetBottom: 100 }
       }"
       :default-page-info="defaultPageInfo"
       :default-page-size-list="[5, 15, 20, 50]"
     >
       <template #table-title>
         <el-row class="button-row">
-          <el-button type="primary" plain :icon="useRenderIcon(Delete)">
-            停机/复机
+          <el-button
+            v-if="hasPerms('permission:role:update')"
+            type="primary"
+            plain
+            :icon="Plus"
+            @click="handleCreate"
+          >
+            新增
           </el-button>
-          <el-button type="primary" plain :icon="useRenderIcon(Delete)">
-            SIM卡导入
-          </el-button>
-          <el-button type="primary" plain :icon="useRenderIcon(Delete)">
-            流量校准
+          <el-button
+            v-if="hasPerms('permission:role:update')"
+            type="danger"
+            plain
+            :icon="Delete"
+            @click="handleDelete({}, true)"
+          >
+            删除
           </el-button>
         </el-row>
       </template>
@@ -40,16 +49,15 @@
       :form="{
         columns,
         labelPosition: 'left',
+        labelWidth: '80px',
         rules,
-        labelWidth: '100px',
-        colProps: {
-          span: 23
-        }
+        colProps: { span: 23 },
+        rowProps: { gutter: 24 }
       }"
       :dialog="{
-        title: title + '字典项',
-        width: '500px',
-        top: '12vh',
+        title: title + '字典子项',
+        width: '40%',
+        top: '10vh',
         loading
       }"
       @confirm="handleSubmit"
@@ -61,36 +69,33 @@
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
 import { message } from "@/utils/message";
-import { reactive, computed, toRefs, ref } from "vue";
-import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+import { reactive, computed, toRefs, ref, defineProps } from "vue";
 import type {
   PlusColumn,
   PageInfo,
   PlusPageInstance
 } from "plus-pro-components";
-import { Plus } from "@element-plus/icons-vue";
+import { Plus, Delete } from "@element-plus/icons-vue";
 import {
-  getClassifyPageList,
-  createClassify,
-  updateClassify,
-  deleteClassify
+  getClassifyItemList,
+  createClassifyItem,
+  updateClassifyItem,
+  deleteClassifyItem
 } from "@/api/rcms/classifyitem";
 import { hasPerms } from "@/utils/auth";
-import { defaultPageInfo, buildColum, State } from "./hook";
+import { defaultPageInfo, buildChildColum, ChildState } from "./hook";
 
-import Delete from "@iconify-icons/ep/delete";
-
-const show = ref(false);
-const currentRow = ref({});
-const REGEXP_CODE = /^[a-zA-Z][a-zA-Z0-9_]*[a-zA-Z]$/;
 const router = useRouter();
-
-const getList = async (query: PageInfo) => {
+const props = defineProps<{
+  currentRow: any;
+}>();
+const getList = async (query: PageInfo & { classifyCode: string }) => {
   const { page = 1, pageSize = 15 } = query || {};
-  const params = query;
+  const params = { ...query };
   delete params.page;
   delete params.pageSize;
-  const { data } = await getClassifyPageList(page, pageSize, params);
+  params.classifyCode = props.currentRow.classifyCode;
+  const { data } = await getClassifyItemList(page, pageSize, params);
 
   // 等待2s
   await new Promise(resolve => {
@@ -105,98 +110,96 @@ const plusPageInstance = ref<PlusPageInstance | null>(null);
 const refresh = () => {
   plusPageInstance.value?.getList();
 };
-function changeColumns(columns: Array<any>, showItem: boolean) {
-  columns[0].hideInForm = showItem;
-  columns[0].fieldProps = {
-    disabled: !showItem
-  };
-}
+
 function handleClickButton(e, value, index, row, item) {
   switch (item.name) {
     case "编辑":
       state.form = { ...row } as any;
       state.isCreate = false;
-      changeColumns(columns, false);
       state.visible = true;
       break;
     case "删除":
-      // state.isBatch = false;
-      handleDelete(row);
-      break;
-    case "API配置":
-      currentRow.value = { ...row };
-      show.value = true;
+      handleDelete(row, false);
       break;
   }
 }
 
-const state = reactive<State>({
+const columns: PlusColumn[] = buildChildColum(handleClickButton);
+const REGEXP_CODE = /^[a-zA-Z][a-zA-Z0-9_]*[a-zA-Z]$/;
+const state = reactive<ChildState>({
   visible: false,
   loading: false,
   isCreate: false,
   form: {
-    classifyName: "",
     classifyCode: "",
+    itemId: "",
+    itemCode: "",
+    itemName: "",
     description: ""
   },
   rules: {
-    classifyCode: [
+    itemCode: [
       {
         required: true,
-        message: "请输入字典项"
+        message: "请输入项编码"
       },
       {
         validator: (rule, value, callback) => {
-          if (!REGEXP_CODE.test(value)) {
-            callback(
-              new Error("字典项包含：字母、下划线、数字，必须字母开始结尾")
-            );
-          }
-          if (value.length > 100) {
-            callback(new Error("字典项最多包含100个字符"));
+          if (value.length > 50) {
+            callback(new Error("字典项最多包含50个字符"));
           }
           callback();
         },
         trigger: "blur"
       }
     ],
-    classifyName: [
+    itemName: [
       {
         required: true,
         message: "请输入字典项名称"
       },
       {
         validator: (rule, value, callback) => {
-          if (value.length > 100) {
-            callback(new Error("字典项名称最多包含100个字符"));
+          if (value.length > 50) {
+            callback(new Error("字典项名称最多包含50个字符"));
           }
           callback();
         },
         trigger: "blur"
       }
+    ],
+    language: [
+      {
+        required: true,
+        message: "请选择语言"
+      }
+    ],
+    itemIndex: [
+      {
+        required: true,
+        message: "请设置排序"
+      }
+    ],
+    isEnabled: [
+      {
+        required: true,
+        message: "是否启用"
+      }
     ]
   }
 });
-const columns: PlusColumn[] = buildColum(handleClickButton);
-
 const title = computed(() => (state.isCreate ? "新增" : "编辑"));
 // 创建
 const handleCreate = (): void => {
   state.form = {
-    classifyName: "",
-    classifyCode: "",
+    classifyCode: props?.currentRow?.classifyCode,
+    itemId: "",
+    itemCode: "",
+    itemName: "",
     description: ""
   };
-  changeColumns(columns, true);
   state.isCreate = true;
   state.visible = true;
-};
-const handleDelete = async (row): Promise<void> => {
-  await deleteClassify(row?.classifyCode);
-  message(`删除成功！`, {
-    type: "success"
-  });
-  refresh();
 };
 // 取消
 const handleCancel = () => {
@@ -208,13 +211,14 @@ const handleSubmit = async () => {
   try {
     state.loading = true;
     const params = { ...state.form };
+    params.classifyCode = props.currentRow.classifyCode;
     if (state.isCreate) {
-      await createClassify(params);
+      await createClassifyItem(params);
       message(`${title.value}成功！`, {
         type: "success"
       });
     } else {
-      await updateClassify(params.classifyCode, params);
+      await updateClassifyItem(params.itemId, params);
       message(`${title.value}成功！`, {
         type: "success"
       });
@@ -224,6 +228,17 @@ const handleSubmit = async () => {
     // 刷新列表
     refresh();
   } catch (error) {}
+  state.loading = false;
+};
+
+const handleDelete = async (row, isBatch) => {
+  state.loading = true;
+  await deleteClassifyItem(row?.itemId);
+  message(`删除成功！`, {
+    type: "success"
+  });
+  // 刷新列表
+  refresh();
   state.loading = false;
 };
 
