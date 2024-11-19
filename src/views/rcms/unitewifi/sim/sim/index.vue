@@ -19,13 +19,13 @@
     >
       <template #table-title>
         <el-row class="button-row">
-          <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+          <el-button type="primary" plain :icon="Setting">
             停机/复机
           </el-button>
-          <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+          <el-button type="primary" plain :icon="useRenderIcon(Upload)">
             SIM卡导入
           </el-button>
-          <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+          <el-button type="primary" plain :icon="useRenderIcon(Check)">
             流量校准
           </el-button>
         </el-row>
@@ -78,7 +78,10 @@ import {
 import { hasPerms } from "@/utils/auth";
 import { defaultPageInfo, buildColum, State } from "./hook";
 
+import { Setting, EditPen } from "@element-plus/icons-vue";
 import Delete from "@iconify-icons/ep/delete";
+import Upload from "@iconify-icons/ep/upload";
+import Check from "@iconify-icons/ep/circle-check";
 
 const show = ref(false);
 const currentRow = ref({});

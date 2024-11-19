@@ -1,7 +1,7 @@
 import { h, Fragment } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 import type { FormRules } from "element-plus";
-import { Delete, Setting, EditPen } from "@element-plus/icons-vue";
+import { Setting, EditPen, RefreshLeft } from "@element-plus/icons-vue";
 import { renderPermBtn } from "@/utils/auth";
 
 export const defaultPageInfo = {
@@ -10,7 +10,7 @@ export const defaultPageInfo = {
 };
 export const buttons = [
   { name: "编辑", type: "primary", perm: null, icon: EditPen },
-  { name: "同步流量", type: "primary", perm: null, icon: Delete },
+  { name: "同步流量", type: "primary", perm: null, icon: RefreshLeft },
   { name: "限速", type: "primary", perm: "aaa", icon: Setting }
 ];
 export function buildColum(handleClickButton: Function) {
