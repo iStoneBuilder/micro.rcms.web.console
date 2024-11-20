@@ -84,6 +84,7 @@ import { hasPerms } from "@/utils/auth";
 import { defaultPageInfo, buildChildColum, ChildState } from "./hook";
 
 const router = useRouter();
+const langOptions = ref([]);
 const props = defineProps<{
   currentRow: any;
 }>();
@@ -103,9 +104,10 @@ const getList = async (query: PageInfo & { merchantCode: string }) => {
   });
   return { data: data.data, success: true, total: data.meta.totalRows };
 };
-onMounted(() => {
+onMounted(async () => {
   // 加载运营商
-  getItemList("MIFI_ISP");
+  langOptions.value = await getItemList("MIFI_ISP");
+  columns[0].options = langOptions.value;
 });
 const plusPageInstance = ref<PlusPageInstance | null>(null);
 // 重新请求列表接口

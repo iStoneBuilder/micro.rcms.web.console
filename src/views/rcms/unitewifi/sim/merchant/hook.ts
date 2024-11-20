@@ -132,7 +132,9 @@ export function buildChildColum(handleClickButton: Function) {
     {
       label: "运营商",
       minWidth: 100,
-      prop: "carrierCode"
+      prop: "carrierCode",
+      valueType: "select",
+      options: []
     },
     {
       label: "appKey",
