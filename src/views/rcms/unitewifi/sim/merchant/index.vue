@@ -105,7 +105,7 @@ const show = ref(false);
 const currentRow = ref({ merchantName: "" });
 const item = {
   key: "Item",
-  title: "子项配置",
+  title: "API配置",
   component: Item
 };
 const REGEXP_CODE = /^[a-zA-Z][a-zA-Z0-9_]*[a-zA-Z]$/;

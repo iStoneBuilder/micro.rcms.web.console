@@ -65,8 +65,9 @@
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
 import { ElMessageBox } from "element-plus";
+import { getItemList } from "@/api/rcms/common";
 import { message } from "@/utils/message";
-import { reactive, computed, toRefs, ref, defineProps } from "vue";
+import { reactive, computed, toRefs, ref, defineProps, onMounted } from "vue";
 import type {
   PlusColumn,
   PageInfo,
@@ -102,6 +103,10 @@ const getList = async (query: PageInfo & { merchantCode: string }) => {
   });
   return { data: data.data, success: true, total: data.meta.totalRows };
 };
+onMounted(() => {
+  // 加载运营商
+  getItemList("MIFI_ISP");
+});
 const plusPageInstance = ref<PlusPageInstance | null>(null);
 // 重新请求列表接口
 const refresh = () => {

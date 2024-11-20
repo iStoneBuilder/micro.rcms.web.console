@@ -228,8 +228,8 @@ const handleDelete = async (row): Promise<void> => {
     message(`删除成功！`, {
       type: "success"
     });
+    refresh();
   });
-  refresh();
 };
 // 取消
 const handleCancel = () => {
