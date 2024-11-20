@@ -4,11 +4,7 @@
       ref="plusPageInstance"
       :columns="columns"
       :request="getList"
-      :search="{
-        labelWidth: '100px',
-        colProps: { span: 6 },
-        showNumber: 3
-      }"
+      :search="false"
       :table="{
         hasIndexColumn: true,
         isSelection: true,
@@ -49,13 +45,13 @@
       :form="{
         columns,
         labelPosition: 'left',
-        labelWidth: '80px',
+        labelWidth: '130px',
         rules,
         colProps: { span: 23 },
         rowProps: { gutter: 24 }
       }"
       :dialog="{
-        title: title + '字典子项',
+        title: title + 'API配置',
         width: '40%',
         top: '10vh',
         loading
@@ -68,6 +64,7 @@
 
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
+import { ElMessageBox } from "element-plus";
 import { message } from "@/utils/message";
 import { reactive, computed, toRefs, ref, defineProps } from "vue";
 import type {
@@ -77,11 +74,11 @@ import type {
 } from "plus-pro-components";
 import { Plus, Delete } from "@element-plus/icons-vue";
 import {
-  getClassifyItemList,
-  createClassifyItem,
-  updateClassifyItem,
-  deleteClassifyItem
-} from "@/api/rcms/classifyitem";
+  getMerchantCarrierList,
+  createMerchantCarrier,
+  updateMerchantCarrier,
+  deleteMerchantCarrier
+} from "@/api/rcms/merchant";
 import { hasPerms } from "@/utils/auth";
 import { defaultPageInfo, buildChildColum, ChildState } from "./hook";
 
@@ -89,13 +86,13 @@ const router = useRouter();
 const props = defineProps<{
   currentRow: any;
 }>();
-const getList = async (query: PageInfo & { classifyCode: string }) => {
+const getList = async (query: PageInfo & { merchantCode: string }) => {
   const { page = 1, pageSize = 15 } = query || {};
   const params = { ...query };
   delete params.page;
   delete params.pageSize;
-  params.classifyCode = props.currentRow.classifyCode;
-  const { data } = await getClassifyItemList(page, pageSize, params);
+  params.merchantCode = props.currentRow.merchantCode;
+  const { data } = await getMerchantCarrierList(page, pageSize, params);
 
   // 等待2s
   await new Promise(resolve => {
@@ -131,59 +128,48 @@ const state = reactive<ChildState>({
   loading: false,
   isCreate: false,
   form: {
-    classifyCode: "",
-    itemId: "",
-    itemCode: "",
-    itemName: "",
+    merchantCode: "",
+    carrierCode: "",
+    appKey: "",
+    appSecret: "",
+    disableArea: "",
     description: ""
   },
   rules: {
-    itemCode: [
+    carrierCode: [
       {
         required: true,
-        message: "请输入项编码"
+        message: "请选择运营商"
+      }
+    ],
+    appKey: [
+      {
+        required: true,
+        message: "请输入appKey"
       },
       {
         validator: (rule, value, callback) => {
           if (value.length > 50) {
-            callback(new Error("字典项最多包含50个字符"));
+            callback(new Error("最多包含50个字符"));
           }
           callback();
         },
         trigger: "blur"
       }
     ],
-    itemName: [
+    appSecret: [
       {
         required: true,
-        message: "请输入字典项名称"
+        message: "请输入appKey Secret"
       },
       {
         validator: (rule, value, callback) => {
           if (value.length > 50) {
-            callback(new Error("字典项名称最多包含50个字符"));
+            callback(new Error("最多包含50个字符"));
           }
           callback();
         },
         trigger: "blur"
-      }
-    ],
-    language: [
-      {
-        required: true,
-        message: "请选择语言"
-      }
-    ],
-    itemIndex: [
-      {
-        required: true,
-        message: "请设置排序"
-      }
-    ],
-    isEnabled: [
-      {
-        required: true,
-        message: "是否启用"
       }
     ]
   }
@@ -192,10 +178,11 @@ const title = computed(() => (state.isCreate ? "新增" : "编辑"));
 // 创建
 const handleCreate = (): void => {
   state.form = {
-    classifyCode: props?.currentRow?.classifyCode,
-    itemId: "",
-    itemCode: "",
-    itemName: "",
+    merchantCode: props?.currentRow?.merchantCode,
+    carrierCode: "",
+    appKey: "",
+    appSecret: "",
+    disableArea: "",
     description: ""
   };
   state.isCreate = true;
@@ -211,14 +198,14 @@ const handleSubmit = async () => {
   try {
     state.loading = true;
     const params = { ...state.form };
-    params.classifyCode = props.currentRow.classifyCode;
+    params.merchantCode = props.currentRow.merchantCode;
     if (state.isCreate) {
-      await createClassifyItem(params);
+      await createMerchantCarrier(params);
       message(`${title.value}成功！`, {
         type: "success"
       });
     } else {
-      await updateClassifyItem(params.itemId, params);
+      await updateMerchantCarrier(params.carrierCode, params);
       message(`${title.value}成功！`, {
         type: "success"
       });
@@ -233,9 +220,16 @@ const handleSubmit = async () => {
 
 const handleDelete = async (row, isBatch) => {
   state.loading = true;
-  await deleteClassifyItem(row?.itemId);
-  message(`删除成功！`, {
-    type: "success"
+  ElMessageBox.confirm("你确定删除当前数据吗，是否继续?", "温馨提示", {
+    confirmButtonText: "确认",
+    cancelButtonText: "取消",
+    type: "warning",
+    draggable: true
+  }).then(async () => {
+    await deleteMerchantCarrier(row?.itemId);
+    message(`删除成功！`, {
+      type: "success"
+    });
   });
   // 刷新列表
   refresh();

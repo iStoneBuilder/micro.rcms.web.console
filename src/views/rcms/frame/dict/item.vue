@@ -68,6 +68,7 @@
 
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
+import { ElMessageBox } from "element-plus";
 import { message } from "@/utils/message";
 import { reactive, computed, toRefs, ref, defineProps } from "vue";
 import type {
@@ -233,9 +234,16 @@ const handleSubmit = async () => {
 
 const handleDelete = async (row, isBatch) => {
   state.loading = true;
-  await deleteClassifyItem(row?.itemId);
-  message(`删除成功！`, {
-    type: "success"
+  ElMessageBox.confirm("你确定删除当前数据吗，是否继续?", "温馨提示", {
+    confirmButtonText: "确认",
+    cancelButtonText: "取消",
+    type: "warning",
+    draggable: true
+  }).then(async () => {
+    await deleteClassifyItem(row?.itemId);
+    message(`删除成功！`, {
+      type: "success"
+    });
   });
   // 刷新列表
   refresh();

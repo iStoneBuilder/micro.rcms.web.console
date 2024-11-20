@@ -18,7 +18,7 @@ export function buildColum(handleClickButton: Function) {
     {
       label: "卡商编码",
       minWidth: 200,
-      prop: "classifyCode",
+      prop: "merchantCode",
       hideInForm: true,
       hideInSearch: true,
       fieldProps: {
@@ -28,7 +28,7 @@ export function buildColum(handleClickButton: Function) {
     {
       label: "卡商名称",
       minWidth: 200,
-      prop: "classifyName",
+      prop: "merchantName",
       columnsProps: {
         showOverflowTooltip: true
       }
@@ -37,8 +37,7 @@ export function buildColum(handleClickButton: Function) {
       label: "描述",
       minWidth: 300,
       prop: "description",
-      valueType: "textarea",
-      hideInSearch: true
+      valueType: "textarea"
     },
     {
       label: "操作",
@@ -84,8 +83,8 @@ export interface State {
    * 表单
    */
   form: {
-    classifyCode: string;
-    classifyName: string;
+    merchantCode: string;
+    merchantName: string;
     description?: string;
   };
   /**
@@ -111,10 +110,11 @@ export interface ChildState {
    * 表单
    */
   form: {
-    classifyCode: string;
-    itemId: string;
-    itemCode: string;
-    itemName: string;
+    merchantCode: string;
+    carrierCode: string;
+    appKey: string;
+    appSecret: string;
+    disableArea: string;
     description?: string;
   };
   /**
@@ -130,72 +130,30 @@ export const childButtons = [
 export function buildChildColum(handleClickButton: Function) {
   const columns: PlusColumn[] = [
     {
-      label: "项编码",
+      label: "运营商",
+      minWidth: 100,
+      prop: "carrierCode"
+    },
+    {
+      label: "appKey",
       minWidth: 200,
-      prop: "itemCode"
+      prop: "appKey"
     },
     {
-      label: "名称",
+      label: "appKey Secret",
       minWidth: 200,
-      prop: "itemName"
+      prop: "appSecret"
     },
     {
-      label: "语言",
-      minWidth: 100,
-      prop: "language"
-    },
-    {
-      label: "排序",
-      minWidth: 100,
-      prop: "itemIndex",
-      hideInSearch: true
-    },
-    {
-      label: "启用",
-      minWidth: 100,
-      prop: "isEnabled",
-      valueType: "select",
-      options: [
-        { value: "Y", label: "是" },
-        { value: "N", label: "否" }
-      ]
-    },
-    {
-      label: "扩展1",
-      minWidth: 100,
-      prop: "itemAttr1",
-      hideInSearch: true
-    },
-    {
-      label: "扩展2",
-      minWidth: 100,
-      prop: "itemAttr2",
-      hideInSearch: true
-    },
-    {
-      label: "扩展3",
-      minWidth: 100,
-      prop: "itemAttr3",
-      hideInSearch: true
-    },
-    {
-      label: "扩展4",
-      minWidth: 100,
-      prop: "itemAttr4",
-      hideInSearch: true
-    },
-    {
-      label: "扩展5",
-      minWidth: 100,
-      prop: "itemAttr5",
-      hideInSearch: true
+      label: "禁用区域",
+      minWidth: 300,
+      prop: "disableArea"
     },
     {
       label: "描述",
       minWidth: 200,
       prop: "description",
       valueType: "textarea",
-      hideInSearch: true,
       colProps: {
         span: 23
       }
@@ -204,7 +162,6 @@ export function buildChildColum(handleClickButton: Function) {
       label: "操作",
       width: 150,
       prop: "description",
-      hideInSearch: true,
       hideInForm: true,
       columnsProps: {
         align: "center"

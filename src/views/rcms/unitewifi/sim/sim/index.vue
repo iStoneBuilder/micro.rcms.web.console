@@ -19,7 +19,7 @@
     >
       <template #table-title>
         <el-row class="button-row">
-          <el-button type="primary" plain :icon="Setting">
+          <el-button type="primary" plain :icon="Compass">
             停机/复机
           </el-button>
           <el-button type="primary" plain :icon="useRenderIcon(Upload)">
@@ -60,6 +60,7 @@
 
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
+import { ElMessageBox } from "element-plus";
 import { message } from "@/utils/message";
 import { reactive, computed, toRefs, ref } from "vue";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
@@ -68,13 +69,13 @@ import type {
   PageInfo,
   PlusPageInstance
 } from "plus-pro-components";
-import { Plus } from "@element-plus/icons-vue";
+import { Plus, Compass } from "@element-plus/icons-vue";
 import {
-  getClassifyPageList,
-  createClassify,
-  updateClassify,
-  deleteClassify
-} from "@/api/rcms/classifyitem";
+  getMerchantPageList,
+  createMerchant,
+  updateMerchant,
+  deleteMerchant
+} from "@/api/rcms/merchant";
 import { hasPerms } from "@/utils/auth";
 import { defaultPageInfo, buildColum, State } from "./hook";
 
@@ -93,7 +94,7 @@ const getList = async (query: PageInfo) => {
   const params = query;
   delete params.page;
   delete params.pageSize;
-  const { data } = await getClassifyPageList(page, pageSize, params);
+  const { data } = await getMerchantPageList(page, pageSize, params);
 
   // 等待2s
   await new Promise(resolve => {
@@ -195,9 +196,16 @@ const handleCreate = (): void => {
   state.visible = true;
 };
 const handleDelete = async (row): Promise<void> => {
-  await deleteClassify(row?.classifyCode);
-  message(`删除成功！`, {
-    type: "success"
+  ElMessageBox.confirm("你确定删除当前数据吗，是否继续?", "温馨提示", {
+    confirmButtonText: "确认",
+    cancelButtonText: "取消",
+    type: "warning",
+    draggable: true
+  }).then(async () => {
+    await deleteMerchant(row?.classifyCode);
+    message(`删除成功！`, {
+      type: "success"
+    });
   });
   refresh();
 };
@@ -212,12 +220,12 @@ const handleSubmit = async () => {
     state.loading = true;
     const params = { ...state.form };
     if (state.isCreate) {
-      await createClassify(params);
+      await createMerchant(params);
       message(`${title.value}成功！`, {
         type: "success"
       });
     } else {
-      await updateClassify(params.classifyCode, params);
+      await updateMerchant(params.classifyCode, params);
       message(`${title.value}成功！`, {
         type: "success"
       });

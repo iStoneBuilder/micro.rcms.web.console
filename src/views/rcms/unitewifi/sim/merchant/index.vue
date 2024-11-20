@@ -55,7 +55,7 @@
         }
       }"
       :dialog="{
-        title: title + '字典项',
+        title: title + '卡商',
         width: '500px',
         top: '12vh',
         loading
@@ -66,7 +66,7 @@
     <PlusDialog
       v-model="show"
       class="rcms-plus-dialog"
-      title="字典子项配置"
+      :title="'[' + currentRow?.merchantName + ']API配置'"
       width="80%"
       top="2%"
       :hasFooter="false"
@@ -91,17 +91,18 @@ import type {
 } from "plus-pro-components";
 import { Plus, Delete } from "@element-plus/icons-vue";
 import {
-  getClassifyPageList,
-  createClassify,
-  updateClassify,
-  deleteClassify
-} from "@/api/rcms/classifyitem";
+  getMerchantPageList,
+  createMerchant,
+  updateMerchant,
+  deleteMerchant
+} from "@/api/rcms/merchant";
+import { ElMessageBox } from "element-plus";
 import { hasPerms } from "@/utils/auth";
 import Item from "./item.vue";
 import { defaultPageInfo, buildColum, State } from "./hook";
 
 const show = ref(false);
-const currentRow = ref({});
+const currentRow = ref({ merchantName: "" });
 const item = {
   key: "Item",
   title: "子项配置",
@@ -115,7 +116,7 @@ const getList = async (query: PageInfo) => {
   const params = query;
   delete params.page;
   delete params.pageSize;
-  const { data } = await getClassifyPageList(page, pageSize, params);
+  const { data } = await getMerchantPageList(page, pageSize, params);
 
   // 等待2s
   await new Promise(resolve => {
@@ -160,32 +161,12 @@ const state = reactive<State>({
   loading: false,
   isCreate: false,
   form: {
-    classifyName: "",
-    classifyCode: "",
+    merchantName: "",
+    merchantCode: "",
     description: ""
   },
   rules: {
-    classifyCode: [
-      {
-        required: true,
-        message: "请输入字典项"
-      },
-      {
-        validator: (rule, value, callback) => {
-          if (!REGEXP_CODE.test(value)) {
-            callback(
-              new Error("字典项包含：字母、下划线、数字，必须字母开始结尾")
-            );
-          }
-          if (value.length > 100) {
-            callback(new Error("字典项最多包含100个字符"));
-          }
-          callback();
-        },
-        trigger: "blur"
-      }
-    ],
-    classifyName: [
+    merchantName: [
       {
         required: true,
         message: "请输入字典项名称"
@@ -208,8 +189,8 @@ const title = computed(() => (state.isCreate ? "新增" : "编辑"));
 // 创建
 const handleCreate = (): void => {
   state.form = {
-    classifyName: "",
-    classifyCode: "",
+    merchantName: "",
+    merchantCode: "",
     description: ""
   };
   changeColumns(columns, true);
@@ -217,11 +198,18 @@ const handleCreate = (): void => {
   state.visible = true;
 };
 const handleDelete = async (row): Promise<void> => {
-  await deleteClassify(row?.classifyCode);
-  message(`删除成功！`, {
-    type: "success"
+  ElMessageBox.confirm("你确定删除当前数据吗，是否继续?", "温馨提示", {
+    confirmButtonText: "确认",
+    cancelButtonText: "取消",
+    type: "warning",
+    draggable: true
+  }).then(async () => {
+    await deleteMerchant(row?.merchantCode);
+    message(`删除成功！`, {
+      type: "success"
+    });
+    refresh();
   });
-  refresh();
 };
 // 取消
 const handleCancel = () => {
@@ -234,12 +222,12 @@ const handleSubmit = async () => {
     state.loading = true;
     const params = { ...state.form };
     if (state.isCreate) {
-      await createClassify(params);
+      await createMerchant(params);
       message(`${title.value}成功！`, {
         type: "success"
       });
     } else {
-      await updateClassify(params.classifyCode, params);
+      await updateMerchant(params.merchantCode, params);
       message(`${title.value}成功！`, {
         type: "success"
       });

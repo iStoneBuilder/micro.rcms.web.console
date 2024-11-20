@@ -142,7 +142,7 @@ const tableConfig: PlusColumn[] = [
   },
   {
     label: "权限编码",
-    minWidth: 250,
+    minWidth: 300,
     prop: "authCode"
   },
   {
@@ -193,7 +193,7 @@ const tableConfig: PlusColumn[] = [
   },
   {
     label: "接口路径",
-    minWidth: 500,
+    minWidth: 600,
     prop: "path"
   }
 ];
