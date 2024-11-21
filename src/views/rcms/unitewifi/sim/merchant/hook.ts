@@ -37,6 +37,7 @@ export function buildColum(handleClickButton: Function) {
       label: "描述",
       minWidth: 300,
       prop: "description",
+      hideInSearch: true,
       valueType: "textarea"
     },
     {

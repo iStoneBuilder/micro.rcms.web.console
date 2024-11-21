@@ -19,11 +19,11 @@
     >
       <template #table-title>
         <el-row class="button-row">
-          <el-button type="primary" plain :icon="Compass">
-            停机/复机
-          </el-button>
           <el-button type="primary" plain :icon="useRenderIcon(Upload)">
             SIM卡导入
+          </el-button>
+          <el-button type="primary" plain :icon="Compass">
+            停机/复机
           </el-button>
           <el-button type="primary" plain :icon="useRenderIcon(Check)">
             流量校准
@@ -38,23 +38,23 @@
       v-model="form"
       class="rcms-plus-form"
       :form="{
-        columns,
+        columns: editColumns,
         labelPosition: 'left',
         rules,
-        labelWidth: '100px',
-        colProps: {
-          span: 23
-        }
+        labelWidth: '120px',
+        colProps: { span: 11 },
+        rowProps: { gutter: 24 }
       }"
       :dialog="{
-        title: title + '字典项',
-        width: '500px',
+        title: title + 'SIM卡',
+        width: '800px',
         top: '12vh',
         loading
       }"
       @confirm="handleSubmit"
       @cancel="handleCancel"
     />
+    <!-- 导入 -->
   </div>
 </template>
 
@@ -77,7 +77,7 @@ import {
   deleteMerchant
 } from "@/api/rcms/merchant";
 import { hasPerms } from "@/utils/auth";
-import { defaultPageInfo, buildColum, State } from "./hook";
+import { defaultPageInfo, buildColum, State, buildEditColum } from "./hook";
 
 import { Setting, EditPen } from "@element-plus/icons-vue";
 import Delete from "@iconify-icons/ep/delete";
@@ -109,18 +109,11 @@ const plusPageInstance = ref<PlusPageInstance | null>(null);
 const refresh = () => {
   plusPageInstance.value?.getList();
 };
-function changeColumns(columns: Array<any>, showItem: boolean) {
-  columns[0].hideInForm = showItem;
-  columns[0].fieldProps = {
-    disabled: !showItem
-  };
-}
 function handleClickButton(e, value, index, row, item) {
   switch (item.name) {
     case "编辑":
       state.form = { ...row } as any;
       state.isCreate = false;
-      changeColumns(columns, false);
       state.visible = true;
       break;
     case "删除":
@@ -182,7 +175,7 @@ const state = reactive<State>({
   }
 });
 const columns: PlusColumn[] = buildColum(handleClickButton);
-
+const editColumns: PlusColumn[] = buildEditColum();
 const title = computed(() => (state.isCreate ? "新增" : "编辑"));
 // 创建
 const handleCreate = (): void => {
@@ -191,7 +184,6 @@ const handleCreate = (): void => {
     classifyCode: "",
     description: ""
   };
-  changeColumns(columns, true);
   state.isCreate = true;
   state.visible = true;
 };

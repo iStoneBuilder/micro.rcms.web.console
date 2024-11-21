@@ -42,7 +42,7 @@ export function buildColum(handleClickButton: Function) {
     {
       label: "运营商",
       prop: "name",
-      minWidth: 200,
+      minWidth: 100,
       align: "left",
       hideInSearch: true
     },
@@ -51,7 +51,8 @@ export function buildColum(handleClickButton: Function) {
       prop: "name",
       minWidth: 200,
       align: "left",
-      hideInSearch: true
+      hideInSearch: true,
+      hideInForm: true
     },
     {
       label: "网络类型",
@@ -93,13 +94,18 @@ export function buildColum(handleClickButton: Function) {
       prop: "name",
       minWidth: 300,
       align: "left",
-      hideInSearch: true
+      hideInSearch: true,
+      valueType: "textarea",
+      colProps: {
+        span: 22
+      }
     },
     {
       label: "操作",
       width: 250,
       prop: "description",
       hideInSearch: true,
+      hideInForm: true,
       columnsProps: {
         align: "center"
       },
@@ -146,4 +152,95 @@ export interface State {
    * 校验
    */
   rules: FormRules;
+}
+
+export function buildEditColum() {
+  const columns: PlusColumn[] = [
+    {
+      label: "iccid",
+      prop: "name",
+      width: 200,
+      align: "left",
+      fieldProps: {
+        disabled: true
+      }
+    },
+    {
+      label: "商户",
+      prop: "name",
+      minWidth: 200,
+      align: "left",
+      fieldProps: {
+        disabled: true
+      }
+    },
+    {
+      label: "卡商",
+      prop: "name",
+      minWidth: 200,
+      align: "left",
+      fieldProps: {
+        disabled: true
+      }
+    },
+    {
+      label: "使用设备",
+      prop: "name",
+      minWidth: 200,
+      align: "left",
+      fieldProps: {
+        disabled: true
+      }
+    },
+    {
+      label: "运营商",
+      prop: "name",
+      minWidth: 100,
+      align: "left",
+      fieldProps: {
+        disabled: true
+      }
+    },
+    {
+      label: "网络类型",
+      prop: "name",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "流量状态",
+      prop: "name",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "入网分配",
+      prop: "name",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "实名状态",
+      prop: "name",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "SIM卡分类",
+      prop: "name",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "备注",
+      prop: "name",
+      minWidth: 300,
+      align: "left",
+      valueType: "textarea",
+      colProps: {
+        span: 22
+      }
+    }
+  ];
+  return columns;
 }

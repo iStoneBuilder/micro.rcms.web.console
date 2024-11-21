@@ -119,6 +119,7 @@ function handleClickButton(e, value, index, row, item) {
   switch (item.name) {
     case "编辑":
       state.form = { ...row } as any;
+      columns[0].fieldProps = { disabled: true };
       state.isCreate = false;
       state.visible = true;
       break;
@@ -129,7 +130,6 @@ function handleClickButton(e, value, index, row, item) {
 }
 
 const columns: PlusColumn[] = buildChildColum(handleClickButton);
-const REGEXP_CODE = /^[a-zA-Z][a-zA-Z0-9_]*[a-zA-Z]$/;
 const state = reactive<ChildState>({
   visible: false,
   loading: false,
@@ -192,6 +192,7 @@ const handleCreate = (): void => {
     disableArea: "",
     description: ""
   };
+  columns[0].fieldProps = { disabled: false };
   state.isCreate = true;
   state.visible = true;
 };

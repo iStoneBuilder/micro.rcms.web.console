@@ -66,6 +66,8 @@
     "classifyitem",
     "Divice",
     "ICCID",
+    "iconfont",
+    "Iconify",
     "IMEI",
     "Kbps",
     "mifi",
@@ -77,6 +79,7 @@
     "thali",
     "unitewifi",
     "usermange",
+    "VITE",
     "zxcvbn"
   ],
 }
