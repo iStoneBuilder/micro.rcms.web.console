@@ -8,7 +8,7 @@ import {
   deleteEnterprise,
   updateEnterprise
 } from "@/api/rcms/enterprise";
-import { usePublicHooks } from "../../hooks";
+import { usePublicHooks } from "../../../hooks";
 import { addDialog } from "@/components/ReDialog";
 import { ElMessageBox } from "element-plus";
 import { reactive, ref, onMounted, h } from "vue";

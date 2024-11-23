@@ -2,7 +2,8 @@ import { h, Fragment } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 import { Delete, EditPen } from "@element-plus/icons-vue";
 import { renderPermBtn } from "@/utils/auth";
-
+import { usePublicHooks } from "../../../hooks";
+const { tagStyle } = usePublicHooks();
 export const searchColumns: PlusColumn[] = [
   {
     label: "分组编码",
@@ -50,10 +51,11 @@ export function buildTableColum(handleClickButton: Function) {
       label: "是否需要认证",
       prop: "tag",
       minWidth: 200,
-      valueType: "tag",
-      fieldProps: (value: string) => {
-        return { type: value };
-      }
+      cellRenderer: ({ row, props }) => (
+        <el-tag size={props.size} style={tagStyle.value(1)}>
+          {row.tag}
+        </el-tag>
+      )
     },
     {
       label: "创建时间",

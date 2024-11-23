@@ -3,7 +3,7 @@ import { ref, nextTick } from "vue";
 import ReCol from "@/components/ReCol";
 import { formRules } from "./utils/rule";
 import { FormProps } from "./utils/types";
-import { usePublicHooks } from "../hooks";
+import { usePublicHooks } from "../../hooks";
 import { findSelected } from "@/utils/common";
 
 const props = withDefaults(defineProps<FormProps>(), {
