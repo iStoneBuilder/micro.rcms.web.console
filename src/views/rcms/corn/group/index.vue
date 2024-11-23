@@ -65,7 +65,7 @@
             :columns="createColumns"
             :rules="createRules"
             footerAlign="center"
-            @submit="handleDgSubmit"
+            @submit="handleSubmit"
           >
             <template #footer="{ handleSubmit }">
               <div style="margin: 0 auto">
@@ -157,8 +157,11 @@ const handleSelectChange = (val: Array<any>) => {
   console.log("handleSelectChange");
   multipleSelection.value = val;
 };
-const handleCreate = (e?: object, row?: object) => {
-  row ? (createTitle.value = "编辑") : (createTitle.value = "新增");
+const handleCreate = (e?: object, row?: FieldValues) => {
+  row
+    ? ((createTitle.value = "编辑"), (createForm.value = row))
+    : ((createTitle.value = "新增"),
+      (createForm.value = { isAuthorized: "N" }));
   show.value = true;
 };
 const handleDelete = (row?: object) => {
@@ -264,12 +267,11 @@ const createRules = {
     }
   ]
 };
-const handleDgSubmit = (values: FieldValues) => {
+const handleSubmit = (values: FieldValues) => {
   console.log(values, "Submit");
   createLoading.value = true;
 };
 const handleClose = () => {
-  createForm.value = { isAuthorized: "N" };
   show.value = false;
 };
 </script>
