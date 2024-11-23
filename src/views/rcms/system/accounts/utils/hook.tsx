@@ -73,7 +73,8 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     {
       label: "账户",
       prop: "code",
-      width: 130
+      width: 130,
+      fixed: "left"
     },
     {
       label: "账户名称",
@@ -83,7 +84,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     {
       label: "账户类型",
       prop: "type",
-      width: 80,
+      width: 100,
       cellRenderer: ({ row, props }) => (
         <el-tag
           size={props.size}

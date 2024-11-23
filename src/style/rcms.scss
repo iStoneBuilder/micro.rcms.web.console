@@ -101,6 +101,14 @@
       }
     }
   }
+  .el-card{
+    --el-card-border-color:none;
+    --el-card-border-radius:none;
+    margin-bottom: 10px;
+  }
+  .el-card.is-always-shadow{
+    box-shadow: none;
+  }
 }
 .rcms-plus-dialog{
   min-height: 80%;

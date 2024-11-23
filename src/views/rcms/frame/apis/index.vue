@@ -39,22 +39,28 @@
             </el-select>
           </el-row>
           <el-row class="button-row">
-            <el-button
-              v-if="hasPerms('permission:role:update')"
-              type="primary"
-              plain
-              :icon="Plus"
-              @click="handleAccountPerm"
+            <el-tooltip
+              class="item"
+              content="只允许授权给当前登录的企租下的程序账户"
+              placement="top"
             >
-              授权
-            </el-button>
+              <el-button
+                v-if="hasPerms('permission:role:update')"
+                type="primary"
+                plain
+                :icon="Plus"
+                @click="handleAccountPerm"
+              >
+                授权
+              </el-button>
+            </el-tooltip>
           </el-row>
           <el-row class="button-row" style="padding-left: 10px">
             <el-button
               v-if="hasPerms('permission:role:update')"
               type="primary"
               plain
-              :icon="Plus"
+              :icon="Refresh"
               @click="handleRefreshPerm"
             >
               同步接口
@@ -76,8 +82,14 @@ import type {
   PlusPageInstance
 } from "plus-pro-components";
 import { ElButton } from "element-plus";
-import { Plus, Delete } from "@element-plus/icons-vue";
-import { Search, Refresh, ArrowDown, ArrowUp } from "@element-plus/icons-vue";
+import {
+  Search,
+  Refresh,
+  ArrowDown,
+  ArrowUp,
+  Plus,
+  Delete
+} from "@element-plus/icons-vue";
 import { getAccountPageList } from "@/api/rcms/account";
 import { getPermissionPageList, refreshPerm } from "@/api/rcms/permission";
 
@@ -157,6 +169,25 @@ const tableConfig: PlusColumn[] = [
     label: "请求方式",
     width: 100,
     prop: "method",
+    valueType: "select",
+    options: [
+      {
+        label: "GET",
+        value: "GET"
+      },
+      {
+        label: "PUT",
+        value: "PUT"
+      },
+      {
+        label: "POST",
+        value: "POST"
+      },
+      {
+        label: "DELETE",
+        value: "DELETE"
+      }
+    ],
     tableColumnProps: {
       align: "center"
     },
