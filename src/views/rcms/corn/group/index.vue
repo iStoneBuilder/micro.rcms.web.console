@@ -28,7 +28,10 @@
         :adaptive="{
           offsetBottom: 80
         }"
-        :pagination="pagination"
+        :pagination="{
+          pageSizeList: pageSizeList,
+          total: total
+        }"
         @paginationChange="handlePageChange"
         @selection-change="handleSelectChange"
       >
@@ -42,15 +45,61 @@
         </template>
       </PlusTable>
     </el-card>
+    <PlusDialog
+      v-model="show"
+      :title="createTitle + '任务组'"
+      :hasFooter="false"
+      :showClose="false"
+      @close="handleClose"
+    >
+      <template #default>
+        <el-card>
+          <PlusForm
+            v-if="show"
+            v-model="createForm"
+            :columns="createColumns"
+            :rules="createRules"
+            footerAlign="center"
+            @change="handleDgChange"
+            @submit="handleDgSubmit"
+            @reset="handleDgReset"
+          >
+            <template #footer="{ handleSubmit }">
+              <div style="margin: 0 auto">
+                <el-button
+                  type="primary"
+                  :disabled="createLoading"
+                  @click="handleClose"
+                  >取消</el-button
+                >
+                <el-button
+                  type="primary"
+                  :loading="createLoading"
+                  @click="handleSubmit"
+                  >提交</el-button
+                >
+              </div>
+            </template>
+          </PlusForm>
+        </el-card>
+      </template>
+    </PlusDialog>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, onMounted, reactive, toRefs } from "vue";
+import { ElMessageBox } from "element-plus";
 import { useTable } from "plus-pro-components";
-import type { PageInfo } from "plus-pro-components";
+import type { PageInfo, PlusColumn, FieldValues } from "plus-pro-components";
 import { Plus, Delete } from "@element-plus/icons-vue";
-import { searchColumns, buildTableColum, groupService } from "./utils/hook";
+import {
+  createRules,
+  createColumns,
+  searchColumns,
+  buildTableColum,
+  groupService
+} from "./utils/hook";
 
 // --- 查询条件区域 ---
 const searchForm = ref({});
@@ -68,18 +117,22 @@ const handleReset = () => {
   getList();
 };
 // --- Table ---
+const createTitle = ref("新增");
+const pageSizeList = [5, 10, 20, 50, 100];
 const loading = ref(false);
 const { tableData, total, pageInfo } = useTable<Array<any>>();
 const multipleSelection = ref<Array<any>>([]);
-const pagination = {
-  total: total,
-  modelValue: pageInfo,
-  pageSizeList: [5, 10, 20, 50, 100],
-  align: "right"
-};
 // 列表按钮操作
 const handleClickButton = (e, value, index, row, item) => {
   console.log("列表按钮操作", item.name, index);
+  switch (item.name) {
+    case "编辑":
+      handleCreate(e, row);
+      break;
+    case "删除":
+      handleDelete(row);
+      break;
+  }
 };
 const tableColumns = buildTableColum(handleClickButton);
 const getList = async () => {
@@ -107,14 +160,44 @@ const handleSelectChange = (val: Array<any>) => {
   console.log("handleSelectChange");
   multipleSelection.value = val;
 };
-const handleCreate = () => {
-  console.log("handleCreate");
+const handleCreate = (e?: object, row?: object) => {
+  row ? (createTitle.value = "编辑") : (createTitle.value = "新增");
+  show.value = true;
 };
-const handleDelete = () => {
-  console.log("handleDelete");
+const handleDelete = (row?: object) => {
+  ElMessageBox.confirm("确定删除该数据吗?", "温馨提示", {
+    confirmButtonText: "确认",
+    cancelButtonText: "取消",
+    type: "warning",
+    draggable: true
+  })
+    .then(async () => {
+      getList();
+    })
+    .catch(() => {
+      console.log("取消删除");
+    });
 };
 // --- 进入页面加载数据 ---
 onMounted(() => {
   getList();
 });
+
+// --- 编辑页面 ---
+const show = ref(false);
+const createLoading = ref(false);
+const createForm = {};
+const handleDgChange = (values: FieldValues, prop: PlusColumn) => {
+  console.log(values, prop, "change");
+};
+const handleDgSubmit = (values: FieldValues) => {
+  console.log(values, "Submit");
+  createLoading.value = true;
+};
+const handleDgReset = () => {
+  console.log("handleReset");
+};
+const handleClose = () => {
+  show.value = false;
+};
 </script>
