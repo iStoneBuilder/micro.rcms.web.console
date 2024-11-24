@@ -4,7 +4,7 @@ import type { ResultPage } from "../types";
 export const getItemList = async (classifyCode: string) => {
   const { data } = await http.request<ResultPage>(
     "get",
-    `/test/services/rcms/base/classify/item/records/${classifyCode}/zh_cn`
+    `/test/services/rcms/base/classify/item/records/${classifyCode}/zh-CN`
   );
   const itemOptions = [];
   (data as unknown as Array<any>).forEach(item => {

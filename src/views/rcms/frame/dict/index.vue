@@ -218,6 +218,13 @@ const handleCreate = (): void => {
   state.visible = true;
 };
 const handleDelete = async (row): Promise<void> => {
+  debugger;
+  if (row.classifyCode.indexOf("RCMS_SYS_") !== -1) {
+    message(`系统字典配置禁止删除！`, {
+      type: "warning"
+    });
+    return;
+  }
   ElMessageBox.confirm("你确定删除当前数据吗，是否继续?", "温馨提示", {
     confirmButtonText: "确认",
     cancelButtonText: "取消",

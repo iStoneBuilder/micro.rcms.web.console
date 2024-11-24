@@ -19,7 +19,7 @@ export default {
     {
       path: "/corn/task",
       name: "任务列表",
-      component: () => import("@/views/rcms/system/enterprise/index.vue"),
+      component: () => import("@/views/rcms/corn/task/index.vue"),
       meta: {
         icon: "ri:indent-increase",
         title: "任务列表"
@@ -28,7 +28,7 @@ export default {
     {
       path: "/corn/job",
       name: "任务调度列表",
-      component: () => import("@/views/rcms/system/enterprise/index.vue"),
+      component: () => import("@/views/rcms/corn/job/index.vue"),
       meta: {
         icon: "ri:file-list-2-line",
         title: "任务调度列表"
