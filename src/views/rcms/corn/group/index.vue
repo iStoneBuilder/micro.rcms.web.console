@@ -33,8 +33,13 @@
             pageSizeList: pageSizeList,
             total: total
           }"
+          :action-bar="{
+            buttons,
+            width: 120
+          }"
           @paginationChange="handlePageChange"
           @selection-change="handleSelectChange"
+          @clickAction="handleClickButton"
         >
           <template #title>
             <el-button type="primary" plain :icon="Plus" @click="handleCreate"
@@ -94,10 +99,16 @@
 import { ref, onMounted, reactive, toRefs, computed } from "vue";
 import { ElMessageBox } from "element-plus";
 import { useTable } from "plus-pro-components";
-import type { PageInfo, PlusColumn, FieldValues } from "plus-pro-components";
-import { Plus, Delete } from "@element-plus/icons-vue";
+import type {
+  PageInfo,
+  PlusColumn,
+  FieldValues,
+  ButtonsCallBackParams
+} from "plus-pro-components";
+import { Plus, Delete, Edit } from "@element-plus/icons-vue";
 import { searchColumns, buildTableColum, groupService } from "./utils/hook";
 import { message } from "@/utils/message";
+import { getCornGroupPageList } from "@/api/corn/group";
 
 // --- 查询条件区域 ---
 const searchForm = ref({});
@@ -111,31 +122,54 @@ const handleReset = () => {
   search();
 };
 // --- Table ---
+const type = ref("link");
 const createTitle = ref("新增");
 const pageSizeList = [5, 10, 20, 50, 100];
 const loading = ref(false);
-const { tableData, total, pageInfo } = useTable<Array<any>>();
+const { tableData, total, pageInfo, buttons } = useTable<Array<any>>();
 const multipleSelection = ref<Array<any>>([]);
 // 列表按钮操作
-const handleClickButton = (e, value, index, row, item) => {
-  console.log("列表按钮操作", item.name, index);
-  switch (item.name) {
+const handleClickButton = (params: ButtonsCallBackParams) => {
+  console.log("列表按钮操作", params);
+  switch (params.text) {
     case "编辑":
-      handleCreate(e, row);
+      handleCreate(params.e, params.row);
       break;
     case "删除":
-      handleDelete(e, row);
+      handleDelete(params.e, params.row);
       break;
   }
 };
-const tableColumns = buildTableColum(handleClickButton);
+const tableColumns = buildTableColum();
+buttons.value = [
+  {
+    // 修改
+    text: "编辑",
+    code: "edit",
+    icon: Edit,
+    // props v0.1.16 版本新增函数类型
+    props: (row: any) => ({
+      type: "primary"
+    }),
+    show: computed(() => true)
+  },
+  {
+    // 删除
+    text: "删除",
+    code: "delete",
+    icon: Delete,
+    props: computed(() => ({ type: "danger" }))
+  }
+];
 const search = async () => {
   loading.value = true;
-  try {
-    const { data, total: dataTotal } = await groupService.getTableData();
-    tableData.value = data;
-    total.value = dataTotal;
-  } catch (error) {}
+  const { data } = await getCornGroupPageList(
+    pageInfo.value.page,
+    pageInfo.value.pageSize,
+    searchForm.value
+  );
+  tableData.value = data.data;
+  total.value = data.meta.totalRows;
   // 等待2s
   await new Promise(resolve => {
     setTimeout(() => {

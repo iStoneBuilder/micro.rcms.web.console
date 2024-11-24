@@ -145,9 +145,9 @@ class PureHttp {
         NProgress.done();
         // 处理异常提示
         handleRequestError(
-          error.status,
+          error?.status,
           error?.response?.data as Object,
-          error.request.responseURL as string
+          error?.request?.responseURL as string
         );
         // 所有的响应异常 区分来源为取消请求/非取消请求
         return Promise.reject($error);

@@ -21,3 +21,4 @@ tests/**/coverage/
 *.sln
 tsconfig.tsbuildinfo
 .husky
+pnpm-lock.yaml

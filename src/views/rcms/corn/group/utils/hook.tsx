@@ -1,7 +1,6 @@
-import { h, Fragment } from "vue";
+import { h } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 import { Delete, EditPen } from "@element-plus/icons-vue";
-import { renderPermBtn } from "@/utils/auth";
 
 export const searchColumns: PlusColumn[] = [
   {
@@ -34,7 +33,7 @@ export const tableButtons = [
   { name: "删除", type: "danger", perm: null, icon: Delete }
 ];
 
-export function buildTableColum(handleClickButton: Function) {
+export function buildTableColum() {
   const tableColumns: PlusColumn[] = [
     {
       label: "分组编码",
@@ -72,30 +71,6 @@ export function buildTableColum(handleClickButton: Function) {
       prop: "createBy",
       minWidth: 200,
       valueType: "date-picker"
-    },
-    {
-      label: "操作",
-      width: 170,
-      prop: "description",
-      hideInSearch: true,
-      hideInForm: true,
-      columnsProps: {
-        align: "center"
-      },
-      tableColumnProps: {
-        fixed: "right",
-        align: "center"
-      },
-      render: (value, { index, row }) => {
-        const CustomButton = renderPermBtn(
-          tableButtons,
-          handleClickButton,
-          value,
-          index,
-          row
-        );
-        return h(Fragment, CustomButton);
-      }
     }
   ];
   return tableColumns;
