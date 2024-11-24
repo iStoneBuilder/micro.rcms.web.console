@@ -38,7 +38,14 @@ export function buildTableColum() {
     {
       label: "分组编码",
       prop: "quartzGroupCode",
-      minWidth: 200
+      minWidth: 100,
+      render(value) {
+        return (
+          <el-link href={"/#/corn/task?code=" + value} type="primary">
+            {value}
+          </el-link>
+        );
+      }
     },
     {
       label: "分组名称",
@@ -69,29 +76,8 @@ export function buildTableColum() {
     {
       label: "创建人",
       prop: "createBy",
-      minWidth: 200,
-      valueType: "date-picker"
+      minWidth: 200
     }
   ];
   return tableColumns;
 }
-
-export const groupService = {
-  // 加载列表数据
-  getTableData: async () => {
-    const data = Array.from({ length: 15 }).map((item, index) => {
-      return {
-        id: index,
-        quartzGroupName: index + "name",
-        quartzGroupCode: String(index % 3),
-        isAuthorized:
-          index === 1 ? "N" : index === 2 ? "Y" : index === 3 ? "N" : "Y",
-        createDate: new Date()
-      };
-    });
-    return {
-      data: data as Array<any>,
-      total: data.length
-    };
-  }
-};

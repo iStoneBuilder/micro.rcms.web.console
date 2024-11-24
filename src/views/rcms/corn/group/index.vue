@@ -106,9 +106,14 @@ import type {
   ButtonsCallBackParams
 } from "plus-pro-components";
 import { Plus, Delete, Edit } from "@element-plus/icons-vue";
-import { searchColumns, buildTableColum, groupService } from "./utils/hook";
+import { searchColumns, buildTableColum } from "./utils/hook";
 import { message } from "@/utils/message";
-import { getCornGroupPageList } from "@/api/corn/group";
+import {
+  getCornGroupPageList,
+  createCronGroup,
+  updateCronGroup,
+  deleteCronGroup
+} from "@/api/corn/group";
 
 // --- 查询条件区域 ---
 const searchForm = ref({});
@@ -122,7 +127,6 @@ const handleReset = () => {
   search();
 };
 // --- Table ---
-const type = ref("link");
 const createTitle = ref("新增");
 const pageSizeList = [5, 10, 20, 50, 100];
 const loading = ref(false);
@@ -187,9 +191,10 @@ const handleSelectChange = (val: Array<any>) => {
 };
 const handleCreate = (e?: Object, row?: FieldValues) => {
   row
-    ? ((createTitle.value = "编辑"), (createForm.value = row))
+    ? ((createTitle.value = "编辑"),
+      ((row.isEdit = true), (createForm.value = row)))
     : ((createTitle.value = "新增"),
-      (createForm.value = { isAuthorized: "N" }));
+      (createForm.value = { isAuthorized: "N", isEdit: false }));
   show.value = true;
 };
 const handleDelete = (e?: Object, row?: FieldValues) => {
@@ -208,6 +213,13 @@ const handleDelete = (e?: Object, row?: FieldValues) => {
     draggable: true
   })
     .then(async () => {
+      if (row) {
+        await deleteCronGroup(row.quartzGroupId as string);
+      } else {
+        multipleSelection.value.forEach(item => {
+          deleteCronGroup(item.quartzGroupId as string);
+        });
+      }
       search();
     })
     .catch(() => {
@@ -226,6 +238,14 @@ const createForm = ref<FieldValues>({
   isAuthorized: "N"
 });
 const createColumns: PlusColumn[] = [
+  {
+    label: "分组编码",
+    prop: "quartzGroupCode",
+    hideInForm: computed(() => createForm.value["isEdit"] === false),
+    fieldProps: {
+      disabled: true
+    }
+  },
   {
     label: "分组名称",
     prop: "quartzGroupName"
@@ -303,9 +323,20 @@ const createRules = {
     }
   ]
 };
-const handleSubmit = (values: FieldValues) => {
-  console.log(values, "Submit");
+const handleSubmit = async (values: FieldValues) => {
   createLoading.value = true;
+  try {
+    if (values.isEdit) {
+      await updateCronGroup(values.quartzGroupId as string, values);
+    } else {
+      await createCronGroup(values);
+    }
+    show.value = false;
+    search();
+  } catch (error) {
+    console.log(values, error);
+  }
+  createLoading.value = false;
 };
 const handleClose = () => {
   show.value = false;

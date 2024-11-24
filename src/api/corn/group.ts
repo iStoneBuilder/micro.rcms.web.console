@@ -1,5 +1,5 @@
 import { http } from "@/utils/http";
-import type { ResultPage } from "../types";
+import type { ResultPage, ResultData } from "../types";
 
 export const getCornGroupPageList = (
   curPage: number,
@@ -12,5 +12,30 @@ export const getCornGroupPageList = (
     {
       params
     }
+  );
+};
+
+export const createCronGroup = (data?: object) => {
+  return http.request<ResultData>(
+    "post",
+    "/corn/services/rcms/quzrtz/group/records",
+    {
+      data
+    }
+  );
+};
+export const updateCronGroup = (code: string, data?: object) => {
+  return http.request<ResultData>(
+    "put",
+    `/corn/services/rcms/quzrtz/group/records/${code}`,
+    {
+      data
+    }
+  );
+};
+export const deleteCronGroup = (code?: string) => {
+  return http.request<ResultData>(
+    "delete",
+    `/corn/services/rcms/quzrtz/group/records/${code}`
   );
 };
