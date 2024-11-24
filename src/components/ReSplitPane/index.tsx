@@ -103,7 +103,7 @@ export default defineComponent({
     };
 
     return () => (
-      <>
+      <div>
         <div
           class="vue-splitter-container clearfix"
           style={unref(cursor)}
@@ -130,7 +130,7 @@ export default defineComponent({
           </div>
           <div v-show={unref(active)} class="vue-splitter-container-mask"></div>
         </div>
-      </>
+      </div>
     );
   }
 });

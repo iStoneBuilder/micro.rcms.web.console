@@ -38,7 +38,7 @@ export default defineComponent({
     });
 
     return () => (
-      <>
+      <div>
         <div
           class="scroll-num"
           style={{ "--i": props.i, "--delay": props.delay }}
@@ -66,7 +66,7 @@ export default defineComponent({
             </filter>
           </svg>
         </div>
-      </>
+      </div>
     );
   }
 });

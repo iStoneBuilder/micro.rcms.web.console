@@ -22,10 +22,10 @@ export function useColumns() {
         <el-popover effect="light" trigger="hover" placement="top" width="auto">
           {{
             default: () => (
-              <>
+              <div>
                 <div>name: {row.name}</div>
                 <div>address: {row.address}</div>
-              </>
+              </div>
             ),
             reference: () => <el-tag>{row.name}</el-tag>
           }}
@@ -39,7 +39,7 @@ export function useColumns() {
     {
       label: "操作",
       cellRenderer: ({ index, row }) => (
-        <>
+        <div>
           <el-button size="small" onClick={() => handleEdit(index + 1, row)}>
             Edit
           </el-button>
@@ -50,7 +50,7 @@ export function useColumns() {
           >
             Delete
           </el-button>
-        </>
+        </div>
       )
     }
   ];

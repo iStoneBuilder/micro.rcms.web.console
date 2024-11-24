@@ -37,14 +37,14 @@ export function useMenu() {
       prop: "title",
       align: "left",
       cellRenderer: ({ row }) => (
-        <>
+        <div>
           <span class="inline-block mr-1">
             {h(useRenderIcon(row.icon), {
               style: { paddingTop: "1px" }
             })}
           </span>
           <span>{transformI18n(row.title)}</span>
-        </>
+        </div>
       )
     },
     {

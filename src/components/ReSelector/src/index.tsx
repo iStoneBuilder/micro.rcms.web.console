@@ -290,7 +290,7 @@ export default defineComponent({
     });
 
     return () => (
-      <>
+      <div>
         <table cellspacing="0" cellpadding="0">
           <tbody>
             <tr>
@@ -321,7 +321,7 @@ export default defineComponent({
             </tr>
           </tbody>
         </table>
-      </>
+      </div>
     );
   }
 });

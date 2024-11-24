@@ -1,5 +1,5 @@
 import { http } from "@/utils/http";
-import type { ResultPage } from "./types";
+import type { ResultPage } from "../types";
 
 export const getItemList = async (classifyCode: string) => {
   const { data } = await http.request<ResultPage>(

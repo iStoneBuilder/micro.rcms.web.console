@@ -49,7 +49,7 @@ export function useColumns() {
         />
       ),
       cellRenderer: ({ index, row }) => (
-        <>
+        <div>
           <el-button size="small" onClick={() => handleEdit(index + 1, row)}>
             Edit
           </el-button>
@@ -60,7 +60,7 @@ export function useColumns() {
           >
             Delete
           </el-button>
-        </>
+        </div>
       )
     }
   ];

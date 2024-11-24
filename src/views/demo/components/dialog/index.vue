@@ -230,11 +230,11 @@ function onNestingClick() {
                     title: `第${index + 1}个子弹框`,
                     width: "30%",
                     contentRenderer: () => (
-                      <>
+                      <div>
                         <el-button round onClick={() => closeAllDialog()}>
                           哎呦，你干嘛，赶快关闭所有弹框
                         </el-button>
-                      </>
+                      </div>
                     )
                   })
                 }
@@ -257,7 +257,7 @@ function onUpdateClick() {
   addDialog({
     title: `第${curPage.value}页`,
     contentRenderer: () => (
-      <>
+      <div>
         <el-button
           disabled={curPage.value > 1 ? false : true}
           onClick={() => {
@@ -275,7 +275,7 @@ function onUpdateClick() {
         >
           下一页
         </el-button>
-      </>
+      </div>
     )
   });
 }

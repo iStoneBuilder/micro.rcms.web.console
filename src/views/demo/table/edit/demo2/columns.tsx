@@ -11,20 +11,20 @@ export function useColumns() {
       label: "姓名",
       prop: "name",
       cellRenderer: ({ row, index }) => (
-        <>
+        <div>
           {editMap.value[index]?.editable ? (
             <el-input v-model={row.name} />
           ) : (
             <p>{row.name}</p>
           )}
-        </>
+        </div>
       )
     },
     {
       label: "性别",
       prop: "sex",
       cellRenderer: ({ row, index }) => (
-        <>
+        <div>
           {editMap.value[index]?.editable ? (
             <el-switch
               v-model={row.sex}
@@ -37,14 +37,14 @@ export function useColumns() {
           ) : (
             <p>{row.sex === 0 ? "男" : "女"}</p>
           )}
-        </>
+        </div>
       )
     },
     {
       label: "爱好",
       prop: "hobby",
       cellRenderer: ({ row, index }) => (
-        <>
+        <div>
           {editMap.value[index]?.editable ? (
             <el-select v-model={row.hobby} clearable placeholder="请选择爱好">
               {options.map(item => {
@@ -62,14 +62,14 @@ export function useColumns() {
               {options.filter(opt => opt.value == row.hobby)[0]?.label}
             </el-tag>
           )}
-        </>
+        </div>
       )
     },
     {
       label: "日期",
       prop: "date",
       cellRenderer: ({ row, index }) => (
-        <>
+        <div>
           {editMap.value[index]?.editable ? (
             <el-date-picker
               v-model={row.date}
@@ -81,7 +81,7 @@ export function useColumns() {
           ) : (
             <p>{row.date}</p>
           )}
-        </>
+        </div>
       ),
       minWidth: 110
     },

@@ -189,11 +189,11 @@ function onNestingClick() {
                     title: `第${index + 1}个子抽屉`,
                     size: "30%",
                     contentRenderer: () => (
-                      <>
+                      <div>
                         <el-button round onClick={() => closeAllDrawer()}>
                           哎呦，你干嘛，赶快关闭所有抽屉
                         </el-button>
-                      </>
+                      </div>
                     )
                   })
                 }
@@ -216,7 +216,7 @@ function onUpdateClick() {
   addDrawer({
     title: `第${curPage.value}页`,
     contentRenderer: () => (
-      <>
+      <div>
         <el-button
           disabled={curPage.value <= 1}
           onClick={() => {
@@ -234,7 +234,7 @@ function onUpdateClick() {
         >
           下一页
         </el-button>
-      </>
+      </div>
     )
   });
 }

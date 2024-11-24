@@ -393,7 +393,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       closeOnClickModal: false,
       fullscreen: deviceDetection(),
       contentRenderer: () => (
-        <>
+        <div>
           <ElForm ref={ruleFormRef} model={pwdForm}>
             <ElFormItem
               prop="newPwd"
@@ -449,7 +449,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
               </div>
             ))}
           </div>
-        </>
+        </div>
       ),
       closeCallBack: () => (pwdForm.newPwd = ""),
       beforeSure: done => {

@@ -1,5 +1,5 @@
 import { http } from "@/utils/http";
-import type { ResultArray, ResultData } from "./types";
+import type { ResultArray, ResultData } from "../types";
 
 export const getMenuList = (params?: object) => {
   return http.request<ResultArray>(

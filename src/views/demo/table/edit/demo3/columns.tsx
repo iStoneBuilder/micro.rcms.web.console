@@ -42,14 +42,14 @@ export function useColumns() {
           {!editing.value(index) ? (
             <p>{row.name}</p>
           ) : (
-            <>
+            <div>
               <el-input v-model={row.name} />
               <iconify-icon-offline
                 icon={Check}
                 class={iconClass.value(index)}
                 onClick={() => onSave(index)}
               />
-            </>
+            </div>
           )}
           <iconify-icon-offline
             v-show={activeIndex.value === index && !editing.value(index)}

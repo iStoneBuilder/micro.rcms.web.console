@@ -97,21 +97,18 @@ import { useTable } from "plus-pro-components";
 import type { PageInfo, PlusColumn, FieldValues } from "plus-pro-components";
 import { Plus, Delete } from "@element-plus/icons-vue";
 import { searchColumns, buildTableColum, groupService } from "./utils/hook";
+import { message } from "@/utils/message";
 
 // --- 查询条件区域 ---
 const searchForm = ref({});
-
 const handleChange = (values: any) => {
-  console.log(values, "change");
-  getList();
+  search();
 };
 const handleSearch = (values: any) => {
-  console.log(values, "search");
-  getList();
+  search();
 };
 const handleReset = () => {
-  console.log("handleReset");
-  getList();
+  search();
 };
 // --- Table ---
 const createTitle = ref("新增");
@@ -127,14 +124,13 @@ const handleClickButton = (e, value, index, row, item) => {
       handleCreate(e, row);
       break;
     case "删除":
-      handleDelete(row);
+      handleDelete(e, row);
       break;
   }
 };
 const tableColumns = buildTableColum(handleClickButton);
-const getList = async () => {
+const search = async () => {
   loading.value = true;
-  console.log("~~~ 加载数据 ~~~~");
   try {
     const { data, total: dataTotal } = await groupService.getTableData();
     tableData.value = data;
@@ -149,22 +145,28 @@ const getList = async () => {
   loading.value = false;
 };
 const handlePageChange = (_pageInfo: PageInfo): void => {
-  console.log(_pageInfo, "page change");
   pageInfo.value = _pageInfo;
-  getList();
+  search();
 };
 const handleSelectChange = (val: Array<any>) => {
-  console.log("handleSelectChange");
   multipleSelection.value = val;
 };
-const handleCreate = (e?: object, row?: FieldValues) => {
+const handleCreate = (e?: Object, row?: FieldValues) => {
   row
     ? ((createTitle.value = "编辑"), (createForm.value = row))
     : ((createTitle.value = "新增"),
       (createForm.value = { isAuthorized: "N" }));
   show.value = true;
 };
-const handleDelete = (row?: object) => {
+const handleDelete = (e?: Object, row?: FieldValues) => {
+  if (!row && multipleSelection.value.length === 0) {
+    message("请至少选择一条数据", {
+      duration: 3000,
+      customClass: "el",
+      type: "warning"
+    });
+    return;
+  }
   ElMessageBox.confirm("确定删除该数据吗?", "温馨提示", {
     confirmButtonText: "确认",
     cancelButtonText: "取消",
@@ -172,7 +174,7 @@ const handleDelete = (row?: object) => {
     draggable: true
   })
     .then(async () => {
-      getList();
+      search();
     })
     .catch(() => {
       console.log("取消删除");
@@ -180,7 +182,7 @@ const handleDelete = (row?: object) => {
 };
 // --- 进入页面加载数据 ---
 onMounted(() => {
-  getList();
+  search();
 });
 
 // --- 编辑页面 ---

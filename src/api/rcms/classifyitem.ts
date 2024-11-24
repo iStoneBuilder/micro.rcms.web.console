@@ -1,5 +1,5 @@
 import { http } from "@/utils/http";
-import type { ResultPage, ResultData } from "./types";
+import type { ResultPage, ResultData } from "../types";
 
 export const getClassifyPageList = (
   curPage: number,

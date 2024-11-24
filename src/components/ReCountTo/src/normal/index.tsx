@@ -164,7 +164,7 @@ export default defineComponent({
     });
 
     return () => (
-      <>
+      <div>
         <span
           style={{
             color: props.color,
@@ -173,7 +173,7 @@ export default defineComponent({
         >
           {state.displayValue}
         </span>
-      </>
+      </div>
     );
   }
 });

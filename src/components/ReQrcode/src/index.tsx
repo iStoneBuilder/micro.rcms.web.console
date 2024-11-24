@@ -227,7 +227,7 @@ export default defineComponent({
       emit("disabled-click");
     };
     return () => (
-      <>
+      <div>
         <div
           v-loading={unref(loading)}
           class="qrcode relative inline-block"
@@ -255,7 +255,7 @@ export default defineComponent({
             </div>
           )}
         </div>
-      </>
+      </div>
     );
   }
 });

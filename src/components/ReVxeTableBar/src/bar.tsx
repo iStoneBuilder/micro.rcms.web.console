@@ -244,7 +244,7 @@ export default defineComponent({
     };
 
     return () => (
-      <>
+      <div>
         <div
           {...attrs}
           class={[
@@ -268,7 +268,7 @@ export default defineComponent({
                 <div class="flex mr-4">{slots.buttons()}</div>
               ) : null}
               {props.tree ? (
-                <>
+                <div>
                   <ExpandIcon
                     class={["w-[16px]", iconClass.value]}
                     style={{
@@ -280,7 +280,7 @@ export default defineComponent({
                     onClick={() => onExpand()}
                   />
                   <el-divider direction="vertical" />
-                </>
+                </div>
               ) : null}
               <RefreshIcon
                 class={[
@@ -383,7 +383,7 @@ export default defineComponent({
             dynamicColumns: dynamicColumns.value
           })}
         </div>
-      </>
+      </div>
     );
   }
 });
