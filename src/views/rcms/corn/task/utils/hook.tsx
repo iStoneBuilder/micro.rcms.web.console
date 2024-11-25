@@ -1,9 +1,11 @@
 import { h } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 import { Delete, EditPen } from "@element-plus/icons-vue";
-import { getItemList } from "@/api/rcms/common";
+import { getItemList, getBussList } from "@/api/rcms/common";
 
 export const enabledData: Array<any> = [];
+
+export const groupsData: Array<any> = [];
 
 export async function enabled() {
   return enabledData.length === 0
@@ -11,11 +13,23 @@ export async function enabled() {
     : enabledData;
 }
 
+export async function groups() {
+  return groupsData.length === 0
+    ? await getBussList(
+        "/corn/services/rcms/quzrtz/group/records/list",
+        "quartzGroupName",
+        "quartzGroupCode",
+        {}
+      )
+    : groupsData;
+}
+
 export const searchColumns: PlusColumn[] = [
   {
     label: "任务组",
     valueType: "select",
-    prop: "quartzGroupCode"
+    prop: "quartzGroupCode",
+    options: groups()
   },
   {
     label: "任务名称",

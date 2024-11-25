@@ -111,14 +111,14 @@ import type {
   ButtonsCallBackParams
 } from "plus-pro-components";
 import { Plus, Delete, Edit } from "@element-plus/icons-vue";
-import { searchColumns, buildTableColum, enabled } from "./utils/hook";
+import { searchColumns, buildTableColum, enabled, groups } from "./utils/hook";
 import { message } from "@/utils/message";
 import {
-  getCornGroupPageList,
-  createCronGroup,
-  updateCronGroup,
-  deleteCronGroup
-} from "@/api/corn/group";
+  getCornTaskPageList,
+  createCornTask,
+  updateCornTask,
+  deleteCornTask
+} from "@/api/corn/task";
 
 // --- 查询条件区域 ---
 const searchForm = ref({});
@@ -172,7 +172,7 @@ buttons.value = [
 ];
 const search = async () => {
   loading.value = true;
-  const { data } = await getCornGroupPageList(
+  const { data } = await getCornTaskPageList(
     pageInfo.value.page,
     pageInfo.value.pageSize,
     searchForm.value
@@ -219,10 +219,10 @@ const handleDelete = (e?: Object, row?: FieldValues) => {
   })
     .then(async () => {
       if (row) {
-        await deleteCronGroup(row.quartzGroupId as string);
+        await deleteCornTask(row.quartzGroupId as string);
       } else {
         multipleSelection.value.forEach(item => {
-          deleteCronGroup(item.quartzGroupId as string);
+          deleteCornTask(item.quartzGroupId as string);
         });
       }
       search();
@@ -232,34 +232,37 @@ const handleDelete = (e?: Object, row?: FieldValues) => {
     });
 };
 // --- 进入页面加载数据 ---
-onMounted(() => {
+onMounted(async () => {
   search();
 });
 
 // --- 编辑页面 ---
 const show = ref(false);
+const groupData = ref([]);
 const createLoading = ref(false);
 const createForm = ref<FieldValues>({
   isAuthorized: "N"
 });
+
 const createColumns: PlusColumn[] = [
   {
     label: "任务分组",
     prop: "quartzGroupCode",
     valueType: "select",
-    fieldProps: { clearable: false }
+    fieldProps: { clearable: false },
+    options: groups()
   },
   {
     label: "任务名称",
-    prop: "quartzGroupName"
+    prop: "quartzName"
   },
   {
     label: "任务表达式",
-    prop: "quartzGroupName"
+    prop: "quartzCron"
   },
   {
     label: "任务状态",
-    prop: "isAuthorized",
+    prop: "enabledFlag",
     valueType: "select",
     options: enabled(),
     fieldProps: { clearable: false, placeholder: "请选择" }
@@ -336,9 +339,9 @@ const handleSubmit = async (values: FieldValues) => {
   createLoading.value = true;
   try {
     if (values.isEdit) {
-      await updateCronGroup(values.quartzGroupId as string, values);
+      await updateCornTask(values.quartzGroupId as string, values);
     } else {
-      await createCronGroup(values);
+      await createCornTask(values);
     }
     show.value = false;
     search();

@@ -15,3 +15,20 @@ export const getItemList = async (classifyCode: string) => {
   });
   return itemOptions;
 };
+
+export const getBussList = async (
+  url: string,
+  name: string,
+  value: string,
+  params?: object
+) => {
+  const { data } = await http.request<ResultPage>("get", url, { params });
+  const itemOptions = [];
+  (data as unknown as Array<any>).forEach(item => {
+    itemOptions.push({
+      label: item[name],
+      value: item[value]
+    });
+  });
+  return itemOptions;
+};
