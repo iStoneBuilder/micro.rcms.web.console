@@ -114,6 +114,7 @@ import {
   updateCronGroup,
   deleteCronGroup
 } from "@/api/corn/group";
+import { getItemList } from "@/api/rcms/common";
 
 // --- 查询条件区域 ---
 const searchForm = ref({});
@@ -273,7 +274,9 @@ const createColumns: PlusColumn[] = [
   {
     label: "请求类型",
     prop: "requestType",
-    hideInForm: computed(() => createForm.value["isAuthorized"] === "N")
+    hideInForm: computed(() => createForm.value["isAuthorized"] === "N"),
+    valueType: "select",
+    options: getItemList("RCMS_SYS_METHOD_TYPE")
   },
   {
     label: "请求地址",

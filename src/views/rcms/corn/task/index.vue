@@ -111,7 +111,13 @@ import type {
   ButtonsCallBackParams
 } from "plus-pro-components";
 import { Plus, Delete, Edit } from "@element-plus/icons-vue";
-import { searchColumns, buildTableColum, enabled, groups } from "./utils/hook";
+import {
+  searchColumns,
+  buildTableColum,
+  enabled,
+  groups,
+  createRules
+} from "./utils/hook";
 import { message } from "@/utils/message";
 import {
   getCornTaskPageList,
@@ -119,6 +125,7 @@ import {
   updateCornTask,
   deleteCornTask
 } from "@/api/corn/task";
+import { getItemList } from "@/api/rcms/common";
 
 // --- 查询条件区域 ---
 const searchForm = ref({});
@@ -199,7 +206,11 @@ const handleCreate = (e?: Object, row?: FieldValues) => {
     ? ((createTitle.value = "编辑"),
       ((row.isEdit = true), (createForm.value = row)))
     : ((createTitle.value = "新增"),
-      (createForm.value = { isAuthorized: "N", isEdit: false }));
+      (createForm.value = {
+        isAuthorized: "N",
+        isEdit: false,
+        enabledFlag: "disable"
+      }));
   show.value = true;
 };
 const handleDelete = (e?: Object, row?: FieldValues) => {
@@ -278,7 +289,8 @@ const createColumns: PlusColumn[] = [
     label: "请求类型",
     valueType: "select",
     prop: "requestType",
-    fieldProps: { clearable: false }
+    fieldProps: { clearable: false },
+    options: getItemList("RCMS_SYS_METHOD_TYPE")
   },
   {
     label: "认证key",
@@ -303,38 +315,6 @@ const createColumns: PlusColumn[] = [
     fieldProps: { placeholder: "请输入JSON字符串" }
   }
 ];
-const createRules = {
-  quartzGroupName: [
-    {
-      required: true,
-      message: "请输入名称"
-    }
-  ],
-  isAuthorized: [
-    {
-      required: true,
-      message: "请确认是否需要认证"
-    }
-  ],
-  authKey: [
-    {
-      required: true,
-      message: "请输入返回值key"
-    }
-  ],
-  requestType: [
-    {
-      required: true,
-      message: "请输入请求类型"
-    }
-  ],
-  requestPath: [
-    {
-      required: true,
-      message: "请输入请求地址"
-    }
-  ]
-};
 const handleSubmit = async (values: FieldValues) => {
   createLoading.value = true;
   try {

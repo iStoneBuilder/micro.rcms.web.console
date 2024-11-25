@@ -130,3 +130,47 @@ export function buildTableColum() {
   ];
   return tableColumns;
 }
+export const createRules = {
+  quartzGroupCode: [
+    {
+      required: true,
+      message: "请输入选择任务组"
+    }
+  ],
+  quartzName: [
+    {
+      required: true,
+      message: "请输入任务名称"
+    }
+  ],
+  quartzCron: [
+    {
+      required: true,
+      message: "请输入Corn表达式"
+    }
+  ],
+  authKey: [
+    {
+      required: true,
+      message: "请输入返回值key"
+    }
+  ],
+  enabledFlag: [
+    {
+      required: true,
+      message: "请选择任务状态"
+    }
+  ],
+  requestType: [
+    {
+      required: true,
+      message: "请输入请求类型"
+    }
+  ],
+  requestPath: [
+    {
+      required: true,
+      message: "请输入请求地址"
+    }
+  ]
+};
