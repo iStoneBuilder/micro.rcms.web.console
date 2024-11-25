@@ -9,7 +9,7 @@ export const groupsData: Array<any> = [];
 
 export async function enabled() {
   return enabledData.length === 0
-    ? await getItemList("RCMS_SYS_TASK_STATUS")
+    ? await getItemList("RCMS_SYS_TASK_RUN_STATUS")
     : enabledData;
 }
 
@@ -78,15 +78,8 @@ export function buildTableColum() {
       tableColumnProps: {
         align: "center"
       },
-      render: (value: any) => {
-        return value
-          ? h(
-              <el-tag type={value ? "success" : "warning"}>
-                {enabledFlag[value]}
-              </el-tag>
-            )
-          : "";
-      }
+      valueType: "select",
+      options: enabled()
     },
     {
       label: "任务执行状态",

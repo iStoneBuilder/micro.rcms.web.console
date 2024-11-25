@@ -17,7 +17,7 @@ export function buildColum(handleClickButton: Function) {
   const columns: PlusColumn[] = [
     {
       label: "字典项",
-      minWidth: 200,
+      minWidth: 300,
       prop: "classifyCode",
       columnsProps: {
         showOverflowTooltip: true
@@ -33,7 +33,7 @@ export function buildColum(handleClickButton: Function) {
     },
     {
       label: "描述",
-      minWidth: 500,
+      minWidth: 300,
       prop: "description",
       valueType: "textarea",
       hideInSearch: true

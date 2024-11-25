@@ -35,7 +35,7 @@
           }"
           :action-bar="{
             buttons,
-            width: 120
+            width: 100
           }"
           @paginationChange="handlePageChange"
           @selection-change="handleSelectChange"
@@ -44,6 +44,16 @@
           <template #title>
             <el-button type="primary" plain :icon="Plus" @click="handleCreate"
               >新增</el-button
+            >
+            <el-button type="primary" plain :icon="SetUp" @click="handleCreate"
+              >启用｜停用</el-button
+            >
+            <el-button
+              type="primary"
+              plain
+              :icon="Stopwatch"
+              @click="handleCreate"
+              >暂停｜恢复</el-button
             >
             <el-button type="danger" plain :icon="Delete" @click="handleDelete"
               >删除</el-button
@@ -110,7 +120,14 @@ import type {
   FieldValues,
   ButtonsCallBackParams
 } from "plus-pro-components";
-import { Plus, Delete, Edit } from "@element-plus/icons-vue";
+import {
+  Plus,
+  Delete,
+  Edit,
+  Stopwatch,
+  SetUp,
+  ArrowRight
+} from "@element-plus/icons-vue";
 import {
   searchColumns,
   buildTableColum,
@@ -163,7 +180,6 @@ buttons.value = [
     text: "编辑",
     code: "edit",
     icon: Edit,
-    // props v0.1.16 版本新增函数类型
     props: (row: any) => ({
       type: "primary"
     }),
@@ -272,10 +288,10 @@ const createColumns: PlusColumn[] = [
     prop: "quartzCron"
   },
   {
-    label: "任务状态",
+    label: "是否启用",
     prop: "enabledFlag",
     valueType: "select",
-    options: enabled(),
+    options: getItemList("RCMS_SYS_TASK_STATUS"),
     fieldProps: { clearable: false, placeholder: "请选择" }
   },
   {
@@ -319,7 +335,7 @@ const handleSubmit = async (values: FieldValues) => {
   createLoading.value = true;
   try {
     if (values.isEdit) {
-      await updateCornTask(values.quartzGroupId as string, values);
+      await updateCornTask(values.quartzId as string, values);
     } else {
       await createCornTask(values);
     }
