@@ -57,6 +57,7 @@
       :title="createTitle + '任务组'"
       :hasFooter="false"
       :showClose="false"
+      top="5%"
       @close="handleClose"
     >
       <template #default>

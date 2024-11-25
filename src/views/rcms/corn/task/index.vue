@@ -67,7 +67,8 @@
       :title="createTitle + '任务'"
       :hasFooter="false"
       :showClose="false"
-      width="800"
+      width="600"
+      top="5%"
       @close="handleClose"
     >
       <template #default>
@@ -81,10 +82,6 @@
             :columns="createColumns"
             :rules="createRules"
             footerAlign="center"
-            :row-props="{ gutter: 24 }"
-            :col-props="{
-              span: 12
-            }"
             @submit="handleSubmit"
           >
             <template #footer="{ handleSubmit }">
@@ -225,7 +222,7 @@ const handleCreate = (e?: Object, row?: FieldValues) => {
       (createForm.value = {
         isAuthorized: "N",
         isEdit: false,
-        enabledFlag: "disable"
+        enabledFlag: "disabled"
       }));
   show.value = true;
 };
@@ -246,10 +243,10 @@ const handleDelete = (e?: Object, row?: FieldValues) => {
   })
     .then(async () => {
       if (row) {
-        await deleteCornTask(row.quartzGroupId as string);
+        await deleteCornTask(row.quartzId as string);
       } else {
         multipleSelection.value.forEach(item => {
-          deleteCornTask(item.quartzGroupId as string);
+          deleteCornTask(item.quartzId as string);
         });
       }
       search();
@@ -292,7 +289,8 @@ const createColumns: PlusColumn[] = [
     prop: "enabledFlag",
     valueType: "select",
     options: getItemList("RCMS_SYS_TASK_STATUS"),
-    fieldProps: { clearable: false, placeholder: "请选择" }
+    fieldProps: { clearable: false, placeholder: "请选择" },
+    hideInForm: computed(() => createForm.value["isEdit"] as boolean)
   },
   {
     label: "请求地址",

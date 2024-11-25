@@ -5,8 +5,6 @@ import { getItemList, getBussList } from "@/api/rcms/common";
 
 export const enabledData: Array<any> = [];
 
-export const groupsData: Array<any> = [];
-
 export async function enabled() {
   return enabledData.length === 0
     ? await getItemList("RCMS_SYS_TASK_RUN_STATUS")
@@ -14,14 +12,12 @@ export async function enabled() {
 }
 
 export async function groups() {
-  return groupsData.length === 0
-    ? await getBussList(
-        "/corn/services/rcms/quzrtz/group/records/list",
-        "quartzGroupName",
-        "quartzGroupCode",
-        {}
-      )
-    : groupsData;
+  return await getBussList(
+    "/corn/services/rcms/quzrtz/group/records/list",
+    "quartzGroupName",
+    "quartzGroupCode",
+    {}
+  );
 }
 
 export const searchColumns: PlusColumn[] = [
@@ -54,6 +50,13 @@ export const enabledFlag = {
 };
 export function buildTableColum() {
   const tableColumns: PlusColumn[] = [
+    {
+      label: "任务组",
+      prop: "quartzGroupCode",
+      minWidth: 140,
+      valueType: "select",
+      options: groups()
+    },
     {
       label: "任务名称",
       prop: "quartzName",
@@ -123,6 +126,9 @@ export function buildTableColum() {
   ];
   return tableColumns;
 }
+const urlRegex =
+  /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+const alphanumericUnderscoreRegex = /^[a-zA-Z][a-zA-Z0-9_]*$/;
 export const createRules = {
   quartzGroupCode: [
     {
@@ -145,7 +151,19 @@ export const createRules = {
   authKey: [
     {
       required: true,
-      message: "请输入返回值key"
+      message: "请输入认证key"
+    },
+    {
+      validator: (rule, value, callback) => {
+        if (!alphanumericUnderscoreRegex.test(value)) {
+          callback(
+            new Error("只包含英文字母、数字和下划线，并且必须以字母开头")
+          );
+        } else {
+          callback();
+        }
+      },
+      trigger: "blur"
     }
   ],
   enabledFlag: [
@@ -164,6 +182,16 @@ export const createRules = {
     {
       required: true,
       message: "请输入请求地址"
+    },
+    {
+      validator: (rule, value, callback) => {
+        if (!urlRegex.test(value)) {
+          callback(new Error("请输入正确的请求地址！"));
+        } else {
+          callback();
+        }
+      },
+      trigger: "blur"
     }
   ]
 };
