@@ -41,7 +41,10 @@ export function buildTableColum() {
       minWidth: 100,
       render(value) {
         return (
-          <el-link href={"/#/corn/task?code=" + value} type="primary">
+          <el-link
+            href={"/#/corn/task?quartzGroupCode=" + value}
+            type="primary"
+          >
             {value}
           </el-link>
         );

@@ -51,13 +51,6 @@ export const enabledFlag = {
 export function buildTableColum() {
   const tableColumns: PlusColumn[] = [
     {
-      label: "任务组",
-      prop: "quartzGroupCode",
-      minWidth: 140,
-      valueType: "select",
-      options: groups()
-    },
-    {
       label: "任务名称",
       prop: "quartzName",
       minWidth: 200,
@@ -70,9 +63,21 @@ export function buildTableColum() {
       }
     },
     {
+      label: "任务组",
+      prop: "quartzGroupCode",
+      minWidth: 140,
+      valueType: "select",
+      options: groups()
+    },
+    {
       label: "Corn表达式",
       prop: "quartzCron",
-      minWidth: 200
+      minWidth: 140
+    },
+    {
+      label: "请求地址",
+      prop: "requestPath",
+      minWidth: 400
     },
     {
       label: "任务状态",
@@ -103,7 +108,7 @@ export function buildTableColum() {
     },
     {
       label: "下次执行时间",
-      prop: "createDate",
+      prop: "nextExecTime",
       minWidth: 160,
       valueType: "date-picker"
     },
@@ -121,7 +126,7 @@ export function buildTableColum() {
     {
       label: "创建人",
       prop: "createBy",
-      minWidth: 200
+      minWidth: 160
     }
   ];
   return tableColumns;

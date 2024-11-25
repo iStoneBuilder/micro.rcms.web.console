@@ -45,16 +45,38 @@
             <el-button type="primary" plain :icon="Plus" @click="handleCreate"
               >新增</el-button
             >
-            <el-button type="primary" plain :icon="SetUp" @click="handleCreate"
-              >启用｜停用</el-button
-            >
-            <el-button
-              type="primary"
-              plain
-              :icon="Stopwatch"
-              @click="handleCreate"
-              >暂停｜恢复</el-button
-            >
+            <el-popover
+              placement="top-start"
+              title=""
+              :width="200"
+              trigger="hover"
+              content="未启用/已停用的任务才允许启用，已启用的才允许停用"
+              ><template #reference>
+                <el-button
+                  type="primary"
+                  plain
+                  :icon="SetUp"
+                  @click="handleStart"
+                  >启用｜停用</el-button
+                >
+              </template>
+            </el-popover>
+            <el-popover
+              placement="top-start"
+              title=""
+              :width="200"
+              trigger="hover"
+              content="已启用的才允许暂停，已暂停的任务才允许恢复"
+              ><template #reference>
+                <el-button
+                  type="primary"
+                  plain
+                  :icon="Stopwatch"
+                  @click="handlePause"
+                  >暂停｜恢复</el-button
+                >
+              </template>
+            </el-popover>
             <el-button type="danger" plain :icon="Delete" @click="handleDelete"
               >删除</el-button
             >
@@ -108,6 +130,7 @@
 </template>
 
 <script lang="ts" setup>
+import { useRoute } from "vue-router";
 import { ref, onMounted, reactive, toRefs, computed } from "vue";
 import { ElMessageBox } from "element-plus";
 import { useTable } from "plus-pro-components";
@@ -137,7 +160,8 @@ import {
   getCornTaskPageList,
   createCornTask,
   updateCornTask,
-  deleteCornTask
+  deleteCornTask,
+  opertionCornTask
 } from "@/api/corn/task";
 import { getItemList } from "@/api/rcms/common";
 
@@ -226,6 +250,66 @@ const handleCreate = (e?: Object, row?: FieldValues) => {
       }));
   show.value = true;
 };
+const handleStart = async () => {
+  if (multipleSelection.value.length === 0) {
+    message("请至少选择一条数据", {
+      duration: 3000,
+      customClass: "el",
+      type: "warning"
+    });
+    return;
+  }
+  const flag = multipleSelection.value[0].enabledFlag;
+  if (flag === "stopped" || flag === "disabled") {
+    await opertionCornTask(
+      "start" as string,
+      multipleSelection.value[0].quartzId
+    );
+    return;
+  }
+  if (flag === "enabled") {
+    await opertionCornTask(
+      "stop" as string,
+      multipleSelection.value[0].quartzId
+    );
+    return;
+  }
+  message("未启用/已停用的任务才允许启用，已启用的才允许停用", {
+    duration: 3000,
+    customClass: "el",
+    type: "warning"
+  });
+};
+const handlePause = async () => {
+  if (multipleSelection.value.length === 0) {
+    message("请至少选择一条数据", {
+      duration: 3000,
+      customClass: "el",
+      type: "warning"
+    });
+    return;
+  }
+  const flag = multipleSelection.value[0].enabledFlag;
+  if (flag === "suspend") {
+    await opertionCornTask(
+      "resume" as string,
+      multipleSelection.value[0].quartzId
+    );
+    return;
+  }
+  if (flag === "enabled") {
+    await opertionCornTask(
+      "pause" as string,
+      multipleSelection.value[0].quartzId
+    );
+    return;
+  }
+  message("已启用的才允许暂停，已暂停的任务才允许恢复", {
+    duration: 3000,
+    customClass: "el",
+    type: "warning"
+  });
+};
 const handleDelete = (e?: Object, row?: FieldValues) => {
   if (!row && multipleSelection.value.length === 0) {
     message("请至少选择一条数据", {
@@ -255,8 +339,13 @@ const handleDelete = (e?: Object, row?: FieldValues) => {
       console.log("取消删除");
     });
 };
+
+const route = useRoute();
 // --- 进入页面加载数据 ---
 onMounted(async () => {
+  if (Object.keys(route.query).length > 0) {
+    searchForm.value = { ...searchForm.value, ...route.query };
+  }
   search();
 });
 

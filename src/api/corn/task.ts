@@ -24,18 +24,25 @@ export const createCornTask = (data?: object) => {
     }
   );
 };
-export const updateCornTask = (code: string, data?: object) => {
+export const updateCornTask = (id: string, data?: object) => {
   return http.request<ResultData>(
     "put",
-    `/corn/services/rcms/quzrtz/task/records/${code}`,
+    `/corn/services/rcms/quzrtz/task/records/${id}`,
     {
       data
     }
   );
 };
-export const deleteCornTask = (code?: string) => {
+export const deleteCornTask = (id?: string) => {
   return http.request<ResultData>(
     "delete",
-    `/corn/services/rcms/quzrtz/task/records/${code}`
+    `/corn/services/rcms/quzrtz/task/records/${id}`
+  );
+};
+
+export const opertionCornTask = (op: string, id: string) => {
+  return http.request<ResultData>(
+    "post",
+    `/corn/services/rcms/quzrtz/task/records/${op}/${id}`
   );
 };
