@@ -126,8 +126,7 @@ export function buildTableColum() {
   ];
   return tableColumns;
 }
-const urlRegex =
-  /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+const urlRegex = /^(http|https):\/\/(\d{1,3}\.){3}\d{1,3}:\d{1,5}\/[\w\/-]+$/;
 const alphanumericUnderscoreRegex = /^[a-zA-Z][a-zA-Z0-9_]*$/;
 export const createRules = {
   quartzGroupCode: [

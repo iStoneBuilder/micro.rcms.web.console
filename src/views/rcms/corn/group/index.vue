@@ -57,6 +57,8 @@
       :title="createTitle + '任务组'"
       :hasFooter="false"
       :showClose="false"
+      width="600"
+      top="5%"
       @close="handleClose"
     >
       <template #default>
@@ -284,16 +286,20 @@ const createColumns: PlusColumn[] = [
     hideInForm: computed(() => createForm.value["isAuthorized"] === "N")
   },
   {
-    label: "请求参数",
-    prop: "requestParams",
+    label: "请求头参数",
+    prop: "requestHeaders",
+    valueType: "textarea",
     hideInForm: computed(() => createForm.value["isAuthorized"] === "N")
   },
   {
-    label: "请求头参数",
-    prop: "requestHeaders",
+    label: "请求体参数",
+    prop: "requestParams",
+    valueType: "textarea",
     hideInForm: computed(() => createForm.value["isAuthorized"] === "N")
   }
 ];
+const urlRegex = /^(http|https):\/\/(\d{1,3}\.){3}\d{1,3}:\d{1,5}\/[\w\/-]+$/;
+const alphanumericUnderscoreRegex = /^[a-zA-Z][a-zA-Z0-9_]*$/;
 const createRules = {
   quartzGroupName: [
     {
@@ -311,6 +317,18 @@ const createRules = {
     {
       required: true,
       message: "请输入返回值key"
+    },
+    {
+      validator: (rule, value, callback) => {
+        if (!alphanumericUnderscoreRegex.test(value)) {
+          callback(
+            new Error("只包含英文字母、数字和下划线，并且必须以字母开头")
+          );
+        } else {
+          callback();
+        }
+      },
+      trigger: "blur"
     }
   ],
   requestType: [
@@ -323,6 +341,16 @@ const createRules = {
     {
       required: true,
       message: "请输入请求地址"
+    },
+    {
+      validator: (rule, value, callback) => {
+        if (!urlRegex.test(value)) {
+          callback(new Error("请输入正确的请求地址！"));
+        } else {
+          callback();
+        }
+      },
+      trigger: "blur"
     }
   ]
 };
