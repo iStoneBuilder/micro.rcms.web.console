@@ -31,6 +31,7 @@
           }"
           :pagination="{
             pageSizeList: pageSizeList,
+            pageSize: 15,
             total: total
           }"
           :action-bar="{
@@ -178,9 +179,10 @@ const handleReset = () => {
 };
 // --- Table ---
 const createTitle = ref("新增");
-const pageSizeList = [5, 10, 20, 50, 100];
+const pageSizeList = [5, 15, 50, 100, 200];
 const loading = ref(false);
 const { tableData, total, pageInfo, buttons } = useTable<Array<any>>();
+pageInfo.value.pageSize = 15;
 const multipleSelection = ref<Array<any>>([]);
 // 列表按钮操作
 const handleClickButton = (params: ButtonsCallBackParams) => {

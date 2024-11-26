@@ -56,7 +56,7 @@ export function buildTableColum() {
       minWidth: 200,
       render(value) {
         return (
-          <el-link href={"/#/corn/job?code=" + value} type="primary">
+          <el-link href={"/#/corn/job?quartzName=" + value} type="primary">
             {value}
           </el-link>
         );

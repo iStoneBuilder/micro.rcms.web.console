@@ -1,90 +1,63 @@
 import { h } from "vue";
 import type { PlusColumn } from "plus-pro-components";
-import { Delete, EditPen } from "@element-plus/icons-vue";
 
 export const searchColumns: PlusColumn[] = [
   {
-    label: "分组编码",
-    prop: "quartzGroupCode"
-  },
-  {
-    label: "分组名称",
-    prop: "quartzGroupName"
-  },
-  {
-    label: "是否需要认证",
-    prop: "isAuthorized",
-    valueType: "select",
-    options: [
-      {
-        value: "Y",
-        label: "是"
-      },
-      {
-        value: "N",
-        label: "否"
-      }
-    ]
+    label: "任务名称",
+    prop: "quartzName"
   }
-];
-
-export const tableButtons = [
-  { name: "编辑", type: "primary", perm: null, icon: EditPen },
-  { name: "删除", type: "danger", perm: null, icon: Delete }
 ];
 
 export function buildTableColum() {
   const tableColumns: PlusColumn[] = [
     {
-      label: "分组编码",
+      label: "任务名称",
       prop: "quartzName",
+      minWidth: 180
+    },
+    {
+      label: "任务调度ID",
+      prop: "jobId",
+      minWidth: 300
+    },
+    {
+      label: "任务调度状态",
+      prop: "jobStatus",
+      minWidth: 120,
+      tableColumnProps: {
+        align: "center"
+      },
+      render: (value: any) => {
+        return h(
+          <el-tag type={value === "Y" ? "success" : "warning"}>{value}</el-tag>
+        );
+      }
+    },
+    {
+      label: "响应编码",
+      prop: "responseCode",
       minWidth: 100,
-      render(value) {
-        return (
-          <el-link href={"/#/corn/task?code=" + value} type="primary">
-            {value}
-          </el-link>
-        );
-      }
-    },
-    {
-      label: "分组名称",
-      prop: "quartzCron",
-      minWidth: 200
-    },
-    {
-      label: "是否需要认证",
-      prop: "enabledFlag",
-      minWidth: 120,
       tableColumnProps: {
         align: "center"
-      },
-      render: (value: any) => {
-        return h(
-          <el-tag type={value === "Y" ? "success" : "warning"}>
-            {value === "Y" ? "是" : "否"}
-          </el-tag>
-        );
       }
     },
     {
-      label: "任务执行状态",
-      prop: "quartzStatus",
-      minWidth: 120,
+      label: "响应内容",
+      prop: "responseBody",
+      minWidth: 320,
       tableColumnProps: {
         align: "center"
-      },
-      render: (value: any) => {
-        return h(
-          <el-tag type={value === "Y" ? "success" : "warning"}>
-            {value === "Y" ? "是" : "否"}
-          </el-tag>
-        );
       }
     },
     {
-      label: "创建时间",
-      prop: "createDate",
+      label: "任务开始时间",
+      prop: "startTime",
+      minWidth: 160,
+      valueType: "date-picker"
+    },
+    {
+      label: "任务结束时间",
+      prop: "endTime",
       minWidth: 160,
       valueType: "date-picker"
     },
@@ -92,6 +65,12 @@ export function buildTableColum() {
       label: "创建人",
       prop: "createBy",
       minWidth: 200
+    },
+    {
+      label: "创建时间",
+      prop: "createDate",
+      minWidth: 160,
+      valueType: "date-picker"
     }
   ];
   return tableColumns;

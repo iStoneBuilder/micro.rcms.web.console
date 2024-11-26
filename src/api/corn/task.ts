@@ -46,3 +46,17 @@ export const opertionCornTask = (op: string, id: string) => {
     `/corn/services/rcms/quzrtz/task/records/${op}/${id}`
   );
 };
+
+export const getCornJobPageList = (
+  curPage: number,
+  pageSize: number,
+  params?: object
+) => {
+  return http.request<ResultPage>(
+    "get",
+    `/corn/services/rcms/quzrtz/job/records/page/${curPage}/${pageSize}`,
+    {
+      params
+    }
+  );
+};
