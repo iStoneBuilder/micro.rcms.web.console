@@ -48,7 +48,8 @@ export function buildTableColum() {
             {value}
           </el-link>
         );
-      }
+      },
+      fixed: true
     },
     {
       label: "分组名称",

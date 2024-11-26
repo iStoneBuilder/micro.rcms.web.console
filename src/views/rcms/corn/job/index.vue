@@ -29,6 +29,7 @@
             offsetBottom: 80
           }"
           :pagination="{
+            modelValue: pageInfo,
             pageSizeList: pageSizeList,
             pageSize: 15,
             total: total

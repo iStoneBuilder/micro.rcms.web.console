@@ -30,6 +30,7 @@
             offsetBottom: 80
           }"
           :pagination="{
+            modelValue: pageInfo,
             pageSizeList: pageSizeList,
             pageSize: 15,
             total: total
@@ -300,7 +301,8 @@ const createColumns: PlusColumn[] = [
     hideInForm: computed(() => createForm.value["isAuthorized"] === "N")
   }
 ];
-const urlRegex = /^(http|https):\/\/(\d{1,3}\.){3}\d{1,3}:\d{1,5}\/[\w\/-]+$/;
+const urlRegex =
+  /^(http|https):\/\/((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|localhost|[a-zA-Z0-9.-]+)(:\d+)?\/[a-zA-Z0-9.-\/]*$/;
 const alphanumericUnderscoreRegex = /^[a-zA-Z][a-zA-Z0-9_]*$/;
 const createRules = {
   quartzGroupName: [

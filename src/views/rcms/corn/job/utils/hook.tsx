@@ -13,7 +13,8 @@ export function buildTableColum() {
     {
       label: "任务名称",
       prop: "quartzName",
-      minWidth: 180
+      minWidth: 180,
+      fixed: true
     },
     {
       label: "任务调度ID",
@@ -29,7 +30,9 @@ export function buildTableColum() {
       },
       render: (value: any) => {
         return h(
-          <el-tag type={value === "Y" ? "success" : "warning"}>{value}</el-tag>
+          <el-tag type={value === "success" ? "success" : "warning"}>
+            {value}
+          </el-tag>
         );
       }
     },
@@ -64,7 +67,7 @@ export function buildTableColum() {
     {
       label: "创建人",
       prop: "createBy",
-      minWidth: 200
+      minWidth: 140
     },
     {
       label: "创建时间",

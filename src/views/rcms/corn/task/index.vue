@@ -30,6 +30,7 @@
             offsetBottom: 80
           }"
           :pagination="{
+            modelValue: pageInfo,
             pageSizeList: pageSizeList,
             pageSize: 15,
             total: total
@@ -132,7 +133,7 @@
 
 <script lang="ts" setup>
 import { useRoute } from "vue-router";
-import { ref, onMounted, reactive, toRefs, computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { ElMessageBox } from "element-plus";
 import { useTable } from "plus-pro-components";
 import type {
