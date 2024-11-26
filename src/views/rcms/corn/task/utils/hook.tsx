@@ -127,6 +127,17 @@ export function buildTableColum() {
       label: "创建人",
       prop: "createBy",
       minWidth: 160
+    },
+    {
+      label: "更新时间",
+      prop: "updateDate",
+      minWidth: 160,
+      valueType: "date-picker"
+    },
+    {
+      label: "更新人",
+      prop: "updateBy",
+      minWidth: 160
     }
   ];
   return tableColumns;

@@ -265,6 +265,7 @@ const handleStart = async () => {
       "start" as string,
       multipleSelection.value[0].quartzId
     );
+    search();
     return;
   }
   if (flag === "enabled") {
@@ -272,6 +273,7 @@ const handleStart = async () => {
       "stop" as string,
       multipleSelection.value[0].quartzId
     );
+    search();
     return;
   }
   message("未启用/已停用的任务才允许启用，已启用的才允许停用", {
@@ -295,6 +297,7 @@ const handlePause = async () => {
       "resume" as string,
       multipleSelection.value[0].quartzId
     );
+    search();
     return;
   }
   if (flag === "enabled") {
@@ -302,6 +305,7 @@ const handlePause = async () => {
       "pause" as string,
       multipleSelection.value[0].quartzId
     );
+    search();
     return;
   }
   message("已启用的才允许暂停，已暂停的任务才允许恢复", {
