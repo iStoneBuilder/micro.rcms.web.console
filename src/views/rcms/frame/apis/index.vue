@@ -91,7 +91,11 @@ import {
   Delete
 } from "@element-plus/icons-vue";
 import { getAccountPageList } from "@/api/rcms/account";
-import { getPermissionPageList, refreshPerm } from "@/api/rcms/permission";
+import {
+  getPermissionPageList,
+  refreshPerm,
+  authorizePerm
+} from "@/api/rcms/permission";
 
 const defaultPageInfo = {
   page: 1,
@@ -101,10 +105,10 @@ interface State {
   /**
    * 当前选择多行的id集合
    */
-  selectedIds: string[];
+  selectedData: Array<any>;
 }
 const state = reactive<State>({
-  selectedIds: []
+  selectedData: []
 });
 const appAccount = ref([]);
 async function loadAppAccount() {
@@ -156,6 +160,14 @@ const tableConfig: PlusColumn[] = [
     label: "权限编码",
     minWidth: 300,
     prop: "authCode"
+  },
+  {
+    label: "服务提供商",
+    width: 100,
+    prop: "serviceCode",
+    tableColumnProps: {
+      align: "center"
+    }
   },
   {
     label: "接口类型",
@@ -231,14 +243,14 @@ const tableConfig: PlusColumn[] = [
 const selectAccount = ref();
 
 function handleSelect(data: any) {
-  state.selectedIds = [...data].map(item => item.code);
+  state.selectedData = [...data];
 }
 const plusPageInstance = ref<PlusPageInstance | null>(null);
 // 重新请求列表接口
 const refresh = () => {
   plusPageInstance.value?.getList();
 };
-function handleAccountPerm() {
+async function handleAccountPerm() {
   if (!selectAccount.value) {
     message(`请选择需要授权的程序账户`, {
       type: "warning",
@@ -246,13 +258,18 @@ function handleAccountPerm() {
     });
     return;
   }
-  if (!state.selectedIds.length) {
+  if (!state.selectedData.length) {
     message(`请选择OpenApi授权，非OpenApi不允许授权程序账户访问`, {
       type: "warning",
       duration: 5000
     });
     return;
   }
+  await authorizePerm(selectAccount.value, state.selectedData);
+  message(`授权成功`, {
+    type: "success",
+    duration: 1000
+  });
 }
 async function handleRefreshPerm() {
   await refreshPerm({});

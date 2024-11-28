@@ -56,11 +56,14 @@ const exportExcel = () => {
     });
     return arr;
   });
+  console.log("~~~~~~~", res);
   const titleList: string[] = [];
   columns.forEach((column: Columns) => {
     titleList.push(column.title);
   });
+  console.log("~~~~~~~", titleList);
   res.unshift(titleList);
+  console.log("~~~~~~~", res);
   const workSheet = utils.aoa_to_sheet(res);
   const workBook = utils.book_new();
   utils.book_append_sheet(workBook, workSheet, "数据报表");

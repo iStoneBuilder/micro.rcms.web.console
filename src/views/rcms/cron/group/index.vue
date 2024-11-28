@@ -117,7 +117,7 @@ import {
   createCronGroup,
   updateCronGroup,
   deleteCronGroup
-} from "@/api/corn/group";
+} from "@/api/cron/group";
 import { getItemList } from "@/api/rcms/common";
 
 // --- 查询条件区域 ---

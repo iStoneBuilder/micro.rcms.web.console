@@ -42,7 +42,7 @@ export function buildTableColum() {
       render(value) {
         return (
           <el-link
-            href={"/#/corn/task?quartzGroupCode=" + value}
+            href={"/#/cron/task?quartzGroupCode=" + value}
             type="primary"
           >
             {value}

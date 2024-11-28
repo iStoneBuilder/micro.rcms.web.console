@@ -13,7 +13,7 @@ export async function enabled() {
 
 export async function groups() {
   return await getBussList(
-    "/corn/services/rcms/quzrtz/group/records/list",
+    "/cron/services/rcms/quzrtz/group/records/list",
     "quartzGroupName",
     "quartzGroupCode",
     {}
@@ -56,7 +56,7 @@ export function buildTableColum() {
       width: 200,
       render(value) {
         return (
-          <el-link href={"/#/corn/job?quartzName=" + value} type="primary">
+          <el-link href={"/#/cron/job?quartzName=" + value} type="primary">
             {value}
           </el-link>
         );

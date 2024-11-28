@@ -244,3 +244,5 @@ export function buildEditColum() {
   ];
   return columns;
 }
+
+export const excelTemp = [{ key: "iccid", title: "ICCID" }];

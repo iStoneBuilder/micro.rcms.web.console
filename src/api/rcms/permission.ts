@@ -23,3 +23,12 @@ export const refreshPerm = (data?: object) => {
     }
   );
 };
+export const authorizePerm = (appId: string, data?: Array<any>) => {
+  return http.request<ResultData>(
+    "post",
+    `/test/services/rcms/base/permission/records/authorize/${appId}`,
+    {
+      data
+    }
+  );
+};

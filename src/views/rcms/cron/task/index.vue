@@ -164,7 +164,7 @@ import {
   updateCornTask,
   deleteCornTask,
   opertionCornTask
-} from "@/api/corn/task";
+} from "@/api/cron/task";
 import { getItemList } from "@/api/rcms/common";
 
 // --- 查询条件区域 ---

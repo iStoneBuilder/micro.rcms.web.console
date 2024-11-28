@@ -47,7 +47,7 @@ import { ref, onMounted } from "vue";
 import { useTable } from "plus-pro-components";
 import type { PageInfo } from "plus-pro-components";
 import { searchColumns, buildTableColum } from "./utils/hook";
-import { getCornJobPageList } from "@/api/corn/task";
+import { getCornJobPageList } from "@/api/cron/task";
 
 // --- 查询条件区域 ---
 const searchForm = ref({});

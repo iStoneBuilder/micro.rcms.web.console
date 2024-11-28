@@ -32,7 +32,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, "")
         },
-        "/corn": {
+        "/cron": {
           // 这里填写后端地址
           target: "http://localhost:52000",
           changeOrigin: true,
