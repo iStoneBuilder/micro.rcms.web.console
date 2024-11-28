@@ -1,4 +1,4 @@
-import { utils, writeFile } from "xlsx";
+import { utils, writeFile, read } from "xlsx";
 
 interface Columns {
   key: string;
@@ -55,4 +55,36 @@ export function exportExcelData(
   writeXlsxFile(res, xlsxName, sheetName);
 }
 
-export function readExcelData() {}
+export async function readExcelData(
+  excelTemp: Array<Columns>,
+  file?: Blob
+): Promise<any[]> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = async e => {
+      try {
+        const data = new Uint8Array(e.target.result as ArrayBuffer);
+        const workbook = read(data, { type: "array" });
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        const excelData = await utils.sheet_to_json(worksheet);
+        const result = [];
+        // title 转化为 字段
+        excelData.map((item: DataItem) => {
+          const newItem = {};
+          excelTemp.forEach((column: Columns) => {
+            newItem[column.key] = item[column.title];
+          });
+          result.push(newItem);
+        });
+        resolve(result);
+      } catch (error) {
+        reject(error);
+      }
+    };
+    reader.onerror = error => {
+      reject(error);
+    };
+    reader.readAsArrayBuffer(file);
+  });
+}

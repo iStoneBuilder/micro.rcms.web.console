@@ -90,12 +90,28 @@
             :columns="importColumns"
             :rules="importRules"
             footerAlign="center"
+            :row-props="{ gutter: 20 }"
+            :col-props="{
+              span: 23
+            }"
             @submit="handleSubmit"
           >
             <template #plus-field-importBtn>
-              <div>
-                <input type="file" accept=".xlsx,.xls" />
+              <div class="file-area">
+                <input
+                  type="file"
+                  accept=".xlsx,.xls"
+                  class="file-inp"
+                  @change="selectExcelFile"
+                />
+                <el-button
+                  type="primary"
+                  :disabled="importLoading"
+                  @click="handleClose"
+                  >选择文件</el-button
+                >
               </div>
+              <label class="file-label">{{ importForm.fileName }}</label>
             </template>
             <template #footer="{ handleSubmit }">
               <div style="margin: 0 auto">
@@ -147,7 +163,7 @@ import {
   buildEditColum,
   excelTemp
 } from "./hook";
-import { buildExcelTemp } from "@/utils/xlsxHandle";
+import { buildExcelTemp, readExcelData } from "@/utils/xlsxHandle";
 
 import { Setting, EditPen } from "@element-plus/icons-vue";
 import Delete from "@iconify-icons/ep/delete";
@@ -304,7 +320,8 @@ function downloadTemp() {
 // ---------导入数据-----------
 const show = ref(false);
 const importForm = ref({
-  importBtn: ""
+  importBtn: "",
+  fileName: ""
 });
 const importColumns: PlusColumn[] = [
   {
@@ -337,9 +354,35 @@ const importLoading = ref(false);
 function importData() {
   show.value = true;
 }
-
 function handleClose() {
   show.value = false;
 }
+async function selectExcelFile(event) {
+  const input = event.target;
+  if (!input.files || input.files.length === 0) {
+    return;
+  }
+  const file = input.files[0];
+  importForm.value.fileName = file.name;
+  const data = await readExcelData(excelTemp, file);
+  console.log(data);
+}
 const { form, loading, rules, visible } = toRefs(state);
 </script>
+<style scoped>
+.file-area {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+.file-inp {
+  position: absolute;
+  font-size: 100px;
+  opacity: 0;
+  right: 0;
+  top: 0;
+}
+.file-label {
+  margin-left: 14px !important;
+}
+</style>
