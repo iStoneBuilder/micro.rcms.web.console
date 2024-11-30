@@ -17,38 +17,40 @@ export function buildColum(handleClickButton: Function) {
   const columns: PlusColumn[] = [
     {
       label: "iccid",
-      prop: "name",
+      prop: "iccid",
       width: 200,
       align: "left"
     },
     {
       label: "商户",
-      prop: "name",
+      prop: "enterpriseId",
       minWidth: 200,
       align: "left"
     },
     {
       label: "卡商",
-      prop: "name",
+      prop: "merchantCode",
       minWidth: 200,
-      align: "left"
+      align: "left",
+      valueType: "select",
+      options: []
     },
     {
       label: "使用设备",
-      prop: "name",
+      prop: "deviceSn",
       minWidth: 200,
       align: "left"
     },
     {
       label: "运营商",
-      prop: "name",
+      prop: "carrierCode",
       minWidth: 100,
       align: "left",
       hideInSearch: true
     },
     {
       label: "剩余流量",
-      prop: "name",
+      prop: "flowRemain",
       minWidth: 200,
       align: "left",
       hideInSearch: true,
@@ -56,42 +58,42 @@ export function buildColum(handleClickButton: Function) {
     },
     {
       label: "网络类型",
-      prop: "name",
+      prop: "netType",
       minWidth: 200,
       align: "left",
       hideInSearch: true
     },
     {
       label: "流量状态",
-      prop: "name",
+      prop: "flowStatus",
       minWidth: 200,
       align: "left",
       hideInSearch: true
     },
     {
-      label: "入网分配",
-      prop: "name",
+      label: "在线状态",
+      prop: "onlineStatus",
       minWidth: 200,
       align: "left",
       hideInSearch: true
     },
     {
       label: "实名状态",
-      prop: "name",
+      prop: "nameStatus",
       minWidth: 200,
       align: "left",
       hideInSearch: true
     },
     {
       label: "SIM卡分类",
-      prop: "name",
+      prop: "simType",
       minWidth: 200,
       align: "left",
       hideInSearch: true
     },
     {
       label: "备注",
-      prop: "name",
+      prop: "remark",
       minWidth: 300,
       align: "left",
       hideInSearch: true,

@@ -65,7 +65,7 @@
           top: '12vh',
           loading
         }"
-        @confirm="handleSubmit"
+        @confirm="handleSubmitEdit"
         @cancel="handleCancel"
       />
     </div>
@@ -150,11 +150,11 @@ import type {
 } from "plus-pro-components";
 import { Plus, Compass } from "@element-plus/icons-vue";
 import {
-  getMerchantPageList,
-  createMerchant,
-  updateMerchant,
-  deleteMerchant
-} from "@/api/rcms/merchant";
+  getSimPageList,
+  updateSim,
+  deleteSim,
+  importSim
+} from "@/api/mifi/sim";
 import { hasPerms } from "@/utils/auth";
 import {
   defaultPageInfo,
@@ -164,6 +164,7 @@ import {
   excelTemp
 } from "./hook";
 import { buildExcelTemp, readExcelData } from "@/utils/xlsxHandle";
+import { getItemList, getBussList } from "@/api/rcms/common";
 
 import { Setting, EditPen } from "@element-plus/icons-vue";
 import Delete from "@iconify-icons/ep/delete";
@@ -180,7 +181,7 @@ const getList = async (query: PageInfo) => {
   const params = query;
   delete params.page;
   delete params.pageSize;
-  const { data } = await getMerchantPageList(page, pageSize, params);
+  const { data } = await getSimPageList(page, pageSize, params);
 
   // 等待2s
   await new Promise(resolve => {
@@ -203,7 +204,6 @@ function handleClickButton(e, value, index, row, item) {
       state.visible = true;
       break;
     case "删除":
-      // state.isBatch = false;
       handleDelete(row);
       break;
     case "API配置":
@@ -262,16 +262,7 @@ const state = reactive<State>({
 const columns: PlusColumn[] = buildColum(handleClickButton);
 const editColumns: PlusColumn[] = buildEditColum();
 const title = computed(() => (state.isCreate ? "新增" : "编辑"));
-// 创建
-const handleCreate = (): void => {
-  state.form = {
-    classifyName: "",
-    classifyCode: "",
-    description: ""
-  };
-  state.isCreate = true;
-  state.visible = true;
-};
+
 const handleDelete = async (row): Promise<void> => {
   ElMessageBox.confirm("你确定删除当前数据吗，是否继续?", "温馨提示", {
     confirmButtonText: "确认",
@@ -279,7 +270,7 @@ const handleDelete = async (row): Promise<void> => {
     type: "warning",
     draggable: true
   }).then(async () => {
-    await deleteMerchant(row?.classifyCode);
+    await deleteSim(row?.classifyCode);
     message(`删除成功！`, {
       type: "success"
     });
@@ -292,21 +283,14 @@ const handleCancel = () => {
 };
 
 // 提交表单成功
-const handleSubmit = async () => {
+const handleSubmitEdit = async () => {
   try {
     state.loading = true;
     const params = { ...state.form };
-    if (state.isCreate) {
-      await createMerchant(params);
-      message(`${title.value}成功！`, {
-        type: "success"
-      });
-    } else {
-      await updateMerchant(params.classifyCode, params);
-      message(`${title.value}成功！`, {
-        type: "success"
-      });
-    }
+    await updateSim(params.classifyCode, params);
+    message(`${title.value}成功！`, {
+      type: "success"
+    });
     // 关闭弹出框
     handleCancel();
     // 刷新列表
@@ -321,7 +305,9 @@ function downloadTemp() {
 const show = ref(false);
 const importForm = ref({
   importBtn: "",
-  fileName: ""
+  fileName: "",
+  simType: "Y",
+  excelData: []
 });
 const importColumns: PlusColumn[] = [
   {
@@ -329,29 +315,68 @@ const importColumns: PlusColumn[] = [
     prop: "importBtn"
   },
   {
-    label: "类型",
+    label: "网络类型",
     valueType: "select",
-    prop: "quartzGroupName"
+    prop: "netType",
+    options: getItemList("MIFI_NET_TYPE")
   },
   {
     label: "卡商",
     valueType: "select",
-    prop: "quartzGroupName"
+    prop: "merchantCode",
+    options: getBussList(
+      "/test/services/rcms/mifi/merchant/records",
+      "merchantName",
+      "merchantCode"
+    )
   },
   {
     label: "运营商",
     valueType: "select",
-    prop: "quartzGroupName"
+    prop: "carrierCode",
+    options: getItemList("MIFI_ISP")
   },
   {
     label: "是否本地卡",
-    valueType: "select",
-    prop: "quartzGroupName"
+    valueType: "plus-radio",
+    prop: "simType",
+    options: getItemList("RCMS_SYS_YN")
   }
 ];
-const importRules = {};
+const importRules = {
+  netType: [
+    {
+      required: true,
+      message: "请选择网络类型"
+    }
+  ],
+  merchantCode: [
+    {
+      required: true,
+      message: "请选择卡商"
+    }
+  ],
+  carrierCode: [
+    {
+      required: true,
+      message: "请选择运营商"
+    }
+  ],
+  simType: [
+    {
+      required: true,
+      message: "请选择卡类型"
+    }
+  ]
+};
 const importLoading = ref(false);
 function importData() {
+  importForm.value = {
+    importBtn: "",
+    fileName: "",
+    simType: "Y",
+    excelData: []
+  };
   show.value = true;
 }
 function handleClose() {
@@ -365,8 +390,30 @@ async function selectExcelFile(event) {
   const file = input.files[0];
   importForm.value.fileName = file.name;
   const data = await readExcelData(excelTemp, file);
-  console.log(data);
+  importForm.value.excelData = data;
 }
+const handleSubmit = async () => {
+  if (importForm.value.excelData.length == 0) {
+    message(`请选择模版数据！`, {
+      type: "warning"
+    });
+    return;
+  }
+  const baseData = { ...importForm.value };
+  delete baseData.excelData;
+  delete baseData.fileName;
+  delete baseData.importBtn;
+  const importData = [];
+  importForm.value.excelData.forEach(item => {
+    const itemData = { ...baseData };
+    itemData["iccid"] = item.iccid;
+    importData.push(itemData);
+  });
+  await importSim(importData);
+  message(`SIM卡导入成功！`, {
+    type: "success"
+  });
+};
 const { form, loading, rules, visible } = toRefs(state);
 </script>
 <style scoped>

@@ -64,6 +64,7 @@
       @cancel="handleCancel"
     />
     <PlusDialog
+      v-if="show"
       v-model="show"
       class="rcms-plus-dialog"
       title="字典子项配置"

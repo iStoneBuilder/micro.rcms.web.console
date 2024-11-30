@@ -79,7 +79,7 @@ import {
   createMerchantCarrier,
   updateMerchantCarrier,
   deleteMerchantCarrier
-} from "@/api/rcms/merchant";
+} from "@/api/mifi/merchant";
 import { hasPerms } from "@/utils/auth";
 import { defaultPageInfo, buildChildColum, ChildState } from "./hook";
 

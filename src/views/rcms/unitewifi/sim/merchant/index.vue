@@ -95,7 +95,7 @@ import {
   createMerchant,
   updateMerchant,
   deleteMerchant
-} from "@/api/rcms/merchant";
+} from "@/api/mifi/merchant";
 import { ElMessageBox } from "element-plus";
 import { hasPerms } from "@/utils/auth";
 import Item from "./item.vue";

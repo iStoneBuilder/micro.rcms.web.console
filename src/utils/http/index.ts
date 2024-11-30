@@ -78,16 +78,17 @@ class PureHttp {
         const whiteList = ["/refresh-token", "/login", "/refresh/login"];
         return whiteList.some(url => config.url.endsWith(url))
           ? config
-          : new Promise(resolve => {
+          : new Promise(async resolve => {
               const data = getToken();
               if (data) {
                 const now = new Date().getTime();
                 const expired = parseInt(data.expires) - now <= 0;
                 if (expired) {
+                  console.log(new Date(), data, PureHttp.isRefreshing);
                   if (!PureHttp.isRefreshing) {
                     PureHttp.isRefreshing = true;
                     // token过期刷新
-                    useUserStoreHook()
+                    await useUserStoreHook()
                       .handRefreshToken({ refreshToken: data.refreshToken })
                       .then(res => {
                         const token = res.data.accessToken;
