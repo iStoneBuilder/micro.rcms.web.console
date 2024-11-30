@@ -37,6 +37,7 @@ export type setType = {
   hiddenSideBar: boolean;
 };
 export type extraType = {
+  tenantId: string;
   id: string;
   code: string;
   name: string;

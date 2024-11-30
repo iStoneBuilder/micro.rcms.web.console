@@ -14,7 +14,9 @@ export function buildTableColum() {
       label: "任务名称",
       prop: "quartzName",
       minWidth: 180,
-      fixed: true
+      tableColumnProps: {
+        fixed: true
+      }
     },
     {
       label: "任务调度ID",

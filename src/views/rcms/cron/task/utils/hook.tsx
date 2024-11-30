@@ -61,7 +61,9 @@ export function buildTableColum() {
           </el-link>
         );
       },
-      fixed: true
+      tableColumnProps: {
+        fixed: true
+      }
     },
     {
       label: "任务组",

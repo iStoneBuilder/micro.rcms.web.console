@@ -49,7 +49,9 @@ export function buildTableColum() {
           </el-link>
         );
       },
-      fixed: true
+      tableColumnProps: {
+        fixed: true
+      }
     },
     {
       label: "分组名称",

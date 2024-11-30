@@ -46,6 +46,9 @@ export function handleRequestError(code: number, data: Object, uri: string) {
         reLogin();
       }
     }
+    if (JSON.stringify(data).concat("This subject is anonymous")) {
+      useUserStoreHook().logOut();
+    }
   } else {
     const errorMessage: string =
       (data as HttpError)?.data?.message || "服务异常，请稍后重试！";
@@ -75,4 +78,9 @@ export function findSelected(options, id) {
 export function getEnterpriseId() {
   const userInfo = getUserInfo();
   return userInfo?.extraInfo?.id ?? "000000000000";
+}
+
+export function getTenantId() {
+  const userInfo = getUserInfo();
+  return userInfo?.extraInfo?.tenantId ?? "000000000000";
 }

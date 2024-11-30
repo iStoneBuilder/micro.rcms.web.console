@@ -1,39 +1,50 @@
-import { h, Fragment } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 import type { FormRules } from "element-plus";
-import { Setting, EditPen, RefreshLeft } from "@element-plus/icons-vue";
-import { renderPermBtn } from "@/utils/auth";
+import { getItemList, getBussList } from "@/api/rcms/common";
+import { getTenantId } from "@/utils/common";
 
 export const defaultPageInfo = {
   page: 1,
   pageSize: 15
 };
-export const buttons = [
-  { name: "编辑", type: "primary", perm: null, icon: EditPen },
-  { name: "同步流量", type: "primary", perm: null, icon: RefreshLeft },
-  { name: "限速", type: "primary", perm: "aaa", icon: Setting }
-];
-export function buildColum(handleClickButton: Function) {
+export function buildColum() {
   const columns: PlusColumn[] = [
     {
       label: "iccid",
       prop: "iccid",
       width: 200,
-      align: "left"
+      align: "left",
+      render(value) {
+        return <el-link type="primary">{value}</el-link>;
+      },
+      tableColumnProps: {
+        fixed: true
+      }
     },
     {
       label: "商户",
       prop: "enterpriseId",
       minWidth: 200,
-      align: "left"
+      align: "left",
+      valueType: "select",
+      options: getBussList(
+        "/test/services/rcms/base/enterprise/records",
+        "name",
+        "id",
+        { id: getTenantId() }
+      )
     },
     {
       label: "卡商",
       prop: "merchantCode",
-      minWidth: 200,
+      minWidth: 100,
       align: "left",
       valueType: "select",
-      options: []
+      options: getBussList(
+        "/test/services/rcms/mifi/merchant/records",
+        "merchantName",
+        "merchantCode"
+      )
     },
     {
       label: "使用设备",
@@ -46,7 +57,12 @@ export function buildColum(handleClickButton: Function) {
       prop: "carrierCode",
       minWidth: 100,
       align: "left",
-      hideInSearch: true
+      hideInSearch: true,
+      valueType: "select",
+      options: getItemList("MIFI_ISP"),
+      tableColumnProps: {
+        align: "center"
+      }
     },
     {
       label: "剩余流量",
@@ -59,9 +75,12 @@ export function buildColum(handleClickButton: Function) {
     {
       label: "网络类型",
       prop: "netType",
-      minWidth: 200,
+      minWidth: 100,
       align: "left",
-      hideInSearch: true
+      hideInSearch: true,
+      tableColumnProps: {
+        align: "center"
+      }
     },
     {
       label: "流量状态",
@@ -87,9 +106,14 @@ export function buildColum(handleClickButton: Function) {
     {
       label: "SIM卡分类",
       prop: "simType",
-      minWidth: 200,
+      minWidth: 100,
       align: "left",
-      hideInSearch: true
+      hideInSearch: true,
+      render(value) {
+        return (
+          <el-tag type="primary">{value === "Y" ? "本地卡" : "外置卡"}</el-tag>
+        );
+      }
     },
     {
       label: "备注",
@@ -100,30 +124,6 @@ export function buildColum(handleClickButton: Function) {
       valueType: "textarea",
       colProps: {
         span: 22
-      }
-    },
-    {
-      label: "操作",
-      width: 250,
-      prop: "description",
-      hideInSearch: true,
-      hideInForm: true,
-      columnsProps: {
-        align: "center"
-      },
-      tableColumnProps: {
-        fixed: "right",
-        align: "center"
-      },
-      render: (value, { index, row }) => {
-        const CustomButton = renderPermBtn(
-          buttons,
-          handleClickButton,
-          value,
-          index,
-          row
-        );
-        return h(Fragment, CustomButton);
       }
     }
   ];

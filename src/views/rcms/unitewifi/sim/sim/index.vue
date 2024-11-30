@@ -13,7 +13,9 @@
         :table="{
           hasIndexColumn: true,
           isSelection: true,
-          adaptive: { offsetBottom: 70 }
+          adaptive: { offsetBottom: 70 },
+          actionBar: { buttons, width: 200, type: 'link' },
+          onClickAction: handleTableOption
         }"
         :default-page-info="defaultPageInfo"
         :default-page-size-list="[5, 15, 20, 50]"
@@ -142,11 +144,12 @@ import { ElMessageBox } from "element-plus";
 import { message } from "@/utils/message";
 import { reactive, computed, toRefs, ref } from "vue";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+import { useTable } from "plus-pro-components";
 import type {
   PlusColumn,
   PageInfo,
   PlusPageInstance,
-  FieldValues
+  ButtonsCallBackParams
 } from "plus-pro-components";
 import { Plus, Compass } from "@element-plus/icons-vue";
 import {
@@ -155,7 +158,6 @@ import {
   deleteSim,
   importSim
 } from "@/api/mifi/sim";
-import { hasPerms } from "@/utils/auth";
 import {
   defaultPageInfo,
   buildColum,
@@ -196,22 +198,6 @@ const plusPageInstance = ref<PlusPageInstance | null>(null);
 const refresh = () => {
   plusPageInstance.value?.getList();
 };
-function handleClickButton(e, value, index, row, item) {
-  switch (item.name) {
-    case "编辑":
-      state.form = { ...row } as any;
-      state.isCreate = false;
-      state.visible = true;
-      break;
-    case "删除":
-      handleDelete(row);
-      break;
-    case "API配置":
-      currentRow.value = { ...row };
-      break;
-  }
-}
-
 const state = reactive<State>({
   visible: false,
   loading: false,
@@ -259,22 +245,64 @@ const state = reactive<State>({
     ]
   }
 });
-const columns: PlusColumn[] = buildColum(handleClickButton);
+const columns: PlusColumn[] = buildColum();
 const editColumns: PlusColumn[] = buildEditColum();
 const title = computed(() => (state.isCreate ? "新增" : "编辑"));
 
+const { buttons } = useTable();
+buttons.value = [
+  {
+    text: "编辑",
+    code: "update",
+    props: { type: "primary", plain: true }
+  },
+  {
+    text: "删除",
+    code: "delete",
+    props: { type: "danger", plain: true }
+  },
+  {
+    text: "限速",
+    code: "limit",
+    props: { type: "primary", plain: true }
+  },
+  {
+    text: "同步流量",
+    code: "sync",
+    props: { type: "primary", plain: true }
+  }
+];
+
+const handleTableOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
+  switch (buttonRow.code) {
+    case "update":
+      state.form = { ...row } as any;
+      state.isCreate = false;
+      state.visible = true;
+      break;
+    case "delete":
+      handleDelete(row);
+      break;
+    case "setting":
+      break;
+  }
+};
 const handleDelete = async (row): Promise<void> => {
   ElMessageBox.confirm("你确定删除当前数据吗，是否继续?", "温馨提示", {
     confirmButtonText: "确认",
     cancelButtonText: "取消",
     type: "warning",
     draggable: true
-  }).then(async () => {
-    await deleteSim(row?.classifyCode);
-    message(`删除成功！`, {
-      type: "success"
+  })
+    .then(async () => {
+      await deleteSim(row?.classifyCode);
+      message(`删除成功！`, {
+        type: "success"
+      });
+    })
+    .catch(error => {
+      console.log(error);
     });
-  });
   refresh();
 };
 // 取消

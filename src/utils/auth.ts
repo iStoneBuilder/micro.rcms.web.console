@@ -23,6 +23,7 @@ export interface DataInfo<T> {
   permissions?: Array<string>;
   /** 账户企业信息 */
   extraInfo?: {
+    tenantId: string;
     id: string;
     code: string;
     name: string;
