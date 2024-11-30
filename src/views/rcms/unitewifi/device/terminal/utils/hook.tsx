@@ -24,67 +24,67 @@ export function terminalManage() {
     },
     {
       label: "IMEI",
-      prop: "name",
+      prop: "name1",
       width: 200,
       align: "left"
     },
     {
       label: "上网模式",
-      prop: "name",
+      prop: "name2",
       minWidth: 200,
       align: "left"
     },
     {
       label: "在线?",
-      prop: "name",
+      prop: "name3",
       minWidth: 100,
       align: "left"
     },
     {
       label: "商户",
-      prop: "name",
+      prop: "name4",
       minWidth: 200,
       align: "left"
     },
     {
       label: "设备类型",
-      prop: "name",
+      prop: "name5",
       minWidth: 200,
       align: "left"
     },
     {
       label: "设备组",
-      prop: "name",
+      prop: "name6",
       minWidth: 200,
       align: "left"
     },
     {
       label: "选卡策略",
-      prop: "name",
+      prop: "name7",
       minWidth: 200,
       align: "left"
     },
     {
       label: "流量模式",
-      prop: "name",
+      prop: "name9",
       minWidth: 200,
       align: "left"
     },
     {
       label: "入库批次号",
-      prop: "name",
+      prop: "name10",
       minWidth: 200,
       align: "left"
     },
     {
       label: "检测状态",
-      prop: "name",
+      prop: "name11",
       minWidth: 200,
       align: "left"
     },
     {
       label: "设备状态",
-      prop: "name",
+      prop: "name12",
       minWidth: 200,
       align: "left"
     },
@@ -172,8 +172,9 @@ export function terminalManage() {
     console.log("handleReset");
     onSearch();
   };
-  const handleSelectionChange = val => {
+  const handleSelect = val => {
     multipleSelection.value = val;
+    console.log(val);
   };
   onMounted(() => {
     onSearch();
@@ -192,6 +193,6 @@ export function terminalManage() {
     handleChange,
     handleSearch,
     handleReset,
-    handleSelectionChange
+    handleSelect
   };
 }

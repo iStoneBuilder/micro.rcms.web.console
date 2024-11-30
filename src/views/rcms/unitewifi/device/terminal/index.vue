@@ -42,7 +42,7 @@ const {
   handleChange,
   handleSearch,
   handleReset,
-  handleSelectionChange
+  handleSelect
 } = terminalManage();
 </script>
 
@@ -117,7 +117,7 @@ const {
             background: 'var(--el-fill-color-light)',
             color: 'var(--el-text-color-primary)'
           }"
-          @selection-change="handleSelectionChange"
+          @selection-change="handleSelect"
         >
           <template #operation="{ row }">
             <el-button
