@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { hasPerms } from "@/utils/auth";
-import { userManage } from "./utils/hook";
+import { terminalManage } from "./utils/hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
@@ -19,7 +19,7 @@ import shareDev from "@iconify-icons/ri/folder-shared-line";
 import EditPen from "@iconify-icons/ep/edit-pen";
 
 defineOptions({
-  name: "UserManage"
+  name: "terminalManage"
 });
 
 function onFullscreen() {
@@ -31,7 +31,7 @@ const tableRef = ref();
 const {
   state,
   loading,
-  columns,
+  tableColumns,
   pagination,
   dataList,
   searchColumns,
@@ -41,8 +41,9 @@ const {
   handleUpdate,
   handleChange,
   handleSearch,
-  handleReset
-} = userManage();
+  handleReset,
+  handleSelectionChange
+} = terminalManage();
 </script>
 
 <template>
@@ -89,19 +90,17 @@ const {
       <el-button type="primary" plain :icon="useRenderIcon(InitInstall)">
         设备初始化
       </el-button>
-      <el-button type="primary" plain :icon="useRenderIcon(InitInstall)">
-        批量初始化
-      </el-button>
     </div>
     <PureTableBar
       title=""
-      :columns="columns"
+      :columns="tableColumns"
       @refresh="onSearch"
       @fullscreen="onFullscreen"
     >
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
           ref="tableRef"
+          border
           adaptive
           :adaptiveConfig="{ offsetBottom: 120 }"
           align-whole="center"
@@ -118,6 +117,7 @@ const {
             background: 'var(--el-fill-color-light)',
             color: 'var(--el-text-color-primary)'
           }"
+          @selection-change="handleSelectionChange"
         >
           <template #operation="{ row }">
             <el-button
@@ -126,18 +126,16 @@ const {
               link
               type="primary"
               :size="size"
-              :icon="useRenderIcon(EditPen)"
               @click="handleUpdate('', row)"
             >
               编辑
             </el-button>
             <el-button
-              v-if="hasPerms('permission:role:permission')"
+              v-if="hasPerms('permission:role:update')"
               class="reset-margin"
               link
               type="danger"
               :size="size"
-              :icon="useRenderIcon(Delete)"
               @click="handleDelete('', row)"
             >
               删除

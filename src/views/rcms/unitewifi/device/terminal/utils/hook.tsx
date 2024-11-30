@@ -2,14 +2,15 @@ import { onMounted, ref, reactive } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { PlusColumn } from "plus-pro-components";
 
-export function userManage() {
+export function terminalManage() {
   const dataList = ref([]);
   const loading = ref();
+  const multipleSelection = ref([]);
   const state = ref({
     status: "0",
     time: new Date().toString()
   });
-  const columns: TableColumnList = [
+  const tableColumns: TableColumnList = [
     {
       type: "selection",
       align: "left"
@@ -18,7 +19,8 @@ export function userManage() {
       label: "设备SN",
       prop: "name",
       width: 200,
-      align: "left"
+      align: "left",
+      fixed: "left"
     },
     {
       label: "IMEI",
@@ -29,7 +31,7 @@ export function userManage() {
     {
       label: "上网模式",
       prop: "name",
-      minWidth: 100,
+      minWidth: 200,
       align: "left"
     },
     {
@@ -41,37 +43,49 @@ export function userManage() {
     {
       label: "商户",
       prop: "name",
-      minWidth: 100,
+      minWidth: 200,
       align: "left"
     },
     {
       label: "设备类型",
       prop: "name",
-      minWidth: 100,
+      minWidth: 200,
       align: "left"
     },
     {
       label: "设备组",
       prop: "name",
-      minWidth: 100,
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "选卡策略",
+      prop: "name",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "流量模式",
+      prop: "name",
+      minWidth: 200,
       align: "left"
     },
     {
       label: "入库批次号",
       prop: "name",
-      minWidth: 100,
+      minWidth: 200,
       align: "left"
     },
     {
       label: "检测状态",
       prop: "name",
-      minWidth: 100,
+      minWidth: 200,
       align: "left"
     },
     {
       label: "设备状态",
       prop: "name",
-      minWidth: 100,
+      minWidth: 200,
       align: "left"
     },
     {
@@ -142,7 +156,7 @@ export function userManage() {
   function onSearch() {
     loading.value = true;
     setTimeout(() => {
-      dataList.value = [{}, {}];
+      dataList.value = [{ name: "name" }, { name: "name1" }];
       loading.value = false;
     }, 500);
   }
@@ -158,13 +172,16 @@ export function userManage() {
     console.log("handleReset");
     onSearch();
   };
+  const handleSelectionChange = val => {
+    multipleSelection.value = val;
+  };
   onMounted(() => {
     onSearch();
   });
   return {
     state,
     loading,
-    columns,
+    tableColumns,
     pagination,
     dataList,
     searchColumns,
@@ -174,6 +191,7 @@ export function userManage() {
     handleUpdate,
     handleChange,
     handleSearch,
-    handleReset
+    handleReset,
+    handleSelectionChange
   };
 }

@@ -22,7 +22,7 @@ const systemManagementRouter = {
       meta: {
         icon: "ri:admin-line",
         title: "menus.pureUser",
-        roles: ["platformAdmin"]
+        roles: ["common"]
       }
     },
     {
@@ -31,7 +31,7 @@ const systemManagementRouter = {
       meta: {
         icon: "ri:admin-fill",
         title: "menus.pureRole",
-        roles: ["platformAdmin"]
+        roles: ["common"]
       }
     },
     {
@@ -40,7 +40,7 @@ const systemManagementRouter = {
       meta: {
         icon: "ep:menu",
         title: "menus.pureSystemMenu",
-        roles: ["platformAdmin"]
+        roles: ["common"]
       }
     },
     {
@@ -49,7 +49,7 @@ const systemManagementRouter = {
       meta: {
         icon: "ri:git-branch-line",
         title: "menus.pureDept",
-        roles: ["platformAdmin"]
+        roles: ["common"]
       }
     }
   ]
@@ -70,7 +70,7 @@ const systemMonitorRouter = {
       meta: {
         icon: "ri:user-voice-line",
         title: "menus.pureOnlineUser",
-        roles: ["platformAdmin"]
+        roles: ["common"]
       }
     },
     {
@@ -80,7 +80,7 @@ const systemMonitorRouter = {
       meta: {
         icon: "ri:window-line",
         title: "menus.pureLoginLog",
-        roles: ["platformAdmin"]
+        roles: ["common"]
       }
     },
     {
@@ -90,7 +90,7 @@ const systemMonitorRouter = {
       meta: {
         icon: "ri:history-fill",
         title: "menus.pureOperationLog",
-        roles: ["platformAdmin"]
+        roles: ["common"]
       }
     },
     {
@@ -100,7 +100,7 @@ const systemMonitorRouter = {
       meta: {
         icon: "ri:file-search-line",
         title: "menus.pureSystemLog",
-        roles: ["platformAdmin"]
+        roles: ["common"]
       }
     }
   ]
