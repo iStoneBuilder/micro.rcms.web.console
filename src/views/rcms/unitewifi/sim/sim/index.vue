@@ -51,7 +51,7 @@
       <PlusDialogForm
         v-if="visible"
         v-model:visible="visible"
-        v-model="form"
+        v-model="editForm"
         class="rcms-plus-form"
         :form="{
           columns: editColumns,
@@ -202,48 +202,7 @@ const state = reactive<State>({
   visible: false,
   loading: false,
   isCreate: false,
-  form: {
-    classifyName: "",
-    classifyCode: "",
-    description: ""
-  },
-  rules: {
-    classifyCode: [
-      {
-        required: true,
-        message: "请输入字典项"
-      },
-      {
-        validator: (rule, value, callback) => {
-          if (!REGEXP_CODE.test(value)) {
-            callback(
-              new Error("字典项包含：字母、下划线、数字，必须字母开始结尾")
-            );
-          }
-          if (value.length > 100) {
-            callback(new Error("字典项最多包含100个字符"));
-          }
-          callback();
-        },
-        trigger: "blur"
-      }
-    ],
-    classifyName: [
-      {
-        required: true,
-        message: "请输入字典项名称"
-      },
-      {
-        validator: (rule, value, callback) => {
-          if (value.length > 100) {
-            callback(new Error("字典项名称最多包含100个字符"));
-          }
-          callback();
-        },
-        trigger: "blur"
-      }
-    ]
-  }
+  rules: {}
 });
 const columns: PlusColumn[] = buildColum();
 const editColumns: PlusColumn[] = buildEditColum();
@@ -272,11 +231,11 @@ buttons.value = [
     props: { type: "primary", plain: true }
   }
 ];
-
+const editForm = ref({ iccid: "" });
 const handleTableOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
   switch (buttonRow.code) {
     case "update":
-      state.form = { ...row } as any;
+      editForm.value = { ...row } as any;
       state.isCreate = false;
       state.visible = true;
       break;
@@ -295,15 +254,16 @@ const handleDelete = async (row): Promise<void> => {
     draggable: true
   })
     .then(async () => {
-      await deleteSim(row?.classifyCode);
+      await deleteSim(row?.iccid);
       message(`删除成功！`, {
         type: "success"
       });
+      // 刷新列表
+      refresh();
     })
     .catch(error => {
       console.log(error);
     });
-  refresh();
 };
 // 取消
 const handleCancel = () => {
@@ -314,8 +274,8 @@ const handleCancel = () => {
 const handleSubmitEdit = async () => {
   try {
     state.loading = true;
-    const params = { ...state.form };
-    await updateSim(params.classifyCode, params);
+    const params = { ...editForm.value };
+    await updateSim(params["classifyCode"], params);
     message(`${title.value}成功！`, {
       type: "success"
     });
@@ -441,8 +401,11 @@ const handleSubmit = async () => {
   message(`SIM卡导入成功！`, {
     type: "success"
   });
+  handleClose();
+  // 刷新列表
+  refresh();
 };
-const { form, loading, rules, visible } = toRefs(state);
+const { loading, rules, visible } = toRefs(state);
 </script>
 <style scoped>
 .file-area {

@@ -12,7 +12,7 @@ export function buildColum() {
     {
       label: "iccid",
       prop: "iccid",
-      width: 200,
+      width: 180,
       align: "left",
       render(value) {
         return <el-link type="primary">{value}</el-link>;
@@ -49,6 +49,12 @@ export function buildColum() {
     {
       label: "使用设备",
       prop: "deviceSn",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "物联网卡号",
+      prop: "imei",
       minWidth: 200,
       align: "left"
     },
@@ -143,14 +149,6 @@ export interface State {
    */
   isCreate: boolean;
   /**
-   * 表单
-   */
-  form: {
-    classifyCode: string;
-    classifyName: string;
-    description?: string;
-  };
-  /**
    * 校验
    */
   rules: FormRules;
@@ -160,78 +158,139 @@ export function buildEditColum() {
   const columns: PlusColumn[] = [
     {
       label: "iccid",
-      prop: "name",
+      prop: "iccid",
       width: 200,
       align: "left",
+      render(value) {
+        return <el-link type="primary">{value}</el-link>;
+      },
+      tableColumnProps: {
+        fixed: true
+      },
       fieldProps: {
         disabled: true
       }
     },
     {
       label: "商户",
-      prop: "name",
+      prop: "enterpriseId",
       minWidth: 200,
       align: "left",
+      valueType: "select",
+      options: getBussList(
+        "/test/services/rcms/base/enterprise/records",
+        "name",
+        "id",
+        { id: getTenantId() }
+      ),
       fieldProps: {
         disabled: true
       }
     },
     {
       label: "卡商",
-      prop: "name",
-      minWidth: 200,
+      prop: "merchantCode",
+      minWidth: 100,
       align: "left",
+      valueType: "select",
+      options: getBussList(
+        "/test/services/rcms/mifi/merchant/records",
+        "merchantName",
+        "merchantCode"
+      ),
       fieldProps: {
         disabled: true
       }
     },
     {
       label: "使用设备",
-      prop: "name",
+      prop: "deviceSn",
       minWidth: 200,
       align: "left",
+      fieldProps: {
+        disabled: true,
+        placeholder: " "
+      }
+    },
+    {
+      label: "物联网卡号",
+      prop: "imei",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "运营商",
+      prop: "carrierCode",
+      minWidth: 100,
+      align: "left",
+      hideInSearch: true,
+      valueType: "select",
+      options: getItemList("MIFI_ISP"),
+      tableColumnProps: {
+        align: "center"
+      },
       fieldProps: {
         disabled: true
       }
     },
     {
-      label: "运营商",
-      prop: "name",
-      minWidth: 100,
+      label: "剩余流量",
+      prop: "flowRemain",
+      minWidth: 200,
       align: "left",
+      hideInSearch: true,
+      hideInForm: true,
       fieldProps: {
         disabled: true
       }
     },
     {
       label: "网络类型",
-      prop: "name",
-      minWidth: 200,
-      align: "left"
+      prop: "netType",
+      minWidth: 100,
+      align: "left",
+      hideInSearch: true,
+      tableColumnProps: {
+        align: "center"
+      },
+      fieldProps: {
+        disabled: true
+      }
     },
     {
       label: "流量状态",
-      prop: "name",
+      prop: "flowStatus",
       minWidth: 200,
-      align: "left"
+      align: "left",
+      hideInSearch: true,
+      fieldProps: {
+        disabled: true
+      }
     },
     {
-      label: "入网分配",
-      prop: "name",
+      label: "在线状态",
+      prop: "onlineStatus",
       minWidth: 200,
-      align: "left"
+      align: "left",
+      hideInSearch: true,
+      valueType: "select",
+      options: getItemList("RCMS_SYS_YN")
     },
     {
       label: "实名状态",
-      prop: "name",
+      prop: "nameStatus",
       minWidth: 200,
-      align: "left"
+      align: "left",
+      hideInSearch: true
     },
     {
       label: "SIM卡分类",
-      prop: "name",
-      minWidth: 200,
-      align: "left"
+      prop: "simType",
+      minWidth: 100,
+      align: "left",
+      hideInSearch: true,
+      valueType: "select",
+      options: getItemList("RCMS_SYS_YN")
     },
     {
       label: "备注",
