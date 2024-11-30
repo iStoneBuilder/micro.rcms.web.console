@@ -12,7 +12,9 @@
       :table="{
         hasIndexColumn: true,
         isSelection: true,
-        adaptive: { offsetBottom: 70 }
+        adaptive: { offsetBottom: 70 },
+        actionBar: { buttons, width: 160 },
+        onClickAction: handleTableOption
       }"
       :default-page-info="defaultPageInfo"
       :default-page-size-list="[5, 15, 20, 50]"
@@ -87,8 +89,11 @@ import { reactive, computed, toRefs, ref } from "vue";
 import type {
   PlusColumn,
   PageInfo,
-  PlusPageInstance
+  PlusPageInstance,
+  ButtonsCallBackParams
 } from "plus-pro-components";
+import { useTable } from "plus-pro-components";
+
 import { Plus, Delete } from "@element-plus/icons-vue";
 import {
   getMerchantPageList,
@@ -100,6 +105,7 @@ import { ElMessageBox } from "element-plus";
 import { hasPerms } from "@/utils/auth";
 import Item from "./item.vue";
 import { defaultPageInfo, buildColum, State } from "./hook";
+import { error } from "console";
 
 const show = ref(false);
 const currentRow = ref({ merchantName: "" });
@@ -137,25 +143,41 @@ function changeColumns(columns: Array<any>, showItem: boolean) {
     disabled: !showItem
   };
 }
-function handleClickButton(e, value, index, row, item) {
-  switch (item.name) {
-    case "编辑":
+const { buttons } = useTable();
+buttons.value = [
+  {
+    text: "编辑",
+    code: "update",
+    props: { type: "primary" }
+  },
+  {
+    text: "删除",
+    code: "delete",
+    props: { type: "danger" }
+  },
+  {
+    text: "API配置",
+    code: "setting",
+    props: { type: "primary" }
+  }
+];
+const handleTableOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
+  switch (buttonRow.code) {
+    case "update":
       state.form = { ...row } as any;
       state.isCreate = false;
       changeColumns(columns, false);
       state.visible = true;
       break;
-    case "删除":
-      // state.isBatch = false;
+    case "delete":
       handleDelete(row);
       break;
-    case "API配置":
-      currentRow.value = { ...row };
+    case "setting":
+      currentRow.value = row as any;
       show.value = true;
       break;
   }
-}
-
+};
 const state = reactive<State>({
   visible: false,
   loading: false,
@@ -183,7 +205,7 @@ const state = reactive<State>({
     ]
   }
 });
-const columns: PlusColumn[] = buildColum(handleClickButton);
+const columns: PlusColumn[] = buildColum();
 
 const title = computed(() => (state.isCreate ? "新增" : "编辑"));
 // 创建
@@ -203,13 +225,17 @@ const handleDelete = async (row): Promise<void> => {
     cancelButtonText: "取消",
     type: "warning",
     draggable: true
-  }).then(async () => {
-    await deleteMerchant(row?.merchantCode);
-    message(`删除成功！`, {
-      type: "success"
+  })
+    .then(async () => {
+      await deleteMerchant(row?.merchantCode);
+      message(`删除成功！`, {
+        type: "success"
+      });
+      refresh();
+    })
+    .catch(error => {
+      console.log(error);
     });
-    refresh();
-  });
 };
 // 取消
 const handleCancel = () => {

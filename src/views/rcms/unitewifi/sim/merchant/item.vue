@@ -8,7 +8,7 @@
       :table="{
         hasIndexColumn: true,
         isSelection: true,
-        adaptive: { offsetBottom: 100 }
+        adaptive: { offsetBottom: 130 }
       }"
       :default-page-info="defaultPageInfo"
       :default-page-size-list="[5, 15, 20, 50]"

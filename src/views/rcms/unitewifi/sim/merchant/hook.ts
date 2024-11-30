@@ -13,7 +13,7 @@ export const buttons = [
   { name: "删除", type: "danger", perm: null, icon: Delete },
   { name: "API配置", type: "primary", perm: "aaa", icon: Setting }
 ];
-export function buildColum(handleClickButton: Function) {
+export function buildColum() {
   const columns: PlusColumn[] = [
     {
       label: "卡商编码",
@@ -39,30 +39,6 @@ export function buildColum(handleClickButton: Function) {
       prop: "description",
       hideInSearch: true,
       valueType: "textarea"
-    },
-    {
-      label: "操作",
-      width: 250,
-      prop: "description",
-      hideInSearch: true,
-      hideInForm: true,
-      columnsProps: {
-        align: "center"
-      },
-      tableColumnProps: {
-        fixed: "right",
-        align: "center"
-      },
-      render: (value, { index, row }) => {
-        const CustomButton = renderPermBtn(
-          buttons,
-          handleClickButton,
-          value,
-          index,
-          row
-        );
-        return h(Fragment, CustomButton);
-      }
     }
   ];
   return columns;
