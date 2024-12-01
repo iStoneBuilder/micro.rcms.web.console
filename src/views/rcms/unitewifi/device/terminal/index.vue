@@ -25,7 +25,12 @@
             <el-button type="danger" plain :icon="useRenderIcon(Delete)">
               删除
             </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Device)">
+            <el-button
+              type="primary"
+              plain
+              :icon="useRenderIcon(Device)"
+              @click="handleGroup"
+            >
               设备分组
             </el-button>
             <el-button type="primary" plain :icon="useRenderIcon(Active)">
@@ -54,7 +59,7 @@
 </template>
 
 <script lang="tsx" setup>
-import { ref } from "vue";
+import { ref, h } from "vue";
 import { terminalManage } from "./utils/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import { getTerminalPageList } from "@/api/mifi/terminal";
@@ -73,7 +78,9 @@ import Transform from "@iconify-icons/ep/bottom-right";
 import ShutDown from "@iconify-icons/ri/shut-down-line";
 import InitInstall from "@iconify-icons/ri/install-line";
 
-const { pageInfo, loading, tableColumns, buttons, selectData } =
+import GroupForm from "./form/group.vue";
+
+const { pageInfo, loading, tableColumns, buttons, selectData, formRef } =
   terminalManage();
 const plusPageInstance = ref<PlusPageInstance | null>(null);
 async function getList(query: PageInfo) {
@@ -110,5 +117,6 @@ const handleSelect = (data: any) => {
 const refresh = () => {
   plusPageInstance.value?.getList();
 };
+function handleGroup() {}
 // -------- 列表相关操作 -------------
 </script>

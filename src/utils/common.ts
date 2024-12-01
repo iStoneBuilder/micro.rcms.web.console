@@ -26,7 +26,7 @@ function checkExpiredTime() {
   if (data) {
     const now = new Date().getTime();
     const expired = now - parseInt(data.expires);
-    return expired > 50000;
+    return expired > 5000000;
   }
   return true;
 }

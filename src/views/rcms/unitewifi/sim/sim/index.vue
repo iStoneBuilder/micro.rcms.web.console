@@ -106,10 +106,7 @@
                   class="file-inp"
                   @change="selectExcelFile"
                 />
-                <el-button
-                  type="primary"
-                  :disabled="importLoading"
-                  @click="handleClose"
+                <el-button type="primary" :disabled="importLoading"
                   >选择文件</el-button
                 >
               </div>

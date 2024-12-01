@@ -8,7 +8,7 @@ export function terminalManage() {
   const selectData = ref([]);
   const tableColumns: PlusColumn[] = [
     {
-      label: "设备SN",
+      label: "类型名称",
       prop: "name",
       width: 200,
       align: "left",
@@ -16,74 +16,41 @@ export function terminalManage() {
         <el-link size={props.size} style="color: var(--el-color-primary)">
           {row.name}
         </el-link>
-      ),
-      tableColumnProps: {
-        fixed: true
-      }
+      )
     },
     {
-      label: "IMEI",
+      label: "类型编号",
       prop: "name1",
       width: 200,
       align: "left"
     },
     {
-      label: "上网模式",
+      label: "销售名称",
       prop: "name2",
       minWidth: 200,
       align: "left"
     },
     {
-      label: "在线?",
+      label: "设备型号",
       prop: "name3",
       minWidth: 100,
       align: "left"
     },
     {
-      label: "商户",
+      label: "本地卡模式",
       prop: "name4",
-      minWidth: 200,
+      minWidth: 100,
       align: "left"
     },
     {
-      label: "设备类型",
+      label: "状态",
       prop: "name5",
-      minWidth: 200,
+      minWidth: 100,
       align: "left"
     },
     {
-      label: "设备组",
+      label: "备注",
       prop: "name6",
-      minWidth: 200,
-      align: "left"
-    },
-    {
-      label: "选卡策略",
-      prop: "name7",
-      minWidth: 200,
-      align: "left"
-    },
-    {
-      label: "流量模式",
-      prop: "name9",
-      minWidth: 200,
-      align: "left"
-    },
-    {
-      label: "入库批次号",
-      prop: "name10",
-      minWidth: 200,
-      align: "left"
-    },
-    {
-      label: "检测状态",
-      prop: "name11",
-      minWidth: 200,
-      align: "left"
-    },
-    {
-      label: "设备状态",
-      prop: "name12",
       minWidth: 200,
       align: "left"
     }

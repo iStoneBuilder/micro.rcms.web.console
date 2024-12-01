@@ -3,6 +3,7 @@ import { useTable } from "plus-pro-components";
 import type { PlusColumn } from "plus-pro-components";
 
 export function terminalManage() {
+  const formRef = ref();
   const pageInfo = { page: 1, pageSize: 15 };
   const loading = ref(false);
   const selectData = ref([]);
@@ -102,6 +103,7 @@ export function terminalManage() {
     }
   ];
   return {
+    formRef,
     pageInfo,
     loading,
     tableColumns,
