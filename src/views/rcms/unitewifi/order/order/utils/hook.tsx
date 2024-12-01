@@ -1,151 +1,111 @@
-import { nextTick } from "process";
-import Search from "../search.vue";
-import { onMounted, ref, reactive } from "vue";
-import type { PaginationProps } from "@pureadmin/table";
+import { ref } from "vue";
+import { useTable } from "plus-pro-components";
+import type { PlusColumn } from "plus-pro-components";
 
-let searchData = {};
-
-export function userManage() {
-  const dataList = ref([]);
-  const loading = ref();
-
-  const columns: TableColumnList = [
+export function terminalManage() {
+  const pageInfo = { page: 1, pageSize: 15 };
+  const loading = ref(false);
+  const selectData = ref([]);
+  const tableColumns: PlusColumn[] = [
     {
-      type: "selection",
-      align: "left"
+      label: "设备SN",
+      prop: "name",
+      width: 200,
+      align: "left",
+      cellRenderer: ({ row, props }) => (
+        <el-link size={props.size} style="color: var(--el-color-primary)">
+          {row.name}
+        </el-link>
+      ),
+      tableColumnProps: {
+        fixed: true
+      }
     },
     {
-      label: "订单号",
-      prop: "name",
+      label: "IMEI",
+      prop: "name1",
       width: 200,
       align: "left"
     },
     {
-      label: "商品名称",
-      prop: "name",
-      width: 200,
+      label: "上网模式",
+      prop: "name2",
+      minWidth: 200,
+      align: "left"
+    },
+    {
+      label: "在线?",
+      prop: "name3",
+      minWidth: 100,
       align: "left"
     },
     {
       label: "商户",
-      prop: "name",
+      prop: "name4",
       minWidth: 200,
       align: "left"
     },
     {
-      label: "商品类型",
-      prop: "name",
+      label: "设备类型",
+      prop: "name5",
       minWidth: 200,
       align: "left"
     },
     {
-      label: "设备SN",
-      prop: "name",
+      label: "设备组",
+      prop: "name6",
       minWidth: 200,
       align: "left"
     },
     {
-      label: "支付方式",
-      prop: "name",
+      label: "选卡策略",
+      prop: "name7",
       minWidth: 200,
       align: "left"
     },
     {
-      label: "购买数量",
-      prop: "name",
+      label: "流量模式",
+      prop: "name9",
       minWidth: 200,
       align: "left"
     },
     {
-      label: "总价格(¥)",
-      prop: "name",
+      label: "入库批次号",
+      prop: "name10",
       minWidth: 200,
       align: "left"
     },
     {
-      label: "已退款金额(¥)",
-      prop: "name",
+      label: "检测状态",
+      prop: "name11",
       minWidth: 200,
       align: "left"
     },
     {
-      label: "订单状态",
-      prop: "name",
+      label: "设备状态",
+      prop: "name12",
       minWidth: 200,
       align: "left"
-    },
-    {
-      label: "退款状态",
-      prop: "name",
-      minWidth: 200,
-      align: "left"
-    },
-    {
-      label: "下单时间",
-      prop: "name",
-      minWidth: 200,
-      align: "left"
-    },
-    {
-      label: "下单人",
-      prop: "name",
-      minWidth: 200,
-      align: "left"
-    },
-    {
-      label: "操作",
-      fixed: "right",
-      width: 200,
-      slot: "operation"
     }
   ];
-  const pagination = reactive<PaginationProps>({
-    total: 0,
-    pageSize: 15,
-    currentPage: 1,
-    background: true
-  });
-  const searchForm = {
-    key: "search",
-    title: "查询表单",
-    component: Search
-  };
-  function viewDetail(title: string, row: object) {
-    console.log(title, row);
-  }
-  function handleDelete(title: string, row: object) {
-    console.log(title, row);
-  }
-  function onSearch() {
-    loading.value = true;
-    console.log(searchData, new Date());
-    setTimeout(() => {
-      dataList.value = [{}];
-      loading.value = false;
-    }, 500);
-  }
-  onMounted(() => {
-    onSearch();
-  });
+  const { buttons } = useTable();
+  buttons.value = [
+    {
+      text: "编辑",
+      code: "update",
+      props: { type: "primary", plain: true }
+    },
+    {
+      text: "删除",
+      code: "delete",
+      props: { type: "danger", plain: true }
+    }
+  ];
   return {
+    pageInfo,
     loading,
-    columns,
-    pagination,
-    dataList,
-    searchForm,
-    onSearch,
-    viewDetail,
-    handleDelete
+    tableColumns,
+    buttons,
+    selectData
   };
-}
-
-export function searchManage() {
-  // 处理搜索页面的操作
-  function handleSearchImpl(op: string, search: object) {
-    searchData = search;
-    nextTick(() => {
-      userManage()?.onSearch();
-    });
-  }
-  return { handleSearchImpl };
 }

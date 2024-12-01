@@ -1,130 +1,114 @@
-<script setup lang="ts">
-import { ref } from "vue";
-import { hasPerms } from "@/utils/auth";
-import { userManage } from "./utils/hook";
-import { PureTableBar } from "@/components/RePureTableBar";
-import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-
-import Delete from "@iconify-icons/ep/delete";
-import AddFill from "@iconify-icons/ri/add-circle-line";
-import EditPen from "@iconify-icons/ep/edit-pen";
-import Setting from "@iconify-icons/ep/setting";
-
-defineOptions({
-  name: "UserManage"
-});
-
-function onFullscreen() {
-  // 重置表格高度
-  tableRef.value.setAdaptive();
-}
-const tableRef = ref();
-const {
-  loading,
-  columns,
-  pagination,
-  dataList,
-  searchForm,
-  onSearch,
-  openDialog,
-  viewDetail,
-  handleDelete
-} = userManage();
-</script>
-<!-- 套餐配置 -->
 <template>
-  <div class="main rcms-main">
-    <component
-      :is="searchForm.component"
-      class="search-form bg-bg_color w-[99/100] pt-[12px] overflow-auto"
-    />
-    <div class="rcms-table-btn">
-      <el-button
-        type="primary"
-        plain
-        :icon="useRenderIcon(AddFill)"
-        @click="openDialog()"
+  <div>
+    <div class="rcms-plus-page">
+      <PlusPage
+        ref="plusPageInstance"
+        :columns="tableColumns"
+        :request="getList"
+        :search="{
+          labelWidth: '100px',
+          colProps: { span: 6 },
+          showNumber: 3
+        }"
+        :table="{
+          isSelection: true,
+          adaptive: { offsetBottom: 70 },
+          actionBar: { buttons, width: 100, type: 'link' },
+          onClickAction: handleOption,
+          onSelectionChange: handleSelect
+        }"
+        :default-page-info="pageInfo"
+        :default-page-size-list="[5, 15, 20, 50]"
       >
-        新增
-      </el-button>
-      <el-button type="danger" plain :icon="useRenderIcon(Delete)">
-        删除
-      </el-button>
-    </div>
-    <PureTableBar
-      title=""
-      :columns="columns"
-      @refresh="onSearch"
-      @fullscreen="onFullscreen"
-    >
-      <template v-slot="{ size, dynamicColumns }">
-        <pure-table
-          ref="tableRef"
-          adaptive
-          :adaptiveConfig="{ offsetBottom: 120 }"
-          align-whole="center"
-          row-key="id"
-          showOverflowTooltip
-          table-layout="auto"
-          default-expand-all
-          :loading="loading"
-          :size="size"
-          :data="dataList"
-          :columns="dynamicColumns"
-          :pagination="{ ...pagination, size }"
-          :header-cell-style="{
-            background: 'var(--el-fill-color-light)',
-            color: 'var(--el-text-color-primary)'
-          }"
-        >
-          <template #operation="{ row }">
-            <el-button
-              v-if="hasPerms('permission:role:update')"
-              class="reset-margin"
-              link
-              :type="row.parentId == 0 ? 'info' : 'primary'"
-              :size="size"
-              :icon="useRenderIcon(EditPen)"
-              :disabled="row.disabled"
-              @click="openDialog('修改', row)"
-            >
-              编辑
-            </el-button>
-            <el-button
-              v-if="hasPerms('permission:role:permission')"
-              class="reset-margin"
-              link
-              type="primary"
-              :size="size"
-              :icon="useRenderIcon(Delete)"
-            >
+        <template #table-title>
+          <el-row class="button-row">
+            <el-button type="danger" plain :icon="useRenderIcon(Delete)">
               删除
             </el-button>
-            <el-button
-              v-if="hasPerms('permission:role:permission')"
-              class="reset-margin"
-              link
-              type="primary"
-              :size="size"
-              :icon="useRenderIcon(Setting)"
-            >
-              售卖范围配置
+            <el-button type="primary" plain :icon="useRenderIcon(Device)">
+              设备分组
             </el-button>
-          </template>
-        </pure-table>
-      </template>
-    </PureTableBar>
+            <el-button type="primary" plain :icon="useRenderIcon(Active)">
+              设备激活
+            </el-button>
+            <el-button type="primary" plain :icon="useRenderIcon(Pointer)">
+              设备控制
+            </el-button>
+            <el-button type="primary" plain :icon="useRenderIcon(Wallet)">
+              设备充值
+            </el-button>
+            <el-button type="primary" plain :icon="useRenderIcon(Transform)">
+              转移套餐
+            </el-button>
+            <el-button type="primary" plain :icon="useRenderIcon(ShutDown)">
+              设备停机
+            </el-button>
+            <el-button type="primary" plain :icon="useRenderIcon(InitInstall)">
+              设备初始化
+            </el-button>
+          </el-row>
+        </template>
+      </PlusPage>
+    </div>
   </div>
 </template>
 
-<style lang="scss" scoped>
-:deep(.el-table__inner-wrapper::before) {
-  height: 0;
-}
+<script lang="tsx" setup>
+import { ref } from "vue";
+import { terminalManage } from "./utils/hook";
+import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+import { getTerminalPageList } from "@/api/mifi/terminal";
+import type {
+  PageInfo,
+  ButtonsCallBackParams,
+  PlusPageInstance
+} from "plus-pro-components";
+import Delete from "@iconify-icons/ep/delete";
+import More from "@iconify-icons/ep/more-filled";
+import Device from "@iconify-icons/ep/cellphone";
+import Active from "@iconify-icons/ep/coin";
+import Pointer from "@iconify-icons/ep/pointer";
+import Wallet from "@iconify-icons/ep/wallet";
+import Transform from "@iconify-icons/ep/bottom-right";
+import ShutDown from "@iconify-icons/ri/shut-down-line";
+import InitInstall from "@iconify-icons/ri/install-line";
 
-.search-form {
-  :deep(.el-form-item) {
-    margin-bottom: 12px;
-  }
+const { pageInfo, loading, tableColumns, buttons, selectData } =
+  terminalManage();
+const plusPageInstance = ref<PlusPageInstance | null>(null);
+async function getList(query: PageInfo) {
+  console.log(query);
+  loading.value = true;
+  const { page = 1, pageSize = 15 } = query || {};
+  const params = { ...query };
+  delete params.page;
+  delete params.pageSize;
+  const { data } = await getTerminalPageList(page, pageSize, params);
+  await new Promise(resolve => {
+    setTimeout(() => {
+      resolve("");
+    }, 100);
+  });
+  return { data: data.data, success: true, total: data.meta.totalRows };
 }
-</style>
+// 列表按钮
+const handleOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
+  console.log(row);
+  switch (buttonRow.code) {
+    case "update":
+      break;
+    case "delete":
+      break;
+    case "setting":
+      break;
+  }
+  refresh();
+};
+const handleSelect = (data: any) => {
+  selectData.value = data;
+};
+const refresh = () => {
+  plusPageInstance.value?.getList();
+};
+// -------- 列表相关操作 -------------
+</script>
