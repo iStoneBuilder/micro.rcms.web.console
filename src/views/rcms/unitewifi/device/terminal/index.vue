@@ -14,18 +14,10 @@ import Wallet from "@iconify-icons/ep/wallet";
 import Transform from "@iconify-icons/ep/bottom-right";
 import ShutDown from "@iconify-icons/ri/shut-down-line";
 import InitInstall from "@iconify-icons/ri/install-line";
-import StoreDev from "@iconify-icons/ri/layout-grid-line";
-import shareDev from "@iconify-icons/ri/folder-shared-line";
-import EditPen from "@iconify-icons/ep/edit-pen";
 
 defineOptions({
   name: "terminalManage"
 });
-
-function onFullscreen() {
-  // 重置表格高度
-  tableRef.value.setAdaptive();
-}
 
 const tableRef = ref();
 const {
@@ -54,6 +46,7 @@ const {
         :show-number="3"
         :col-props="{ xs: 1, sm: 1, md: 6, lg: 6, xl: 6 }"
         label-width="120"
+        :loading="loading"
         label-position="right"
         @change="handleChange"
         @search="handleSearch"
@@ -91,12 +84,7 @@ const {
         设备初始化
       </el-button>
     </div>
-    <PureTableBar
-      title=""
-      :columns="tableColumns"
-      @refresh="onSearch"
-      @fullscreen="onFullscreen"
-    >
+    <PureTableBar title="" :columns="tableColumns" @refresh="onSearch">
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
           ref="tableRef"

@@ -20,7 +20,12 @@ export function terminalManage() {
       prop: "name",
       width: 200,
       align: "left",
-      fixed: "left"
+      fixed: "left",
+      cellRenderer: ({ row, props }) => (
+        <el-link size={props.size} style="color: var(--el-color-primary)">
+          {row.name}
+        </el-link>
+      )
     },
     {
       label: "IMEI",
@@ -95,7 +100,6 @@ export function terminalManage() {
       slot: "operation"
     }
   ];
-
   const searchColumns: PlusColumn[] = [
     {
       label: "名称",
@@ -174,7 +178,6 @@ export function terminalManage() {
   };
   const handleSelect = val => {
     multipleSelection.value = val;
-    console.log(val);
   };
   onMounted(() => {
     onSearch();
