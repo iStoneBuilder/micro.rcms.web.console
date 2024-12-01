@@ -1,31 +1,25 @@
-import { onMounted, ref, reactive } from "vue";
-import type { PaginationProps } from "@pureadmin/table";
+import { ref } from "vue";
+import { useTable } from "plus-pro-components";
 import type { PlusColumn } from "plus-pro-components";
 
 export function terminalManage() {
-  const dataList = ref([]);
-  const loading = ref();
-  const multipleSelection = ref([]);
-  const state = ref({
-    status: "0",
-    time: new Date().toString()
-  });
-  const tableColumns: TableColumnList = [
-    {
-      type: "selection",
-      align: "left"
-    },
+  const pageInfo = { page: 1, pageSize: 15 };
+  const loading = ref(false);
+  const selectData = ref([]);
+  const tableColumns: PlusColumn[] = [
     {
       label: "设备SN",
       prop: "name",
       width: 200,
       align: "left",
-      fixed: "left",
       cellRenderer: ({ row, props }) => (
         <el-link size={props.size} style="color: var(--el-color-primary)">
           {row.name}
         </el-link>
-      )
+      ),
+      tableColumnProps: {
+        fixed: true
+      }
     },
     {
       label: "IMEI",
@@ -92,110 +86,26 @@ export function terminalManage() {
       prop: "name12",
       minWidth: 200,
       align: "left"
-    },
-    {
-      label: "操作",
-      fixed: "right",
-      width: 160,
-      slot: "operation"
     }
   ];
-  const searchColumns: PlusColumn[] = [
+  const { buttons } = useTable();
+  buttons.value = [
     {
-      label: "名称",
-      prop: "name",
-      valueType: "copy",
-      tooltip: "名称最多显示6个字符"
+      text: "编辑",
+      code: "update",
+      props: { type: "primary", plain: true }
     },
     {
-      label: "状态",
-      prop: "status",
-      valueType: "select",
-      options: [
-        {
-          label: "未解决",
-          value: "0",
-          color: "red"
-        },
-        {
-          label: "已解决",
-          value: "1",
-          color: "blue"
-        },
-        {
-          label: "解决中",
-          value: "2",
-          color: "yellow"
-        },
-        {
-          label: "失败",
-          value: "3",
-          color: "red"
-        }
-      ]
-    },
-    {
-      label: "时间",
-      prop: "time",
-      valueType: "date-picker"
+      text: "删除",
+      code: "delete",
+      props: { type: "danger", plain: true }
     }
   ];
-  const pagination = reactive<PaginationProps>({
-    total: 0,
-    pageSize: 15,
-    currentPage: 1,
-    background: true
-  });
-  function viewDetail(title: string, row: object) {
-    console.log(title, row);
-  }
-  function handleDelete(title: string, row: object) {
-    console.log(title, row);
-    onSearch();
-  }
-  function handleUpdate(title: string, row: object) {
-    console.log(title, row);
-    onSearch();
-  }
-  function onSearch() {
-    loading.value = true;
-    setTimeout(() => {
-      dataList.value = [{ name: "name" }, { name: "name1" }];
-      loading.value = false;
-    }, 500);
-  }
-  const handleChange = (values: any) => {
-    console.log(values, "change");
-    onSearch();
-  };
-  const handleSearch = (values: any) => {
-    console.log(values, "search");
-    onSearch();
-  };
-  const handleReset = () => {
-    console.log("handleReset");
-    onSearch();
-  };
-  const handleSelect = val => {
-    multipleSelection.value = val;
-  };
-  onMounted(() => {
-    onSearch();
-  });
   return {
-    state,
+    pageInfo,
     loading,
     tableColumns,
-    pagination,
-    dataList,
-    searchColumns,
-    onSearch,
-    viewDetail,
-    handleDelete,
-    handleUpdate,
-    handleChange,
-    handleSearch,
-    handleReset,
-    handleSelect
+    buttons,
+    selectData
   };
 }
