@@ -5,6 +5,7 @@ import Download from "@iconify-icons/ep/download";
 import { getBussList, getItemList } from "@/api/rcms/common";
 import { buildExcelTemp, readExcelData } from "@/utils/xlsxHandle";
 import { message } from "@/utils/message";
+import { importRecords } from "@/api/mifi/device-manage";
 const importForm = ref({
   fileName: "",
   excelData: []
@@ -97,6 +98,11 @@ const handleSubmit = async () => {
   excelData.forEach(item => {
     submitData.push({ ...formData, ...item });
   });
+  await importRecords(submitData);
+  message(`请选择模版数据！`, {
+    type: "success"
+  });
+  handleClose("submit");
 };
 function handleClose(op) {
   emit("dialogEvent", op);

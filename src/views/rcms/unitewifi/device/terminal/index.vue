@@ -87,7 +87,7 @@
 import { ref, h } from "vue";
 import { terminalManage } from "./utils/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import { getPageRecordList } from "@/api/mifi/terminal";
+import { getPageRecordList } from "@/api/mifi/device-manage";
 import type {
   PageInfo,
   ButtonsCallBackParams,
