@@ -58,9 +58,11 @@
 
 <script lang="tsx" setup>
 import { ref } from "vue";
+import { message } from "@/utils/message";
+import { ElMessageBox } from "element-plus";
 import { terminalManage } from "./utils/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import { getTerminalPageList } from "@/api/mifi/terminal";
+import { deleteRecord, getPageRecordList } from "@/api/mifi/device-type";
 import type {
   PageInfo,
   ButtonsCallBackParams,
@@ -76,13 +78,12 @@ const { pageInfo, loading, tableColumns, buttons, selectData } =
   terminalManage();
 const plusPageInstance = ref<PlusPageInstance | null>(null);
 async function getList(query: PageInfo) {
-  console.log(query);
   loading.value = true;
   const { page = 1, pageSize = 15 } = query || {};
   const params = { ...query };
   delete params.page;
   delete params.pageSize;
-  const { data } = await getTerminalPageList(page, pageSize, params);
+  const { data } = await getPageRecordList(page, pageSize, params);
   await new Promise(resolve => {
     setTimeout(() => {
       resolve("");
@@ -92,14 +93,15 @@ async function getList(query: PageInfo) {
 }
 // 列表按钮
 const handleOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
-  console.log(row);
   switch (buttonRow.code) {
     case "update":
+      currentRow.value = row;
+      handleCreate("编辑");
       break;
     case "delete":
+      handleDelete(row);
       break;
   }
-  refresh();
 };
 const handleSelect = (data: any) => {
   selectData.value = data;
@@ -110,14 +112,39 @@ const refresh = () => {
 // -------- 列表相关操作 -------------
 const show = ref(false);
 const title = ref("");
-const currentRow = {};
+const currentRow = ref(null);
 function handleCreate(ops = "新增") {
   show.value = true;
   title.value = ops;
 }
-function handleCreateBack() {
+function handleCreateBack(op) {
   show.value = false;
-  refresh();
+  currentRow.value = null;
+  if (op === "submit") {
+    refresh();
+  }
 }
-function handleDelete() {}
+
+const handleDelete = async (row): Promise<void> => {
+  ElMessageBox.confirm(
+    `你确定删除（${row.typeName}）数据吗，确认是否继续?`,
+    "温馨提示",
+    {
+      confirmButtonText: "确认",
+      cancelButtonText: "取消",
+      type: "warning",
+      draggable: true
+    }
+  )
+    .then(async () => {
+      await deleteRecord(row?.typeId);
+      message(`删除成功！`, {
+        type: "success"
+      });
+      refresh();
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
 </script>

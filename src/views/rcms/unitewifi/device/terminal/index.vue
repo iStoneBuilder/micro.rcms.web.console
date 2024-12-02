@@ -26,6 +26,14 @@
               删除
             </el-button>
             <el-button
+              type="success"
+              plain
+              :icon="useRenderIcon(Device)"
+              @click="handleGroup"
+            >
+              设备入库
+            </el-button>
+            <el-button
               type="primary"
               plain
               :icon="useRenderIcon(Device)"

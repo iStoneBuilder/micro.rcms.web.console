@@ -1,6 +1,7 @@
 import { ref } from "vue";
 import { useTable } from "plus-pro-components";
 import type { PlusColumn } from "plus-pro-components";
+import { getItemList } from "@/api/rcms/common";
 
 export function terminalManage() {
   const pageInfo = { page: 1, pageSize: 15 };
@@ -9,7 +10,7 @@ export function terminalManage() {
   const tableColumns: PlusColumn[] = [
     {
       label: "类型名称",
-      prop: "name",
+      prop: "typeName",
       width: 200,
       align: "left",
       cellRenderer: ({ row, props }) => (
@@ -20,37 +21,43 @@ export function terminalManage() {
     },
     {
       label: "类型编号",
-      prop: "name1",
+      prop: "typeCode",
       width: 200,
       align: "left"
     },
     {
       label: "销售名称",
-      prop: "name2",
+      prop: "sellName",
       minWidth: 200,
       align: "left"
     },
     {
       label: "设备型号",
-      prop: "name3",
+      prop: "deviceNo",
       minWidth: 100,
-      align: "left"
+      align: "left",
+      valueType: "select",
+      options: getItemList("MIFI_DEVICE_NO")
     },
     {
       label: "本地卡模式",
-      prop: "name4",
+      prop: "localCardMode",
       minWidth: 100,
-      align: "left"
+      align: "left",
+      valueType: "select",
+      options: getItemList("MIFI_CARD_MODE")
     },
     {
       label: "状态",
-      prop: "name5",
+      prop: "status",
       minWidth: 100,
-      align: "left"
+      align: "left",
+      valueType: "select",
+      options: getItemList("MIFI_TYPE_STATUS")
     },
     {
       label: "备注",
-      prop: "name6",
+      prop: "remark",
       minWidth: 200,
       align: "left"
     }

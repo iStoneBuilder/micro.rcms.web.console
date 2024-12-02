@@ -21,8 +21,8 @@ export interface FormProps {
 
 const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
-    username: "superAdmin",
-    password: "e10adc3949"
+    username: "shark-admin",
+    password: "TXNAMTIzNDU2Nzg="
   })
 });
 

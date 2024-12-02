@@ -11,7 +11,7 @@ export const defaultPageInfo = {
 export const buttons = [
   { name: "编辑", type: "primary", perm: null, icon: EditPen },
   { name: "删除", type: "danger", perm: null, icon: Delete },
-  { name: "配置", type: "primary", perm: "aaa", icon: Setting }
+  { name: "配置", type: "primary", perm: null, icon: Setting }
 ];
 export function buildColum(handleClickButton: Function) {
   const columns: PlusColumn[] = [
