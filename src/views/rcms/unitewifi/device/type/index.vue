@@ -30,14 +30,6 @@
             >
               新增
             </el-button>
-            <el-button
-              type="danger"
-              plain
-              :icon="useRenderIcon(Delete)"
-              @click="handleDelete"
-            >
-              删除
-            </el-button>
           </el-row>
         </template>
       </PlusPage>

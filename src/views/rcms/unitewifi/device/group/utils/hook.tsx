@@ -1,6 +1,8 @@
 import { ref } from "vue";
 import { useTable } from "plus-pro-components";
 import type { PlusColumn } from "plus-pro-components";
+import { getBussList } from "@/api/rcms/common";
+import { getTenantId } from "@/utils/common";
 
 export function terminalManage() {
   const pageInfo = { page: 1, pageSize: 15 };
@@ -8,82 +10,33 @@ export function terminalManage() {
   const selectData = ref([]);
   const tableColumns: PlusColumn[] = [
     {
-      label: "设备SN",
-      prop: "name",
-      width: 200,
-      align: "left",
-      cellRenderer: ({ row, props }) => (
-        <el-link size={props.size} style="color: var(--el-color-primary)">
-          {row.name}
-        </el-link>
-      ),
-      tableColumnProps: {
-        fixed: true
-      }
-    },
-    {
-      label: "IMEI",
-      prop: "name1",
+      label: "设备组",
+      prop: "groupName",
       width: 200,
       align: "left"
     },
     {
-      label: "上网模式",
-      prop: "name2",
-      minWidth: 200,
-      align: "left"
-    },
-    {
-      label: "在线?",
-      prop: "name3",
-      minWidth: 100,
+      label: "编号",
+      prop: "groupId",
+      width: 200,
       align: "left"
     },
     {
       label: "商户",
-      prop: "name4",
+      prop: "enterpriseId",
       minWidth: 200,
-      align: "left"
+      align: "left",
+      valueType: "select",
+      options: getBussList(
+        "/test/services/rcms/base/enterprise/records",
+        "name",
+        "id",
+        { id: getTenantId() }
+      )
     },
     {
-      label: "设备类型",
-      prop: "name5",
-      minWidth: 200,
-      align: "left"
-    },
-    {
-      label: "设备组",
-      prop: "name6",
-      minWidth: 200,
-      align: "left"
-    },
-    {
-      label: "选卡策略",
-      prop: "name7",
-      minWidth: 200,
-      align: "left"
-    },
-    {
-      label: "流量模式",
-      prop: "name9",
-      minWidth: 200,
-      align: "left"
-    },
-    {
-      label: "入库批次号",
-      prop: "name10",
-      minWidth: 200,
-      align: "left"
-    },
-    {
-      label: "检测状态",
-      prop: "name11",
-      minWidth: 200,
-      align: "left"
-    },
-    {
-      label: "设备状态",
-      prop: "name12",
+      label: "备注",
+      prop: "remark",
       minWidth: 200,
       align: "left"
     }

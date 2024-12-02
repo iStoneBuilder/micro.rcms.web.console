@@ -70,16 +70,6 @@ export default [
         }
       },
       {
-        path: "/device/store",
-        name: "设备入库",
-        component: () =>
-          import("@/views/rcms/unitewifi/device/store/index.vue"),
-        meta: {
-          title: "设备入库",
-          showLink: true
-        }
-      },
-      {
         path: "/device/divide",
         name: "设备分发",
         component: () =>
