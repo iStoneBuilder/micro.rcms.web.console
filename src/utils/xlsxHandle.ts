@@ -13,20 +13,30 @@ interface DataItem {
 function buildTitle(xlsxTemp: Array<Columns>) {
   const res: string[][] = [];
   const titleList: string[] = [];
+  const fieldList: string[] = [];
   xlsxTemp.forEach((column: Columns) => {
+    fieldList.push(column.key);
     titleList.push(column.title);
   });
+  res.push(fieldList);
   res.push(titleList);
   return res;
 }
-
+function buildHeaderStyle(workSheet, header: Array<any>) {
+  workSheet["!cols"] = [];
+  // 隐藏第一行数据
+  workSheet["!rows"] = [{ hidden: true }];
+  header.forEach(() => {
+    workSheet["!cols"].push({ width: 30 });
+  });
+}
 function writeXlsxFile(res: string[][], xlsxName: string, sheetName: string) {
-  const workSheet = utils.aoa_to_sheet(res);
+  const workSheet = utils.aoa_to_sheet(res, { cellStyles: true });
+  buildHeaderStyle(workSheet, res[0]);
   const workBook = utils.book_new();
   utils.book_append_sheet(workBook, workSheet, sheetName);
   writeFile(workBook, `${xlsxName}.xlsx`);
 }
-
 export function buildExcelTemp(
   xlsxTemp: Array<Columns>,
   xlsxName: string,
@@ -68,16 +78,9 @@ export async function readExcelData(
         const firstSheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[firstSheetName];
         const excelData = await utils.sheet_to_json(worksheet);
-        const result = [];
-        // title 转化为 字段
-        excelData.map((item: DataItem) => {
-          const newItem = {};
-          excelTemp.forEach((column: Columns) => {
-            newItem[column.key] = item[column.title];
-          });
-          result.push(newItem);
-        });
-        resolve(result);
+        // 删除第一行表头数据
+        delete excelData[0];
+        resolve(excelData);
       } catch (error) {
         reject(error);
       }

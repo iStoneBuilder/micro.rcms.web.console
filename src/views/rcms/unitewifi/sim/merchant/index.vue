@@ -30,14 +30,6 @@
           >
             新增
           </el-button>
-          <el-button
-            v-if="hasPerms('permission:role:update')"
-            type="danger"
-            plain
-            :icon="Delete"
-          >
-            删除
-          </el-button>
         </el-row>
       </template>
     </PlusPage>

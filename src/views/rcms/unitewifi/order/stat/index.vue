@@ -57,7 +57,7 @@
 import { ref } from "vue";
 import { terminalManage } from "./utils/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import { getTerminalPageList } from "@/api/mifi/terminal";
+import { getPageRecordList } from "@/api/mifi/terminal";
 import type {
   PageInfo,
   ButtonsCallBackParams,
@@ -83,7 +83,7 @@ async function getList(query: PageInfo) {
   const params = { ...query };
   delete params.page;
   delete params.pageSize;
-  const { data } = await getTerminalPageList(page, pageSize, params);
+  const { data } = await getPageRecordList(page, pageSize, params);
   await new Promise(resolve => {
     setTimeout(() => {
       resolve("");

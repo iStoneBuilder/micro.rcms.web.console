@@ -22,14 +22,11 @@
       >
         <template #table-title>
           <el-row class="button-row">
-            <el-button type="danger" plain :icon="useRenderIcon(Delete)">
-              删除
-            </el-button>
             <el-button
               type="success"
               plain
-              :icon="useRenderIcon(Device)"
-              @click="handleGroup"
+              :icon="useRenderIcon(Upload)"
+              @click="handleDialog('设备入库', 'store')"
             >
               设备入库
             </el-button>
@@ -37,7 +34,7 @@
               type="primary"
               plain
               :icon="useRenderIcon(Device)"
-              @click="handleGroup"
+              @click="handleDialog('设备分组', 'group')"
             >
               设备分组
             </el-button>
@@ -63,6 +60,17 @@
         </template>
       </PlusPage>
     </div>
+    <PlusDialog
+      v-if="show"
+      v-model="show"
+      :title="title"
+      :hasFooter="false"
+      :showClose="false"
+      width="500"
+      top="5%"
+    >
+      <ImportForm v-if="currForm === 'store'" @dialogEvent="handleCallBack" />
+    </PlusDialog>
   </div>
 </template>
 
@@ -70,7 +78,7 @@
 import { ref, h } from "vue";
 import { terminalManage } from "./utils/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import { getTerminalPageList } from "@/api/mifi/terminal";
+import { getPageRecordList } from "@/api/mifi/terminal";
 import type {
   PageInfo,
   ButtonsCallBackParams,
@@ -85,8 +93,9 @@ import Wallet from "@iconify-icons/ep/wallet";
 import Transform from "@iconify-icons/ep/bottom-right";
 import ShutDown from "@iconify-icons/ri/shut-down-line";
 import InitInstall from "@iconify-icons/ri/install-line";
+import Upload from "@iconify-icons/ep/upload";
 
-import GroupForm from "./form/group.vue";
+import ImportForm from "./form/import.vue";
 
 const { pageInfo, loading, tableColumns, buttons, selectData, formRef } =
   terminalManage();
@@ -98,7 +107,7 @@ async function getList(query: PageInfo) {
   const params = { ...query };
   delete params.page;
   delete params.pageSize;
-  const { data } = await getTerminalPageList(page, pageSize, params);
+  const { data } = await getPageRecordList(page, pageSize, params);
   await new Promise(resolve => {
     setTimeout(() => {
       resolve("");
@@ -125,6 +134,20 @@ const handleSelect = (data: any) => {
 const refresh = () => {
   plusPageInstance.value?.getList();
 };
-function handleGroup() {}
+const show = ref(false);
+const title = ref("设备入库");
+const currForm = ref("");
+// 打开弹出框
+function handleDialog(name, op) {
+  title.value = name;
+  currForm.value = op;
+  show.value = true;
+}
 // -------- 列表相关操作 -------------
+function handleCallBack(op) {
+  show.value = false;
+  if (op != "cancel") {
+    refresh();
+  }
+}
 </script>
