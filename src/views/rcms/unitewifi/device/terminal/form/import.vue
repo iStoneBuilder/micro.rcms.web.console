@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { ref, defineProps, defineEmits } from "vue";
+import { ref, defineEmits } from "vue";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import Download from "@iconify-icons/ep/download";
 import { getBussList, getItemList } from "@/api/rcms/common";
-import { buildExcelTemp } from "@/utils/xlsxHandle";
+import { buildExcelTemp, readExcelData } from "@/utils/xlsxHandle";
+import { message } from "@/utils/message";
 const importForm = ref({
-  fileName: ""
+  fileName: "",
+  excelData: []
 });
 const importColumns = [
   {
@@ -19,7 +21,7 @@ const importColumns = [
   {
     label: "设备类型",
     valueType: "select",
-    prop: "netType",
+    prop: "deviceType",
     options: getBussList(
       "/test/services/rcms/mifi/device-type/records",
       "typeName",
@@ -29,51 +31,82 @@ const importColumns = [
   {
     label: "流量模式",
     valueType: "select",
-    prop: "netType",
+    prop: "flowMode",
     tooltip: "当前只支持平台购买套餐模式",
     options: getItemList("MIFI_FLOW_MODE")
   },
   {
     label: "上网模式",
     valueType: "select",
-    prop: "netType",
+    prop: "netMode",
     options: getItemList("MIFI_SURF_NET_TYPE")
   },
   {
     label: "测试流量",
     valueType: "input-number",
     fieldProps: { precision: 0, step: 1, min: 0, max: 99999999 },
-    prop: "netType",
+    prop: "testFlow",
     tooltip: "用于用户测试流量，有效期1年，单位：MB"
   }
 ];
 const importRules = {
-  importBtn: [
+  deviceType: [
     {
       required: true,
-      message: "请选择模版数据上传"
+      message: "请选择设备类型"
     }
   ],
-  netType: [
+  flowMode: [
     {
       required: true,
-      message: "请选择网络类型"
+      message: "请选择流量模式"
+    }
+  ],
+  netMode: [
+    {
+      required: true,
+      message: "请选择上网模式"
     }
   ]
 };
 const importLoading = ref(false);
 const emit = defineEmits(["dialogEvent"]);
-function selectExcelFile() {}
-function handleSubmit() {}
+async function selectExcelFile(event) {
+  const input = event.target;
+  if (!input.files || input.files.length === 0) {
+    return;
+  }
+  const file = input.files[0];
+  importForm.value.fileName = file.name;
+  const data = await readExcelData(excelTemp, file);
+  importForm.value.excelData = data;
+}
+const handleSubmit = async () => {
+  if (importForm.value.excelData.length == 0) {
+    message(`请选择模版数据！`, {
+      type: "warning"
+    });
+    return;
+  }
+  // 构建数据
+  const submitData = [];
+  const excelData = [...importForm.value.excelData];
+  const formData = { ...importForm.value };
+  delete formData.excelData;
+  delete formData.fileName;
+  excelData.forEach(item => {
+    submitData.push({ ...formData, ...item });
+  });
+};
 function handleClose(op) {
   emit("dialogEvent", op);
 }
 const excelTemp = [
-  { key: "iccid", title: "设备SN" },
+  { key: "deviceSn", title: "设备SN" },
   { key: "iccid", title: "贴片卡ICCID" },
-  { key: "iccid", title: "贴片卡物联网号" },
-  { key: "iccid", title: "贴片卡2ICCID" },
-  { key: "iccid", title: "贴片卡2物联网号" }
+  { key: "iotNo", title: "贴片卡物联网号" },
+  { key: "iccid2", title: "贴片卡2ICCID" },
+  { key: "iotNo2", title: "贴片卡2物联网号" }
 ];
 function downloadTemp() {
   buildExcelTemp(excelTemp, "终端设备模版", "终端设备");

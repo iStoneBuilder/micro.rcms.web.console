@@ -22,14 +22,23 @@
       >
         <template #table-title>
           <el-row class="button-row">
-            <el-button
-              type="success"
-              plain
-              :icon="useRenderIcon(Upload)"
-              @click="handleDialog('设备入库', 'store')"
+            <el-popover
+              placement="top-start"
+              :width="200"
+              trigger="hover"
+              content="Excel中SN重复的数据只导入一条；已导入过的SN将不会覆盖导入。"
             >
-              设备入库
-            </el-button>
+              <template #reference>
+                <el-button
+                  type="success"
+                  plain
+                  :icon="useRenderIcon(Upload)"
+                  @click="handleDialog('设备入库', 'store')"
+                >
+                  设备入库
+                </el-button>
+              </template></el-popover
+            >
             <el-button
               type="primary"
               plain

@@ -79,7 +79,7 @@ export async function readExcelData(
         const worksheet = workbook.Sheets[firstSheetName];
         const excelData = await utils.sheet_to_json(worksheet);
         // 删除第一行表头数据
-        delete excelData[0];
+        excelData.shift();
         resolve(excelData);
       } catch (error) {
         reject(error);
