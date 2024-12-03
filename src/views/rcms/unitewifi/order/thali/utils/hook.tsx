@@ -8,7 +8,7 @@ export function terminalManage() {
   const selectData = ref([]);
   const tableColumns: PlusColumn[] = [
     {
-      label: "设备SN",
+      label: "套餐名",
       prop: "name",
       width: 200,
       align: "left",
@@ -22,69 +22,97 @@ export function terminalManage() {
       }
     },
     {
-      label: "IMEI",
+      label: "套餐编号",
       prop: "name1",
-      width: 200,
-      align: "left"
+      width: 100,
+      align: "left",
+      hideInForm: true
     },
     {
-      label: "上网模式",
+      label: "所属商户",
       prop: "name2",
-      minWidth: 200,
-      align: "left"
+      minWidth: 160,
+      align: "left",
+      hideInForm: true
     },
     {
-      label: "在线?",
+      label: "成本价格(¥)",
       prop: "name3",
       minWidth: 100,
-      align: "left"
+      align: "left",
+      hideInTable: true,
+      hideInSearch: true
     },
     {
-      label: "商户",
-      prop: "name4",
-      minWidth: 200,
-      align: "left"
+      label: "套餐价格(¥)",
+      prop: "name3",
+      minWidth: 100,
+      align: "left",
+      hideInSearch: true
     },
     {
-      label: "设备类型",
+      label: "套餐总流量(GB)",
       prop: "name5",
-      minWidth: 200,
+      minWidth: 160,
+      align: "left",
+      hideInSearch: true
+    },
+    {
+      label: "套餐虚量(GB)",
+      prop: "name5",
+      minWidth: 160,
+      align: "left",
+      hideInSearch: true
+    },
+    {
+      label: "计费类型",
+      prop: "name4",
+      minWidth: 90,
       align: "left"
     },
     {
-      label: "设备组",
-      prop: "name6",
-      minWidth: 200,
-      align: "left"
-    },
-    {
-      label: "选卡策略",
+      label: "有效时长",
       prop: "name7",
-      minWidth: 200,
+      minWidth: 90,
+      align: "left",
+      hideInSearch: true
+    },
+    {
+      label: "是否限速",
+      prop: "name6",
+      minWidth: 90,
       align: "left"
     },
     {
-      label: "流量模式",
+      label: "赠送月份",
       prop: "name9",
-      minWidth: 200,
-      align: "left"
+      minWidth: 90,
+      align: "left",
+      hideInSearch: true
     },
     {
-      label: "入库批次号",
+      label: "是否上架",
       prop: "name10",
-      minWidth: 200,
+      minWidth: 90,
       align: "left"
     },
     {
-      label: "检测状态",
+      label: "限制购买次数",
       prop: "name11",
-      minWidth: 200,
+      minWidth: 120,
+      align: "left",
+      hideInSearch: true
+    },
+    {
+      label: "是否赠送",
+      prop: "name12",
+      minWidth: 90,
       align: "left"
     },
     {
-      label: "设备状态",
-      prop: "name12",
-      minWidth: 200,
+      label: "套餐组",
+      prop: "name1",
+      width: 100,
       align: "left"
     }
   ];
@@ -99,6 +127,11 @@ export function terminalManage() {
       text: "删除",
       code: "delete",
       props: { type: "danger", plain: true }
+    },
+    {
+      text: "售卖范围",
+      code: "setting",
+      props: { type: "primary", plain: true }
     }
   ];
   return {

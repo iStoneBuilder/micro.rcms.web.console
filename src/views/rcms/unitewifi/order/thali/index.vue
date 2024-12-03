@@ -13,7 +13,7 @@
         :table="{
           isSelection: true,
           adaptive: { offsetBottom: 70 },
-          actionBar: { buttons, width: 100, type: 'link' },
+          actionBar: { buttons, width: 170, type: 'link' },
           onClickAction: handleOption,
           onSelectionChange: handleSelect
         }"
@@ -22,62 +22,59 @@
       >
         <template #table-title>
           <el-row class="button-row">
-            <el-button type="danger" plain :icon="useRenderIcon(Delete)">
-              删除
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Device)">
-              设备分组
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Active)">
-              设备激活
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Pointer)">
-              设备控制
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Wallet)">
-              设备充值
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Transform)">
-              转移套餐
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(ShutDown)">
-              设备停机
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(InitInstall)">
-              设备初始化
+            <el-button
+              type="primary"
+              plain
+              :icon="Plus"
+              @click="handleCreate()"
+            >
+              新增
             </el-button>
           </el-row>
         </template>
       </PlusPage>
     </div>
+    <PlusDialog
+      v-if="show"
+      v-model="show"
+      :title="title + '套餐'"
+      :hasFooter="false"
+      :showClose="false"
+      width="800"
+      top="5%"
+    >
+      <CreateForm
+        :currentRow="currentRow"
+        :createColumns="createColumns"
+        @createEvent="handleCreateBack"
+      />
+    </PlusDialog>
   </div>
 </template>
 
 <script lang="tsx" setup>
 import { ref } from "vue";
+import { message } from "@/utils/message";
+import { ElMessageBox } from "element-plus";
 import { terminalManage } from "./utils/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import { getPageRecordList } from "@/api/mifi/terminal";
+import { deleteRecord, getPageRecordList } from "@/api/mifi/device-type";
 import type {
   PageInfo,
   ButtonsCallBackParams,
   PlusPageInstance
 } from "plus-pro-components";
+
+import { Plus } from "@element-plus/icons-vue";
 import Delete from "@iconify-icons/ep/delete";
-import More from "@iconify-icons/ep/more-filled";
-import Device from "@iconify-icons/ep/cellphone";
-import Active from "@iconify-icons/ep/coin";
-import Pointer from "@iconify-icons/ep/pointer";
-import Wallet from "@iconify-icons/ep/wallet";
-import Transform from "@iconify-icons/ep/bottom-right";
-import ShutDown from "@iconify-icons/ri/shut-down-line";
-import InitInstall from "@iconify-icons/ri/install-line";
+
+import CreateForm from "./form/create.vue";
 
 const { pageInfo, loading, tableColumns, buttons, selectData } =
   terminalManage();
+const createColumns = [...tableColumns];
 const plusPageInstance = ref<PlusPageInstance | null>(null);
 async function getList(query: PageInfo) {
-  console.log(query);
   loading.value = true;
   const { page = 1, pageSize = 15 } = query || {};
   const params = { ...query };
@@ -93,16 +90,15 @@ async function getList(query: PageInfo) {
 }
 // 列表按钮
 const handleOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
-  console.log(row);
   switch (buttonRow.code) {
     case "update":
+      currentRow.value = row;
+      handleCreate("编辑");
       break;
     case "delete":
-      break;
-    case "setting":
+      handleDelete(row);
       break;
   }
-  refresh();
 };
 const handleSelect = (data: any) => {
   selectData.value = data;
@@ -111,4 +107,41 @@ const refresh = () => {
   plusPageInstance.value?.getList();
 };
 // -------- 列表相关操作 -------------
+const show = ref(false);
+const title = ref("");
+const currentRow = ref(null);
+function handleCreate(ops = "新增") {
+  show.value = true;
+  title.value = ops;
+}
+function handleCreateBack(op) {
+  show.value = false;
+  currentRow.value = null;
+  if (op === "submit") {
+    refresh();
+  }
+}
+
+const handleDelete = async (row): Promise<void> => {
+  ElMessageBox.confirm(
+    `你确定删除（${row.typeName}）数据吗，确认是否继续?`,
+    "温馨提示",
+    {
+      confirmButtonText: "确认",
+      cancelButtonText: "取消",
+      type: "warning",
+      draggable: true
+    }
+  )
+    .then(async () => {
+      await deleteRecord(row?.typeId);
+      message(`删除成功！`, {
+        type: "success"
+      });
+      refresh();
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
 </script>
