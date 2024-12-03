@@ -1,38 +1,84 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import ReCol from "@/components/ReCol";
-import { FormProps } from "../utils/types";
-
-const props = withDefaults(defineProps<FormProps>(), {
-  formInline: () => ({
-    code: ""
-  })
-});
-
-const ruleFormRef = ref();
-const newFormInline = ref(props.formInline);
-
-function getRef() {
-  return ruleFormRef.value;
+import { updateRecordGroup } from "@/api/mifi/device-manage";
+import { getBussList } from "@/api/rcms/common";
+import { message } from "@/utils/message";
+import { ref, defineEmits, defineProps } from "vue";
+const props = defineProps<{
+  currentRow: Array<any>;
+}>();
+const groupLoading = ref(false);
+const emit = defineEmits(["dialogEvent"]);
+const groupForm = ref({ deviceGroup: "" });
+const groupColumns = [
+  {
+    label: "设备组",
+    valueType: "select",
+    prop: "deviceGroup",
+    options: getBussList(
+      "/test/services/rcms/mifi/device-group/records",
+      "groupName,groupId",
+      "groupId"
+    )
+  }
+];
+const importRules = {
+  deviceGroup: [
+    {
+      required: true,
+      message: "请选择设备组"
+    }
+  ]
+};
+async function handleSubmit() {
+  groupLoading.value = true;
+  const submitData = [...props.currentRow];
+  submitData.forEach(item => {
+    item.deviceGroup = groupForm.value.deviceGroup;
+  });
+  await updateRecordGroup(submitData);
+  message(`操作成功！`, {
+    type: "success"
+  });
+  handleClose("submit");
 }
-
-defineExpose({ getRef });
+function handleClose(op) {
+  emit("dialogEvent", op);
+}
 </script>
 
 <template>
   <el-card>
-    <el-form ref="ruleFormRef" :model="newFormInline" label-width="80px">
-      <el-row :gutter="30">
-        <re-col :value="23" :xs="24" :sm="24">
-          <el-form-item label="设备组" prop="code">
-            <el-input
-              v-model="newFormInline.code"
-              clearable
-              placeholder="请输入账户编码"
-            />
-          </el-form-item>
-        </re-col>
-      </el-row>
-    </el-form>
+    <PlusForm
+      ref="importFormRef"
+      v-model="groupForm"
+      labelWidth="80"
+      labelPosition="right"
+      :columns="groupColumns"
+      :rules="importRules"
+      footerAlign="center"
+      :row-props="{ gutter: 20 }"
+      :col-props="{
+        span: 22
+      }"
+      @submit="handleSubmit"
+    >
+      <template #footer="{ handleSubmit }">
+        <div style="margin: 0 auto">
+          <el-button
+            type="primary"
+            plain
+            :disabled="groupLoading"
+            @click="handleClose('cancel')"
+            >取消</el-button
+          >
+          <el-button
+            type="primary"
+            :loading="groupLoading"
+            @click="handleSubmit"
+            >提交</el-button
+          >
+        </div>
+      </template>
+    </PlusForm>
   </el-card>
 </template>

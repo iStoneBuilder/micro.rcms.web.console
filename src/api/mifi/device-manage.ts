@@ -34,6 +34,15 @@ export const updateRecord = (id: string, data?: object) => {
     }
   );
 };
+export const updateRecordGroup = (data?: Array<any>) => {
+  return http.request<ResultData>(
+    "put",
+    `/test/services/rcms/mifi/device-manage/records/group`,
+    {
+      data
+    }
+  );
+};
 export const deleteRecord = (id?: string) => {
   return http.request<ResultData>(
     "delete",

@@ -4,6 +4,15 @@ import type { PlusColumn } from "plus-pro-components";
 import { getBussList, getItemList } from "@/api/rcms/common";
 import { getTenantId } from "@/utils/common";
 
+import Device from "@iconify-icons/ep/cellphone";
+import Active from "@iconify-icons/ep/coin";
+import Pointer from "@iconify-icons/ep/pointer";
+import Wallet from "@iconify-icons/ep/wallet";
+import Transform from "@iconify-icons/ep/bottom-right";
+import ShutDown from "@iconify-icons/ri/shut-down-line";
+import InitInstall from "@iconify-icons/ri/install-line";
+import Upload from "@iconify-icons/ep/upload";
+
 export function terminalManage() {
   const formRef = ref();
   const pageInfo = { page: 1, pageSize: 15 };
@@ -84,13 +93,19 @@ export function terminalManage() {
     {
       label: "设备组",
       prop: "deviceGroup",
-      minWidth: 200,
-      align: "left"
+      minWidth: 160,
+      align: "left",
+      valueType: "select",
+      options: getBussList(
+        "/test/services/rcms/mifi/device-group/records",
+        "groupName",
+        "groupId"
+      )
     },
     {
       label: "选卡策略",
       prop: "cardStrategy",
-      minWidth: 200,
+      minWidth: 100,
       align: "left",
       valueType: "select",
       options: getItemList("MIFI_CARD_STRATEGY")
@@ -98,7 +113,7 @@ export function terminalManage() {
     {
       label: "流量模式",
       prop: "flowMode",
-      minWidth: 200,
+      minWidth: 140,
       align: "left",
       valueType: "select",
       options: getItemList("MIFI_FLOW_MODE")
@@ -135,12 +150,71 @@ export function terminalManage() {
       props: { type: "danger", plain: true }
     }
   ];
+  const barButton = [
+    {
+      name: "设备入库",
+      code: "store",
+      content: "Excel中SN重复的数据只导入一条；已导入过的SN将不会覆盖导入。",
+      icon: Upload,
+      type: "success"
+    },
+    {
+      name: "设备分组",
+      code: "group",
+      content: "请选择至少一条数据，允许批量操作",
+      icon: Device,
+      isBatch: true
+    },
+    {
+      name: "设备激活",
+      code: "store",
+      content: "请选择一条数据，不允许批量操作！",
+      icon: Active,
+      isBatch: false
+    },
+    {
+      name: "设备控制",
+      code: "store",
+      content: "请选择一条数据，不允许批量操作！",
+      icon: Pointer,
+      isBatch: false
+    },
+    {
+      name: "设备充值",
+      code: "store",
+      content: "请选择至少一条数据，允许批量操作",
+      icon: Wallet,
+      isBatch: true
+    },
+    {
+      name: "套餐转移",
+      code: "store",
+      content: "请选择一条数据，不允许批量操作！",
+      icon: Transform,
+      isBatch: false
+    },
+    {
+      name: "停机/复机",
+      code: "store",
+      content: "请选择至少一条数据，允许批量操作",
+      icon: ShutDown,
+      isBatch: true
+    },
+    {
+      name: "设备初始化",
+      code: "store",
+      content: "请选择至少一条数据，允许批量操作",
+      icon: InitInstall,
+      isBatch: true
+    }
+  ];
   return {
     formRef,
     pageInfo,
     loading,
     tableColumns,
     buttons,
-    selectData
+    selectData,
+    barButton
   };
 }

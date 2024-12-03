@@ -23,48 +23,24 @@
         <template #table-title>
           <el-row class="button-row">
             <el-popover
+              v-for="(item, index) in barButton"
+              :key="index"
               placement="top-start"
               :width="200"
               trigger="hover"
-              content="Excel中SN重复的数据只导入一条；已导入过的SN将不会覆盖导入。"
+              :content="item.content || item.name"
             >
               <template #reference>
                 <el-button
-                  type="success"
+                  :type="item.type || 'primary'"
                   plain
-                  :icon="useRenderIcon(Upload)"
-                  @click="handleDialog('设备入库', 'store')"
+                  :icon="useRenderIcon(item.icon)"
+                  @click="handleDialog(item)"
                 >
-                  设备入库
+                  {{ item.name }}
                 </el-button>
-              </template></el-popover
-            >
-            <el-button
-              type="primary"
-              plain
-              :icon="useRenderIcon(Device)"
-              @click="handleDialog('设备分组', 'group')"
-            >
-              设备分组
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Active)">
-              设备激活
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Pointer)">
-              设备控制
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Wallet)">
-              设备充值
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Transform)">
-              转移套餐
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(ShutDown)">
-              设备停机
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(InitInstall)">
-              设备初始化
-            </el-button>
+              </template>
+            </el-popover>
           </el-row>
         </template>
       </PlusPage>
@@ -79,6 +55,11 @@
       top="5%"
     >
       <ImportForm v-if="currForm === 'store'" @dialogEvent="handleCallBack" />
+      <GroupForm
+        v-if="currForm === 'group'"
+        :currentRow="selectData"
+        @dialogEvent="handleCallBack"
+      />
     </PlusDialog>
   </div>
 </template>
@@ -93,21 +74,20 @@ import type {
   ButtonsCallBackParams,
   PlusPageInstance
 } from "plus-pro-components";
-import Delete from "@iconify-icons/ep/delete";
-import More from "@iconify-icons/ep/more-filled";
-import Device from "@iconify-icons/ep/cellphone";
-import Active from "@iconify-icons/ep/coin";
-import Pointer from "@iconify-icons/ep/pointer";
-import Wallet from "@iconify-icons/ep/wallet";
-import Transform from "@iconify-icons/ep/bottom-right";
-import ShutDown from "@iconify-icons/ri/shut-down-line";
-import InitInstall from "@iconify-icons/ri/install-line";
-import Upload from "@iconify-icons/ep/upload";
 
 import ImportForm from "./form/import.vue";
+import GroupForm from "./form/group.vue";
+import { message } from "@/utils/message";
 
-const { pageInfo, loading, tableColumns, buttons, selectData, formRef } =
-  terminalManage();
+const {
+  pageInfo,
+  loading,
+  tableColumns,
+  buttons,
+  selectData,
+  formRef,
+  barButton
+} = terminalManage();
 const plusPageInstance = ref<PlusPageInstance | null>(null);
 async function getList(query: PageInfo) {
   console.log(query);
@@ -147,9 +127,21 @@ const show = ref(false);
 const title = ref("设备入库");
 const currForm = ref("");
 // 打开弹出框
-function handleDialog(name, op) {
-  title.value = name;
-  currForm.value = op;
+function handleDialog(op) {
+  title.value = op.name;
+  currForm.value = op.code;
+  if (op.isBatch !== undefined && selectData.value.length === 0) {
+    message(`请至少选择一条数据！`, {
+      type: "warning"
+    });
+    return;
+  }
+  if (op.isBatch === false && selectData.value.length > 1) {
+    message(`当前操作不允许批量处理`, {
+      type: "warning"
+    });
+    return;
+  }
   show.value = true;
 }
 // -------- 列表相关操作 -------------

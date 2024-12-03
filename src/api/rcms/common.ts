@@ -24,9 +24,13 @@ export const getBussList = async (
 ) => {
   const { data } = await http.request<ResultPage>("get", url, { params });
   const itemOptions = [];
+  const names = name.split(",");
   (data as unknown as Array<any>).forEach(item => {
     itemOptions.push({
-      label: item[name],
+      label:
+        names.length > 1
+          ? item[names[0]] + " (" + item[names[1]] + ")"
+          : item[name],
       value: item[value]
     });
   });
