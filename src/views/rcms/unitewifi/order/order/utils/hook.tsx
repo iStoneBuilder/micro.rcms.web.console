@@ -8,7 +8,7 @@ export function terminalManage() {
   const selectData = ref([]);
   const tableColumns: PlusColumn[] = [
     {
-      label: "设备SN",
+      label: "订单号",
       prop: "name",
       width: 200,
       align: "left",
@@ -22,83 +22,101 @@ export function terminalManage() {
       }
     },
     {
-      label: "IMEI",
+      label: "商品名",
       prop: "name1",
-      width: 200,
+      width: 100,
       align: "left"
     },
     {
-      label: "上网模式",
+      label: "商户",
       prop: "name2",
       minWidth: 200,
       align: "left"
     },
     {
-      label: "在线?",
+      label: "流水号",
       prop: "name3",
       minWidth: 100,
       align: "left"
     },
     {
-      label: "商户",
+      label: "商品类型",
       prop: "name4",
-      minWidth: 200,
+      minWidth: 100,
       align: "left"
     },
     {
-      label: "设备类型",
+      label: "设备SN",
       prop: "name5",
-      minWidth: 200,
+      minWidth: 100,
       align: "left"
     },
     {
-      label: "设备组",
+      label: "支付方式",
       prop: "name6",
-      minWidth: 200,
+      minWidth: 100,
       align: "left"
     },
     {
-      label: "选卡策略",
+      label: "购买数量",
       prop: "name7",
-      minWidth: 200,
+      minWidth: 100,
       align: "left"
     },
     {
-      label: "流量模式",
+      label: "总价格(¥)",
       prop: "name9",
       minWidth: 200,
       align: "left"
     },
     {
-      label: "入库批次号",
+      label: "已退金额(¥)",
       prop: "name10",
       minWidth: 200,
       align: "left"
     },
     {
-      label: "检测状态",
+      label: "订单状态",
       prop: "name11",
-      minWidth: 200,
+      minWidth: 100,
       align: "left"
     },
     {
-      label: "设备状态",
+      label: "退款状态",
       prop: "name12",
-      minWidth: 200,
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "下单时间",
+      prop: "name12",
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "支付时间",
+      prop: "name12",
+      minWidth: 100,
+      align: "left"
+    },
+    {
+      label: "下单人",
+      prop: "name12",
+      minWidth: 100,
       align: "left"
     }
   ];
   const { buttons } = useTable();
   buttons.value = [
     {
-      text: "编辑",
+      text: "申请退款",
       code: "update",
       props: { type: "primary", plain: true }
     },
     {
-      text: "删除",
-      code: "delete",
-      props: { type: "danger", plain: true }
+      text: "详情",
+      code: "detail",
+      props: { type: "primary", plain: true }
     }
   ];
   return {
