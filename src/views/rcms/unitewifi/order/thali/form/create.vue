@@ -22,7 +22,7 @@ if (props.currentRow) {
   disabled.value = true;
 }
 const newColumns = [...props.createColumns];
-newColumns[0]["colProps"] = { span: 22 };
+newColumns[0]["colProps"] = { span: 24 };
 newColumns.push({
   label: "套餐规则",
   prop: "name12",
@@ -30,7 +30,7 @@ newColumns.push({
   align: "left",
   valueType: "textarea",
   colProps: {
-    span: 22
+    span: 24
   }
 });
 const createRules = {
@@ -98,14 +98,14 @@ function handleClose(op = "cancel") {
     <PlusForm
       ref="createFormRef"
       v-model="formModel"
-      labelWidth="120"
+      labelWidth="140"
       labelPosition="right"
       :columns="newColumns"
       :rules="createRules"
       footerAlign="center"
       :row-props="{ gutter: 20 }"
       :col-props="{
-        span: 11
+        span: 12
       }"
       @submit="handleSubmit"
     >

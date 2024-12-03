@@ -1,0 +1,208 @@
+<template>
+  <div id="sell-show">
+    <div class="sell-context">
+      <el-row>
+        <el-col :span="24">
+          <div>畅销组合套餐</div>
+        </el-col>
+        <el-col :span="24">
+          <el-card>
+            <el-row>
+              <el-col :span="24">
+                <div class="grid-content ep-bg-purple-dark">
+                  1500G/月大流量套餐
+                  <br />
+                  按月计费 - 1500G/月
+                </div>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="6">
+                <el-card>
+                  <div class="grid-content ep-bg-purple cursor-point">
+                    <div>1个月</div>
+                    <div>¥79/月</div>
+                  </div>
+                </el-card>
+              </el-col>
+              <el-col :span="6">
+                <el-card>
+                  <div class="grid-content ep-bg-purple cursor-point">
+                    <div>3个月</div>
+                    <div>¥66.33/月</div>
+                  </div>
+                </el-card>
+              </el-col>
+              <el-col :span="6">
+                <el-card>
+                  <el-badge badge-class="badge-tj" value="推荐" class="item" />
+                  <div class="grid-content ep-bg-purple cursor-point is-select">
+                    <div>6个月</div>
+                    <div>¥49.83/月</div>
+                  </div>
+                </el-card>
+              </el-col>
+              <el-col :span="6">
+                <el-card>
+                  <el-badge badge-class="badge-tj" value="推荐" class="item" />
+                  <div class="grid-content ep-bg-purple cursor-point is-select">
+                    <div>12个月</div>
+                    <div>¥38.25/月</div>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+          </el-card>
+        </el-col>
+        <el-col :span="24">
+          <div>短期精选套餐</div>
+        </el-col>
+        <el-col :span="12">
+          <el-card class="cursor-point">
+            <el-row>
+              <el-col :span="24">
+                <div class="grid-content ep-bg-purple-dark">
+                  10G/3天体验套餐<br />累积计费-10G/3天
+                </div>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24">
+                <div class="grid-content ep-bg-purple">¥5.9</div>
+              </el-col>
+            </el-row>
+          </el-card>
+        </el-col>
+        <el-col :span="12">
+          <el-card class="cursor-point">
+            <el-row>
+              <el-col :span="24">
+                <div class="grid-content ep-bg-purple-dark">
+                  30G/15天体验套餐<br />累积计费-30G/15天
+                </div>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24">
+                <div class="grid-content ep-bg-purple">¥9.9</div>
+              </el-col>
+            </el-row>
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
+    <div class="sell-submit" />
+  </div>
+</template>
+
+<script setup>
+const datas = [
+  {
+    type: "group",
+    data: [
+      {
+        name: "1500G/月大流量套餐",
+        code: "",
+        type: "monthly",
+        flow: "1500G/月",
+        price: 79,
+        duration: 30
+      },
+      {
+        name: "1500G/月大流量套餐",
+        code: "",
+        type: "monthly",
+        flow: "1500G/月",
+        price: 79,
+        duration: 90
+      },
+      {
+        name: "1500G/月大流量套餐",
+        code: "",
+        type: "monthly",
+        flow: "1500G/月",
+        price: 79,
+        duration: 180
+      },
+      {
+        name: "1500G/月大流量套餐",
+        code: "",
+        type: "monthly",
+        flow: "1500G/月",
+        price: 79,
+        duration: 360
+      }
+    ]
+  },
+  {
+    type: "item",
+    data: {}
+  }
+];
+</script>
+
+<style lang="scss" scoped>
+#sell-show {
+  max-height: 600px;
+  height: 600px;
+  border: 1px solid gray;
+}
+.el-row {
+  margin-bottom: 0px;
+}
+.el-row:last-child {
+  margin-bottom: 0;
+}
+.el-col {
+  border-radius: 0px;
+}
+.grid-content {
+  border-radius: 0px;
+  text-align: center;
+  border: 0px;
+  font-size: 10px;
+  padding: 8px 4px;
+  line-height: 16px;
+}
+.grid-content div {
+  border-radius: 0px;
+  cursor: pointer;
+}
+.ep-bg-purple-dark {
+  background: #7a80b4;
+  color: white;
+}
+.ep-bg-purple {
+  background: #f5f7fa;
+}
+.el-card {
+  margin: 10px 5px 10px 5px;
+  --el-card-padding: 0 !important;
+  border-radius: 0;
+}
+.is-select {
+  border: 1px solid #9fceff;
+  background: #ebf5ff;
+  color: #409eff;
+}
+.el-badge {
+  position: absolute;
+  cursor: pointer;
+  --el-badge-font-size: 8px;
+  --el-badge-size: 16px;
+  --el-badge-padding: 4px;
+}
+.cursor-point {
+  cursor: pointer;
+}
+.item {
+  margin-top: -5px;
+  margin-left: -5px;
+}
+.sell-context {
+  padding: 10px;
+}
+.sell-submit {
+  background: wheat;
+}
+</style>

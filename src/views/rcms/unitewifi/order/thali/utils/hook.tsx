@@ -1,6 +1,7 @@
 import { ref } from "vue";
 import { useTable } from "plus-pro-components";
 import type { PlusColumn } from "plus-pro-components";
+import { getItemList } from "@/api/rcms/common";
 
 export function terminalManage() {
   const pageInfo = { page: 1, pageSize: 15 };
@@ -41,73 +42,95 @@ export function terminalManage() {
       minWidth: 100,
       align: "left",
       hideInTable: true,
-      hideInSearch: true
+      hideInSearch: true,
+      valueType: "input-number",
+      fieldProps: { precision: 2, step: 1, min: 0, max: 99999999 }
     },
     {
       label: "套餐价格(¥)",
       prop: "name3",
       minWidth: 100,
       align: "left",
-      hideInSearch: true
+      hideInSearch: true,
+      valueType: "input-number",
+      fieldProps: { precision: 2, step: 1, min: 0, max: 99999999 }
     },
     {
       label: "套餐总流量(GB)",
       prop: "name5",
       minWidth: 160,
       align: "left",
-      hideInSearch: true
+      hideInSearch: true,
+      valueType: "input-number",
+      fieldProps: { precision: 0, step: 1, min: 0, max: 99999999 }
     },
     {
       label: "套餐虚量(GB)",
       prop: "name5",
       minWidth: 160,
       align: "left",
-      hideInSearch: true
+      hideInSearch: true,
+      valueType: "input-number",
+      fieldProps: { precision: 0, step: 1, min: 0, max: 99999999 }
     },
     {
       label: "计费类型",
       prop: "name4",
       minWidth: 90,
-      align: "left"
+      align: "left",
+      valueType: "select",
+      options: getItemList("MIFI_CHARGE_TYPE")
     },
     {
       label: "有效时长",
       prop: "name7",
       minWidth: 90,
       align: "left",
-      hideInSearch: true
+      hideInSearch: true,
+      valueType: "select",
+      options: getItemList("MIFI_CHARGE_TIME")
     },
     {
       label: "是否限速",
       prop: "name6",
       minWidth: 90,
-      align: "left"
+      align: "left",
+      valueType: "select",
+      options: getItemList("RCMS_SYS_YN")
     },
     {
       label: "赠送月份",
       prop: "name9",
       minWidth: 90,
       align: "left",
-      hideInSearch: true
+      hideInSearch: true,
+      valueType: "input-number",
+      fieldProps: { precision: 0, step: 1, min: 0, max: 99999999 }
     },
     {
       label: "是否上架",
       prop: "name10",
       minWidth: 90,
-      align: "left"
+      align: "left",
+      valueType: "select",
+      options: getItemList("RCMS_SYS_YN")
     },
     {
       label: "限制购买次数",
       prop: "name11",
       minWidth: 120,
       align: "left",
-      hideInSearch: true
+      hideInSearch: true,
+      valueType: "input-number",
+      fieldProps: { precision: 0, step: 1, min: 0, max: 99999999 }
     },
     {
       label: "是否赠送",
       prop: "name12",
       minWidth: 90,
-      align: "left"
+      align: "left",
+      valueType: "select",
+      options: getItemList("RCMS_SYS_YN")
     },
     {
       label: "套餐组",

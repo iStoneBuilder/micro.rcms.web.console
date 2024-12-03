@@ -32,7 +32,7 @@
             >
               <template #reference>
                 <el-button
-                  :type="item.type || 'primary'"
+                  :type="'primary'"
                   plain
                   :icon="useRenderIcon(item.icon)"
                   @click="handleDialog(item)"

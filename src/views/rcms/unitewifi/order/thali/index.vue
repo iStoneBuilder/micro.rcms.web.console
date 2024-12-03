@@ -1,3 +1,9 @@
+<!--
+套餐配置
+1:配置套餐组用于用户端特殊展示
+2:已售卖的套餐部分禁止修改，禁止删除（不让销售直接下架）
+3:未销售的套餐可以直接删除，不需要下架
+-->
 <template>
   <div>
     <div class="rcms-plus-page">
@@ -26,9 +32,16 @@
               type="primary"
               plain
               :icon="Plus"
-              @click="handleCreate()"
+              @click="handleCreate('新增', 'create')"
             >
               新增
+            </el-button>
+            <el-button
+              type="primary"
+              plain
+              @click="handleCreate('销售效果展示-', 'sellShow')"
+            >
+              销售展示效果
             </el-button>
           </el-row>
         </template>
@@ -39,13 +52,18 @@
       v-model="show"
       :title="title + '套餐'"
       :hasFooter="false"
-      :showClose="false"
-      width="800"
+      :showClose="currForm === 'sellShow'"
+      :width="dWidth"
       top="5%"
     >
       <CreateForm
+        v-if="currForm === 'create'"
         :currentRow="currentRow"
         :createColumns="createColumns"
+        @createEvent="handleCreateBack"
+      />
+      <SellShow
+        v-if="currForm === 'sellShow'"
         @createEvent="handleCreateBack"
       />
     </PlusDialog>
@@ -69,10 +87,12 @@ import { Plus } from "@element-plus/icons-vue";
 import Delete from "@iconify-icons/ep/delete";
 
 import CreateForm from "./form/create.vue";
+import SellShow from "./form/sellShow.vue";
 
 const { pageInfo, loading, tableColumns, buttons, selectData } =
   terminalManage();
 const createColumns = [...tableColumns];
+const dWidth = ref(800);
 const plusPageInstance = ref<PlusPageInstance | null>(null);
 async function getList(query: PageInfo) {
   loading.value = true;
@@ -93,7 +113,7 @@ const handleOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
   switch (buttonRow.code) {
     case "update":
       currentRow.value = row;
-      handleCreate("编辑");
+      handleCreate("编辑", "create");
       break;
     case "delete":
       handleDelete(row);
@@ -110,9 +130,15 @@ const refresh = () => {
 const show = ref(false);
 const title = ref("");
 const currentRow = ref(null);
-function handleCreate(ops = "新增") {
-  show.value = true;
+const currForm = ref("create");
+function handleCreate(ops = "新增", view: string) {
+  currForm.value = view;
+  dWidth.value = 800;
+  if (view === "sellShow") {
+    dWidth.value = 400;
+  }
   title.value = ops;
+  show.value = true;
 }
 function handleCreateBack(op) {
   show.value = false;
