@@ -14,7 +14,14 @@ const createLoading = ref(false);
 const formModel = ref({
   deviceNo: "MIFI",
   localCardMode: "Y",
-  typeId: ""
+  typeId: "",
+  isRecommend: "N",
+  isGift: "N",
+  isSale: "Y",
+  limitSpeed: "N",
+  giftDuration: 0,
+  limitNo: 0,
+  sort: 0
 });
 const disabled = ref(false);
 if (props.currentRow) {
@@ -34,34 +41,100 @@ newColumns.push({
   }
 });
 const createRules = {
-  typeName: [
+  packageName: [
     {
       required: true,
-      message: "请输入类型名称"
+      message: "请输入套餐名称"
     }
   ],
-  typeCode: [
+  packageType: [
     {
       required: true,
-      message: "请输入类型编号"
+      message: "请选择计费类型"
     }
   ],
-  sellName: [
+  packageCost: [
     {
       required: true,
-      message: "请输入销售名称"
+      message: "请设置套餐成本"
     }
   ],
-  deviceNo: [
+  packagePrice: [
     {
       required: true,
-      message: "请现在设备型号"
+      message: "请设置销售价格"
     }
   ],
-  localCardMode: [
+  packageFlow: [
     {
       required: true,
-      message: "请选择卡模式"
+      message: "必填，请设置套餐总流量"
+    }
+  ],
+  packageVoidFlow: [
+    {
+      required: true,
+      message: "必填，请设置套餐虚量"
+    }
+  ],
+  chargeType: [
+    {
+      required: true,
+      message: "必填，请输入正确值"
+    }
+  ],
+  validDuration: [
+    {
+      required: true,
+      message: "必填，请输入正确值"
+    }
+  ],
+  limitSpeed: [
+    {
+      required: true,
+      message: "必填，请输入正确值"
+    }
+  ],
+  giftDuration: [
+    {
+      required: true,
+      message: "必填，请输入正确值"
+    }
+  ],
+  isSale: [
+    {
+      required: true,
+      message: "必填，请输入正确值"
+    }
+  ],
+  limitNo: [
+    {
+      required: true,
+      message: "必填，请输入正确值"
+    }
+  ],
+  isGift: [
+    {
+      required: true,
+      message: "必填，请输入正确值"
+    }
+  ],
+  isRecommend: [
+    {
+      required: true,
+      message: "必填，请输入正确值"
+    }
+  ],
+  sort: [
+    {
+      required: true,
+      message: "必填，请输入正确值"
+    }
+  ],
+  packageRules: [
+    {
+      required: true,
+      message: "必填，请输入正确值"
     }
   ]
 };

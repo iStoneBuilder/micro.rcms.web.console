@@ -20,9 +20,7 @@
             }"
             :table="{
               isSelection: true,
-              adaptive: { offsetBottom: 70 },
-              actionBar: { buttons, width: 100, type: 'link' },
-              onClickAction: handleOption,
+              adaptive: { offsetBottom: 80 },
               onSelectionChange: handleSelect
             }"
             :default-page-info="pageInfo"
@@ -55,8 +53,7 @@ import type {
 } from "plus-pro-components";
 import Expand from "@iconify-icons/ep/expand";
 
-const { pageInfo, loading, tableColumns, buttons, selectData } =
-  terminalManage();
+const { pageInfo, loading, tableColumns, selectData } = terminalManage();
 const plusPageInstance = ref<PlusPageInstance | null>(null);
 async function getList(query: PageInfo) {
   console.log(query);

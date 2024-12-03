@@ -3,62 +3,60 @@
     <div class="sell-context">
       <el-row>
         <el-col :span="24">
-          <div>畅销组合套餐</div>
+          <div class="sell-title">畅销组合套餐</div>
         </el-col>
         <el-col :span="24">
-          <el-card>
-            <el-row>
-              <el-col :span="24">
-                <div class="grid-content ep-bg-purple-dark">
-                  1500G/月大流量套餐
-                  <br />
-                  按月计费 - 1500G/月
+          <el-row>
+            <el-col :span="24">
+              <div class="grid-content ep-bg-purple-dark">
+                1500G/月大流量套餐
+                <br />
+                按月计费 - 1500G/月
+              </div>
+            </el-col>
+          </el-row>
+          <el-row class="plain-color">
+            <el-col :span="6">
+              <el-card>
+                <div class="grid-content ep-bg-purple cursor-point">
+                  <div>1个月</div>
+                  <div>¥79/月</div>
                 </div>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="6">
-                <el-card>
-                  <div class="grid-content ep-bg-purple cursor-point">
-                    <div>1个月</div>
-                    <div>¥79/月</div>
-                  </div>
-                </el-card>
-              </el-col>
-              <el-col :span="6">
-                <el-card>
-                  <div class="grid-content ep-bg-purple cursor-point">
-                    <div>3个月</div>
-                    <div>¥66.33/月</div>
-                  </div>
-                </el-card>
-              </el-col>
-              <el-col :span="6">
-                <el-card>
-                  <el-badge badge-class="badge-tj" value="推荐" class="item" />
-                  <div class="grid-content ep-bg-purple cursor-point is-select">
-                    <div>6个月</div>
-                    <div>¥49.83/月</div>
-                  </div>
-                </el-card>
-              </el-col>
-              <el-col :span="6">
-                <el-card>
-                  <el-badge badge-class="badge-tj" value="推荐" class="item" />
-                  <div class="grid-content ep-bg-purple cursor-point is-select">
-                    <div>12个月</div>
-                    <div>¥38.25/月</div>
-                  </div>
-                </el-card>
-              </el-col>
-            </el-row>
-          </el-card>
+              </el-card>
+            </el-col>
+            <el-col :span="6">
+              <el-card>
+                <div class="grid-content ep-bg-purple cursor-point">
+                  <div>3个月</div>
+                  <div>¥66.33/月</div>
+                </div>
+              </el-card>
+            </el-col>
+            <el-col :span="6">
+              <el-card>
+                <el-badge badge-class="badge-tj" value="推荐" class="item" />
+                <div class="grid-content ep-bg-purple cursor-point is-select">
+                  <div>6个月</div>
+                  <div>¥49.83/月</div>
+                </div>
+              </el-card>
+            </el-col>
+            <el-col :span="6">
+              <el-card>
+                <el-badge badge-class="badge-tj" value="推荐" class="item" />
+                <div class="grid-content ep-bg-purple cursor-point is-select">
+                  <div>12个月</div>
+                  <div>¥38.25/月</div>
+                </div>
+              </el-card>
+            </el-col>
+          </el-row>
         </el-col>
         <el-col :span="24">
-          <div>短期精选套餐</div>
+          <div class="sell-title2">短期精选套餐</div>
         </el-col>
         <el-col :span="12">
-          <el-card class="cursor-point">
+          <el-card class="cursor-point left">
             <el-row>
               <el-col :span="24">
                 <div class="grid-content ep-bg-purple-dark">
@@ -74,7 +72,7 @@
           </el-card>
         </el-col>
         <el-col :span="12">
-          <el-card class="cursor-point">
+          <el-card class="cursor-point right">
             <el-row>
               <el-col :span="24">
                 <div class="grid-content ep-bg-purple-dark">
@@ -95,51 +93,7 @@
   </div>
 </template>
 
-<script setup>
-const datas = [
-  {
-    type: "group",
-    data: [
-      {
-        name: "1500G/月大流量套餐",
-        code: "",
-        type: "monthly",
-        flow: "1500G/月",
-        price: 79,
-        duration: 30
-      },
-      {
-        name: "1500G/月大流量套餐",
-        code: "",
-        type: "monthly",
-        flow: "1500G/月",
-        price: 79,
-        duration: 90
-      },
-      {
-        name: "1500G/月大流量套餐",
-        code: "",
-        type: "monthly",
-        flow: "1500G/月",
-        price: 79,
-        duration: 180
-      },
-      {
-        name: "1500G/月大流量套餐",
-        code: "",
-        type: "monthly",
-        flow: "1500G/月",
-        price: 79,
-        duration: 360
-      }
-    ]
-  },
-  {
-    type: "item",
-    data: {}
-  }
-];
-</script>
+<script setup></script>
 
 <style lang="scss" scoped>
 #sell-show {
@@ -202,7 +156,19 @@ const datas = [
 .sell-context {
   padding: 10px;
 }
-.sell-submit {
-  background: wheat;
+.plain-color {
+  background: #bec4ff54;
+}
+.sell-title {
+  padding: 10px 0;
+}
+.sell-title2 {
+  padding: 10px 0 5px 0;
+}
+.left {
+  margin: 5px 5px 0 0 !important;
+}
+.right {
+  margin: 5px 0 0 5px !important;
 }
 </style>
