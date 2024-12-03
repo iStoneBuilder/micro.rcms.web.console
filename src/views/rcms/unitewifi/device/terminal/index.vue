@@ -60,6 +60,16 @@
         :currentRow="selectData"
         @dialogEvent="handleCallBack"
       />
+      <ActiveForm
+        v-if="currForm === 'active'"
+        :currentRow="selectData"
+        @dialogEvent="handleCallBack"
+      />
+      <ControlForm
+        v-if="currForm === 'control'"
+        :currentRow="selectData"
+        @dialogEvent="handleCallBack"
+      />
     </PlusDialog>
   </div>
 </template>
@@ -77,6 +87,9 @@ import type {
 
 import ImportForm from "./form/import.vue";
 import GroupForm from "./form/group.vue";
+import ActiveForm from "./form/active.vue";
+import ControlForm from "./form/control.vue";
+
 import { message } from "@/utils/message";
 
 const {

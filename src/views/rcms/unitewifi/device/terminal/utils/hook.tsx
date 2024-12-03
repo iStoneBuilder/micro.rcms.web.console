@@ -167,14 +167,14 @@ export function terminalManage() {
     },
     {
       name: "设备激活",
-      code: "store",
+      code: "active",
       content: "请选择一条数据，不允许批量操作！",
       icon: Active,
       isBatch: false
     },
     {
       name: "设备控制",
-      code: "store",
+      code: "control",
       content: "请选择一条数据，不允许批量操作！",
       icon: Pointer,
       isBatch: false
