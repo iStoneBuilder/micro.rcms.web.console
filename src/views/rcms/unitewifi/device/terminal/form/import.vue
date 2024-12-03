@@ -1,3 +1,4 @@
+<!--设备入库-->
 <script setup lang="ts">
 import { ref, defineEmits } from "vue";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";

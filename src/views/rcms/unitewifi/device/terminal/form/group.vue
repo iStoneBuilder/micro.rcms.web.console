@@ -1,3 +1,4 @@
+<!--设备分组-->
 <script setup lang="ts">
 import { updateRecordGroup } from "@/api/mifi/device-manage";
 import { getBussList } from "@/api/rcms/common";

@@ -1,3 +1,4 @@
+<!--设备激活-->
 <script setup lang="tsx">
 import type { PlusColumn } from "plus-pro-components";
 import { updateRecordGroup } from "@/api/mifi/device-manage";
