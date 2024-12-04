@@ -8,7 +8,7 @@ import { createRecord, updateRecord } from "@/api/mifi/device-type";
 const props = defineProps<{
   currentRow: any;
 }>();
-const emit = defineEmits(["createEvent"]);
+const emit = defineEmits(["dialogEvent"]);
 const createLoading = ref(false);
 const formModel = ref({
   deviceNo: "MIFI",
@@ -110,7 +110,7 @@ async function handleSubmit() {
   handleClose("submit");
 }
 function handleClose(op = "cancel") {
-  emit("createEvent", op);
+  emit("dialogEvent", op);
 }
 </script>
 

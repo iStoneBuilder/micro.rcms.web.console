@@ -1,7 +1,8 @@
 import { ref } from "vue";
 import { useTable } from "plus-pro-components";
 import type { PlusColumn } from "plus-pro-components";
-import { getItemList } from "@/api/rcms/common";
+import { getBussList, getItemList } from "@/api/rcms/common";
+import { getTenantId } from "@/utils/common";
 
 export function terminalManage() {
   const pageInfo = { page: 1, pageSize: 15 };
@@ -10,35 +11,37 @@ export function terminalManage() {
   const tableColumns: PlusColumn[] = [
     {
       label: "套餐名",
-      prop: "packageName",
+      prop: "dataPlanName",
       width: 200,
       align: "left",
-      cellRenderer: ({ row, props }) => (
-        <el-link size={props.size} style="color: var(--el-color-primary)">
-          {row.name}
-        </el-link>
-      ),
       tableColumnProps: {
         fixed: true
       }
     },
     {
       label: "套餐编号",
-      prop: "packageNo",
-      width: 100,
+      prop: "dataPlanNo",
+      width: 130,
       align: "left",
       hideInForm: true
     },
     {
       label: "所属商户",
       prop: "enterpriseId",
-      minWidth: 160,
+      minWidth: 180,
       align: "left",
-      hideInForm: true
+      hideInForm: true,
+      valueType: "select",
+      options: getBussList(
+        "/test/services/rcms/base/enterprise/records",
+        "name",
+        "id",
+        { id: getTenantId() }
+      )
     },
     {
       label: "成本价格(¥)",
-      prop: "packageCost",
+      prop: "dataPlanCost",
       minWidth: 100,
       align: "left",
       hideInTable: true,
@@ -48,7 +51,7 @@ export function terminalManage() {
     },
     {
       label: "套餐价格(¥)",
-      prop: "packagePrice",
+      prop: "dataPlanPrice",
       minWidth: 100,
       align: "left",
       hideInSearch: true,
@@ -57,7 +60,7 @@ export function terminalManage() {
     },
     {
       label: "套餐总流量(GB)",
-      prop: "packageFlow",
+      prop: "dataPlanFlow",
       minWidth: 160,
       align: "left",
       hideInSearch: true,
@@ -66,7 +69,7 @@ export function terminalManage() {
     },
     {
       label: "套餐虚量(GB)",
-      prop: "packageVoidFlow",
+      prop: "dataPlanVoidFlow",
       minWidth: 160,
       align: "left",
       hideInSearch: true,
@@ -84,10 +87,11 @@ export function terminalManage() {
     {
       label: "有效时长",
       prop: "validDuration",
-      minWidth: 90,
+      minWidth: 100,
       align: "left",
       hideInSearch: true,
       valueType: "select",
+      tooltip: "按月计费时，有效时长不能小于1月",
       options: getItemList("MIFI_CHARGE_TIME")
     },
     {
@@ -135,7 +139,7 @@ export function terminalManage() {
     },
     {
       label: "套餐组",
-      prop: "packageGroup",
+      prop: "dataPlanGroup",
       width: 100,
       align: "left"
     },
@@ -160,6 +164,11 @@ export function terminalManage() {
   ];
   const { buttons } = useTable();
   buttons.value = [
+    {
+      text: "详情",
+      code: "detail",
+      props: { type: "primary", plain: true }
+    },
     {
       text: "编辑",
       code: "update",

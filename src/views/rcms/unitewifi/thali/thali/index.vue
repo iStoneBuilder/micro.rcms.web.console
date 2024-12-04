@@ -19,7 +19,7 @@
         :table="{
           isSelection: true,
           adaptive: { offsetBottom: 70 },
-          actionBar: { buttons, width: 170, type: 'link' },
+          actionBar: { buttons, width: 210, type: 'link', showNumber: 4 },
           onClickAction: handleOption,
           onSelectionChange: handleSelect
         }"
@@ -37,9 +37,9 @@
               新增
             </el-button>
             <el-button
-              type="primary"
+              type="success"
               plain
-              @click="handleCreate('销售效果展示-', 'sellShow')"
+              @click="handleCreate('销售效果展示 - ', 'sellShow')"
             >
               销售展示效果
             </el-button>
@@ -60,11 +60,17 @@
         v-if="currForm === 'create'"
         :currentRow="currentRow"
         :createColumns="createColumns"
-        @createEvent="handleCreateBack"
+        @dialogEvent="handleCreateBack"
       />
       <SellShow
         v-if="currForm === 'sellShow'"
-        @createEvent="handleCreateBack"
+        @dialogEvent="handleCreateBack"
+      />
+      <DetailForm
+        v-if="currForm === 'detail'"
+        :currentRow="currentRow"
+        :createColumns="createColumns"
+        @dialogEvent="handleCreateBack"
       />
     </PlusDialog>
   </div>
@@ -75,8 +81,7 @@ import { ref } from "vue";
 import { message } from "@/utils/message";
 import { ElMessageBox } from "element-plus";
 import { terminalManage } from "./utils/hook";
-import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import { deleteRecord, getPageRecordList } from "@/api/mifi/device-type";
+import { deleteRecord, getPageRecordList } from "@/api/mifi/mifi-common";
 import type {
   PageInfo,
   ButtonsCallBackParams,
@@ -84,15 +89,16 @@ import type {
 } from "plus-pro-components";
 
 import { Plus } from "@element-plus/icons-vue";
-import Delete from "@iconify-icons/ep/delete";
 
 import CreateForm from "./form/create.vue";
 import SellShow from "./form/sellShow.vue";
+import DetailForm from "./form/detail.vue";
 
+const service = "data-plan";
 const { pageInfo, loading, tableColumns, buttons, selectData } =
   terminalManage();
 const createColumns = [...tableColumns];
-const dWidth = ref(800);
+const dWidth = ref("800");
 const plusPageInstance = ref<PlusPageInstance | null>(null);
 async function getList(query: PageInfo) {
   loading.value = true;
@@ -100,7 +106,7 @@ async function getList(query: PageInfo) {
   const params = { ...query };
   delete params.page;
   delete params.pageSize;
-  const { data } = await getPageRecordList(page, pageSize, params);
+  const { data } = await getPageRecordList(service, page, pageSize, params);
   await new Promise(resolve => {
     setTimeout(() => {
       resolve("");
@@ -118,6 +124,10 @@ const handleOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
     case "delete":
       handleDelete(row);
       break;
+    case "detail":
+      currentRow.value = row;
+      handleCreate("详情-", "detail");
+      break;
   }
 };
 const handleSelect = (data: any) => {
@@ -133,9 +143,12 @@ const currentRow = ref(null);
 const currForm = ref("create");
 function handleCreate(ops = "新增", view: string) {
   currForm.value = view;
-  dWidth.value = 800;
+  dWidth.value = "800";
   if (view === "sellShow") {
-    dWidth.value = 400;
+    dWidth.value = "400";
+  }
+  if (view === "detail") {
+    dWidth.value = "70%";
   }
   title.value = ops;
   show.value = true;
@@ -150,7 +163,7 @@ function handleCreateBack(op) {
 
 const handleDelete = async (row): Promise<void> => {
   ElMessageBox.confirm(
-    `你确定删除（${row.typeName}）数据吗，确认是否继续?`,
+    `你确定删除（${row.dataPlanName}）数据吗，确认是否继续?`,
     "温馨提示",
     {
       confirmButtonText: "确认",
@@ -160,7 +173,7 @@ const handleDelete = async (row): Promise<void> => {
     }
   )
     .then(async () => {
-      await deleteRecord(row?.typeId);
+      await deleteRecord(service, row?.dataPlanNo);
       message(`删除成功！`, {
         type: "success"
       });

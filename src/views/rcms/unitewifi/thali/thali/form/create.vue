@@ -2,17 +2,18 @@
 import { message } from "@/utils/message";
 import { ref, defineProps, defineEmits } from "vue";
 import type { PlusColumn } from "plus-pro-components";
-import { getItemList } from "@/api/rcms/common";
-import { createRecord, updateRecord } from "@/api/mifi/device-type";
+import { createRecord, updateRecord } from "@/api/mifi/mifi-common";
+const service = "data-plan";
 // 父节点传值
 const props = defineProps<{
   currentRow: any;
   createColumns: PlusColumn[];
 }>();
-const emit = defineEmits(["createEvent"]);
+const emit = defineEmits(["dialogEvent"]);
 const createLoading = ref(false);
 const formModel = ref({
-  deviceNo: "MIFI",
+  dataPlanNo: "",
+  dataPlanType: "domestic",
   localCardMode: "Y",
   typeId: "",
   isRecommend: "N",
@@ -32,7 +33,7 @@ const newColumns = [...props.createColumns];
 newColumns[0]["colProps"] = { span: 24 };
 newColumns.push({
   label: "套餐规则",
-  prop: "name12",
+  prop: "dataPlanRules",
   minWidth: 90,
   align: "left",
   valueType: "textarea",
@@ -41,37 +42,37 @@ newColumns.push({
   }
 });
 const createRules = {
-  packageName: [
+  dataPlanName: [
     {
       required: true,
       message: "请输入套餐名称"
     }
   ],
-  packageType: [
+  dataPlanType: [
     {
       required: true,
       message: "请选择计费类型"
     }
   ],
-  packageCost: [
+  dataPlanCost: [
     {
       required: true,
       message: "请设置套餐成本"
     }
   ],
-  packagePrice: [
+  dataPlanPrice: [
     {
       required: true,
       message: "请设置销售价格"
     }
   ],
-  packageFlow: [
+  dataPlanFlow: [
     {
       required: true,
       message: "必填，请设置套餐总流量"
     }
   ],
-  packageVoidFlow: [
+  dataPlanVoidFlow: [
     {
       required: true,
       message: "必填，请设置套餐虚量"
@@ -80,89 +81,104 @@ const createRules = {
   chargeType: [
     {
       required: true,
-      message: "必填，请输入正确值"
+      message: "必填，请选择计费类型"
     }
   ],
   validDuration: [
     {
       required: true,
-      message: "必填，请输入正确值"
+      message: "必填，请设置有效期"
     }
   ],
   limitSpeed: [
     {
       required: true,
-      message: "必填，请输入正确值"
+      message: "必填，请选择是否限速"
     }
   ],
   giftDuration: [
     {
       required: true,
-      message: "必填，请输入正确值"
+      message: "必填，请设置赠送月份"
     }
   ],
   isSale: [
     {
       required: true,
-      message: "必填，请输入正确值"
+      message: "必填，请选择是否上架"
     }
   ],
   limitNo: [
     {
       required: true,
-      message: "必填，请输入正确值"
+      message: "必填，请输入限制购买次数"
     }
   ],
   isGift: [
     {
       required: true,
-      message: "必填，请输入正确值"
+      message: "必填，请选择是否赠送"
     }
   ],
   isRecommend: [
     {
       required: true,
-      message: "必填，请输入正确值"
+      message: "必填，请选择是否推荐"
     }
   ],
   sort: [
     {
       required: true,
-      message: "必填，请输入正确值"
+      message: "必填，请输入排序值"
     }
   ],
-  packageRules: [
+  dataPlanRules: [
     {
       required: true,
-      message: "必填，请输入正确值"
+      message: "必填，请输入套餐规则"
     }
   ]
 };
 async function handleSubmit() {
-  if (formModel.value.typeId !== "") {
+  createLoading.value = true;
+  if (formModel.value.dataPlanNo !== "") {
     // 没有更改
     if (JSON.stringify(props.currentRow) === JSON.stringify(formModel.value)) {
       message(`数据未更改，请勿提交！`, {
         type: "warning"
       });
+      createLoading.value = false;
       return;
     }
-    createLoading.value = true;
-    await updateRecord(formModel.value.typeId, formModel.value);
+    await updateRecord(
+      service,
+      formModel.value.dataPlanNo,
+      formModel.value
+    ).catch(() => {
+      createLoading.value = false;
+    });
+    if (!createLoading.value) {
+      return;
+    }
     message(`更新成功！`, {
       type: "success"
     });
   } else {
-    createLoading.value = true;
-    await createRecord(formModel.value);
+    await createRecord(service, formModel.value).catch(() => {
+      createLoading.value = false;
+    });
+    if (!createLoading.value) {
+      return;
+    }
     message(`创建成功`, {
       type: "success"
     });
   }
+  createLoading.value = false;
   handleClose("submit");
 }
 function handleClose(op = "cancel") {
-  emit("createEvent", op);
+  emit("dialogEvent", op);
 }
 </script>
 

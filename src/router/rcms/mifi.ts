@@ -111,9 +111,9 @@ export default [
     ]
   },
   {
-    path: "/order",
+    path: "/thali",
     name: "套餐管理",
-    component: () => import("@/views/rcms/unitewifi/order/thali/index.vue"),
+    component: () => import("@/views/rcms/unitewifi/thali/thali/index.vue"),
     meta: {
       icon: "ep:goods",
       title: "套餐管理",
@@ -121,29 +121,20 @@ export default [
     },
     children: [
       {
-        path: "/order/thali",
+        path: "/thali/thali",
         name: "套餐配置",
-        component: () => import("@/views/rcms/unitewifi/order/thali/index.vue"),
+        component: () => import("@/views/rcms/unitewifi/thali/thali/index.vue"),
         meta: {
           title: "套餐配置",
           showLink: true
         }
       },
       {
-        path: "/order/order",
+        path: "/thali/order",
         name: "套餐订单",
-        component: () => import("@/views/rcms/unitewifi/order/order/index.vue"),
+        component: () => import("@/views/rcms/unitewifi/thali/order/index.vue"),
         meta: {
           title: "套餐订单",
-          showLink: true
-        }
-      },
-      {
-        path: "/order/stat",
-        name: "订单统计",
-        component: () => import("@/views/rcms/unitewifi/order/stat/index.vue"),
-        meta: {
-          title: "订单统计",
           showLink: true
         }
       }

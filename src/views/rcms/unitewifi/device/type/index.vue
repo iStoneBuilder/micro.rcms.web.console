@@ -43,7 +43,7 @@
       width="500"
       top="5%"
     >
-      <CreateForm :currentRow="currentRow" @createEvent="handleCreateBack" />
+      <CreateForm :currentRow="currentRow" @dialogEvent="handleCreateBack" />
     </PlusDialog>
   </div>
 </template>

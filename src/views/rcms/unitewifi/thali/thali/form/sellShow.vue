@@ -1,15 +1,26 @@
 <template>
   <div id="sell-show">
+    <div class="sell-input">
+      <div>设备SN：</div>
+      <el-input
+        v-model="input"
+        style="width: 280px"
+        placeholder="输入设备SN查看可购买套餐及展示效果"
+      />
+    </div>
+    <el-divider />
     <div class="sell-context">
       <el-row>
         <el-col :span="24">
-          <div class="sell-title">畅销组合套餐</div>
+          <div class="sell-title">畅销套餐</div>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="24">
           <el-row>
             <el-col :span="24">
               <div class="grid-content ep-bg-purple-dark">
-                1500G/月大流量套餐
+                1500G/月大流量套餐-联通电信双网
                 <br />
                 按月计费 - 1500G/月
               </div>
@@ -52,15 +63,20 @@
             </el-col>
           </el-row>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="24">
-          <div class="sell-title2">短期精选套餐</div>
+          <div class="sell-title2">精选套餐</div>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="12">
           <el-card class="cursor-point left">
+            <el-badge badge-class="badge-tj" value="推荐" class="item" />
             <el-row>
               <el-col :span="24">
                 <div class="grid-content ep-bg-purple-dark">
-                  10G/3天体验套餐<br />累积计费-10G/3天
+                  10G/3天体验套餐-联通电信双网<br />累积计费-10G/3天
                 </div>
               </el-col>
             </el-row>
@@ -73,10 +89,11 @@
         </el-col>
         <el-col :span="12">
           <el-card class="cursor-point right">
+            <el-badge badge-class="badge-tj" value="推荐" class="item" />
             <el-row>
               <el-col :span="24">
                 <div class="grid-content ep-bg-purple-dark">
-                  30G/15天体验套餐<br />累积计费-30G/15天
+                  30G/15天体验套餐-联通电信双网<br />累积计费-30G/15天
                 </div>
               </el-col>
             </el-row>
@@ -99,7 +116,7 @@
 #sell-show {
   max-height: 600px;
   height: 600px;
-  border: 1px solid gray;
+  border: 1px solid #dcdfe6;
 }
 .el-row {
   margin-bottom: 0px;
@@ -150,14 +167,20 @@
   cursor: pointer;
 }
 .item {
-  margin-top: -5px;
+  margin-top: -7px;
   margin-left: -5px;
+  z-index: 1000;
 }
 .sell-context {
-  padding: 10px;
+  padding: 0 10px;
 }
 .plain-color {
   background: #bec4ff54;
+}
+.sell-input {
+  padding: 10px 0 0 10px;
+  display: flex;
+  line-height: 32px;
 }
 .sell-title {
   padding: 10px 0;
@@ -170,5 +193,8 @@
 }
 .right {
   margin: 5px 0 0 5px !important;
+}
+.el-divider--horizontal {
+  margin: 10px 0 0 0;
 }
 </style>

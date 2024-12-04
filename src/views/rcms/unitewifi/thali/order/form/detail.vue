@@ -20,8 +20,8 @@ const props = defineProps<{
   tableColumns: PlusColumn[];
 }>();
 const newColumns = [...props.tableColumns];
-const emit = defineEmits(["createEvent"]);
+const emit = defineEmits(["dialogEvent"]);
 function handleClose() {
-  emit("createEvent");
+  emit("dialogEvent");
 }
 </script>
