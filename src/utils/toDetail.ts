@@ -37,7 +37,7 @@ export function useDetail() {
           // 如果使用的是非国际化精简版title可以像下面这么写
           // title: `No.${index} - 详情信息`,
           // 最大打开标签数
-          dynamicLevel: 3
+          dynamicLevel: 1
         }
       });
       // 路由跳转

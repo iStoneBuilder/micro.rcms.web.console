@@ -55,7 +55,6 @@ const { pageInfo, loading, tableColumns, buttons, selectData } =
   terminalManage();
 const plusPageInstance = ref<PlusPageInstance | null>(null);
 async function getList(query: PageInfo) {
-  console.log(query);
   loading.value = true;
   const { page = 1, pageSize = 15 } = query || {};
   const params = { ...query };
