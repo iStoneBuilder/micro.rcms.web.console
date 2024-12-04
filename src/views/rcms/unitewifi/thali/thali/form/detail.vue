@@ -40,6 +40,16 @@ const props = defineProps<{
 }>();
 const activeNames = ref(["1", "2"]);
 const newColumns = [...props.createColumns];
+newColumns.push({
+  label: "套餐规则",
+  prop: "dataPlanRules",
+  minWidth: 90,
+  align: "left",
+  valueType: "textarea",
+  colProps: {
+    span: 24
+  }
+});
 
 const source = ref(0);
 const outputValue = useTransition(source, {
