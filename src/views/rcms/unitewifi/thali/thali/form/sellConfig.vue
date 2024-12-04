@@ -66,7 +66,10 @@ const newColumns: PlusColumn[] = [
     options: getBussList(
       "/test/services/rcms/mifi/device-group/records",
       "groupName,groupId",
-      "groupId"
+      "groupId",
+      {
+        enterpriseId: rowData.enterpriseId
+      }
     )
   }
 ];

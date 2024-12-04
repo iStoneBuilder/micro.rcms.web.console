@@ -1,4 +1,7 @@
-<!--设备分组-->
+<!--
+设备分组
+需要判断选择数据为同一商户数据
+-->
 <script setup lang="ts">
 import { updateRecordGroup } from "@/api/mifi/device-manage";
 import { getBussList } from "@/api/rcms/common";
@@ -18,7 +21,10 @@ const groupColumns = [
     options: getBussList(
       "/test/services/rcms/mifi/device-group/records",
       "groupName,groupId",
-      "groupId"
+      "groupId",
+      {
+        enterpriseId: props.currentRow[0].enterpriseId
+      }
     )
   }
 ];
