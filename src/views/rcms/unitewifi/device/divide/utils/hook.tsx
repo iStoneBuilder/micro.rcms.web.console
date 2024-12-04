@@ -1,6 +1,7 @@
 import { ref } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 import { getBussList } from "@/api/rcms/common";
+import { getTenantId } from "@/utils/common";
 
 export function terminalManage() {
   const pageInfo = { page: 1, pageSize: 15 };
@@ -9,30 +10,35 @@ export function terminalManage() {
   const tableColumns: PlusColumn[] = [
     {
       label: "设备SN",
-      prop: "name",
+      prop: "deviceSn",
       width: 200,
-      align: "left",
-      cellRenderer: ({ row, props }) => (
-        <el-link size={props.size} style="color: var(--el-color-primary)">
-          {row.name}
-        </el-link>
-      ),
+      render(value) {
+        return (
+          <el-link href={"/#/device/detail?deviceSn=" + value} type="primary">
+            {value}
+          </el-link>
+        );
+      },
       tableColumnProps: {
         fixed: true
       }
     },
     {
       label: "商户",
-      prop: "name1",
+      prop: "enterpriseId",
       minWidth: 200,
-      align: "left",
-      hideInSearch: true
+      valueType: "select",
+      options: getBussList(
+        "/test/services/rcms/base/enterprise/records",
+        "name",
+        "id",
+        { id: getTenantId() }
+      )
     },
     {
       label: "设备类型",
-      prop: "name2",
-      minWidth: 200,
-      align: "left",
+      prop: "deviceType",
+      minWidth: 120,
       valueType: "select",
       options: getBussList(
         "/test/services/rcms/mifi/device-type/records",
@@ -43,15 +49,57 @@ export function terminalManage() {
     },
     {
       label: "入库批次",
-      prop: "name3",
+      prop: "batchNo",
+      minWidth: 200
+    }
+  ];
+  const divideColumns: PlusColumn[] = [
+    {
+      label: "分发批次号",
+      prop: "enterpriseId",
+      minWidth: 200
+    },
+    {
+      label: "处理数量",
+      prop: "deviceType",
+      minWidth: 120,
+      hideInSearch: true
+    },
+    {
+      label: "原商户",
+      prop: "batchNo",
       minWidth: 200,
-      align: "left"
+      hideInSearch: true
+    },
+    {
+      label: "目标商户",
+      prop: "batchNo",
+      minWidth: 200,
+      hideInSearch: true
+    },
+    {
+      label: "分发结果",
+      prop: "batchNo",
+      minWidth: 200,
+      hideInSearch: true
+    },
+    {
+      label: "操作者",
+      prop: "batchNo",
+      minWidth: 200
+    },
+    {
+      label: "操作时间",
+      prop: "batchNo",
+      minWidth: 200,
+      hideInSearch: true
     }
   ];
   return {
     pageInfo,
     loading,
     tableColumns,
+    divideColumns,
     selectData
   };
 }

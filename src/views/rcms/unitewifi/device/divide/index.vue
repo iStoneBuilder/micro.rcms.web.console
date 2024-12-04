@@ -36,7 +36,25 @@
             </template>
           </PlusPage>
         </el-tab-pane>
-        <el-tab-pane label="分发记录">Config</el-tab-pane>
+        <el-tab-pane label="分发记录">
+          <PlusPage
+            ref="plusPageInstance"
+            :columns="divideColumns"
+            :request="getList"
+            :search="{
+              labelWidth: '100px',
+              colProps: { span: 6 },
+              showNumber: 3
+            }"
+            :table="{
+              isSelection: true,
+              adaptive: { offsetBottom: 80 },
+              onSelectionChange: handleSelect
+            }"
+            :default-page-info="pageInfo"
+            :default-page-size-list="[5, 15, 20, 50]"
+          />
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -46,15 +64,17 @@
 import { ref } from "vue";
 import { terminalManage } from "./utils/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import { getPageRecordList } from "@/api/mifi/terminal";
+import { getPageRecordList } from "@/api/mifi/mifi-common";
 import type {
   PageInfo,
   ButtonsCallBackParams,
   PlusPageInstance
 } from "plus-pro-components";
 import Expand from "@iconify-icons/ep/expand";
+import { getEnterpriseId } from "@/utils/common";
 
-const { pageInfo, loading, tableColumns, selectData } = terminalManage();
+const { pageInfo, loading, tableColumns, divideColumns, selectData } =
+  terminalManage();
 const plusPageInstance = ref<PlusPageInstance | null>(null);
 async function getList(query: PageInfo) {
   loading.value = true;
@@ -62,7 +82,13 @@ async function getList(query: PageInfo) {
   const params = { ...query };
   delete params.page;
   delete params.pageSize;
-  const { data } = await getPageRecordList(page, pageSize, params);
+  params["enterpriseId"] = getEnterpriseId();
+  const { data } = await getPageRecordList(
+    "device-manage",
+    page,
+    pageSize,
+    params
+  );
   await new Promise(resolve => {
     setTimeout(() => {
       resolve("");

@@ -19,36 +19,7 @@
         }"
         :default-page-info="pageInfo"
         :default-page-size-list="[5, 15, 20, 50]"
-      >
-        <template #table-title>
-          <el-row class="button-row">
-            <el-button type="danger" plain :icon="useRenderIcon(Delete)">
-              删除
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Device)">
-              设备分组
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Active)">
-              设备激活
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Pointer)">
-              设备控制
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Wallet)">
-              设备充值
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Transform)">
-              转移套餐
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(ShutDown)">
-              设备停机
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(InitInstall)">
-              设备初始化
-            </el-button>
-          </el-row>
-        </template>
-      </PlusPage>
+      />
     </div>
   </div>
 </template>
@@ -56,22 +27,12 @@
 <script lang="tsx" setup>
 import { ref } from "vue";
 import { terminalManage } from "./utils/hook";
-import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import { getPageRecordList } from "@/api/mifi/terminal";
 import type {
   PageInfo,
   ButtonsCallBackParams,
   PlusPageInstance
 } from "plus-pro-components";
-import Delete from "@iconify-icons/ep/delete";
-import More from "@iconify-icons/ep/more-filled";
-import Device from "@iconify-icons/ep/cellphone";
-import Active from "@iconify-icons/ep/coin";
-import Pointer from "@iconify-icons/ep/pointer";
-import Wallet from "@iconify-icons/ep/wallet";
-import Transform from "@iconify-icons/ep/bottom-right";
-import ShutDown from "@iconify-icons/ri/shut-down-line";
-import InitInstall from "@iconify-icons/ri/install-line";
 
 const { pageInfo, loading, tableColumns, buttons, selectData } =
   terminalManage();

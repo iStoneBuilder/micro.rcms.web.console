@@ -9,83 +9,58 @@ export function terminalManage() {
   const tableColumns: PlusColumn[] = [
     {
       label: "设备SN",
-      prop: "name",
+      prop: "deviceSn",
       width: 200,
-      align: "left",
-      cellRenderer: ({ row, props }) => (
-        <el-link size={props.size} style="color: var(--el-color-primary)">
-          {row.name}
-        </el-link>
-      ),
       tableColumnProps: {
         fixed: true
       }
     },
     {
-      label: "IMEI",
-      prop: "name1",
-      width: 200,
-      align: "left"
+      label: "套餐名称",
+      prop: "dataPlanRules",
+      width: 300
     },
     {
-      label: "上网模式",
-      prop: "name2",
+      label: "剩余流量(MB)",
+      prop: "dataPlanRules",
       minWidth: 200,
-      align: "left"
+      hideInSearch: true
     },
     {
-      label: "在线?",
-      prop: "name3",
-      minWidth: 100,
-      align: "left"
-    },
-    {
-      label: "商户",
-      prop: "name4",
+      label: "当前已用流量(MB)",
+      prop: "dataPlanRules",
       minWidth: 200,
-      align: "left"
+      hideInSearch: true
     },
     {
-      label: "设备类型",
-      prop: "name5",
+      label: "总计已用流量(MB)",
+      prop: "dataPlanRules",
       minWidth: 200,
-      align: "left"
+      hideInSearch: true
     },
     {
-      label: "设备组",
-      prop: "name6",
+      label: "生效时间",
+      prop: "dataPlanRules",
       minWidth: 200,
-      align: "left"
+      hideInSearch: true
     },
     {
-      label: "选卡策略",
-      prop: "name7",
+      label: "过期时间",
+      prop: "dataPlanRules",
       minWidth: 200,
-      align: "left"
+      hideInSearch: true
     },
     {
-      label: "流量模式",
-      prop: "name9",
+      label: "是否限速",
+      prop: "dataPlanRules",
       minWidth: 200,
-      align: "left"
+      hideInSearch: true
     },
     {
-      label: "入库批次号",
-      prop: "name10",
+      label: "限速值(Kbps)",
+      prop: "dataPlanRules",
       minWidth: 200,
-      align: "left"
-    },
-    {
-      label: "检测状态",
-      prop: "name11",
-      minWidth: 200,
-      align: "left"
-    },
-    {
-      label: "设备状态",
-      prop: "name12",
-      minWidth: 200,
-      align: "left"
+      hideInSearch: true
     }
   ];
   const { buttons } = useTable();
