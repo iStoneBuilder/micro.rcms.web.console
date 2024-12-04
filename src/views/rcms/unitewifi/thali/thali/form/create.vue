@@ -218,3 +218,8 @@ function handleClose(op = "cancel") {
     </PlusForm>
   </el-card>
 </template>
+<style scoped>
+.el-form {
+  margin-right: 50px;
+}
+</style>

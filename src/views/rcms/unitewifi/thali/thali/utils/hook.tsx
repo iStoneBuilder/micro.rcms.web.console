@@ -171,7 +171,7 @@ export function terminalManage() {
     },
     {
       text: "编辑",
-      code: "update",
+      code: "create",
       props: { type: "primary", plain: true }
     },
     {

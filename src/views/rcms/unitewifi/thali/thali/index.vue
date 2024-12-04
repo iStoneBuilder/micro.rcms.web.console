@@ -32,14 +32,19 @@
               type="primary"
               plain
               :icon="Plus"
-              @click="handleCreate('新增', 'create')"
+              @click="handleCreate({ text: '新增', code: 'create' })"
             >
               新增
             </el-button>
             <el-button
               type="success"
               plain
-              @click="handleCreate('销售效果展示 - ', 'sellShow')"
+              @click="
+                handleCreate(
+                  { text: '销售效果展示 - ', code: 'sellShow' },
+                  '400'
+                )
+              "
             >
               销售展示效果
             </el-button>
@@ -50,7 +55,7 @@
     <PlusDialog
       v-if="show"
       v-model="show"
-      :title="title + '套餐'"
+      :title="'套餐-' + title"
       :hasFooter="false"
       :showClose="currForm === 'sellShow'"
       :width="dWidth"
@@ -70,6 +75,11 @@
         v-if="currForm === 'detail'"
         :currentRow="currentRow"
         :createColumns="createColumns"
+        @dialogEvent="handleCreateBack"
+      />
+      <SellConfig
+        v-if="currForm === 'setting'"
+        :currentRow="currentRow"
         @dialogEvent="handleCreateBack"
       />
     </PlusDialog>
@@ -93,6 +103,7 @@ import { Plus } from "@element-plus/icons-vue";
 import CreateForm from "./form/create.vue";
 import SellShow from "./form/sellShow.vue";
 import DetailForm from "./form/detail.vue";
+import SellConfig from "./form/sellConfig.vue";
 
 const service = "data-plan";
 const { pageInfo, loading, tableColumns, buttons, selectData } =
@@ -117,16 +128,20 @@ async function getList(query: PageInfo) {
 // 列表按钮
 const handleOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
   switch (buttonRow.code) {
-    case "update":
+    case "create":
       currentRow.value = row;
-      handleCreate("编辑", "create");
+      handleCreate(buttonRow);
       break;
     case "delete":
       handleDelete(row);
       break;
     case "detail":
       currentRow.value = row;
-      handleCreate("详情-", "detail");
+      handleCreate(buttonRow, "70%");
+      break;
+    case "setting":
+      currentRow.value = row;
+      handleCreate(buttonRow, "600");
       break;
   }
 };
@@ -141,16 +156,10 @@ const show = ref(false);
 const title = ref("");
 const currentRow = ref(null);
 const currForm = ref("create");
-function handleCreate(ops = "新增", view: string) {
-  currForm.value = view;
-  dWidth.value = "800";
-  if (view === "sellShow") {
-    dWidth.value = "400";
-  }
-  if (view === "detail") {
-    dWidth.value = "70%";
-  }
-  title.value = ops;
+function handleCreate(btn, dwt?: string) {
+  currForm.value = btn.code;
+  dWidth.value = dwt || "880";
+  title.value = btn.text;
   show.value = true;
 }
 function handleCreateBack(op) {
