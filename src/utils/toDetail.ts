@@ -33,7 +33,10 @@ export function useDetail() {
         name: _router.name,
         query: parameter,
         meta: {
-          title: _router.meta.title,
+          title:
+            _router.meta.title === "设备详情"
+              ? "详情｜设备SN：" + parameter["deviceSn"]
+              : _router.meta.title,
           // 如果使用的是非国际化精简版title可以像下面这么写
           // title: `No.${index} - 详情信息`,
           // 最大打开标签数
@@ -48,7 +51,10 @@ export function useDetail() {
         name: _router.name,
         params: parameter,
         meta: {
-          title: _router.meta.title
+          title:
+            _router.meta.title === "设备详情"
+              ? "详情｜设备SN：" + parameter["deviceSn"]
+              : _router.meta.title
           // 如果使用的是非国际化精简版title可以像下面这么写
           // title: `No.${index} - 详情信息`,
         }

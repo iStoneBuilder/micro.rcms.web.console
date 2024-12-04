@@ -1,18 +1,18 @@
 <template>
   <div class="demo-collapse">
     <el-collapse v-model="activeNames">
-      <el-collapse-item title="ICCID信息" name="1">
-        <PlusDescriptions
-          :column="2"
-          :columns="iccidColumns"
-          :data="iccidInfo"
-          :label-width="180"
-        />
-      </el-collapse-item>
       <el-collapse-item title="设备信息" name="2">
         <PlusDescriptions
           :column="2"
           :columns="deviceColumns"
+          :data="iccidInfo"
+          :label-width="180"
+        />
+      </el-collapse-item>
+      <el-collapse-item title="ICCID信息" name="1">
+        <PlusDescriptions
+          :column="2"
+          :columns="iccidColumns"
           :data="iccidInfo"
           :label-width="180"
         />
