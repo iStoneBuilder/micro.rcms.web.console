@@ -113,6 +113,21 @@
     background: white;
     padding: 5px 14px;
   }
+  .el-collapse {
+    border-bottom: none !important;
+    border-top: none !important;
+    min-height: calc(100vh - 246px);
+    padding: 0 10px;
+    .el-collapse-item__header{
+      font-size: 16px;
+    }
+    .el-descriptions__header{
+      display: none;
+    }
+    .el-collapse-item__content{
+      padding-bottom: 15px;
+    }
+  }
 }
 .rcms-plus-dialog{
   min-height: 80%;

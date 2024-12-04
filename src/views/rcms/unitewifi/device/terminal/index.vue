@@ -168,6 +168,3 @@ function handleCallBack(op) {
   }
 }
 </script>
-
-function defineOptions(arg0: { name: string; }) { throw new Error("Function not
-implemented."); }

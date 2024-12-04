@@ -26,6 +26,8 @@ import "./assets/iconfont/iconfont.js";
 import "./assets/iconfont/iconfont.css";
 // 导入plus-pro-components 及其样式
 import "plus-pro-components/index.css";
+// 自定义样式
+import "./style/rcms.scss";
 import PlusProComponents from "plus-pro-components";
 const app = createApp(App);
 app.use(PlusProComponents);
