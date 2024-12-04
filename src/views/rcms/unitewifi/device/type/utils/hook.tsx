@@ -37,7 +37,8 @@ export function terminalManage() {
       minWidth: 100,
       align: "left",
       valueType: "select",
-      options: getItemList("MIFI_DEVICE_NO")
+      options: getItemList("MIFI_DEVICE_NO"),
+      hideInSearch: true
     },
     {
       label: "本地卡模式",
@@ -45,7 +46,8 @@ export function terminalManage() {
       minWidth: 100,
       align: "left",
       valueType: "select",
-      options: getItemList("MIFI_CARD_MODE")
+      options: getItemList("MIFI_CARD_MODE"),
+      hideInSearch: true
     },
     {
       label: "状态",
@@ -53,13 +55,15 @@ export function terminalManage() {
       minWidth: 100,
       align: "left",
       valueType: "select",
-      options: getItemList("MIFI_TYPE_STATUS")
+      options: getItemList("MIFI_TYPE_STATUS"),
+      hideInSearch: true
     },
     {
       label: "备注",
       prop: "remark",
       minWidth: 200,
-      align: "left"
+      align: "left",
+      hideInSearch: true
     }
   ];
   const { buttons } = useTable();

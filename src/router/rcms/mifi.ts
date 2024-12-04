@@ -33,7 +33,6 @@ export default [
   {
     path: "/device",
     name: "设备管理",
-    component: () => import("@/views/rcms/unitewifi/device/terminal/index.vue"),
     meta: {
       icon: "ri:device-line",
       title: "设备管理",
@@ -42,12 +41,24 @@ export default [
     children: [
       {
         path: "/device/terminal",
-        name: "Welcome21",
+        name: "DeviceTerminal",
         component: () =>
           import("@/views/rcms/unitewifi/device/terminal/index.vue"),
         meta: {
           title: "终端设备",
           showLink: true
+        }
+      },
+
+      {
+        path: "/device/detail",
+        name: "DeviceDetail",
+        component: () =>
+          import("@/views/rcms/unitewifi/device/terminal/form/detail.vue"),
+        meta: {
+          title: "设备详情",
+          showLink: false,
+          activePath: "/device/terminal"
         }
       },
       {

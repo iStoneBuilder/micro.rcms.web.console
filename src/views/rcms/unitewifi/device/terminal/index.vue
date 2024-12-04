@@ -75,7 +75,7 @@
 </template>
 
 <script lang="tsx" setup>
-import { ref, h } from "vue";
+import { ref, defineOptions } from "vue";
 import { terminalManage } from "./utils/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import { getPageRecordList } from "@/api/mifi/device-manage";
@@ -91,6 +91,10 @@ import ActiveForm from "./form/active.vue";
 import ControlForm from "./form/control.vue";
 
 import { message } from "@/utils/message";
+
+defineOptions({
+  name: "DeviceTerminal"
+});
 
 const {
   pageInfo,
@@ -165,3 +169,6 @@ function handleCallBack(op) {
   }
 }
 </script>
+
+function defineOptions(arg0: { name: string; }) { throw new Error("Function not
+implemented."); }

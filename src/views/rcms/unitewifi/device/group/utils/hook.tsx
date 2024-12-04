@@ -38,7 +38,8 @@ export function terminalManage() {
       label: "备注",
       prop: "remark",
       minWidth: 200,
-      align: "left"
+      align: "left",
+      hideInSearch: true
     }
   ];
   const { buttons } = useTable();
