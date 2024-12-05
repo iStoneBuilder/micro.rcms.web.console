@@ -78,12 +78,6 @@
         v-if="currForm === 'sellShow'"
         @dialogEvent="handleCreateBack"
       />
-      <DetailForm
-        v-if="currForm === 'detail'"
-        :currentRow="currentRow"
-        :createColumns="createColumns"
-        @dialogEvent="handleCreateBack"
-      />
       <SellConfig
         v-if="currForm === 'setting'"
         :currentRow="currentRow"
@@ -111,6 +105,7 @@ import CreateForm from "./form/create.vue";
 import SellShow from "./form/sellShow.vue";
 import DetailForm from "./form/detail.vue";
 import SellConfig from "./form/sellConfig.vue";
+import { addDrawer } from "@/components/ReDrawer";
 
 const service = "data-plan";
 const { pageInfo, loading, tableColumns, buttons, selectData } =
@@ -164,6 +159,21 @@ const title = ref("");
 const currentRow = ref(null);
 const currForm = ref("create");
 function handleCreate(btn, dwt?: string) {
+  if (btn.code === "detail") {
+    addDrawer({
+      title: "套餐详情-" + currentRow.value["dataPlanName"],
+      size: "70%",
+      class: "rcms-drawer",
+      hideFooter: true,
+      contentRenderer: ({ index }) => (
+        <DetailForm
+          currentRow={currentRow.value}
+          createColumns={createColumns}
+        />
+      )
+    });
+    return;
+  }
   currForm.value = btn.code;
   dWidth.value = dwt || "880";
   title.value = btn.text;

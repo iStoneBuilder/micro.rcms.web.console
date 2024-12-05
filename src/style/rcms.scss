@@ -140,6 +140,16 @@
     }
   }
 }
+.rcms-drawer{
+  .el-drawer__header{
+    margin-bottom: 0;
+    border-bottom: 1px solid #eceef5;
+    padding: 16px 26px;
+  }
+  .el-drawer__body{
+    padding: 10px 20px 20px 20px;
+  }
+}
 .rcms-plus-dialog{
   min-height: 80%;
   .el-form-item--label-top{

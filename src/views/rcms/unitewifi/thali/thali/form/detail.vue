@@ -1,5 +1,5 @@
 <template>
-  <el-card id="el-detail">
+  <div class="rcms-plus-page">
     <el-collapse v-model="activeNames">
       <el-collapse-item title="套餐详情" name="1">
         <PlusDescriptions
@@ -24,13 +24,10 @@
         <div ref="pieChartRef" style="width: 100%; height: 44vh" />
       </el-collapse-item>
     </el-collapse>
-  </el-card>
-  <div style="margin-top: 16px; text-align: center">
-    <el-button type="primary" plain @click="handleClose()"> 关闭 </el-button>
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, defineProps, defineEmits, computed } from "vue";
+import { ref, defineProps, computed } from "vue";
 import { useTransition } from "@vueuse/core";
 import type { PlusColumn } from "plus-pro-components";
 import { useDark, useECharts } from "@pureadmin/utils";
@@ -88,22 +85,12 @@ setOptions({
     }
   ]
 });
-// --------------
-const emit = defineEmits(["dialogEvent"]);
-function handleClose() {
-  emit("dialogEvent");
-}
 </script>
 <style lang="scss" scoped>
-#el-detail {
-  height: calc(100vh - 340px);
-  max-height: calc(100vh - 300px);
-  overflow-y: scroll;
-}
-.el-collapse {
-  --el-collapse-header-font-size: 18px;
-}
 .el-col {
   text-align: center;
+}
+.el-drawer__body {
+  padding: 0 20px !important;
 }
 </style>
