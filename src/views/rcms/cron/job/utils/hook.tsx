@@ -1,6 +1,5 @@
 import { h } from "vue";
 import type { PlusColumn } from "plus-pro-components";
-
 export function buildTableColum() {
   const tableColumns: PlusColumn[] = [
     {

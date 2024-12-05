@@ -2,6 +2,7 @@ import { h } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 import { Delete, EditPen } from "@element-plus/icons-vue";
 import { getItemList } from "@/api/rcms/common";
+import { useDetail } from "@/utils/toDetail";
 
 export const tableButtons = [
   { name: "编辑", type: "primary", perm: null, icon: EditPen },
@@ -9,23 +10,30 @@ export const tableButtons = [
 ];
 
 export function buildTableColum() {
+  const { toDetail } = useDetail();
   const tableColumns: PlusColumn[] = [
     {
       label: "分组编码",
       prop: "quartzGroupCode",
       minWidth: 100,
+      tableColumnProps: {
+        fixed: true
+      },
       render(value) {
         return (
           <el-link
-            href={"/#/cron/task?quartzGroupCode=" + value}
+            onClick={() => {
+              toDetail({ quartzGroupCode: value }, "query", {
+                path: "/cron/task",
+                name: "任务列表",
+                meta: { title: "任务列表" }
+              });
+            }}
             type="primary"
           >
             {value}
           </el-link>
         );
-      },
-      tableColumnProps: {
-        fixed: true
       }
     },
     {

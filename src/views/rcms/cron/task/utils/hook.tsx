@@ -2,6 +2,7 @@ import { h } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 import { Delete, EditPen } from "@element-plus/icons-vue";
 import { getItemList, getBussList } from "@/api/rcms/common";
+import { useDetail } from "@/utils/toDetail";
 
 export const enabledData: Array<any> = [];
 
@@ -30,6 +31,7 @@ export const enabledFlag = {
   enable: "启用"
 };
 export function buildTableColum() {
+  const { toDetail } = useDetail();
   const tableColumns: PlusColumn[] = [
     {
       label: "任务名称",
@@ -37,7 +39,16 @@ export function buildTableColum() {
       width: 200,
       render(value) {
         return (
-          <el-link href={"/#/cron/job?quartzName=" + value} type="primary">
+          <el-link
+            onClick={() => {
+              toDetail({ quartzName: value }, "query", {
+                path: "/cron/job",
+                name: "任务调度列表",
+                meta: { title: "任务调度列表" }
+              });
+            }}
+            type="primary"
+          >
             {value}
           </el-link>
         );
