@@ -159,8 +159,7 @@ const tableConfig: PlusColumn[] = [
   {
     label: "权限编码",
     minWidth: 300,
-    prop: "authCode",
-    hideInTable: true
+    prop: "authCode"
   },
   {
     label: "服务提供商",

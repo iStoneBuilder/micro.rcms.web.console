@@ -38,6 +38,7 @@ export default [
       title: "设备管理",
       showLink: true
     },
+    redirect: "/device/terminal",
     children: [
       {
         path: "/device/terminal",
