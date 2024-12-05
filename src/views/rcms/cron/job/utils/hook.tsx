@@ -43,7 +43,8 @@ export function buildTableColum() {
       prop: "responseBody",
       minWidth: 320,
       tableColumnProps: {
-        align: "center"
+        align: "center",
+        showOverflowTooltip: true
       }
     },
     {

@@ -126,7 +126,7 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 #mapview {
-  height: calc(100vh - 390px);
+  height: calc(100vh - 376px);
   width: 360px;
 }
 :deep(.amap-marker-label) {
