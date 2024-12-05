@@ -5,90 +5,62 @@
         title="任务列表：企业级数据；数据创建者可以操作相应数据。"
         type="success"
       />
-      <el-card>
-        <PlusSearch
-          v-model="searchForm"
-          :columns="searchColumns"
-          :show-number="3"
-          :col-props="{ xs: 1, sm: 1, md: 6, lg: 6, xl: 6 }"
-          :label-width="100"
-          @change="handleChange"
-          @search="handleSearch"
-          @reset="handleReset"
-        />
-      </el-card>
-      <el-card>
-        <PlusTable
-          :loadingStatus="loading"
-          table-layout="auto"
-          showOverflowTooltip
-          :columns="tableColumns"
-          :table-data="tableData"
-          :is-selection="true"
-          has-index-column
-          :index-table-column-props="{
-            label: '序号',
-            width: 60
-          }"
-          :adaptive="{
-            offsetBottom: 80
-          }"
-          :pagination="{
-            modelValue: pageInfo,
-            pageSizeList: pageSizeList,
-            pageSize: 15,
-            total: total
-          }"
-          :action-bar="{
-            buttons,
-            width: 100
-          }"
-          @paginationChange="handlePageChange"
-          @selection-change="handleSelectChange"
-          @clickAction="handleClickButton"
-        >
-          <template #title>
-            <el-button type="primary" plain :icon="Plus" @click="handleCreate"
-              >新增</el-button
-            >
-            <el-popover
-              placement="top-start"
-              title=""
-              :width="200"
-              trigger="hover"
-              content="未启用/已停用的任务才允许启用，已启用的才允许停用"
-              ><template #reference>
-                <el-button
-                  type="primary"
-                  plain
-                  :icon="SetUp"
-                  @click="handleStart"
-                  >启用｜停用</el-button
-                >
-              </template>
-            </el-popover>
-            <el-popover
-              placement="top-start"
-              title=""
-              :width="200"
-              trigger="hover"
-              content="已启用的才允许暂停，已暂停的任务才允许恢复"
-              ><template #reference>
-                <el-button
-                  type="primary"
-                  plain
-                  :icon="Stopwatch"
-                  @click="handlePause"
-                  >暂停｜恢复</el-button
-                >
-              </template>
-            </el-popover>
-            <el-button type="danger" plain :icon="Delete" @click="handleDelete"
-              >删除</el-button
-            >
-          </template>
-        </PlusTable>
-      </el-card>
+      <PlusPage
+        ref="plusPageInstance"
+        :columns="tableColumns"
+        :request="getList"
+        :search="{
+          labelWidth: '100px',
+          colProps: { span: 6 },
+          showNumber: 3
+        }"
+        :table="{
+          isSelection: true,
+          adaptive: { offsetBottom: 70 },
+          actionBar: { buttons, width: 100, type: 'link', showNumber: 4 },
+          onClickAction: handleOption,
+          onSelectionChange: handleSelect
+        }"
+        :default-page-info="pageInfo"
+        :default-page-size-list="pageSizeList"
+      >
+        <template #table-title>
+          <el-button type="primary" plain :icon="Plus" @click="handleCreate()"
+            >新增</el-button
+          >
+          <el-popover
+            placement="top-start"
+            title=""
+            :width="200"
+            trigger="hover"
+            content="未启用/已停用的任务才允许启用，已启用的才允许停用"
+            ><template #reference>
+              <el-button type="primary" plain :icon="SetUp" @click="handleStart"
+                >启用｜停用</el-button
+              >
+            </template>
+          </el-popover>
+          <el-popover
+            placement="top-start"
+            title=""
+            :width="200"
+            trigger="hover"
+            content="已启用的才允许暂停，已暂停的任务才允许恢复"
+            ><template #reference>
+              <el-button
+                type="primary"
+                plain
+                :icon="Stopwatch"
+                @click="handlePause"
+                >暂停｜恢复</el-button
+              >
+            </template>
+          </el-popover>
+          <el-button type="danger" plain :icon="Delete" @click="handleDelete()"
+            >删除</el-button
+          >
+        </template>
+      </PlusPage>
     </div>
     <PlusDialog
       v-model="show"
@@ -144,23 +116,11 @@ import type {
   PageInfo,
   PlusColumn,
   FieldValues,
-  ButtonsCallBackParams
+  ButtonsCallBackParams,
+  PlusPageInstance
 } from "plus-pro-components";
-import {
-  Plus,
-  Delete,
-  Edit,
-  Stopwatch,
-  SetUp,
-  ArrowRight
-} from "@element-plus/icons-vue";
-import {
-  searchColumns,
-  buildTableColum,
-  enabled,
-  groups,
-  createRules
-} from "./utils/hook";
+import { Plus, Delete, Edit, Stopwatch, SetUp } from "@element-plus/icons-vue";
+import { buildTableColum, groups, createRules } from "./utils/hook";
 import { message } from "@/utils/message";
 import {
   getCornTaskPageList,
@@ -173,31 +133,21 @@ import { getItemList } from "@/api/rcms/common";
 
 // --- 查询条件区域 ---
 const searchForm = ref({});
-const handleChange = (values: any) => {
-  search();
-};
-const handleSearch = (values: any) => {
-  search();
-};
-const handleReset = () => {
-  search();
-};
 // --- Table ---
 const createTitle = ref("新增");
 const pageSizeList = [5, 15, 50, 100, 200];
 const loading = ref(false);
-const { tableData, total, pageInfo, buttons } = useTable<Array<any>>();
+const { pageInfo, buttons } = useTable<Array<any>>();
 pageInfo.value.pageSize = 15;
 const multipleSelection = ref<Array<any>>([]);
 // 列表按钮操作
-const handleClickButton = (params: ButtonsCallBackParams) => {
-  console.log("列表按钮操作", params);
-  switch (params.text) {
-    case "编辑":
-      handleCreate(params.e, params.row);
+const handleOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
+  switch (buttonRow.code) {
+    case "edit":
+      handleCreate(row);
       break;
-    case "删除":
-      handleDelete(params.e, params.row);
+    case "delete":
+      handleDelete(row);
       break;
   }
 };
@@ -221,31 +171,29 @@ buttons.value = [
     props: computed(() => ({ type: "danger" }))
   }
 ];
-const search = async () => {
+
+async function getList(query: PageInfo) {
   loading.value = true;
-  const { data } = await getCornTaskPageList(
-    pageInfo.value.page,
-    pageInfo.value.pageSize,
-    searchForm.value
-  );
-  tableData.value = data.data;
-  total.value = data.meta.totalRows;
-  // 等待2s
+  const { page = 1, pageSize = 15 } = query || {};
+  const params = { ...query };
+  delete params.page;
+  delete params.pageSize;
+  const { data } = await getCornTaskPageList(page, pageSize, params);
   await new Promise(resolve => {
     setTimeout(() => {
       resolve("");
-    }, 500);
+    }, 100);
   });
-  loading.value = false;
+  return { data: data.data, success: true, total: data.meta.totalRows };
+}
+const plusPageInstance = ref<PlusPageInstance | null>(null);
+const search = () => {
+  plusPageInstance.value?.getList();
 };
-const handlePageChange = (_pageInfo: PageInfo): void => {
-  pageInfo.value = _pageInfo;
-  search();
+const handleSelect = (data: any) => {
+  multipleSelection.value = data;
 };
-const handleSelectChange = (val: Array<any>) => {
-  multipleSelection.value = val;
-};
-const handleCreate = (e?: Object, row?: FieldValues) => {
+const handleCreate = (row?: FieldValues) => {
   row
     ? ((createTitle.value = "编辑"),
       ((row.isEdit = true), (createForm.value = row)))
@@ -321,7 +269,7 @@ const handlePause = async () => {
     type: "warning"
   });
 };
-const handleDelete = (e?: Object, row?: FieldValues) => {
+const handleDelete = (row?: FieldValues) => {
   if (!row && multipleSelection.value.length === 0) {
     message("请至少选择一条数据", {
       duration: 3000,
