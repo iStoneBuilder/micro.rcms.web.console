@@ -7,6 +7,13 @@
 <template>
   <div>
     <div class="rcms-plus-page">
+      <el-alert title="套餐配置" type="success">
+        <div class="alert-item">
+          <p>
+            商户级数据；允许查看当前商户及下级商户数据；已售卖的套餐部分禁止修改，禁止删除（不让销售直接下架）；未销售的套餐可以直接删除，不需要下架；禁止跨商户操作数据。
+          </p>
+        </div>
+      </el-alert>
       <PlusPage
         ref="plusPageInstance"
         :columns="tableColumns"

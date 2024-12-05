@@ -170,6 +170,36 @@ export const hasPerms = (value: string | Array<string>): boolean => {
     : isIncludeAllChildren(value, permissions);
   return isAuths ? true : false;
 };
+/** 先判断操作权限，再判断数据权限 */
+export const hasDataPerms = (
+  value: string | Array<string>,
+  level?: string
+): boolean => {
+  // 没有配置不需要判断操作权限
+  if (!value) return true;
+  // 不需要数据权限判断，直接判断操作权限
+  if (!level) {
+    return hasPerms(value);
+  } else {
+    if (hasPerms(value)) {
+      // tenantId,enterpriseId,person: 租户级，企业级，创建者级
+      const userInfo = getUserInfo();
+      const tenantId = userInfo.extraInfo.tenantId;
+      const enterpriseId = userInfo.extraInfo.id;
+      const username = userInfo.username;
+      if (level.startsWith("tenantId:")) {
+        return level === "tenantId:" + tenantId;
+      }
+      if (level.startsWith("enterpriseId:")) {
+        return level === "enterpriseId:" + enterpriseId;
+      }
+      if (level.startsWith("created:")) {
+        return level === "created:" + username;
+      }
+    }
+  }
+  return false;
+};
 
 export type btn = {
   name: string;

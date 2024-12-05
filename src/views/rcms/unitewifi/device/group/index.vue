@@ -2,6 +2,13 @@
 <template>
   <div>
     <div class="rcms-plus-page">
+      <el-alert title="设备分组" type="success">
+        <div class="alert-item">
+          <p>
+            商户级数据；允许查看当前商户及下级商户数据；设备关联设备分组必须为同一商户数据；已设备关联了设备分组的数据禁止删除。
+          </p>
+        </div>
+      </el-alert>
       <PlusPage
         ref="plusPageInstance"
         :columns="tableColumns"

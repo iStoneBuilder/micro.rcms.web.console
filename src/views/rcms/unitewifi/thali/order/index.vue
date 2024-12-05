@@ -1,6 +1,13 @@
 <template>
   <div>
     <div class="rcms-plus-page">
+      <el-alert title="套餐订单" type="success">
+        <div class="alert-item">
+          <p>
+            商户级数据；允许查看当前商户及下级商户数据；禁止跨商户操作数据。
+          </p>
+        </div>
+      </el-alert>
       <PlusPage
         ref="plusPageInstance"
         :columns="tableColumns"

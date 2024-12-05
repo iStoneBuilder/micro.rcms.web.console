@@ -8,6 +8,13 @@
 <template>
   <div>
     <div class="rcms-plus-page">
+      <el-alert title="设备分发" type="success">
+        <div class="alert-item">
+          <p>
+            商户级数据；只允许分发当前商户数据到下级商户，分发数据时清空分发设备的设备分组、设备关联的ICCID的商户信息。
+          </p>
+        </div>
+      </el-alert>
       <el-tabs>
         <el-tab-pane label="设备分发">
           <PlusPage
@@ -48,7 +55,7 @@
             }"
             :table="{
               isSelection: true,
-              adaptive: { offsetBottom: 80 },
+              adaptive: { offsetBottom: 450 },
               onSelectionChange: handleSelect
             }"
             :default-page-info="pageInfo"

@@ -1,18 +1,13 @@
 import { h, Fragment } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 import type { FormRules } from "element-plus";
-import { Delete, Setting, EditPen } from "@element-plus/icons-vue";
+import { Delete, EditPen } from "@element-plus/icons-vue";
 import { renderPermBtn } from "@/utils/auth";
 
 export const defaultPageInfo = {
   page: 1,
   pageSize: 15
 };
-export const buttons = [
-  { name: "编辑", type: "primary", perm: null, icon: EditPen },
-  { name: "删除", type: "danger", perm: null, icon: Delete },
-  { name: "API配置", type: "primary", perm: "aaa", icon: Setting }
-];
 export function buildColum() {
   const columns: PlusColumn[] = [
     {

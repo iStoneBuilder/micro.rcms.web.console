@@ -1,6 +1,11 @@
 <template>
   <div>
     <div class="rcms-plus-page">
+      <el-alert title="设备实名" type="success">
+        <div class="alert-item">
+          <p>商户级数据；允许当前商户及下级商户数据。</p>
+        </div>
+      </el-alert>
       <PlusPage
         ref="plusPageInstance"
         :columns="tableColumns"

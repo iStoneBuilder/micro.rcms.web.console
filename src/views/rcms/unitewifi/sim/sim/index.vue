@@ -1,6 +1,13 @@
 <template>
   <div>
     <div class="rcms-plus-page">
+      <el-alert title="SIM卡" type="success">
+        <div class="alert-item">
+          <p>
+            商户级数据，可以查看当前商户及下级商户数据；只允许操作当前商户数据
+          </p>
+        </div>
+      </el-alert>
       <PlusPage
         ref="plusPageInstance"
         :columns="columns"

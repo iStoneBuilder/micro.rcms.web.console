@@ -133,6 +133,12 @@
       font-family: 'Courier New', Courier, monospace;
     }
   }
+  .alert-item{
+    padding: 0 10px;
+    p {
+      line-height: 30px;
+    }
+  }
 }
 .rcms-plus-dialog{
   min-height: 80%;

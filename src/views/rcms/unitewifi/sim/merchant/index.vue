@@ -1,5 +1,12 @@
 <template>
   <div class="rcms-plus-page">
+    <el-alert title="SIM卡商" type="success">
+      <div class="alert-item">
+        <p>
+          企业级数据，企业下所有商户均可查看、使用；编辑、删除、API配置权限只允许数据创建商户操作
+        </p>
+      </div>
+    </el-alert>
     <PlusPage
       ref="plusPageInstance"
       :columns="columns"
@@ -82,11 +89,11 @@ import type {
   PlusColumn,
   PageInfo,
   PlusPageInstance,
-  ButtonsCallBackParams
+  ButtonsCallBackParams,
+  ActionBarButtonsRow
 } from "plus-pro-components";
 import { useTable } from "plus-pro-components";
-
-import { Plus, Delete } from "@element-plus/icons-vue";
+import { Plus } from "@element-plus/icons-vue";
 import {
   getMerchantPageList,
   createMerchant,
@@ -94,10 +101,9 @@ import {
   deleteMerchant
 } from "@/api/mifi/merchant";
 import { ElMessageBox } from "element-plus";
-import { hasPerms } from "@/utils/auth";
+import { hasDataPerms, hasPerms } from "@/utils/auth";
 import Item from "./item.vue";
 import { defaultPageInfo, buildColum, State } from "./hook";
-import { error } from "console";
 
 const show = ref(false);
 const currentRow = ref({ merchantName: "" });
@@ -140,7 +146,13 @@ buttons.value = [
   {
     text: "编辑",
     code: "update",
-    props: { type: "primary" }
+    props: { type: "primary", permission: [] },
+    show: (row: any, index: number, button: ActionBarButtonsRow) => {
+      if (row && row["enterpriseId"]) {
+        return hasDataPerms(button.props["permission"]);
+      }
+      return false;
+    }
   },
   {
     text: "删除",

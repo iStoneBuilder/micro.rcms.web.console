@@ -1,6 +1,13 @@
 <template>
   <div>
     <div class="rcms-plus-page">
+      <el-alert title="设备类型" type="success">
+        <div class="alert-item">
+          <p>
+            企业级数据；所有商户均可查看操作所有数据；已设备关联了设备类型的数据禁止删除。
+          </p>
+        </div>
+      </el-alert>
       <PlusPage
         ref="plusPageInstance"
         :columns="tableColumns"
