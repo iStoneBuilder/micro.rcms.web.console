@@ -165,11 +165,6 @@ export function terminalManage() {
   const { buttons } = useTable();
   buttons.value = [
     {
-      text: "详情",
-      code: "detail",
-      props: { type: "primary", plain: true }
-    },
-    {
       text: "编辑",
       code: "create",
       props: { type: "primary", plain: true }

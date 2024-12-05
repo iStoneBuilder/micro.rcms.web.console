@@ -26,7 +26,7 @@
         :table="{
           isSelection: true,
           adaptive: { offsetBottom: 70 },
-          actionBar: { buttons, width: 210, type: 'link', showNumber: 4 },
+          actionBar: { buttons, width: 165, type: 'link', showNumber: 4 },
           onClickAction: handleOption,
           onSelectionChange: handleSelect
         }"
