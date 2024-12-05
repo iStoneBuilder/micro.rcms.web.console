@@ -21,7 +21,7 @@
           hasIndexColumn: true,
           isSelection: true,
           adaptive: { offsetBottom: 70 },
-          actionBar: { buttons, width: 200, type: 'link' },
+          actionBar: { buttons, width: 210, type: 'link', showNumber: 4 },
           onClickAction: handleTableOption
         }"
         :default-page-info="defaultPageInfo"

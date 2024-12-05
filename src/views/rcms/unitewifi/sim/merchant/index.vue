@@ -146,7 +146,7 @@ buttons.value = [
   {
     text: "编辑",
     code: "update",
-    props: { type: "primary", permission: [] },
+    props: { type: "primary", permission: "permission:merchant:update" },
     show: (row: any, index: number, button: ActionBarButtonsRow) => {
       if (row && row["enterpriseId"]) {
         return hasDataPerms(button.props["permission"]);
@@ -157,12 +157,27 @@ buttons.value = [
   {
     text: "删除",
     code: "delete",
-    props: { type: "danger" }
+    props: { type: "danger", permission: "permission:merchant:delete" },
+    show: (row: any, index: number, button: ActionBarButtonsRow) => {
+      if (row && row["enterpriseId"]) {
+        return hasDataPerms(button.props["permission"]);
+      }
+      return false;
+    }
   },
   {
     text: "API配置",
     code: "setting",
-    props: { type: "primary" }
+    props: {
+      type: "primary",
+      permission: "permission:merchant:carrier:page:query"
+    },
+    show: (row: any, index: number, button: ActionBarButtonsRow) => {
+      if (row && row["enterpriseId"]) {
+        return hasDataPerms(button.props["permission"]);
+      }
+      return false;
+    }
   }
 ];
 const handleTableOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
