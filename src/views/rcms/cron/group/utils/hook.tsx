@@ -1,32 +1,7 @@
 import { h } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 import { Delete, EditPen } from "@element-plus/icons-vue";
-
-export const searchColumns: PlusColumn[] = [
-  {
-    label: "分组编码",
-    prop: "quartzGroupCode"
-  },
-  {
-    label: "分组名称",
-    prop: "quartzGroupName"
-  },
-  {
-    label: "是否需要认证",
-    prop: "isAuthorized",
-    valueType: "select",
-    options: [
-      {
-        value: "Y",
-        label: "是"
-      },
-      {
-        value: "N",
-        label: "否"
-      }
-    ]
-  }
-];
+import { getItemList } from "@/api/rcms/common";
 
 export const tableButtons = [
   { name: "编辑", type: "primary", perm: null, icon: EditPen },
@@ -71,18 +46,22 @@ export function buildTableColum() {
             {value === "Y" ? "是" : "否"}
           </el-tag>
         );
-      }
+      },
+      valueType: "select",
+      options: getItemList("RCMS_SYS_YN")
     },
     {
       label: "创建时间",
       prop: "createDate",
       minWidth: 160,
-      valueType: "date-picker"
+      valueType: "date-picker",
+      hideInSearch: true
     },
     {
       label: "创建人",
       prop: "createBy",
-      minWidth: 200
+      minWidth: 200,
+      hideInSearch: true
     }
   ];
   return tableColumns;

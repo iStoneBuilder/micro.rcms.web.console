@@ -5,58 +5,46 @@
         title="任务组：企业级数据；数据创建者可以操作相应数据。"
         type="success"
       />
-      <el-card>
-        <PlusSearch
-          v-model="searchForm"
-          :columns="searchColumns"
-          :show-number="3"
-          :col-props="{ xs: 1, sm: 1, md: 6, lg: 6, xl: 6 }"
-          :label-width="100"
-          @change="handleChange"
-          @search="handleSearch"
-          @reset="handleReset"
-        />
-      </el-card>
-      <el-card>
-        <PlusTable
-          :loadingStatus="loading"
-          table-layout="auto"
-          showOverflowTooltip
-          :columns="tableColumns"
-          :table-data="tableData"
-          :is-selection="true"
-          has-index-column
-          :index-table-column-props="{
-            label: '序号',
-            width: 60
-          }"
-          :adaptive="{
-            offsetBottom: 80
-          }"
-          :pagination="{
-            modelValue: pageInfo,
-            pageSizeList: pageSizeList,
-            pageSize: 15,
-            total: total
-          }"
-          :action-bar="{
-            buttons,
-            width: 120
-          }"
-          @paginationChange="handlePageChange"
-          @selection-change="handleSelectChange"
-          @clickAction="handleClickButton"
-        >
-          <template #title>
-            <el-button type="primary" plain :icon="Plus" @click="handleCreate"
-              >新增</el-button
+      <PlusPage
+        ref="plusPageInstance"
+        :columns="tableColumns"
+        :request="getList"
+        :search="{
+          labelWidth: '100px',
+          colProps: { span: 6 },
+          showNumber: 3
+        }"
+        :table="{
+          isSelection: true,
+          adaptive: { offsetBottom: 70 },
+          actionBar: { buttons, width: 100, type: 'link', showNumber: 4 },
+          onClickAction: handleOption,
+          onSelectionChange: handleSelect
+        }"
+        :default-page-info="pageInfo"
+        :default-page-size-list="pageSizeList"
+      >
+        <template #table-title>
+          <el-row class="button-row">
+            <el-button
+              type="primary"
+              plain
+              :icon="Plus"
+              @click="handleCreate({ text: '新增', code: 'create' })"
             >
-            <el-button type="danger" plain :icon="Delete" @click="handleDelete"
-              >删除</el-button
+              新增
+            </el-button>
+            <el-button
+              type="danger"
+              :icon="Delete"
+              plain
+              @click="handleDelete()"
             >
-          </template>
-        </PlusTable>
-      </el-card>
+              删除
+            </el-button>
+          </el-row>
+        </template>
+      </PlusPage>
     </div>
     <PlusDialog
       v-model="show"
@@ -104,17 +92,18 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, reactive, toRefs, computed } from "vue";
+import { ref, computed } from "vue";
 import { ElMessageBox } from "element-plus";
 import { useTable } from "plus-pro-components";
 import type {
   PageInfo,
   PlusColumn,
   FieldValues,
-  ButtonsCallBackParams
+  ButtonsCallBackParams,
+  PlusPageInstance
 } from "plus-pro-components";
 import { Plus, Delete, Edit } from "@element-plus/icons-vue";
-import { searchColumns, buildTableColum } from "./utils/hook";
+import { buildTableColum } from "./utils/hook";
 import { message } from "@/utils/message";
 import {
   getCornGroupPageList,
@@ -124,36 +113,14 @@ import {
 } from "@/api/cron/group";
 import { getItemList } from "@/api/rcms/common";
 
-// --- 查询条件区域 ---
-const searchForm = ref({});
-const handleChange = (values: any) => {
-  search();
-};
-const handleSearch = (values: any) => {
-  search();
-};
-const handleReset = () => {
-  search();
-};
 // --- Table ---
 const createTitle = ref("新增");
 const pageSizeList = [5, 15, 50, 100, 200];
 const loading = ref(false);
-const { tableData, total, pageInfo, buttons } = useTable<Array<any>>();
+const { pageInfo, buttons } = useTable<Array<any>>();
 pageInfo.value.pageSize = 15;
 const multipleSelection = ref<Array<any>>([]);
-// 列表按钮操作
-const handleClickButton = (params: ButtonsCallBackParams) => {
-  console.log("列表按钮操作", params);
-  switch (params.text) {
-    case "编辑":
-      handleCreate(params.e, params.row);
-      break;
-    case "删除":
-      handleDelete(params.e, params.row);
-      break;
-  }
-};
+
 const tableColumns = buildTableColum();
 buttons.value = [
   {
@@ -175,29 +142,39 @@ buttons.value = [
     props: computed(() => ({ type: "danger" }))
   }
 ];
-const search = async () => {
+
+async function getList(query: PageInfo) {
   loading.value = true;
-  const { data } = await getCornGroupPageList(
-    pageInfo.value.page,
-    pageInfo.value.pageSize,
-    searchForm.value
-  );
-  tableData.value = data.data;
-  total.value = data.meta.totalRows;
-  // 等待2s
+  const { page = 1, pageSize = 15 } = query || {};
+  const params = { ...query };
+  delete params.page;
+  delete params.pageSize;
+  const { data } = await getCornGroupPageList(page, pageSize, params);
   await new Promise(resolve => {
     setTimeout(() => {
       resolve("");
-    }, 500);
+    }, 100);
   });
-  loading.value = false;
+  return { data: data.data, success: true, total: data.meta.totalRows };
+}
+
+const handleOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
+  switch (buttonRow.code) {
+    case "edit":
+      handleCreate(buttonRow.code, row);
+      break;
+    case "delete":
+      handleDelete(row);
+      break;
+  }
 };
-const handlePageChange = (_pageInfo: PageInfo): void => {
-  pageInfo.value = _pageInfo;
-  search();
+
+const handleSelect = (data: any) => {
+  multipleSelection.value = data;
 };
-const handleSelectChange = (val: Array<any>) => {
-  multipleSelection.value = val;
+const plusPageInstance = ref<PlusPageInstance | null>(null);
+const refresh = () => {
+  plusPageInstance.value?.getList();
 };
 const handleCreate = (e?: Object, row?: FieldValues) => {
   row
@@ -207,7 +184,7 @@ const handleCreate = (e?: Object, row?: FieldValues) => {
       (createForm.value = { isAuthorized: "N", isEdit: false }));
   show.value = true;
 };
-const handleDelete = (e?: Object, row?: FieldValues) => {
+const handleDelete = (row?: FieldValues) => {
   if (!row && multipleSelection.value.length === 0) {
     message("请至少选择一条数据", {
       duration: 3000,
@@ -230,16 +207,12 @@ const handleDelete = (e?: Object, row?: FieldValues) => {
           deleteCronGroup(item.quartzGroupId as string);
         });
       }
-      search();
+      refresh();
     })
     .catch(() => {
       console.log("取消删除");
     });
 };
-// --- 进入页面加载数据 ---
-onMounted(() => {
-  search();
-});
 
 // --- 编辑页面 ---
 const show = ref(false);
@@ -371,11 +344,11 @@ const handleSubmit = async (values: FieldValues) => {
       await createCronGroup(values);
     }
     show.value = false;
-    search();
   } catch (error) {
     console.log(values, error);
   }
   createLoading.value = false;
+  refresh();
 };
 const handleClose = () => {
   show.value = false;
