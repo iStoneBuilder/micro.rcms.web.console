@@ -20,25 +20,6 @@ export async function groups() {
   );
 }
 
-export const searchColumns: PlusColumn[] = [
-  {
-    label: "任务组",
-    valueType: "select",
-    prop: "quartzGroupCode",
-    options: groups()
-  },
-  {
-    label: "任务名称",
-    prop: "quartzGroupName"
-  },
-  {
-    label: "任务状态",
-    prop: "enabledFlag",
-    valueType: "select",
-    options: enabled()
-  }
-];
-
 export const tableButtons = [
   { name: "编辑", type: "primary", perm: null, icon: EditPen },
   { name: "删除", type: "danger", perm: null, icon: Delete }
@@ -75,12 +56,14 @@ export function buildTableColum() {
     {
       label: "Corn表达式",
       prop: "quartzCron",
-      minWidth: 140
+      minWidth: 140,
+      hideInSearch: true
     },
     {
       label: "请求地址",
       prop: "requestPath",
-      minWidth: 400
+      minWidth: 400,
+      hideInSearch: true
     },
     {
       label: "任务状态",
@@ -107,40 +90,47 @@ export function buildTableColum() {
               </el-tag>
             )
           : "";
-      }
+      },
+      hideInSearch: true
     },
     {
       label: "下次执行时间",
       prop: "nextExecTime",
       minWidth: 160,
-      valueType: "date-picker"
+      valueType: "date-picker",
+      hideInSearch: true
     },
     {
       label: "描述",
       prop: "quartzDesc",
-      minWidth: 200
+      minWidth: 200,
+      hideInSearch: true
     },
     {
       label: "创建时间",
       prop: "createDate",
       minWidth: 160,
-      valueType: "date-picker"
+      valueType: "date-picker",
+      hideInSearch: true
     },
     {
       label: "创建人",
       prop: "createBy",
-      minWidth: 160
+      minWidth: 160,
+      hideInSearch: true
     },
     {
       label: "更新时间",
       prop: "updateDate",
       minWidth: 160,
-      valueType: "date-picker"
+      valueType: "date-picker",
+      hideInSearch: true
     },
     {
       label: "更新人",
       prop: "updateBy",
-      minWidth: 160
+      minWidth: 160,
+      hideInSearch: true
     }
   ];
   return tableColumns;

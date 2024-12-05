@@ -171,7 +171,15 @@ buttons.value = [
     props: computed(() => ({ type: "danger" }))
   }
 ];
-
+const plusPageInstance = ref<PlusPageInstance | null>(null);
+const search = () => {
+  plusPageInstance.value?.getList();
+};
+const route = useRoute();
+const defaultValues = ref({});
+if (Object.keys(route.query).length > 0) {
+  defaultValues.value = { ...defaultValues.value, ...route.query };
+}
 async function getList(query: PageInfo) {
   loading.value = true;
   const { page = 1, pageSize = 15 } = query || {};
@@ -186,13 +194,15 @@ async function getList(query: PageInfo) {
   });
   return { data: data.data, success: true, total: data.meta.totalRows };
 }
-const plusPageInstance = ref<PlusPageInstance | null>(null);
-const search = () => {
-  plusPageInstance.value?.getList();
-};
+
+onMounted(async () => {
+  plusPageInstance.value.setSearchFieldsValue(defaultValues.value);
+  search();
+});
 const handleSelect = (data: any) => {
   multipleSelection.value = data;
 };
+
 const handleCreate = (row?: FieldValues) => {
   row
     ? ((createTitle.value = "编辑"),
@@ -298,15 +308,6 @@ const handleDelete = (row?: FieldValues) => {
       console.log("取消删除");
     });
 };
-
-const route = useRoute();
-// --- 进入页面加载数据 ---
-onMounted(async () => {
-  if (Object.keys(route.query).length > 0) {
-    searchForm.value = { ...searchForm.value, ...route.query };
-  }
-  search();
-});
 
 // --- 编辑页面 ---
 const show = ref(false);

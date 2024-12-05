@@ -1,13 +1,6 @@
 import { h } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 
-export const searchColumns: PlusColumn[] = [
-  {
-    label: "任务名称",
-    prop: "quartzName"
-  }
-];
-
 export function buildTableColum() {
   const tableColumns: PlusColumn[] = [
     {
