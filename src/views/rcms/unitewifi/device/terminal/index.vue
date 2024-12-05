@@ -98,20 +98,32 @@ import ActiveForm from "./form/active.vue";
 import ControlForm from "./form/control.vue";
 
 import { message } from "@/utils/message";
+import { useDetail } from "@/utils/toDetail";
 
 defineOptions({
   name: "DeviceTerminal"
 });
 
-const {
-  pageInfo,
-  loading,
-  tableColumns,
-  buttons,
-  selectData,
-  formRef,
-  barButton
-} = terminalManage();
+const { pageInfo, loading, tableColumns, buttons, selectData, barButton } =
+  terminalManage();
+const { toDetail } = useDetail();
+tableColumns[0].render = (value, data) => {
+  return (
+    <el-link
+      onClick={() => {
+        toDetail({ deviceSn: value }, "query", {
+          path: "/device/detail",
+          name: "DeviceDetail",
+          meta: { title: "详情｜设备SN：" + value }
+        });
+      }}
+      type="primary"
+    >
+      {value}
+    </el-link>
+  );
+};
+
 const plusPageInstance = ref<PlusPageInstance | null>(null);
 async function getList(query: PageInfo) {
   loading.value = true;

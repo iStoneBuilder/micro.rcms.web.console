@@ -24,13 +24,6 @@ export function terminalManage() {
       prop: "deviceSn",
       width: 200,
       align: "left",
-      render(value) {
-        return (
-          <el-link href={"/#/device/detail?deviceSn=" + value} type="primary">
-            {value}
-          </el-link>
-        );
-      },
       tableColumnProps: {
         fixed: true
       }

@@ -30,13 +30,14 @@
 import { ref, defineProps, computed } from "vue";
 import { useTransition } from "@vueuse/core";
 import type { PlusColumn } from "plus-pro-components";
-import { useDark, useECharts } from "@pureadmin/utils";
+import { cloneDeep, useDark, useECharts } from "@pureadmin/utils";
 const props = defineProps<{
   currentRow: any;
   createColumns: PlusColumn[];
 }>();
 const activeNames = ref(["1", "2"]);
-const newColumns = [...props.createColumns];
+const newColumns = cloneDeep(props.createColumns);
+delete newColumns[0].render;
 newColumns.push({
   label: "套餐规则",
   prop: "dataPlanRules",

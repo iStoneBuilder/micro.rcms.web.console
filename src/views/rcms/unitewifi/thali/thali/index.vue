@@ -110,6 +110,19 @@ import { addDrawer } from "@/components/ReDrawer";
 const service = "data-plan";
 const { pageInfo, loading, tableColumns, buttons, selectData } =
   terminalManage();
+tableColumns[0].render = (value, data) => {
+  return (
+    <el-link
+      onClick={() => {
+        currentRow.value = data["row"];
+        handleCreate({ code: "detail" }, "70%");
+      }}
+      type="primary"
+    >
+      {value}
+    </el-link>
+  );
+};
 const createColumns = [...tableColumns];
 const dWidth = ref("800");
 const plusPageInstance = ref<PlusPageInstance | null>(null);
