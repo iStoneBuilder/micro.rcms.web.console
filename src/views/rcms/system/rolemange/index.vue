@@ -115,12 +115,11 @@ function onFullscreen() {
               修改
             </el-button>
             <el-button
-              v-if="hasPerms('permission:role:authorize') && !row.disabled"
+              v-if="hasPerms('permission:role:authorize')"
               class="reset-margin"
               link
               :size="size"
-              :type="row.disabled ? 'info' : 'primary'"
-              :disabled="row.disabled"
+              :type="'primary'"
               @click="handleRolePerm(row)"
             >
               授权

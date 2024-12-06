@@ -110,7 +110,7 @@ export function useDept() {
     return newTreeList;
   }
   async function handleRolePerm(row?: FormItemProps) {
-    console.log(row);
+    
     addDrawer({
       title: "角色授权-" + row.name,
       size: "50%",

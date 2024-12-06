@@ -102,7 +102,6 @@ async function getList(query: PageInfo) {
 }
 // 列表按钮
 const handleOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
-  console.log(row);
   switch (buttonRow.code) {
     case "update":
       break;
