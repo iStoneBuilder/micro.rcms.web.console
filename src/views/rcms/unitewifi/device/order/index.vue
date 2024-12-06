@@ -3,7 +3,7 @@
     <div class="rcms-plus-page">
       <el-alert title="设备套餐" type="success">
         <div class="alert-item">
-          <p>商户级数据；允许当前商户及下级商户数据。</p>
+          <p>① 商户级数据，允许当前商户及下级商户数据。</p>
         </div>
       </el-alert>
       <PlusPage
@@ -18,7 +18,7 @@
         :table="{
           isSelection: true,
           adaptive: { offsetBottom: 70 },
-          actionBar: { buttons, width: 100, type: 'link' },
+          // actionBar: { buttons, width: 100, type: 'link' },
           onClickAction: handleOption,
           onSelectionChange: handleSelect
         }"

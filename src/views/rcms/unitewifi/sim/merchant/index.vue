@@ -3,7 +3,8 @@
     <el-alert title="SIM卡商" type="success">
       <div class="alert-item">
         <p>
-          企业级数据，企业下所有商户均可查看、使用；编辑、删除、API配置权限只允许数据创建商户操作
+          ① 企业级数据，企业下所有商户均可查看、使用； ②
+          编辑、删除、API配置权限只允许数据创建商户操作。
         </p>
       </div>
     </el-alert>

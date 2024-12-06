@@ -29,14 +29,18 @@ const newColumns: PlusColumn[] = [
     prop: "dataPlanNo",
     width: 130,
     align: "left",
-    disabled: true
+    fieldProps: {
+      disabled: true
+    }
   },
   {
     label: "套餐名",
     prop: "dataPlanName",
     width: 200,
     align: "left",
-    disabled: true
+    fieldProps: {
+      disabled: true
+    }
   },
   {
     label: "设备类型",

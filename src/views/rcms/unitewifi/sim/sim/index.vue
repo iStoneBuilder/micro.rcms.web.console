@@ -4,7 +4,8 @@
       <el-alert title="SIM卡" type="success">
         <div class="alert-item">
           <p>
-            商户级数据，可以查看当前商户及下级商户数据；只允许操作当前商户数据
+            ① 商户级数据，可以查看当前商户及下级商户数据；②
+            只允许操作当前商户数据；③ 未绑定设备的ICCID允许删除。
           </p>
         </div>
       </el-alert>
