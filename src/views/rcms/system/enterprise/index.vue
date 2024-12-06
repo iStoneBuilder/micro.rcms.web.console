@@ -158,4 +158,13 @@ function onFullscreen() {
     margin-bottom: 12px;
   }
 }
+
+:deep(.items-center) {
+  div:nth-child(1) {
+    display: flex;
+    .el-divider--vertical {
+      margin: 8px;
+    }
+  }
+}
 </style>

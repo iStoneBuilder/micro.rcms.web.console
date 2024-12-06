@@ -94,7 +94,7 @@ import { getAccountPageList } from "@/api/rcms/account";
 import {
   getPermissionPageList,
   refreshPerm,
-  authorizePerm
+  authorizeAppPerm
 } from "@/api/rcms/permission";
 
 const defaultPageInfo = {
@@ -265,7 +265,7 @@ async function handleAccountPerm() {
     });
     return;
   }
-  await authorizePerm(selectAccount.value, state.selectedData);
+  await authorizeAppPerm(selectAccount.value, state.selectedData);
   message(`授权成功`, {
     type: "success",
     duration: 1000

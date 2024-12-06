@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import editForm from "../form.vue";
+import editForm from "../form/form.vue";
 import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
 import { ElMessageBox } from "element-plus";
@@ -15,6 +15,8 @@ import { reactive, ref, onMounted, h } from "vue";
 import type { FormItemProps } from "./types";
 import { cloneDeep, isAllEmpty, deviceDetection } from "@pureadmin/utils";
 import { findSelected, getEnterpriseId } from "@/utils/common";
+import { addDrawer } from "@/components/ReDrawer";
+import PermForm from "../form/perm.vue";
 
 export function useDept() {
   const form = reactive({
@@ -65,7 +67,7 @@ export function useDept() {
     {
       label: "操作",
       fixed: "right",
-      width: 210,
+      width: 200,
       slot: "operation"
     }
   ];
@@ -81,19 +83,14 @@ export function useDept() {
     // 这里是返回一维数组结构，前端自行处理成树结构，返回格式要求：唯一id加父节点parentId，parentId取父节点id
     const { data } = await getRoleList({ id: getEnterpriseId() });
     let newData = data;
+    if (newData.length > 0) {
+      newData[0].disabled = true;
+    }
     if (!isAllEmpty(form.name)) {
       // 前端搜索部门名称
       newData = newData.filter(item => item.name.includes(form.name));
     }
-    if (!isAllEmpty(form.type)) {
-      // 前端搜索状态
-      newData = newData.filter(item => item.type === form.type);
-    }
-    const treeData = handleTree(newData);
-    if (treeData.length > 0) {
-      treeData[0].disabled = true;
-    }
-    dataList.value = treeData; // 处理成树结构
+    dataList.value = handleTree(newData); // 处理成树结构
     setTimeout(() => {
       loading.value = false;
     }, 500);
@@ -112,7 +109,18 @@ export function useDept() {
     }
     return newTreeList;
   }
-
+  async function handleRolePerm(row?: FormItemProps) {
+    console.log(row);
+    addDrawer({
+      title: "角色授权-" + row.name,
+      size: "50%",
+      class: "rcms-drawer",
+      hideFooter: true,
+      contentRenderer: ({}) => (
+        <PermForm currentRow={row} createColumns={columns} />
+      )
+    });
+  }
   async function openDialog(title = "新增", row?: FormItemProps) {
     const options = formatHigherDeptOptions(cloneDeep(dataList.value));
     const selected = findSelected(options, row?.parentId);
@@ -214,6 +222,7 @@ export function useDept() {
     /** 新增、修改部门 */
     openDialog,
     /** 删除部门 */
-    handleDelete
+    handleDelete,
+    handleRolePerm
   };
 }

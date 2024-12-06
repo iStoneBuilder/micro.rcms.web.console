@@ -94,8 +94,6 @@ class PureHttp {
                         config.headers["Authorization"] = formatToken(token);
                         PureHttp.requests.forEach(cb => cb(token));
                         PureHttp.requests = [];
-                        // 请求成功
-                        PureHttp.isRefreshing = false;
                       })
                       .finally(() => {
                         PureHttp.isRefreshing = false;

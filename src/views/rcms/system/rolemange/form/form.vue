@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, nextTick } from "vue";
 import ReCol from "@/components/ReCol";
-import { formRules } from "./utils/rule";
-import { FormProps } from "./utils/types";
-import { usePublicHooks } from "../../hooks";
+import { formRules } from "../utils/rule";
+import { FormProps } from "../utils/types";
+import { usePublicHooks } from "../../../hooks";
 import { findSelected } from "@/utils/common";
 import { getEnterpriseListByPid } from "@/api/rcms/enterprise";
 

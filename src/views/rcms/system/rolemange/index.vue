@@ -25,7 +25,8 @@ const {
   onSearch,
   resetForm,
   openDialog,
-  handleDelete
+  handleDelete,
+  handleRolePerm
 } = useDept();
 
 function onFullscreen() {
@@ -69,18 +70,10 @@ function onFullscreen() {
       title="角色管理"
       :columns="columns"
       :tableRef="tableRef?.getTableRef()"
+      class="rcms-tab-bar"
       @refresh="onSearch"
       @fullscreen="onFullscreen"
     >
-      <template #buttons>
-        <el-button
-          type="primary"
-          :icon="useRenderIcon(AddFill)"
-          @click="openDialog()"
-        >
-          新增
-        </el-button>
-      </template>
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
           ref="tableRef"
@@ -102,36 +95,43 @@ function onFullscreen() {
         >
           <template #operation="{ row }">
             <el-button
+              v-if="hasPerms('permission:role:create')"
+              class="reset-margin"
+              link
+              :type="'primary'"
+              :size="size"
+              @click="openDialog('新增', { parentId: row.id } as any)"
+            >
+              新增
+            </el-button>
+            <el-button
               v-if="hasPerms('permission:role:update')"
               class="reset-margin"
               link
-              :type="row.parentId == 0 ? 'info' : 'primary'"
+              :type="'primary'"
               :size="size"
-              :icon="useRenderIcon(EditPen)"
-              :disabled="row.disabled"
               @click="openDialog('修改', row)"
             >
               修改
             </el-button>
             <el-button
-              v-if="hasPerms('permission:role:permission')"
+              v-if="hasPerms('permission:role:authorize') && !row.disabled"
               class="reset-margin"
               link
-              type="primary"
               :size="size"
-              :icon="useRenderIcon(Menu)"
-              @click="openDialog('权限', { parentId: row.id } as any)"
+              :type="row.disabled ? 'info' : 'primary'"
+              :disabled="row.disabled"
+              @click="handleRolePerm(row)"
             >
-              权限
+              授权
             </el-button>
             <el-button
-              v-if="hasPerms('permission:enterprise:delete')"
+              v-if="hasPerms('permission:role:delete') && !row.disabled"
               class="reset-margin"
               link
-              :type="row.parentId == 0 ? 'info' : 'primary'"
+              :type="row.disabled ? 'info' : 'primary'"
               :size="size"
               :disabled="row.disabled"
-              :icon="useRenderIcon(Delete)"
               @click="handleDelete(row)"
             >
               删除
@@ -147,10 +147,17 @@ function onFullscreen() {
 :deep(.el-table__inner-wrapper::before) {
   height: 0;
 }
-
 .search-form {
   :deep(.el-form-item) {
     margin-bottom: 12px;
+  }
+}
+:deep(.items-center) {
+  div:nth-child(1) {
+    display: flex;
+    .el-divider--vertical {
+      margin: 8px;
+    }
   }
 }
 </style>

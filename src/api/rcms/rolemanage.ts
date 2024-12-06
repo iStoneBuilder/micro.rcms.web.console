@@ -44,3 +44,9 @@ export const getEnterpriseRoleList = (params?: object) => {
     }
   );
 };
+export const getRolePermissionList = (roleId?: string) => {
+  return http.request<ResultArray>(
+    "get",
+    `/test/services/rcms/base/role/records/${roleId}/permissions`
+  );
+};
