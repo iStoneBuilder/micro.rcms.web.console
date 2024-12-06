@@ -1,59 +1,65 @@
+<!--
+  设备分发说明
+-->
 <template>
   <div>
     <div class="rcms-plus-page">
-      <el-alert title="设备实名" type="success">
+      <el-alert title="实名记录" type="success">
         <div class="alert-item">
-          <p>商户级数据；允许当前商户及下级商户数据。</p>
+          <p>
+            ① 商户级数据，只允许分发当前商户数据到下级商户；②
+            分发数据时清空分发设备的设备分组、设备关联的ICCID的商户信息。
+          </p>
         </div>
       </el-alert>
-      <PlusPage
-        ref="plusPageInstance"
-        :columns="tableColumns"
-        :request="getList"
-        :search="{
-          labelWidth: '100px',
-          colProps: { span: 6 },
-          showNumber: 3
-        }"
-        :table="{
-          isSelection: true,
-          adaptive: { offsetBottom: 70 },
-          actionBar: { buttons, width: 100, type: 'link' },
-          onClickAction: handleOption,
-          onSelectionChange: handleSelect
-        }"
-        :default-page-info="pageInfo"
-        :default-page-size-list="[5, 15, 20, 50]"
-      >
-        <template #table-title>
-          <el-row class="button-row">
-            <el-button type="danger" plain :icon="useRenderIcon(Delete)">
-              删除
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Device)">
-              设备分组
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Active)">
-              设备激活
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Pointer)">
-              设备控制
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Wallet)">
-              设备充值
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Transform)">
-              转移套餐
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(ShutDown)">
-              设备停机
-            </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(InitInstall)">
-              设备初始化
-            </el-button>
-          </el-row>
-        </template>
-      </PlusPage>
+      <el-tabs>
+        <el-tab-pane label="实名记录">
+          <PlusPage
+            ref="plusPageInstance"
+            :columns="tableColumns"
+            :request="getList"
+            :search="{
+              labelWidth: '100px',
+              colProps: { span: 6 },
+              showNumber: 3
+            }"
+            :table="{
+              isSelection: true,
+              adaptive: { offsetBottom: 80 },
+              onSelectionChange: handleSelect
+            }"
+            :default-page-info="pageInfo"
+            :default-page-size-list="[5, 15, 20, 50]"
+          >
+            <template #table-title>
+              <el-row class="button-row">
+                <el-button type="primary" plain :icon="useRenderIcon(Delete)">
+                  删除
+                </el-button>
+              </el-row>
+            </template>
+          </PlusPage>
+        </el-tab-pane>
+        <el-tab-pane label="实名清除记录">
+          <PlusPage
+            ref="plusPageInstance"
+            :columns="divideColumns"
+            :request="getList"
+            :search="{
+              labelWidth: '100px',
+              colProps: { span: 6 },
+              showNumber: 3
+            }"
+            :table="{
+              isSelection: true,
+              adaptive: { offsetBottom: 450 },
+              onSelectionChange: handleSelect
+            }"
+            :default-page-info="pageInfo"
+            :default-page-size-list="[5, 15, 20, 50]"
+          />
+        </el-tab-pane>
+      </el-tabs>
     </div>
   </div>
 </template>
@@ -62,23 +68,16 @@
 import { ref } from "vue";
 import { terminalManage } from "./utils/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import { getPageRecordList } from "@/api/mifi/terminal";
+import { getPageRecordList } from "@/api/mifi/mifi-common";
 import type {
   PageInfo,
   ButtonsCallBackParams,
   PlusPageInstance
 } from "plus-pro-components";
 import Delete from "@iconify-icons/ep/delete";
-import More from "@iconify-icons/ep/more-filled";
-import Device from "@iconify-icons/ep/cellphone";
-import Active from "@iconify-icons/ep/coin";
-import Pointer from "@iconify-icons/ep/pointer";
-import Wallet from "@iconify-icons/ep/wallet";
-import Transform from "@iconify-icons/ep/bottom-right";
-import ShutDown from "@iconify-icons/ri/shut-down-line";
-import InitInstall from "@iconify-icons/ri/install-line";
+import { getEnterpriseId } from "@/utils/common";
 
-const { pageInfo, loading, tableColumns, buttons, selectData } =
+const { pageInfo, loading, tableColumns, divideColumns, selectData } =
   terminalManage();
 const plusPageInstance = ref<PlusPageInstance | null>(null);
 async function getList(query: PageInfo) {
@@ -87,7 +86,13 @@ async function getList(query: PageInfo) {
   const params = { ...query };
   delete params.page;
   delete params.pageSize;
-  const { data } = await getPageRecordList(page, pageSize, params);
+  params["enterpriseId"] = getEnterpriseId();
+  const { data } = await getPageRecordList(
+    "device-manage",
+    page,
+    pageSize,
+    params
+  );
   await new Promise(resolve => {
     setTimeout(() => {
       resolve("");

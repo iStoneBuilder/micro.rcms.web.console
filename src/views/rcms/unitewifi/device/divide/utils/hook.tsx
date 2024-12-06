@@ -2,25 +2,36 @@ import { ref } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 import { getBussList } from "@/api/rcms/common";
 import { getTenantId } from "@/utils/common";
+import { useDetail } from "@/utils/toDetail";
 
 export function terminalManage() {
   const pageInfo = { page: 1, pageSize: 15 };
   const loading = ref(false);
   const selectData = ref([]);
+  const { toDetail } = useDetail();
   const tableColumns: PlusColumn[] = [
     {
       label: "设备SN",
       prop: "deviceSn",
       width: 200,
+      tableColumnProps: {
+        fixed: true
+      },
       render(value) {
         return (
-          <el-link href={"/#/device/detail?deviceSn=" + value} type="primary">
+          <el-link
+            onClick={() => {
+              toDetail({ deviceSn: value }, "query", {
+                path: "/device/detail",
+                name: "DeviceDetail",
+                meta: { title: "详情｜设备SN：" + value }
+              });
+            }}
+            type="primary"
+          >
             {value}
           </el-link>
         );
-      },
-      tableColumnProps: {
-        fixed: true
       }
     },
     {
