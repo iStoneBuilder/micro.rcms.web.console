@@ -134,7 +134,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     {
       label: "操作",
       fixed: "right",
-      width: 180,
+      width: 140,
       slot: "operation"
     }
   ];
@@ -337,7 +337,6 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
         }
         FormRef.validate(async valid => {
           if (valid) {
-            console.log("curData", curData, btoa("12345678"));
             // 表单规则校验通过
             if (title === "新增") {
               // 实际开发先调用新增接口，再进行下面操作

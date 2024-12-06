@@ -154,6 +154,7 @@ const {
             :loading="loading"
             :size="size"
             :data="dataList"
+            border
             :columns="dynamicColumns"
             :pagination="{ ...pagination, size }"
             :header-cell-style="{
@@ -170,7 +171,6 @@ const {
                 link
                 type="primary"
                 :size="size"
-                :icon="useRenderIcon(EditPen)"
                 @click="openDialog('修改', row)"
               >
                 修改
@@ -180,7 +180,6 @@ const {
                 link
                 type="primary"
                 :size="size"
-                :icon="useRenderIcon(Delete)"
                 @click="handleDelete(row)"
               >
                 删除
@@ -202,7 +201,6 @@ const {
                         link
                         type="primary"
                         :size="size"
-                        :icon="useRenderIcon(Upload)"
                         @click="handleUpload(row)"
                       >
                         上传头像
@@ -214,7 +212,6 @@ const {
                         link
                         type="primary"
                         :size="size"
-                        :icon="useRenderIcon(Password)"
                         @click="handleReset(row)"
                       >
                         修改密码
@@ -226,7 +223,6 @@ const {
                         link
                         type="primary"
                         :size="size"
-                        :icon="useRenderIcon(Role)"
                         @click="handleRole(row)"
                       >
                         分配角色

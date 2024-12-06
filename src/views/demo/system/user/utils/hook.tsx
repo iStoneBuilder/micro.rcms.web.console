@@ -227,7 +227,9 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       });
   }
 
-  function handleUpdate(row) {}
+  function handleUpdate(row) {
+    console.log(row);
+  }
 
   function handleDelete(row) {
     message(`您删除了用户编号为${row.id}的这条数据`, { type: "success" });

@@ -9,6 +9,7 @@ import Delete from "@iconify-icons/ep/delete";
 import EditPen from "@iconify-icons/ep/edit-pen";
 import Refresh from "@iconify-icons/ep/refresh";
 import AddFill from "@iconify-icons/ri/add-circle-line";
+import { getEnterpriseId } from "@/utils/common";
 
 defineOptions({
   name: "Enterprise"
@@ -94,6 +95,7 @@ function onFullscreen() {
           table-layout="auto"
           default-expand-all
           :loading="loading"
+          border
           :size="size"
           :data="dataList"
           :columns="dynamicColumns"
@@ -105,38 +107,37 @@ function onFullscreen() {
         >
           <template #operation="{ row }">
             <el-button
-              v-if="hasPerms('permission:enterprise:update')"
+              v-if="
+                hasPerms('permission:enterprise:update') &&
+                row.id !== getEnterpriseId()
+              "
               class="reset-margin"
               link
-              :type="row.parentId == 0 ? 'info' : 'primary'"
+              type="primary"
               :size="size"
-              :icon="useRenderIcon(EditPen)"
-              :disabled="row.disabled"
               @click="openDialog('修改', row)"
             >
               修改
             </el-button>
-
             <el-button
               v-if="hasPerms('permission:enterprise:create')"
               class="reset-margin"
               link
               type="primary"
               :size="size"
-              :icon="useRenderIcon(AddFill)"
               @click="openDialog('新增', { parentId: row.id } as any)"
             >
               新增
             </el-button>
-
             <el-button
-              v-if="hasPerms('permission:enterprise:delete')"
+              v-if="
+                hasPerms('permission:enterprise:delete') &&
+                row.id !== getEnterpriseId()
+              "
               class="reset-margin"
               link
-              :type="row.parentId == 0 ? 'info' : 'primary'"
+              type="primary"
               :size="size"
-              :disabled="row.disabled"
-              :icon="useRenderIcon(Delete)"
               @click="handleDelete(row)"
             >
               删除

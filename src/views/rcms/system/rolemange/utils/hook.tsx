@@ -32,8 +32,9 @@ export function useDept() {
     {
       label: "角色名称",
       prop: "name",
-      width: 300,
-      align: "left"
+      width: 200,
+      align: "left",
+      fixed: "left"
     },
     {
       label: "角色编码",
@@ -110,7 +111,6 @@ export function useDept() {
     return newTreeList;
   }
   async function handleRolePerm(row?: FormItemProps) {
-    
     addDrawer({
       title: "角色授权-" + row.name,
       size: "50%",

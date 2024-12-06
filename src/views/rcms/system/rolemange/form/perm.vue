@@ -130,8 +130,15 @@ const handleAuthorize = async function () {
 };
 const { tableData } = useTable<object[]>();
 onMounted(async () => {
-  const pData = await getRolePermissionList(props.currentRow.parentId);
+  let id =
+    props.currentRow.parentId === "0"
+      ? props.currentRow.id
+      : props.currentRow.parentId;
+  const pData = await getRolePermissionList(id);
   tableData.value = pData.data;
+  if (props.currentRow.parentId === "0") {
+    return;
+  }
   // 加载父角色权限
   nextTick(async () => {
     // 加载当前角色权限

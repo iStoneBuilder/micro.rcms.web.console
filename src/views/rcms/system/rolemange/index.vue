@@ -1,15 +1,11 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, defineOptions } from "vue";
 import { hasPerms } from "@/utils/auth";
 import { useDept } from "./utils/hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
-import Delete from "@iconify-icons/ep/delete";
-import EditPen from "@iconify-icons/ep/edit-pen";
 import Refresh from "@iconify-icons/ep/refresh";
-import AddFill from "@iconify-icons/ri/add-circle-line";
-import Menu from "@iconify-icons/ep/menu";
 
 defineOptions({
   name: "RoleManage"
@@ -85,6 +81,7 @@ function onFullscreen() {
           table-layout="auto"
           default-expand-all
           :loading="loading"
+          border
           :size="size"
           :data="dataList"
           :columns="dynamicColumns"

@@ -32,7 +32,8 @@ export function useDept() {
       label: "名称",
       prop: "name",
       width: 300,
-      align: "left"
+      align: "left",
+      fixed: "left"
     },
     {
       label: "类型",
@@ -69,12 +70,12 @@ export function useDept() {
     {
       label: "备注",
       prop: "remark",
-      minWidth: 320
+      minWidth: 200
     },
     {
       label: "操作",
       fixed: "right",
-      width: 210,
+      width: 160,
       slot: "operation"
     }
   ];
