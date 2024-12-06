@@ -1,104 +1,171 @@
-<script setup lang="ts">
-import { ref } from "vue";
-import { hasPerms } from "@/utils/auth";
-import { userManage } from "./utils/hook";
-import { PureTableBar } from "@/components/RePureTableBar";
-import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-
-import Delete from "@iconify-icons/ep/delete";
-
-defineOptions({
-  name: "UserManage"
-});
-
-function onFullscreen() {
-  // 重置表格高度
-  tableRef.value.setAdaptive();
-}
-
-const tableRef = ref();
-const {
-  loading,
-  columns,
-  pagination,
-  dataList,
-  searchForm,
-  onSearch,
-  viewDetail,
-  handleDelete
-} = userManage();
-</script>
-
+<!--
+套餐配置
+-->
 <template>
-  <div class="main">
-    <component
-      :is="searchForm.component"
-      class="search-form bg-bg_color w-[99/100] pt-[12px] overflow-auto"
-    />
-
-    <PureTableBar
-      title="支付配置"
-      :columns="columns"
-      @refresh="onSearch"
-      @fullscreen="onFullscreen"
-    >
-      <template v-slot="{ size, dynamicColumns }">
-        <pure-table
-          ref="tableRef"
-          adaptive
-          :adaptiveConfig="{ offsetBottom: 120 }"
-          align-whole="center"
-          row-key="id"
-          showOverflowTooltip
-          table-layout="auto"
-          default-expand-all
-          :loading="loading"
-          :size="size"
-          :data="dataList"
-          :columns="dynamicColumns"
-          :pagination="{ ...pagination, size }"
-          :header-cell-style="{
-            background: 'var(--el-fill-color-light)',
-            color: 'var(--el-text-color-primary)'
-          }"
-        >
-          <template #operation="{ row }">
+  <div>
+    <div class="rcms-plus-page">
+      <el-alert title="支付配置" type="success">
+        <div class="alert-item">
+          <p>① 企业级数据，商户不允许配置查看该数据</p>
+        </div>
+      </el-alert>
+      <PlusPage
+        ref="plusPageInstance"
+        :columns="tableColumns"
+        :request="getList"
+        :search="{
+          labelWidth: '100px',
+          colProps: { span: 6 },
+          showNumber: 3
+        }"
+        :table="{
+          isSelection: true,
+          adaptive: { offsetBottom: 70 },
+          actionBar: { buttons, width: 165, type: 'link', showNumber: 4 },
+          onClickAction: handleOption,
+          onSelectionChange: handleSelect
+        }"
+        :default-page-info="pageInfo"
+        :default-page-size-list="[5, 15, 20, 50]"
+      >
+        <template #table-title>
+          <el-row class="button-row">
             <el-button
-              v-if="hasPerms('permission:role:update')"
-              class="reset-margin"
-              link
-              :type="row.parentId == 0 ? 'info' : 'primary'"
-              :size="size"
-              :icon="useRenderIcon(Delete)"
-              :disabled="row.disabled"
-            >
-              详情
-            </el-button>
-            <el-button
-              v-if="hasPerms('permission:role:permission')"
-              class="reset-margin"
-              link
               type="primary"
-              :size="size"
-              :icon="useRenderIcon(Delete)"
+              plain
+              :icon="Plus"
+              @click="handleCreate({ text: '新增', code: 'create' })"
             >
-              删除
+              新增
             </el-button>
-          </template>
-        </pure-table>
-      </template>
-    </PureTableBar>
+          </el-row>
+        </template>
+      </PlusPage>
+    </div>
+    <PlusDialog
+      v-if="show"
+      v-model="show"
+      :title="'支付配置-' + title"
+      :hasFooter="false"
+      :showClose="currForm === 'sellShow'"
+      :width="dWidth"
+      top="5%"
+    >
+      <CreateForm
+        v-if="currForm === 'create'"
+        :currentRow="currentRow"
+        :createColumns="createColumns"
+        @dialogEvent="handleCreateBack"
+      />
+    </PlusDialog>
   </div>
 </template>
 
-<style lang="scss" scoped>
-:deep(.el-table__inner-wrapper::before) {
-  height: 0;
-}
+<script lang="tsx" setup>
+import { ref } from "vue";
+import { message } from "@/utils/message";
+import { ElMessageBox } from "element-plus";
+import { terminalManage } from "./utils/hook";
+import { deleteRecord, getPageRecordList } from "@/api/mifi/mifi-common";
+import type {
+  PageInfo,
+  ButtonsCallBackParams,
+  PlusPageInstance
+} from "plus-pro-components";
 
-.search-form {
-  :deep(.el-form-item) {
-    margin-bottom: 12px;
+import { Plus } from "@element-plus/icons-vue";
+
+import CreateForm from "./form/create.vue";
+
+const service = "data-plan";
+const { pageInfo, loading, tableColumns, createColumns, buttons, selectData } =
+  terminalManage();
+tableColumns[0].render = (value, data) => {
+  return (
+    <el-link
+      onClick={() => {
+        currentRow.value = data["row"];
+        handleCreate({ code: "detail" }, "70%");
+      }}
+      type="primary"
+    >
+      {value}
+    </el-link>
+  );
+};
+const dWidth = ref("800");
+const plusPageInstance = ref<PlusPageInstance | null>(null);
+async function getList(query: PageInfo) {
+  loading.value = true;
+  const { page = 1, pageSize = 15 } = query || {};
+  const params = { ...query };
+  delete params.page;
+  delete params.pageSize;
+  const { data } = await getPageRecordList(service, page, pageSize, params);
+  await new Promise(resolve => {
+    setTimeout(() => {
+      resolve("");
+    }, 100);
+  });
+  return { data: data.data, success: true, total: data.meta.totalRows };
+}
+// 列表按钮
+const handleOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
+  switch (buttonRow.code) {
+    case "create":
+      currentRow.value = row;
+      handleCreate(buttonRow);
+      break;
+    case "delete":
+      handleDelete(row);
+      break;
+  }
+};
+const handleSelect = (data: any) => {
+  selectData.value = data;
+};
+const refresh = () => {
+  plusPageInstance.value?.getList();
+};
+// -------- 列表相关操作 -------------
+const show = ref(false);
+const title = ref("");
+const currentRow = ref(null);
+const currForm = ref("create");
+function handleCreate(btn, dwt?: string) {
+  currForm.value = btn.code;
+  dWidth.value = dwt || "880";
+  title.value = btn.text;
+  show.value = true;
+}
+function handleCreateBack(op) {
+  show.value = false;
+  currentRow.value = null;
+  if (op === "submit") {
+    refresh();
   }
 }
-</style>
+
+const handleDelete = async (row): Promise<void> => {
+  ElMessageBox.confirm(
+    `你确定删除（${row.dataPlanName}）数据吗，确认是否继续?`,
+    "温馨提示",
+    {
+      confirmButtonText: "确认",
+      cancelButtonText: "取消",
+      type: "warning",
+      draggable: true
+    }
+  )
+    .then(async () => {
+      await deleteRecord(service, row?.dataPlanNo);
+      message(`删除成功！`, {
+        type: "success"
+      });
+      refresh();
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
+</script>
