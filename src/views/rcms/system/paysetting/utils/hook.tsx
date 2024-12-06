@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { useTable } from "plus-pro-components";
 import type { PlusColumn } from "plus-pro-components";
-import { getBussList } from "@/api/rcms/common";
+import { getBussList, getItemList } from "@/api/rcms/common";
 import { getTenantId } from "@/utils/common";
 
 export function terminalManage() {
@@ -55,14 +55,18 @@ export function terminalManage() {
   const createColumns: PlusColumn[] = [
     {
       label: "支付方式",
-      prop: "dataPlanCost"
+      prop: "dataPlanCost",
+      valueType: "select",
+      options: getItemList("RCMS_SYS_PAYWAY")
     },
     {
       label: "渠道",
-      prop: "dataPlanCost"
+      prop: "dataPlanCost",
+      valueType: "select",
+      options: getItemList("RCMS_SYS_CHANNEL")
     },
     {
-      label: "小程序AppId",
+      label: "小程序appid",
       prop: "dataPlanCost"
     },
     {

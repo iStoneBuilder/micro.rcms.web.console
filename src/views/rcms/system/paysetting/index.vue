@@ -4,7 +4,7 @@
 <template>
   <div>
     <div class="rcms-plus-page">
-      <el-alert title="支付配置" type="success">
+      <el-alert title="支付配置" type="success" :closable="false">
         <div class="alert-item">
           <p>① 企业级数据，商户不允许配置查看该数据</p>
         </div>

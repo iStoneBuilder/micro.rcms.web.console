@@ -1,6 +1,6 @@
 <template>
   <div class="rcms-plus-page">
-    <el-alert title="SIM卡商" type="success">
+    <el-alert title="SIM卡商" type="success" :closable="false">
       <div class="alert-item">
         <p>
           ① 企业级数据，企业下所有商户均可查看、使用； ②

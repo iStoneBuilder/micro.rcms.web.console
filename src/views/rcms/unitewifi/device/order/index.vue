@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="rcms-plus-page">
-      <el-alert title="设备套餐" type="success">
+      <el-alert title="设备套餐" type="success" :closable="false">
         <div class="alert-item">
           <p>① 商户级数据，允许当前商户及下级商户数据。</p>
         </div>

@@ -4,7 +4,7 @@
 <template>
   <div>
     <div class="rcms-plus-page">
-      <el-alert title="实名记录" type="success">
+      <el-alert title="实名记录" type="success" :closable="false">
         <div class="alert-item">
           <p>
             ① 商户级数据，只允许分发当前商户数据到下级商户；②
@@ -52,7 +52,7 @@
             }"
             :table="{
               isSelection: true,
-              adaptive: { offsetBottom: 450 },
+              adaptive: { offsetBottom: 525 },
               onSelectionChange: handleSelect
             }"
             :default-page-info="pageInfo"

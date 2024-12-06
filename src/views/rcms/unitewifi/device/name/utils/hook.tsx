@@ -79,7 +79,10 @@ export function terminalManage() {
     {
       label: "单号",
       prop: "enterpriseId",
-      minWidth: 200
+      minWidth: 200,
+      tableColumnProps: {
+        fixed: true
+      }
     },
     {
       label: "运营商单号",

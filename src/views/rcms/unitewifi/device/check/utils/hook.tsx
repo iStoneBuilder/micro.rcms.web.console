@@ -1,68 +1,59 @@
-import { onMounted, ref, reactive } from "vue";
-import type { PaginationProps } from "@pureadmin/table";
+import { ref } from "vue";
+import { useTable } from "plus-pro-components";
+import type { PlusColumn } from "plus-pro-components";
 
-let searchData = {};
-
-export function userManage() {
-  const dataList = ref([]);
-  const loading = ref();
-
-  const columns: TableColumnList = [
+export function terminalManage() {
+  const pageInfo = { page: 1, pageSize: 15 };
+  const loading = ref(false);
+  const selectData = ref([]);
+  const tableColumns: PlusColumn[] = [
     {
       label: "诊断项",
       prop: "name",
       width: 200,
-      align: "left"
+      align: "left",
+      hideInSearch: true
     },
     {
       label: "诊断结果",
       prop: "name",
       minWidth: 200,
-      align: "left"
+      align: "left",
+      hideInSearch: true
     },
     {
       label: "是否正常",
       prop: "name",
       width: 100,
-      align: "left"
+      align: "left",
+      hideInSearch: true
     },
     {
       label: "处理意见",
       prop: "name",
       minWidth: 200,
-      align: "left"
+      align: "left",
+      hideInSearch: true
     }
   ];
-  const pagination = reactive<PaginationProps>({
-    total: 0,
-    pageSize: 15,
-    currentPage: 1,
-    background: true
-  });
-  function viewDetail(title: string, row: object) {
-    console.log(title, row);
-  }
-  function handleDelete(title: string, row: object) {
-    console.log(title, row);
-  }
-  function onSearch() {
-    loading.value = true;
-    console.log(searchData, new Date());
-    setTimeout(() => {
-      dataList.value = [];
-      loading.value = false;
-    }, 500);
-  }
-  onMounted(() => {
-    onSearch();
-  });
+  const { buttons } = useTable();
+  buttons.value = [
+    {
+      text: "编辑",
+      code: "update",
+      props: { type: "primary", plain: true }
+    },
+    {
+      text: "删除",
+      code: "delete",
+      props: { type: "danger", plain: true }
+    }
+  ];
   return {
+    pageInfo,
     loading,
-    columns,
-    pagination,
-    dataList,
-    onSearch,
-    viewDetail,
-    handleDelete
+    tableColumns,
+    buttons,
+    selectData
   };
 }

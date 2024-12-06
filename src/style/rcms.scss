@@ -30,27 +30,6 @@
     line-height: 60px;
     margin-left: 10px;
   }
-  .rcms-table-form{
-    height: 60px;
-    background: wheat;
-    width: 80%;
-    margin-top: 8px;
-    margin-bottom: -68px;
-    line-height: 60px;
-    margin-left: 10px;
-    .el-input__wrapper{
-      border-radius: 0;
-    }
-    button{
-      margin-left: 0;
-      position: relative;
-      border-radius: 0;
-    }
-  }
-  .rcms-alert{
-    background: white;
-    padding: 10px;
-  }
   .el-card.is-always-shadow{
     box-shadow: none ;
     border-radius: 0;
@@ -84,6 +63,21 @@
       .el-card__body{
         padding: 16px 16px 0 16px;
       }
+    }
+  }
+  .rcms-plus-tab{
+    .plus-page__table_wrapper{
+      margin-top: 0px;
+    }
+  }
+  .rcms-table-form{
+    .el-input__wrapper{
+      border-radius: 0;
+    }
+    .el-button {
+      margin-left: 0px;
+      position: relative;
+      border-radius: 0;
     }
   }
   // 所属按钮交换位置

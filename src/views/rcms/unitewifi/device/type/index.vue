@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="rcms-plus-page">
-      <el-alert title="设备类型" type="success">
+      <el-alert title="设备类型" type="success" :closable="false">
         <div class="alert-item">
           <p>
             ①企业级数据，所有商户均可查看操作所有数据；②
