@@ -112,7 +112,6 @@
     border-bottom: none !important;
     border-top: none !important;
     min-height: calc(100vh - 246px);
-    padding: 0 10px;
     .el-collapse-item__header{
       font-size: 16px;
       font-weight: 400;
@@ -127,12 +126,18 @@
       font-weight: 400;
       font-family: 'Courier New', Courier, monospace;
     }
+    .el-descriptions__content{
+      width: 30%;
+    }
   }
   .alert-item{
     padding: 0 10px;
     p {
       line-height: 30px;
     }
+  }
+  .el-tabs__content{
+    padding: 8px 10px;
   }
 }
 .rcms-drawer{

@@ -59,7 +59,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, defineOptions } from "vue";
+import { ref, defineOptions, onMounted } from "vue";
 import Deviinfo from "./detail/deviinfo.vue";
 import DataPlan from "./detail/dataplan.vue";
 import Deviname from "./detail/deviname.vue";

@@ -41,3 +41,9 @@ export const deleteRecord = (service: string, id?: string) => {
     `/test/services/rcms/mifi/${service}/records/${id}`
   );
 };
+export const getRecord = (service: string, id?: string) => {
+  return http.request<ResultData>(
+    "get",
+    `/test/services/rcms/mifi/${service}/records/${id}`
+  );
+};
