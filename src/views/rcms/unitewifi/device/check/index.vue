@@ -1,42 +1,49 @@
 <template>
   <div>
     <div class="rcms-plus-page">
-      <el-alert title="设备终端" type="error" :closable="false">
+      <el-alert title="设备诊断" type="success" :closable="false">
         <div class="alert-item">
           <P>
-            温馨提示：如果所有指标都正常，但设备仍然无法上网，
+            如果所有指标都正常，但设备仍然无法上网，
             建议对设备进行复位后重试。仍无法正常上网再联系工程师支持解决!
           </P>
         </div>
       </el-alert>
-      <PlusPage
-        ref="plusPageInstance"
-        class="rcms-plus-tab"
-        :columns="tableColumns"
-        :request="getList"
-        :search="false"
-        :table="{
-          isSelection: false,
-          adaptive: { offsetBottom: 70 },
-          actionBar: { buttons, width: 100, type: 'link' },
-          onClickAction: handleOption,
-          onSelectionChange: handleSelect
-        }"
-        :default-page-info="pageInfo"
-        :default-page-size-list="[5, 15, 20, 50]"
-      >
-        <template #table-title>
-          <div class="rcms-table-form">
-            <el-input
-              clearable
-              size="large"
-              placeholder="请输入设备SN"
-              style="width: 240px"
-            />
-            <el-button type="primary" size="large" plain> 一键诊断 </el-button>
-          </div>
-        </template>
-      </PlusPage>
+      <el-tabs>
+        <el-tab-pane label="设备诊断">
+          <PlusPage
+            ref="plusPageInstance"
+            class="rcms-plus-tab"
+            :columns="tableColumns"
+            :request="getList"
+            :search="false"
+            :table="{
+              isSelection: false,
+              adaptive: { offsetBottom: 80 },
+              actionBar: { buttons, width: 100, type: 'link' },
+              onClickAction: handleOption,
+              onSelectionChange: handleSelect
+            }"
+            :default-page-info="pageInfo"
+            :default-page-size-list="[5, 15, 20, 50]"
+          >
+            <template #table-title>
+              <div class="rcms-table-form">
+                <el-input
+                  clearable
+                  size="large"
+                  placeholder="请输入设备SN"
+                  style="width: 240px"
+                />
+                <el-button type="primary" size="large" plain>
+                  一键诊断
+                </el-button>
+              </div>
+            </template>
+          </PlusPage>
+        </el-tab-pane>
+        <el-tab-pane label="诊断项配置"> 配置 </el-tab-pane>
+      </el-tabs>
     </div>
     <PlusDialog
       v-if="show"

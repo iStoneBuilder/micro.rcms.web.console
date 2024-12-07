@@ -111,9 +111,9 @@ function handleClose(op) {
 const excelTemp = [
   { key: "deviceSn", title: "设备SN" },
   { key: "iccid", title: "贴片卡ICCID" },
-  { key: "iotNo", title: "贴片卡物联网号" },
+  { key: "msisdn1", title: "贴片卡物联网号" },
   { key: "iccid2", title: "贴片卡2ICCID" },
-  { key: "iotNo2", title: "贴片卡2物联网号" }
+  { key: "msisdn2", title: "贴片卡2物联网号" }
 ];
 function downloadTemp() {
   buildExcelTemp(excelTemp, "终端设备模版", "终端设备");
