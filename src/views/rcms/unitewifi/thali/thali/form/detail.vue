@@ -6,7 +6,7 @@
           :column="2"
           :columns="newColumns"
           :data="currentRow"
-          :label-width="100"
+          :label-width="50"
         />
       </el-collapse-item>
       <el-collapse-item title="销售情况" name="2">

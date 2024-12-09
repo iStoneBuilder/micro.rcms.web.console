@@ -3,7 +3,7 @@
     :column="1"
     :columns="newColumns"
     :data="currentRow"
-    :label-width="140"
+    :label-width="'140px'"
   />
 </template>
 
