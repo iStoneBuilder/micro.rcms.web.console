@@ -42,9 +42,6 @@ import type {
   PlusPageInstance
 } from "plus-pro-components";
 
-import DetailForm from "./form/detail.vue";
-import { addDrawer, closeDrawer } from "@/components/ReDrawer";
-
 const { pageInfo, loading, tableColumns, buttons, selectData } =
   terminalManage();
 const plusPageInstance = ref<PlusPageInstance | null>(null);
@@ -54,12 +51,13 @@ async function getList(query: PageInfo) {
   const params = { ...query };
   delete params.page;
   delete params.pageSize;
-  const { data } = await getPageRecordList("order", page, pageSize, params);
+  const { data } = await getPageRecordList("pay/order", page, pageSize, params);
   await new Promise(resolve => {
     setTimeout(() => {
       resolve("");
     }, 100);
   });
+  data.data.push({ orderNo: "MS20192993994959" });
   return { data: data.data, success: true, total: data.meta.totalRows };
 }
 // 列表按钮
@@ -78,30 +76,4 @@ const handleSelect = (data: any) => {
 const refresh = () => {
   plusPageInstance.value?.getList();
 };
-// -------- 列表相关操作 -------------
-const show = ref(false);
-function handleViewOpen(row) {
-  addDrawer({
-    title: "订单详情-" + (row.orderNo || ""),
-    size: "50%",
-    class: "rcms-drawer",
-    contentRenderer: ({ index }) => (
-      <DetailForm currentRow={row} tableColumns={tableColumns} />
-    ),
-    footerButtons: [
-      {
-        label: "关闭",
-        size: "default",
-        type: "primary",
-        plain: true,
-        btnClick: ({ drawer: { options, index }, button }) => {
-          closeDrawer(options, index);
-        }
-      }
-    ]
-  });
-}
-function handleViewBack() {
-  show.value = false;
-}
 </script>

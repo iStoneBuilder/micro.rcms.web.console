@@ -1,6 +1,8 @@
 import { ref } from "vue";
 import { useTable } from "plus-pro-components";
 import type { PlusColumn } from "plus-pro-components";
+import DetailForm from "../form/detail.vue";
+import { addDrawer, closeDrawer } from "@/components/ReDrawer";
 
 export function terminalManage() {
   const pageInfo = { page: 1, pageSize: 15 };
@@ -12,11 +14,36 @@ export function terminalManage() {
       prop: "orderNo",
       width: 200,
       align: "left",
-      cellRenderer: ({ row, props }) => (
-        <el-link size={props.size} style="color: var(--el-color-primary)">
-          {row.name}
-        </el-link>
-      ),
+      render: (value, { row }) => {
+        return (
+          <el-link
+            style="color: var(--el-color-primary)"
+            onClick={() => {
+              addDrawer({
+                title: "订单详情-" + (value || ""),
+                size: "50%",
+                class: "rcms-drawer",
+                contentRenderer: ({}) => (
+                  <DetailForm currentRow={row} tableColumns={tableColumns} />
+                ),
+                footerButtons: [
+                  {
+                    label: "关闭",
+                    size: "default",
+                    type: "primary",
+                    plain: true,
+                    btnClick: ({ drawer: { options, index } }) => {
+                      closeDrawer(options, index);
+                    }
+                  }
+                ]
+              });
+            }}
+          >
+            {value}
+          </el-link>
+        );
+      },
       tableColumnProps: {
         fixed: true
       }
