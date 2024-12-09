@@ -77,7 +77,7 @@ import { Plus } from "@element-plus/icons-vue";
 
 import CreateForm from "./form/create.vue";
 
-const service = "data-plan";
+const service = "mifi/data-plan";
 const { pageInfo, loading, tableColumns, createColumns, buttons, selectData } =
   terminalManage();
 tableColumns[0].render = (value, data) => {

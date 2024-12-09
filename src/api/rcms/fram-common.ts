@@ -9,7 +9,7 @@ export const getPageRecordList = (
 ) => {
   return http.request<ResultPage>(
     "get",
-    `/test/services/rcms/mifi/${service}/records/page/${curPage}/${pageSize}`,
+    `/test/services/rcms/${service}/records/page/${curPage}/${pageSize}`,
     {
       params
     }
@@ -19,7 +19,7 @@ export const getPageRecordList = (
 export const createRecord = (service: string, data?: object) => {
   return http.request<ResultData>(
     "post",
-    `/test/services/rcms/mifi/${service}/records`,
+    `/test/services/rcms/${service}/records`,
     {
       data
     }
@@ -29,7 +29,7 @@ export const createRecord = (service: string, data?: object) => {
 export const updateRecord = (service: string, id: string, data?: object) => {
   return http.request<ResultData>(
     "put",
-    `/test/services/rcms/mifi/${service}/records/${id}`,
+    `/test/services/rcms/${service}/records/${id}`,
     {
       data
     }
@@ -38,13 +38,13 @@ export const updateRecord = (service: string, id: string, data?: object) => {
 export const deleteRecord = (service: string, id?: string) => {
   return http.request<ResultData>(
     "delete",
-    `/test/services/rcms/mifi/${service}/records/${id}`
+    `/test/services/rcms/${service}/records/${id}`
   );
 };
 export const getRecord = (service: string, id?: string) => {
   return http.request<ResultData>(
     "get",
-    `/test/services/rcms/mifi/${service}/records/${id}`
+    `/test/services/rcms/${service}/records/${id}`
   );
 };
 

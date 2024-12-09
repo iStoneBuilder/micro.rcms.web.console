@@ -403,7 +403,7 @@ const handleDeviceCode = function () {
 onMounted(async () => {
   const route = useRoute();
   const { data } = await getRecord(
-    "device-manage",
+    "mifi/device-manage",
     route.query.deviceSn as string
   );
   detailData.value = { ...data };
