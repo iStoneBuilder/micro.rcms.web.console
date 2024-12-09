@@ -3,7 +3,7 @@
 import { ref, defineEmits } from "vue";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import Download from "@iconify-icons/ep/download";
-import { getBussList, getItemList } from "@/api/rcms/common";
+import { getBussList, getItemList } from "@/api/rcms/fram-common";
 import { buildExcelTemp, readExcelData } from "@/utils/xlsxHandle";
 import { message } from "@/utils/message";
 import { importRecords } from "@/api/mifi/device-manage";

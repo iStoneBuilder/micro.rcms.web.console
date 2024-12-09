@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { useTable } from "plus-pro-components";
 import type { PlusColumn } from "plus-pro-components";
-import { getItemList } from "@/api/rcms/common";
+import { getItemList } from "@/api/rcms/fram-common";
 
 export function terminalManage() {
   const pageInfo = { page: 1, pageSize: 15 };

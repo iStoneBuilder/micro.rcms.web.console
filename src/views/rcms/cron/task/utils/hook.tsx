@@ -1,7 +1,7 @@
 import { h } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 import { Delete, EditPen } from "@element-plus/icons-vue";
-import { getItemList, getBussList } from "@/api/rcms/common";
+import { getItemList, getBussList } from "@/api/rcms/fram-common";
 import { useDetail } from "@/utils/toDetail";
 
 export const enabledData: Array<any> = [];

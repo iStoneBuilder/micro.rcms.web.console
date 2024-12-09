@@ -111,7 +111,7 @@ import {
   updateCronGroup,
   deleteCronGroup
 } from "@/api/cron/group";
-import { getItemList } from "@/api/rcms/common";
+import { getItemList } from "@/api/rcms/fram-common";
 
 // --- Table ---
 const createTitle = ref("新增");

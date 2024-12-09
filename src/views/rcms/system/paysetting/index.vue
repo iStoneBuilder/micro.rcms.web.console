@@ -66,7 +66,7 @@ import { ref } from "vue";
 import { message } from "@/utils/message";
 import { ElMessageBox } from "element-plus";
 import { terminalManage } from "./utils/hook";
-import { deleteRecord, getPageRecordList } from "@/api/mifi/mifi-common";
+import { deleteRecord, getPageRecordList } from "@/api/rcms/fram-common";
 import type {
   PageInfo,
   ButtonsCallBackParams,

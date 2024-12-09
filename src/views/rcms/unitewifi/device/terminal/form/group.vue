@@ -4,7 +4,7 @@
 -->
 <script setup lang="ts">
 import { updateRecordGroup } from "@/api/mifi/device-manage";
-import { getBussList } from "@/api/rcms/common";
+import { getBussList } from "@/api/rcms/fram-common";
 import { message } from "@/utils/message";
 import { ref, defineEmits, defineProps } from "vue";
 const props = defineProps<{

@@ -2,7 +2,7 @@
 import { message } from "@/utils/message";
 import { ref, defineProps, defineEmits } from "vue";
 import type { PlusColumn } from "plus-pro-components";
-import { getItemList } from "@/api/rcms/common";
+import { getItemList } from "@/api/rcms/fram-common";
 import { createRecord, updateRecord } from "@/api/mifi/device-type";
 // 父节点传值
 const props = defineProps<{

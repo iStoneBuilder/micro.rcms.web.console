@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { useTable } from "plus-pro-components";
 import type { PlusColumn } from "plus-pro-components";
-import { getBussList, getItemList } from "@/api/rcms/common";
+import { getBussList, getItemList } from "@/api/rcms/fram-common";
 import { getTenantId } from "@/utils/common";
 import { useDetail } from "@/utils/toDetail";
 

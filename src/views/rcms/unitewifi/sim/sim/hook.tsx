@@ -1,6 +1,6 @@
 import type { PlusColumn } from "plus-pro-components";
 import type { FormRules } from "element-plus";
-import { getItemList, getBussList } from "@/api/rcms/common";
+import { getItemList, getBussList } from "@/api/rcms/fram-common";
 import { getTenantId } from "@/utils/common";
 
 export const defaultPageInfo = {

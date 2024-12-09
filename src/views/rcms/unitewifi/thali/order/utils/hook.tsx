@@ -55,25 +55,29 @@ export function terminalManage() {
       label: "支付方式",
       prop: "payType",
       minWidth: 100,
-      align: "left"
+      align: "left",
+      hideInSearch: true
     },
     {
       label: "购买数量",
       prop: "buyNum",
       minWidth: 100,
-      align: "left"
+      align: "left",
+      hideInSearch: true
     },
     {
       label: "总价格(¥)",
       prop: "orderAmount",
       minWidth: 200,
-      align: "left"
+      align: "left",
+      hideInSearch: true
     },
     {
       label: "已退金额(¥)",
       prop: "refundAmount",
       minWidth: 200,
-      align: "left"
+      align: "left",
+      hideInSearch: true
     },
     {
       label: "订单状态",
@@ -91,19 +95,22 @@ export function terminalManage() {
       label: "下单时间",
       prop: "orderTime",
       minWidth: 100,
-      align: "left"
+      align: "left",
+      hideInSearch: true
     },
     {
       label: "支付时间",
       prop: "payTime",
       minWidth: 100,
-      align: "left"
+      align: "left",
+      hideInSearch: true
     },
     {
       label: "下单人",
       prop: "payBy",
       minWidth: 100,
-      align: "left"
+      align: "left",
+      hideInSearch: true
     }
   ];
   const { buttons } = useTable();
@@ -111,11 +118,6 @@ export function terminalManage() {
     {
       text: "申请退款",
       code: "update",
-      props: { type: "primary", plain: true }
-    },
-    {
-      text: "详情",
-      code: "detail",
       props: { type: "primary", plain: true }
     }
   ];

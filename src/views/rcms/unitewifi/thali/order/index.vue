@@ -21,7 +21,7 @@
         :table="{
           isSelection: true,
           adaptive: { offsetBottom: 70 },
-          actionBar: { buttons, width: 140, type: 'link' },
+          actionBar: { buttons, width: 90, type: 'link' },
           onClickAction: handleOption,
           onSelectionChange: handleSelect
         }"
@@ -68,9 +68,6 @@ const handleOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
     case "update":
       break;
     case "delete":
-      break;
-    case "detail":
-      handleViewOpen(row);
       break;
   }
   refresh();

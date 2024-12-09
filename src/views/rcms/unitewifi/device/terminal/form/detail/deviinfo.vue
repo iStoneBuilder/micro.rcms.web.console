@@ -58,10 +58,10 @@
 
 <script lang="tsx" setup>
 import { onMounted, ref, h } from "vue";
-import { getRecord } from "@/api/mifi/mifi-common";
+import { getRecord } from "@/api/rcms/fram-common";
 import type { PlusColumn } from "plus-pro-components";
 import { useRoute } from "vue-router";
-import { getBussList, getItemList } from "@/api/rcms/common";
+import { getBussList, getItemList } from "@/api/rcms/fram-common";
 import { getTenantId } from "@/utils/common";
 import Qrcode from "./qrcode.vue";
 import { addDialog } from "@/components/ReDialog";

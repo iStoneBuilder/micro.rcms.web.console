@@ -68,7 +68,7 @@
 import { ref } from "vue";
 import { terminalManage } from "./utils/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import { getPageRecordList } from "@/api/mifi/mifi-common";
+import { getPageRecordList } from "@/api/rcms/fram-common";
 import type {
   PageInfo,
   ButtonsCallBackParams,

@@ -129,7 +129,7 @@ import {
   deleteCornTask,
   opertionCornTask
 } from "@/api/cron/task";
-import { getItemList } from "@/api/rcms/common";
+import { getItemList } from "@/api/rcms/fram-common";
 
 // --- 查询条件区域 ---
 const searchForm = ref({});

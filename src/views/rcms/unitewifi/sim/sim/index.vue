@@ -171,7 +171,7 @@ import {
   excelTemp
 } from "./hook";
 import { buildExcelTemp, readExcelData } from "@/utils/xlsxHandle";
-import { getItemList, getBussList } from "@/api/rcms/common";
+import { getItemList, getBussList } from "@/api/rcms/fram-common";
 
 import { Setting, EditPen } from "@element-plus/icons-vue";
 import Delete from "@iconify-icons/ep/delete";

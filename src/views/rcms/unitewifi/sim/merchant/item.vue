@@ -65,7 +65,7 @@
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
 import { ElMessageBox } from "element-plus";
-import { getItemList } from "@/api/rcms/common";
+import { getItemList } from "@/api/rcms/fram-common";
 import { message } from "@/utils/message";
 import { reactive, computed, toRefs, ref, defineProps, onMounted } from "vue";
 import type {
