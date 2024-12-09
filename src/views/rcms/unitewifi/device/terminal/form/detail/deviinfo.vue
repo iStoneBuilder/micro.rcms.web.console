@@ -1,6 +1,9 @@
 <template>
   <div class="demo-collapse">
     <el-collapse v-model="activeNames">
+      <el-button type="primary" plain @click="handleDeviceCode">
+        设备二维码
+      </el-button>
       <el-collapse-item title="ICCID信息" name="1">
         <PlusDescriptions
           :column="2"
@@ -53,13 +56,15 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { onMounted, ref } from "vue";
+<script lang="tsx" setup>
+import { onMounted, ref, h } from "vue";
 import { getRecord } from "@/api/mifi/mifi-common";
 import type { PlusColumn } from "plus-pro-components";
 import { useRoute } from "vue-router";
 import { getBussList, getItemList } from "@/api/rcms/common";
 import { getTenantId } from "@/utils/common";
+import Qrcode from "./qrcode.vue";
+import { addDialog } from "@/components/ReDialog";
 const detailData = ref({});
 const activeNames = ref(["1", "2", "3", "4", "5", "6"]);
 const iccidColumns: PlusColumn[] = [
@@ -169,7 +174,9 @@ const deviceColumns: PlusColumn[] = [
     prop: "flowMode",
     descriptionsItemProps: {
       labelAlign: "right"
-    }
+    },
+    valueType: "select",
+    options: getItemList("MIFI_FLOW_MODE")
   },
   {
     label: "wifi连接数",
@@ -380,6 +387,19 @@ const visitColumns: PlusColumn[] = [
     }
   }
 ];
+const handleDeviceCode = function () {
+  addDialog({
+    title: `设备二维码`,
+    props: {},
+    width: "355px",
+    draggable: true,
+    hideFooter: true,
+    fullscreenIcon: false,
+    closeOnClickModal: false,
+    contentRenderer: () => h(Qrcode, {}),
+    beforeSure: (done, { options }) => {}
+  });
+};
 onMounted(async () => {
   const route = useRoute();
   const { data } = await getRecord(
