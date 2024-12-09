@@ -104,7 +104,7 @@ import CreateForm from "./form/create.vue";
 import SellShow from "./form/sellShow.vue";
 import DetailForm from "./form/detail.vue";
 import SellConfig from "./form/sellConfig.vue";
-import { addDrawer } from "@/components/ReDrawer";
+import { addDrawer, closeDrawer } from "@/components/ReDrawer";
 
 const service = "data-plan";
 const { pageInfo, loading, tableColumns, buttons, selectData } =
@@ -176,13 +176,24 @@ function handleCreate(btn, dwt?: string) {
       title: "套餐详情-" + currentRow.value["dataPlanName"],
       size: "70%",
       class: "rcms-drawer",
-      hideFooter: true,
+      hideFooter: false,
       contentRenderer: ({ index }) => (
         <DetailForm
           currentRow={currentRow.value}
           createColumns={createColumns}
         />
-      )
+      ),
+      footerButtons: [
+        {
+          label: "关闭",
+          size: "default",
+          type: "primary",
+          plain: true,
+          btnClick: ({ drawer: { options, index }, button }) => {
+            closeDrawer(options, index);
+          }
+        }
+      ]
     });
     return;
   }

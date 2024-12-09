@@ -4,7 +4,8 @@
       <el-alert title="套餐订单" type="success" :closable="false">
         <div class="alert-item">
           <p>
-            商户级数据；允许查看当前商户及下级商户数据；禁止跨商户操作数据。
+            ① 商户级数据,允许查看当前商户及下级商户数据； ② 禁止跨商户操作数据;
+            ③ 已申请退款的订单不允许重复申请
           </p>
         </div>
       </el-alert>
@@ -28,21 +29,6 @@
         :default-page-size-list="[5, 15, 20, 50]"
       />
     </div>
-    <PlusDialog
-      v-if="show"
-      v-model="show"
-      :title="'订单详情'"
-      :hasFooter="false"
-      :showClose="true"
-      width="800"
-      top="5%"
-    >
-      <DetailForm
-        :currentRow="currentRow"
-        :tableColumns="tableColumns"
-        @dialogEvent="handleViewBack"
-      />
-    </PlusDialog>
   </div>
 </template>
 
@@ -57,6 +43,7 @@ import type {
 } from "plus-pro-components";
 
 import DetailForm from "./form/detail.vue";
+import { addDrawer, closeDrawer } from "@/components/ReDrawer";
 
 const { pageInfo, loading, tableColumns, buttons, selectData } =
   terminalManage();
@@ -96,10 +83,26 @@ const refresh = () => {
 };
 // -------- 列表相关操作 -------------
 const show = ref(false);
-const currentRow = ref(null);
 function handleViewOpen(row) {
-  currentRow.value = row;
-  show.value = true;
+  addDrawer({
+    title: "订单详情-" + (row.orderNo || ""),
+    size: "50%",
+    class: "rcms-drawer",
+    contentRenderer: ({ index }) => (
+      <DetailForm currentRow={row} tableColumns={tableColumns} />
+    ),
+    footerButtons: [
+      {
+        label: "关闭",
+        size: "default",
+        type: "primary",
+        plain: true,
+        btnClick: ({ drawer: { options, index }, button }) => {
+          closeDrawer(options, index);
+        }
+      }
+    ]
+  });
 }
 function handleViewBack() {
   show.value = false;

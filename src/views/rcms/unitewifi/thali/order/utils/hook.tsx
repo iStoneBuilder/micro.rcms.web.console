@@ -9,7 +9,7 @@ export function terminalManage() {
   const tableColumns: PlusColumn[] = [
     {
       label: "订单号",
-      prop: "name",
+      prop: "orderNo",
       width: 200,
       align: "left",
       cellRenderer: ({ row, props }) => (
@@ -23,85 +23,85 @@ export function terminalManage() {
     },
     {
       label: "商品名",
-      prop: "name1",
+      prop: "productName",
       width: 100,
       align: "left"
     },
     {
       label: "商户",
-      prop: "name2",
+      prop: "enterpriseId",
       minWidth: 200,
       align: "left"
     },
     {
       label: "流水号",
-      prop: "name3",
-      minWidth: 100,
+      prop: "transactionId",
+      minWidth: 300,
       align: "left"
     },
     {
       label: "商品类型",
-      prop: "name4",
+      prop: "productType",
       minWidth: 100,
       align: "left"
     },
     {
       label: "设备SN",
-      prop: "name5",
-      minWidth: 100,
+      prop: "deviceSn",
+      minWidth: 150,
       align: "left"
     },
     {
       label: "支付方式",
-      prop: "name6",
+      prop: "payType",
       minWidth: 100,
       align: "left"
     },
     {
       label: "购买数量",
-      prop: "name7",
+      prop: "buyNum",
       minWidth: 100,
       align: "left"
     },
     {
       label: "总价格(¥)",
-      prop: "name9",
+      prop: "orderAmount",
       minWidth: 200,
       align: "left"
     },
     {
       label: "已退金额(¥)",
-      prop: "name10",
+      prop: "refundAmount",
       minWidth: 200,
       align: "left"
     },
     {
       label: "订单状态",
-      prop: "name11",
+      prop: "orderStatus",
       minWidth: 100,
       align: "left"
     },
     {
       label: "退款状态",
-      prop: "name12",
+      prop: "refundStatus",
       minWidth: 100,
       align: "left"
     },
     {
       label: "下单时间",
-      prop: "name12",
+      prop: "orderTime",
       minWidth: 100,
       align: "left"
     },
     {
       label: "支付时间",
-      prop: "name12",
+      prop: "payTime",
       minWidth: 100,
       align: "left"
     },
     {
       label: "下单人",
-      prop: "name12",
+      prop: "payBy",
       minWidth: 100,
       align: "left"
     }
