@@ -51,7 +51,10 @@ export function handleRequestError(code: number, data: Object, uri: string) {
     }
   } else {
     const errorMessage: string =
-      (data as HttpError)?.data?.message || "服务异常，请稍后重试！";
+      ((data as HttpError)?.data?.message || "服务异常，请稍后重试！") +
+      " (" +
+      code +
+      ")";
     message(errorMessage, {
       duration: 3000,
       customClass: "el",

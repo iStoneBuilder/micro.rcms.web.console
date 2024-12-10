@@ -29,11 +29,26 @@
         :default-page-size-list="[5, 15, 20, 50]"
       />
     </div>
+    <PlusDialog
+      v-if="show"
+      v-model="show"
+      :title="'申请退款'"
+      :hasFooter="false"
+      :showClose="false"
+      width="500"
+      top="5%"
+    >
+      <Refund
+        v-if="show"
+        :currentRow="currentRow"
+        @dialogEvent="handleCallBack"
+      />
+    </PlusDialog>
   </div>
 </template>
 
 <script lang="tsx" setup>
-import { ref } from "vue";
+import { ref, h } from "vue";
 import { terminalManage } from "./utils/hook";
 import { getPageRecordList } from "@/api/rcms/fram-common";
 import type {
@@ -41,6 +56,7 @@ import type {
   ButtonsCallBackParams,
   PlusPageInstance
 } from "plus-pro-components";
+import Refund from "./form/refund.vue";
 
 const { pageInfo, loading, tableColumns, buttons, selectData } =
   terminalManage();
@@ -57,15 +73,14 @@ async function getList(query: PageInfo) {
       resolve("");
     }, 100);
   });
-  data.data.push({ orderNo: "MS20192993994959" });
+  data.data.push({ orderNo: "MS20192993994959", orderAmount: 10 });
   return { data: data.data, success: true, total: data.meta.totalRows };
 }
 // 列表按钮
 const handleOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
   switch (buttonRow.code) {
-    case "update":
-      break;
-    case "delete":
+    case "refund":
+      handleRefund(row);
       break;
   }
   refresh();
@@ -75,5 +90,14 @@ const handleSelect = (data: any) => {
 };
 const refresh = () => {
   plusPageInstance.value?.getList();
+};
+const show = ref(false);
+const currentRow = ref({});
+const handleRefund = function (data) {
+  currentRow.value = data;
+  show.value = true;
+};
+const handleCallBack = function () {
+  show.value = false;
 };
 </script>

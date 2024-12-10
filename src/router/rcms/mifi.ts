@@ -95,7 +95,7 @@ export default [
         path: "/device/order",
         name: "设备套餐",
         component: () =>
-          import("@/views/rcms/unitewifi/device/order/index.vue"),
+          import("@/views/rcms/unitewifi/device/thali/index.vue"),
         meta: {
           title: "设备套餐",
           showLink: true

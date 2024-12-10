@@ -159,7 +159,8 @@ export function terminalManage() {
       width: 60,
       align: "left",
       valueType: "input-number",
-      fieldProps: { precision: 0, step: 1, min: 0, max: 99999999 }
+      fieldProps: { precision: 0, step: 1, min: 0, max: 99999999 },
+      hideInSearch: true
     }
   ];
   const { buttons } = useTable();

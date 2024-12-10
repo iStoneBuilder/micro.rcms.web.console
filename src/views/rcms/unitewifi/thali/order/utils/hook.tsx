@@ -144,7 +144,7 @@ export function terminalManage() {
   buttons.value = [
     {
       text: "申请退款",
-      code: "update",
+      code: "refund",
       props: { type: "primary", plain: true }
     }
   ];

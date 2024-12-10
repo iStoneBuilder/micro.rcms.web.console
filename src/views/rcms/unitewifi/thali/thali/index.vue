@@ -7,9 +7,9 @@
       <el-alert title="套餐配置" type="success" :closable="false">
         <div class="alert-item">
           <p>
-            商户级数据，允许查看当前商户及下级商户数据；
-            已售卖的套餐部分禁止修改，禁止删除（不的销售套餐直接修改下架）；
-            未销售的套餐可直接删除； 禁止跨商户操作数据。
+            ① 商户级数据，允许查看当前商户及下级商户数据； ②
+            已售卖的套餐部分禁止修改，禁止删除（不的销售套餐直接修改下架）； ③
+            未销售的套餐可直接删除； ④ 禁止跨商户操作数据。
           </p>
         </div>
       </el-alert>
@@ -46,10 +46,7 @@
               type="success"
               plain
               @click="
-                handleCreate(
-                  { text: '销售效果展示 - ', code: 'sellShow' },
-                  '400'
-                )
+                handleCreate({ text: '销售效果展示', code: 'sellShow' }, '400')
               "
             >
               销售展示效果

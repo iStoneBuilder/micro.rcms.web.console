@@ -118,7 +118,9 @@
   width: 0;
   height: 100%;
   padding: 4px 0;
-  background-color: #fff;
+  background-color: #ebf5ff;
+  color: #409EFF;
+  border: 1px solid #9fceff;
   border-radius: 4px;
   box-shadow:
     0 2px 8px -2px rgb(0 0 0 / 5%),

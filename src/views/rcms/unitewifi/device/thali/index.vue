@@ -32,7 +32,7 @@
 <script lang="tsx" setup>
 import { ref } from "vue";
 import { terminalManage } from "./utils/hook";
-import { getPageRecordList } from "@/api/mifi/terminal";
+import { getPageRecordList } from "@/api/rcms/fram-common";
 import type {
   PageInfo,
   ButtonsCallBackParams,
@@ -48,7 +48,12 @@ async function getList(query: PageInfo) {
   const params = { ...query };
   delete params.page;
   delete params.pageSize;
-  const { data } = await getPageRecordList(page, pageSize, params);
+  const { data } = await getPageRecordList(
+    "mifi/device-data-plan",
+    page,
+    pageSize,
+    params
+  );
   await new Promise(resolve => {
     setTimeout(() => {
       resolve("");
