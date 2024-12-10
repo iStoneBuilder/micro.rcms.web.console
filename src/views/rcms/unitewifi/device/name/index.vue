@@ -120,3 +120,11 @@ const refresh = () => {
 };
 // -------- 列表相关操作 -------------
 </script>
+
+<style lang="scss" scoped>
+.rcms-plus-page {
+  :deep(.el-card__body) {
+    padding: 0px !important;
+  }
+}
+</style>

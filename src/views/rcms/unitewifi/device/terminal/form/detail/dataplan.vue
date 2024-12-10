@@ -5,6 +5,7 @@
     :request="getList"
     :search="false"
     :table="{
+      showOverflowTooltip: true,
       isSelection: false,
       adaptive: { offsetBottom: 330 }
     }"
@@ -22,9 +23,51 @@ import {
   getPageRecordList
 } from "@/api/rcms/fram-common";
 import { getTenantId } from "@/utils/common";
+import { addDrawer, closeDrawer } from "@/components/ReDrawer";
+import DetailForm from "../../../thali/form/detail.vue";
+
 const loading = ref(false);
 const pageInfo = { page: 1, pageSize: 15 };
 const tableColumns: PlusColumn[] = [
+  {
+    label: "套餐ID",
+    prop: "dpOrderId",
+    width: 160,
+    tableColumnProps: {
+      fixed: true,
+      showOverflowTooltip: true
+    },
+    render: (value, { row }) => {
+      return (
+        <el-link
+          style="color: var(--el-color-primary)"
+          onClick={() => {
+            addDrawer({
+              title: "套餐详情-" + (value || ""),
+              size: "50%",
+              class: "rcms-drawer",
+              contentRenderer: ({}) => (
+                <DetailForm currentRow={row} tableColumns={tableColumns} />
+              ),
+              footerButtons: [
+                {
+                  label: "关闭",
+                  size: "default",
+                  type: "primary",
+                  plain: true,
+                  btnClick: ({ drawer: { options, index } }) => {
+                    closeDrawer(options, index);
+                  }
+                }
+              ]
+            });
+          }}
+        >
+          {value}
+        </el-link>
+      );
+    }
+  },
   {
     label: "套餐名称",
     prop: "dataPlanNo",
@@ -43,7 +86,7 @@ const tableColumns: PlusColumn[] = [
   {
     label: "剩余流量(MB)",
     prop: "remainFlow",
-    minWidth: 200,
+    minWidth: 120,
     valueType: "input-number",
     fieldProps: { precision: 2 },
     hideInSearch: true
@@ -51,7 +94,7 @@ const tableColumns: PlusColumn[] = [
   {
     label: "当前已用流量(MB)",
     prop: "usedFlow",
-    minWidth: 200,
+    minWidth: 140,
     valueType: "input-number",
     fieldProps: { precision: 2 },
     hideInSearch: true
@@ -59,7 +102,7 @@ const tableColumns: PlusColumn[] = [
   {
     label: "总共已用流量(MB)",
     prop: "totalUsedFlow",
-    minWidth: 200,
+    minWidth: 140,
     valueType: "input-number",
     fieldProps: { precision: 2 },
     hideInSearch: true
@@ -81,7 +124,7 @@ const tableColumns: PlusColumn[] = [
   {
     label: "是否限速",
     prop: "isLimitSpeed",
-    minWidth: 100,
+    minWidth: 90,
     hideInSearch: true,
     valueType: "select",
     options: getItemList("RCMS_SYS_YN")
@@ -89,16 +132,30 @@ const tableColumns: PlusColumn[] = [
   {
     label: "限速值(Kbps)",
     prop: "limitSpeed",
-    minWidth: 140,
+    minWidth: 120,
     hideInSearch: true
   },
   {
     label: "是否可用",
     prop: "isAvailable",
-    minWidth: 100,
+    minWidth: 90,
     hideInSearch: true,
     valueType: "select",
     options: getItemList("RCMS_SYS_YN")
+  },
+  {
+    label: "设备SN",
+    prop: "deviceSn",
+    width: 200,
+    hideInSearch: true,
+    hideInTable: true
+  },
+  {
+    label: "订单号",
+    prop: "orderNo",
+    minWidth: 100,
+    hideInSearch: true,
+    hideInTable: true
   }
 ];
 async function getList(query: PageInfo) {

@@ -56,14 +56,14 @@ export function buildColum() {
       label: "物联网卡号",
       prop: "imei",
       minWidth: 200,
-      align: "left"
+      align: "left",
+      hideInSearch: true
     },
     {
       label: "运营商",
       prop: "carrierCode",
       minWidth: 100,
       align: "left",
-      hideInSearch: true,
       valueType: "select",
       options: getItemList("MIFI_ISP"),
       tableColumnProps: {
@@ -92,22 +92,19 @@ export function buildColum() {
       label: "流量状态",
       prop: "flowStatus",
       minWidth: 200,
-      align: "left",
-      hideInSearch: true
+      align: "left"
     },
     {
       label: "在线状态",
       prop: "onlineStatus",
       minWidth: 200,
-      align: "left",
-      hideInSearch: true
+      align: "left"
     },
     {
       label: "实名状态",
       prop: "nameStatus",
       minWidth: 200,
-      align: "left",
-      hideInSearch: true
+      align: "left"
     },
     {
       label: "SIM卡分类",

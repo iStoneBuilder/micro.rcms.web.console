@@ -112,7 +112,7 @@ export default [
       },
       {
         path: "/device/check",
-        name: "设备诊断",
+        name: "DeviceCheck",
         component: () =>
           import("@/views/rcms/unitewifi/device/check/index.vue"),
         meta: {

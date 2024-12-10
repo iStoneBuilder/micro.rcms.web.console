@@ -180,3 +180,12 @@
   font-size: 12px;
   color: gray;
 }
+.rcms-op-bar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .icon{
+    padding-left: 15px;
+    cursor: pointer;
+  }
+}

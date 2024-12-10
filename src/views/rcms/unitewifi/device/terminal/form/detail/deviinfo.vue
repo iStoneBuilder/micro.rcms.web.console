@@ -1,13 +1,18 @@
 <template>
   <div class="demo-collapse">
     <el-collapse v-model="activeNames">
-      <div>
-        <el-button type="primary" plain @click="handleDeviceCode">
-          设备二维码
-        </el-button>
-        <el-button type="primary" plain @click="handleDeviceCode">
-          设备诊断
-        </el-button>
+      <div class="rcms-op-bar">
+        <div class="btn">
+          <el-button type="primary" plain @click="handleDeviceCode">
+            设备二维码
+          </el-button>
+          <el-button type="primary" plain @click="handleDeviceCheck">
+            设备诊断
+          </el-button>
+        </div>
+        <div class="icon">
+          <IconifyIconOffline :icon="Refresh" />
+        </div>
       </div>
       <el-collapse-item title="ICCID信息" name="1">
         <PlusDescriptions
@@ -70,6 +75,11 @@ import { getBussList, getItemList } from "@/api/rcms/fram-common";
 import { getTenantId } from "@/utils/common";
 import Qrcode from "./qrcode.vue";
 import { addDialog } from "@/components/ReDialog";
+import { useDetail } from "@/utils/toDetail";
+import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+
+import Refresh from "@iconify-icons/ep/refresh";
+
 const detailData = ref({});
 const activeNames = ref(["1", "2", "3", "4", "5", "6"]);
 const iccidColumns: PlusColumn[] = [
@@ -403,6 +413,15 @@ const handleDeviceCode = function () {
     closeOnClickModal: false,
     contentRenderer: () => h(Qrcode, {}),
     beforeSure: (done, { options }) => {}
+  });
+};
+const route = useRoute();
+const { toDetail } = useDetail();
+const handleDeviceCheck = function () {
+  toDetail({ deviceSn: route.query.deviceSn }, "query", {
+    path: "/device/check",
+    name: "DeviceCheck",
+    meta: { title: "设备诊断" }
   });
 };
 onMounted(async () => {

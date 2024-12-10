@@ -16,9 +16,9 @@
           showNumber: 3
         }"
         :table="{
+          showOverflowTooltip: true,
           isSelection: true,
           adaptive: { offsetBottom: 70 },
-          // actionBar: { buttons, width: 100, type: 'link' },
           onClickAction: handleOption,
           onSelectionChange: handleSelect
         }"
