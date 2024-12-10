@@ -1,6 +1,7 @@
 <!--设备详情-->
 <template>
   <div id="rcms-devi-detail">
+    <!--地图-->
     <div class="rcms-plus-map">
       <DevMap />
       <div class="rcms-plus-ops">
@@ -37,6 +38,7 @@
         </el-row>
       </div>
     </div>
+    <!--Tab-->
     <div class="rcms-plus-context">
       <el-tabs v-model="activeName">
         <el-tab-pane label="设备信息" name="first">
@@ -44,6 +46,9 @@
         </el-tab-pane>
         <el-tab-pane label="设备套餐" name="third">
           <DataPlan />
+        </el-tab-pane>
+        <el-tab-pane label="流量统计" name="second">
+          <Dpcount />
         </el-tab-pane>
         <el-tab-pane label="实名记录" name="fourth">
           <Deviname />
@@ -59,13 +64,14 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, defineOptions, onMounted } from "vue";
+import { ref, defineOptions } from "vue";
 import Deviinfo from "./detail/deviinfo.vue";
 import DataPlan from "./detail/dataplan.vue";
 import Deviname from "./detail/deviname.vue";
 import Control from "./detail/control.vue";
 import Online from "./detail/online.vue";
 import DevMap from "./detail/devMap.vue";
+import Dpcount from "./detail/dpcount.vue";
 
 import BarChartLine from "@iconify-icons/ri/bar-chart-line";
 import UserLink from "@iconify-icons/ri/user-follow-line";
@@ -155,6 +161,12 @@ const opreInfo = [
   }
   .rcms-plus-context {
     width: calc(100% - 410px);
+    :deep(.plus-page__table_wrapper) {
+      margin: 0;
+    }
+    :deep(.el-card__body) {
+      padding: 0px;
+    }
   }
 }
 </style>

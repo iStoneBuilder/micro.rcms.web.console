@@ -13,5 +13,13 @@ const qCode = ref(
 </script>
 
 <template>
-  <ReQrcode :text="qCode + route.query.deviceSn" :width="320" />
+  <el-card>
+    <ReQrcode :text="qCode + route.query.deviceSn" :width="300" />
+  </el-card>
 </template>
+
+<style scoped>
+.el-card {
+  --el-card-padding: 0px !important;
+}
+</style>

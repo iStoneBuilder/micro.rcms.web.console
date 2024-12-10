@@ -30,14 +30,6 @@
     line-height: 60px;
     margin-left: 10px;
   }
-  .el-card.is-always-shadow{
-    box-shadow: none ;
-    border-radius: 0;
-    border-color: transparent;
-    .el-card__body{
-      padding: 14px;
-    }
-  }
 }
 .rcms-form-tip{
   display: flex;
@@ -60,9 +52,6 @@
     }
     .plus-page__table_wrapper{
       margin-top: 10px;
-      .el-card__body{
-        padding: 16px 16px 0 16px;
-      }
     }
   }
   .rcms-plus-tab{

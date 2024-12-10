@@ -1,9 +1,14 @@
 <template>
   <div class="demo-collapse">
     <el-collapse v-model="activeNames">
-      <el-button type="primary" plain @click="handleDeviceCode">
-        设备二维码
-      </el-button>
+      <div>
+        <el-button type="primary" plain @click="handleDeviceCode">
+          设备二维码
+        </el-button>
+        <el-button type="primary" plain @click="handleDeviceCode">
+          设备诊断
+        </el-button>
+      </div>
       <el-collapse-item title="ICCID信息" name="1">
         <PlusDescriptions
           :column="2"
@@ -391,7 +396,7 @@ const handleDeviceCode = function () {
   addDialog({
     title: `设备二维码`,
     props: {},
-    width: "355px",
+    width: "336px",
     draggable: true,
     hideFooter: true,
     fullscreenIcon: false,
