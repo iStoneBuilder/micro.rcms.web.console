@@ -2,7 +2,8 @@ import type { PlusColumn } from "plus-pro-components";
 import type { FormRules } from "element-plus";
 import { getItemList, getBussList } from "@/api/rcms/fram-common";
 import { getTenantId } from "@/utils/common";
-
+import { addDrawer, closeDrawer } from "@/components/ReDrawer";
+import DetailForm from "./form/detail.vue";
 export const defaultPageInfo = {
   page: 1,
   pageSize: 15
@@ -14,11 +15,38 @@ export function buildColum() {
       prop: "iccid",
       width: 180,
       align: "left",
-      render(value) {
-        return <el-link type="primary">{value}</el-link>;
-      },
       tableColumnProps: {
         fixed: true
+      },
+      render: (value, { row }) => {
+        return (
+          <el-link
+            style="color: var(--el-color-primary)"
+            onClick={() => {
+              addDrawer({
+                title: "SIM卡详情",
+                size: "50%",
+                class: "rcms-drawer",
+                contentRenderer: ({}) => (
+                  <DetailForm currentRow={row} tableColumns={columns} />
+                ),
+                footerButtons: [
+                  {
+                    label: "关闭",
+                    size: "default",
+                    type: "primary",
+                    plain: true,
+                    btnClick: ({ drawer: { options, index } }) => {
+                      closeDrawer(options, index);
+                    }
+                  }
+                ]
+              });
+            }}
+          >
+            {value}
+          </el-link>
+        );
       }
     },
     {
@@ -54,7 +82,7 @@ export function buildColum() {
     },
     {
       label: "物联网卡号",
-      prop: "imei",
+      prop: "msisdn",
       minWidth: 200,
       align: "left",
       hideInSearch: true

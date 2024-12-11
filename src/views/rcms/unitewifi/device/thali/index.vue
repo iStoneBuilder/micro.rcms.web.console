@@ -1,31 +1,29 @@
 <template>
-  <div>
-    <div class="rcms-plus-page">
-      <el-alert title="设备套餐" type="success" :closable="false">
-        <div class="alert-item">
-          <p>① 商户级数据，允许当前商户及下级商户数据。</p>
-        </div>
-      </el-alert>
-      <PlusPage
-        ref="plusPageInstance"
-        :columns="tableColumns"
-        :request="getList"
-        :search="{
-          labelWidth: '100px',
-          colProps: { span: 6 },
-          showNumber: 3
-        }"
-        :table="{
-          showOverflowTooltip: true,
-          isSelection: true,
-          adaptive: { offsetBottom: 70 },
-          onClickAction: handleOption,
-          onSelectionChange: handleSelect
-        }"
-        :default-page-info="pageInfo"
-        :default-page-size-list="[5, 15, 20, 50]"
-      />
-    </div>
+  <div class="rcms-plus-page">
+    <el-alert title="设备套餐" type="success" :closable="false">
+      <div class="alert-item">
+        <p>① 商户级数据，允许当前商户及下级商户数据。</p>
+      </div>
+    </el-alert>
+    <PlusPage
+      ref="plusPageInstance"
+      :columns="tableColumns"
+      :request="getList"
+      :search="{
+        labelWidth: '100px',
+        colProps: { span: 6 },
+        showNumber: 3
+      }"
+      :table="{
+        showOverflowTooltip: true,
+        isSelection: true,
+        adaptive: { offsetBottom: 70 },
+        onClickAction: handleOption,
+        onSelectionChange: handleSelect
+      }"
+      :default-page-info="pageInfo"
+      :default-page-size-list="[5, 15, 20, 50]"
+    />
   </div>
 </template>
 

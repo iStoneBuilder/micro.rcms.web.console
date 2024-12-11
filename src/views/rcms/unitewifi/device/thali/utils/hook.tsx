@@ -24,7 +24,7 @@ export function terminalManage() {
             style="color: var(--el-color-primary)"
             onClick={() => {
               addDrawer({
-                title: "套餐详情-" + (value || ""),
+                title: "套餐详情",
                 size: "50%",
                 class: "rcms-drawer",
                 contentRenderer: ({}) => (
