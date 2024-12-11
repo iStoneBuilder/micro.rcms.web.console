@@ -21,7 +21,13 @@
         :table="{
           isSelection: true,
           adaptive: { offsetBottom: 70 },
-          actionBar: { buttons, width: 165, type: 'link', showNumber: 4 },
+          actionBar: {
+            buttons,
+            width: 100,
+            type: 'link',
+            showNumber: 4,
+            align: 'center'
+          },
           onClickAction: handleOption,
           onSelectionChange: handleSelect
         }"
@@ -80,19 +86,7 @@ import CreateForm from "./form/create.vue";
 const service = "mifi/data-plan";
 const { pageInfo, loading, tableColumns, createColumns, buttons, selectData } =
   terminalManage();
-tableColumns[0].render = (value, data) => {
-  return (
-    <el-link
-      onClick={() => {
-        currentRow.value = data["row"];
-        handleCreate({ code: "detail" }, "70%");
-      }}
-      type="primary"
-    >
-      {value}
-    </el-link>
-  );
-};
+
 const dWidth = ref("800");
 const plusPageInstance = ref<PlusPageInstance | null>(null);
 async function getList(query: PageInfo) {

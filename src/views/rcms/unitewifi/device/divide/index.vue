@@ -1,14 +1,11 @@
-<!--
-  设备分发说明
--->
 <template>
   <div>
     <div class="rcms-plus-page">
       <el-alert title="设备分发" type="success" :closable="false">
         <div class="alert-item">
           <p>
-            ① 商户级数据，只允许分发当前商户数据到下级商户；②
-            分发数据时清空分发设备的设备分组、设备关联的ICCID的商户信息。
+            ① 商户级数据，只允许查看、分发当前商户数据到下级商户； ②
+            分发数据时清空分发设备的设备分组、修改设备关联的ICCID的商户信息。
           </p>
         </div>
       </el-alert>
@@ -69,11 +66,7 @@ import { ref } from "vue";
 import { terminalManage } from "./utils/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import { getPageRecordList } from "@/api/rcms/fram-common";
-import type {
-  PageInfo,
-  ButtonsCallBackParams,
-  PlusPageInstance
-} from "plus-pro-components";
+import type { PageInfo, PlusPageInstance } from "plus-pro-components";
 import Expand from "@iconify-icons/ep/expand";
 import { getEnterpriseId } from "@/utils/common";
 
@@ -86,6 +79,7 @@ async function getList(query: PageInfo) {
   const params = { ...query };
   delete params.page;
   delete params.pageSize;
+  params["activeStatus"] = "N";
   params["enterpriseId"] = getEnterpriseId();
   const { data } = await getPageRecordList(
     "mifi/device-manage",
@@ -100,18 +94,6 @@ async function getList(query: PageInfo) {
   });
   return { data: data.data, success: true, total: data.meta.totalRows };
 }
-// 列表按钮
-const handleOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
-  switch (buttonRow.code) {
-    case "update":
-      break;
-    case "delete":
-      break;
-    case "setting":
-      break;
-  }
-  refresh();
-};
 const handleSelect = (data: any) => {
   selectData.value = data;
 };

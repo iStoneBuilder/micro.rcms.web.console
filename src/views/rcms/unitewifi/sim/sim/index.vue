@@ -173,15 +173,9 @@ import {
 import { buildExcelTemp, readExcelData } from "@/utils/xlsxHandle";
 import { getItemList, getBussList } from "@/api/rcms/fram-common";
 
-import { Setting, EditPen } from "@element-plus/icons-vue";
-import Delete from "@iconify-icons/ep/delete";
 import Upload from "@iconify-icons/ep/upload";
 import Check from "@iconify-icons/ep/circle-check";
 import Download from "@iconify-icons/ep/download";
-
-const currentRow = ref({});
-const REGEXP_CODE = /^[a-zA-Z][a-zA-Z0-9_]*[a-zA-Z]$/;
-const router = useRouter();
 
 const getList = async (query: PageInfo) => {
   const { page = 1, pageSize = 15 } = query || {};

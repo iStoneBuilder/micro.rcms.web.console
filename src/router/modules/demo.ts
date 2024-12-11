@@ -6,7 +6,7 @@ export default {
   redirect: "/about/index",
   meta: {
     icon: "ep:data-analysis",
-    title: "框架DEMO",
+    title: "框架示列",
     rank: about
   },
   children: [

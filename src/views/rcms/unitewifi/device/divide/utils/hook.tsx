@@ -35,21 +35,9 @@ export function terminalManage() {
       }
     },
     {
-      label: "商户",
-      prop: "enterpriseId",
-      minWidth: 200,
-      valueType: "select",
-      options: getBussList(
-        "/test/services/rcms/base/enterprise/records",
-        "name",
-        "id",
-        { id: getTenantId() }
-      )
-    },
-    {
       label: "设备类型",
       prop: "deviceType",
-      minWidth: 120,
+      minWidth: 100,
       valueType: "select",
       options: getBussList(
         "/test/services/rcms/mifi/device-type/records",
@@ -59,9 +47,21 @@ export function terminalManage() {
       )
     },
     {
+      label: "商户",
+      prop: "enterpriseId",
+      minWidth: 300,
+      valueType: "select",
+      options: getBussList(
+        "/test/services/rcms/base/enterprise/records",
+        "name",
+        "id",
+        { id: getTenantId() }
+      )
+    },
+    {
       label: "入库批次",
       prop: "batchNo",
-      minWidth: 200
+      minWidth: 100
     }
   ];
   const divideColumns: PlusColumn[] = [
