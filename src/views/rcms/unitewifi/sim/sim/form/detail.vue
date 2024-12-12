@@ -27,6 +27,11 @@
           <el-steps :active="0" align-center>
             <el-step title="运营商管理状态" description="Some description" />
             <el-step
+              title="在用"
+              description="Some description"
+              class="step_green"
+            />
+            <el-step
               title="停机"
               description="Some description"
               class="step_red"
@@ -35,6 +40,11 @@
               title="在用"
               description="Some description"
               class="step_green"
+            />
+            <el-step
+              title="停机"
+              description="Some description"
+              class="step_red"
             />
           </el-steps>
         </div>

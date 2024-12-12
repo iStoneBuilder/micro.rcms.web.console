@@ -34,9 +34,9 @@ const pageInfo = { page: 1, pageSize: 15 };
 const loading = ref(false);
 const tableColumns: PlusColumn[] = [
   {
-    label: "商户",
+    label: "SIM卡商",
     prop: "name",
-    width: 300,
+    width: 200,
     align: "left",
     hideInSearch: true
   },

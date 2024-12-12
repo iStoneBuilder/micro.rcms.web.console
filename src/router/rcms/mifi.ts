@@ -197,6 +197,16 @@ export default [
         component: () =>
           import("@/views/rcms/unitewifi/flow/merchantStatistics.vue"),
         meta: {
+          title: "商户流量统计",
+          showLink: true
+        }
+      },
+      {
+        path: "/flow/simMch",
+        name: "SimMchStatistics",
+        component: () =>
+          import("@/views/rcms/unitewifi/flow/simMchStatistics.vue"),
+        meta: {
           title: "卡商流量统计",
           showLink: true
         }
