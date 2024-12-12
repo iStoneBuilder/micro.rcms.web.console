@@ -20,10 +20,8 @@
             :column="2"
             :columns="mchSimBsColumns"
             :data="currentRow"
+            :descriptionsItemProps="{ labelAlign: 'right' }"
             :label-width="'140px'"
-            :descriptionsItemProps="{
-              labelAlign: 'right'
-            }"
           />
           <div class="padding">状态变更记录</div>
           <el-steps :active="0" align-center>
@@ -42,16 +40,17 @@
         </div>
       </el-collapse-item>
       <el-collapse-item title="流量统计" name="3">
-        <div ref="pieChartRef" style="width: 100%; height: 45vh" />
+        <UsedChart :data-info="{}" />
       </el-collapse-item>
     </el-collapse>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { defineProps, ref, computed } from "vue";
+import { defineProps, ref } from "vue";
 import type { PlusColumn } from "plus-pro-components";
-import { cloneDeep, useDark, useECharts } from "@pureadmin/utils";
+import { cloneDeep } from "@pureadmin/utils";
+import UsedChart from "../../../coms/usedChart.vue";
 const props = defineProps<{
   currentRow: any;
   tableColumns: PlusColumn[];
@@ -103,59 +102,6 @@ const mchSimBsColumns: PlusColumn[] = [
     prop: "enterpriseId"
   }
 ];
-// -------图表------
-const { isDark } = useDark();
-const theme = computed(() => (isDark.value ? "dark" : "light"));
-const pieChartRef = ref();
-const { setOptions } = useECharts(pieChartRef, {
-  theme
-});
-setOptions({
-  tooltip: {
-    trigger: "axis",
-    axisPointer: {
-      type: "shadow"
-    }
-  },
-  grid: {
-    left: "4%",
-    right: "3%",
-    bottom: "3%",
-    containLabel: true
-  },
-  xAxis: [
-    {
-      type: "category",
-      data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-      axisTick: {
-        alignWithLabel: true
-      }
-    }
-  ],
-  yAxis: [
-    {
-      type: "value",
-      name: "使用量(MB)",
-      nameGap: 25
-    }
-  ],
-  series: [
-    {
-      name: "Direct",
-      type: "bar",
-      barWidth: "30%",
-      color: ["#409EFF"],
-      label: {
-        show: true,
-        position: "top",
-        formatter: function (a) {
-          return a.value as string;
-        }
-      },
-      data: [10, 52, 200, 334, 390, 330, 220]
-    }
-  ]
-});
 </script>
 <style lang="scss" scoped>
 :deep(.el-descriptions__content) {
