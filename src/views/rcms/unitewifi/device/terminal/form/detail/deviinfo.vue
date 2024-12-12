@@ -20,6 +20,9 @@
           :columns="iccidColumns"
           :data="detailData"
           :label-width="'180px'"
+          :descriptionsItemProps="{
+            labelAlign: 'right'
+          }"
         />
       </el-collapse-item>
       <el-collapse-item title="设备信息" name="2">
@@ -28,6 +31,9 @@
           :columns="deviceColumns"
           :data="detailData"
           :label-width="'180px'"
+          :descriptionsItemProps="{
+            labelAlign: 'right'
+          }"
         />
       </el-collapse-item>
       <el-collapse-item title="流量信息" name="3">
@@ -36,6 +42,9 @@
           :columns="dataPlanColumns"
           :data="detailData"
           :label-width="'180px'"
+          :descriptionsItemProps="{
+            labelAlign: 'right'
+          }"
         />
       </el-collapse-item>
       <el-collapse-item title="网络信息" name="5">
@@ -44,6 +53,9 @@
           :columns="netColumns"
           :data="detailData"
           :label-width="'180px'"
+          :descriptionsItemProps="{
+            labelAlign: 'right'
+          }"
         />
       </el-collapse-item>
       <el-collapse-item title="访问信息" name="6">
@@ -52,6 +64,9 @@
           :columns="visitColumns"
           :data="detailData"
           :label-width="'180px'"
+          :descriptionsItemProps="{
+            labelAlign: 'right'
+          }"
         />
       </el-collapse-item>
       <el-collapse-item title="DHCP信息" name="4">
@@ -60,6 +75,9 @@
           :columns="dhcpColumns"
           :data="detailData"
           :label-width="'180px'"
+          :descriptionsItemProps="{
+            labelAlign: 'right'
+          }"
         />
       </el-collapse-item>
     </el-collapse>
@@ -76,7 +94,6 @@ import { getTenantId } from "@/utils/common";
 import Qrcode from "./qrcode.vue";
 import { addDialog } from "@/components/ReDialog";
 import { useDetail } from "@/utils/toDetail";
-import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
 import Refresh from "@iconify-icons/ep/refresh";
 
@@ -85,33 +102,21 @@ const activeNames = ref(["1", "2", "3", "4", "5", "6"]);
 const iccidColumns: PlusColumn[] = [
   {
     label: "贴片卡ICCID",
-    prop: "iccid",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "iccid"
   },
   {
     label: "贴片卡2ICCID",
-    prop: "iccid2",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "iccid2"
   }
 ];
 const deviceColumns: PlusColumn[] = [
   {
     label: "设备SN",
-    prop: "deviceSn",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "deviceSn"
   },
   {
     label: "所属商户",
     prop: "enterpriseId",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    },
     valueType: "select",
     options: getBussList(
       "/test/services/rcms/base/enterprise/records",
@@ -123,9 +128,6 @@ const deviceColumns: PlusColumn[] = [
   {
     label: "设备组名称",
     prop: "deviceGroup",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    },
     valueType: "select",
     options: getBussList(
       "/test/services/rcms/mifi/device-group/records",
@@ -135,271 +137,163 @@ const deviceColumns: PlusColumn[] = [
   },
   {
     label: "启动卡ICCID",
-    prop: "iccid",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "iccid"
   },
   {
     label: "贴片卡物联网号",
-    prop: "msisdn1",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "msisdn1"
   },
   {
     label: "贴片卡2物联网号",
-    prop: "msisdn2",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "msisdn2"
   },
   {
     label: "软件版本号",
-    prop: "softVersion",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "softVersion"
   },
   {
     label: "IMEI",
-    prop: "imei",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "imei"
   },
   {
     label: "上网模式",
     prop: "netMode",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    },
     valueType: "select",
     options: getItemList("MIFI_SURF_NET_TYPE")
   },
   {
     label: "本地卡模式",
-    prop: "localCardMode",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "localCardMode"
   },
   {
     label: "流量模式",
     prop: "flowMode",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    },
     valueType: "select",
     options: getItemList("MIFI_FLOW_MODE")
   },
   {
     label: "wifi连接数",
-    prop: "wifiConnectNum",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "wifiConnectNum"
   },
   {
     label: "wifi名称",
-    prop: "wifiName",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "wifiName"
   },
   {
     label: "wifiPwd",
-    prop: "dataPlanRules",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "dataPlanRules"
   },
   {
     label: "5G wifi名称",
-    prop: "wifiName5G",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "wifiName5G"
   },
   {
     label: "5G wifi密码",
-    prop: "wifiPwd5G",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "wifiPwd5G"
   },
   {
     label: "设备状态",
-    prop: "deviceStatus",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "deviceStatus"
   },
   {
     label: "激活时间",
-    prop: "activeTime",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "activeTime"
   },
   {
     label: "激活用户",
-    prop: "activeUser",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "activeUser"
   },
   {
     label: "设备能力",
-    prop: "deviceAbility",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "deviceAbility"
   },
   {
     label: "监测状态",
-    prop: "checkStatus",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "checkStatus"
   },
   {
     label: "入库批次号",
-    prop: "batchNo",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "batchNo"
   }
 ];
 const dataPlanColumns: PlusColumn[] = [
   {
     label: "今日使用流量",
-    prop: "todayFlow",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "todayFlow"
   },
   {
     label: "本月已耗流量",
-    prop: "monthFlow",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "monthFlow"
   },
   {
     label: "累计使用流量",
-    prop: "totalFlow",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "totalFlow"
   }
 ];
 const dhcpColumns: PlusColumn[] = [
   {
     label: "IP",
-    prop: "dataPlanRules",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "dataPlanRules"
   },
   {
     label: "起始地址",
-    prop: "dataPlanRules",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "dataPlanRules"
   },
   {
     label: "结束地址",
-    prop: "dataPlanRules",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "dataPlanRules"
   },
   {
     label: "合约参数",
-    prop: "dataPlanRules",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "dataPlanRules"
   }
 ];
 const netColumns: PlusColumn[] = [
   {
     label: "在线状态",
     prop: "online",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    },
     valueType: "select",
     options: getItemList("MIFI_IS_ONLINE")
   },
   {
     label: "可选信号",
-    prop: "signal",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "signal"
   },
   {
     label: "选卡策略",
     prop: "cardStrategy",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    },
     valueType: "select",
     options: getItemList("MIFI_CARD_STRATEGY")
   },
   {
     label: "设备上报限速值(Kbps)",
-    prop: "limitSpeed",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "limitSpeed"
   },
   {
     label: "信号强度",
-    prop: "signalStrength",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "signalStrength"
   },
   {
     label: "本地卡模式",
-    prop: "localCardMode",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "localCardMode"
   }
 ];
 const visitColumns: PlusColumn[] = [
   {
     label: "最后访问信息",
-    prop: "lastAccessInfo",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "lastAccessInfo"
   },
   {
     label: "最后流量上报时间",
-    prop: "lastFlowReportTime",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "lastFlowReportTime"
   },
   {
     label: "最后上报ICCID",
-    prop: "lastReportIccid",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "lastReportIccid"
   },
   {
     label: "最后使用网络",
-    prop: "lastUsedNetwork",
-    descriptionsItemProps: {
-      labelAlign: "right"
-    }
+    prop: "lastUsedNetwork"
   }
 ];
 const handleDeviceCode = function () {

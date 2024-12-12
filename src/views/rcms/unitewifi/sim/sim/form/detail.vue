@@ -8,6 +8,9 @@
           :columns="simColumns"
           :data="currentRow"
           :label-width="'140px'"
+          :descriptionsItemProps="{
+            labelAlign: 'right'
+          }"
         />
       </el-collapse-item>
       <el-collapse-item title="运营商卡信息" name="2">
@@ -15,16 +18,12 @@
           <div class="bottom">基础信息</div>
           <PlusDescriptions
             :column="2"
-            :columns="mchSimColumns"
+            :columns="mchSimBsColumns"
             :data="currentRow"
             :label-width="'140px'"
-          />
-          <div class="padding">流量信息</div>
-          <PlusDescriptions
-            :column="2"
-            :columns="mchSimColumns"
-            :data="currentRow"
-            :label-width="'140px'"
+            :descriptionsItemProps="{
+              labelAlign: 'right'
+            }"
           />
           <div class="padding">状态变更记录</div>
           <el-steps :active="0" align-center>
@@ -62,7 +61,39 @@ const activeCollapse = ref(["1", "2", "3"]);
 const simColumns = cloneDeep(props.tableColumns);
 delete simColumns[0]["render"];
 // --- SIM卡运营商信息
-const mchSimColumns: PlusColumn[] = [
+const mchSimBsColumns: PlusColumn[] = [
+  {
+    label: "iccid",
+    prop: "enterpriseId"
+  },
+  {
+    label: "imsi",
+    prop: "enterpriseId"
+  },
+  {
+    label: "运营商",
+    prop: "enterpriseId"
+  },
+  {
+    label: "msisdn",
+    prop: "enterpriseId"
+  },
+  {
+    label: "开卡时间",
+    prop: "enterpriseId"
+  },
+  {
+    label: "激活时间",
+    prop: "enterpriseId"
+  },
+  {
+    label: "卡状态",
+    prop: "enterpriseId"
+  },
+  {
+    label: "限速值",
+    prop: "enterpriseId"
+  },
   {
     label: "当日使用流量",
     prop: "enterpriseId"
