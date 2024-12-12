@@ -1,6 +1,6 @@
 <template>
   <div class="rcms-plus-page">
-    <el-alert title="卡商流量统计" type="success" :closable="false">
+    <el-alert title="商户流量统计" type="success" :closable="false">
       <div class="alert-item">
         <p>按照设备流量上报每日统计生成数据</p>
       </div>

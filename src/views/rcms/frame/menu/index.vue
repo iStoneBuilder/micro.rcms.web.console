@@ -84,6 +84,7 @@ function onFullscreen() {
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
           ref="tableRef"
+          class="rcms-pure-table"
           adaptive
           :adaptiveConfig="{ offsetBottom: 60 }"
           align-whole="center"
@@ -94,6 +95,7 @@ function onFullscreen() {
           :size="size"
           :data="dataList"
           :columns="dynamicColumns"
+          border
           :header-cell-style="{
             background: 'var(--el-fill-color-light)',
             color: 'var(--el-text-color-primary)'
@@ -140,13 +142,17 @@ function onFullscreen() {
 </template>
 
 <style lang="scss" scoped>
-:deep(.el-table__inner-wrapper::before) {
-  height: 0;
-}
-
 .search-form {
   :deep(.el-form-item) {
     margin-bottom: 12px;
+  }
+}
+.rcms-pure-table {
+  :deep(td.el-table__cell) {
+    div {
+      display: flex !important;
+      align-items: center;
+    }
   }
 }
 </style>

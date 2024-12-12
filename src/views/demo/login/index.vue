@@ -58,7 +58,7 @@ const { locale, translationCh, translationEn } = useTranslationLang();
 
 const ruleForm = reactive({
   username: "shark-admin",
-  password: "TXNAMTIzNDU2Nzg=",
+  password: "RCMS_123456789",
   verifyCode: ""
 });
 
@@ -70,7 +70,7 @@ const onLogin = async (formEl: FormInstance | undefined) => {
       useUserStoreHook()
         .loginByUsername({
           account: ruleForm.username,
-          password: ruleForm.password
+          password: btoa(ruleForm.password)
         })
         .then(res => {
           if (res.success) {

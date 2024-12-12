@@ -22,7 +22,7 @@ export interface FormProps {
 const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
     username: "shark-admin",
-    password: "TXNAMTIzNDU2Nzg="
+    password: "RCMS_123456789"
   })
 });
 
@@ -44,7 +44,7 @@ const onLogin = async (formEl: FormInstance | undefined) => {
       useUserStoreHook()
         .loginByUsername({
           account: newFormInline.value.username,
-          password: newFormInline.value.password
+          password: btoa(newFormInline.value.password)
         })
         .then(res => {
           if (res.success) {
