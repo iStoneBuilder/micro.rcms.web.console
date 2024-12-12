@@ -40,7 +40,7 @@ setOptions({
   yAxis: [
     {
       type: "value",
-      name: "使用量(MB)",
+      name: props.dataInfo.name,
       nameGap: 25
     }
   ],

@@ -13,7 +13,7 @@
         />
       </el-collapse-item>
       <el-collapse-item title="使用明细" name="2">
-        <UsedChart :data-info="{}" />
+        <UsedChart :data-info="{ name: '使用量' }" />
       </el-collapse-item>
     </el-collapse>
   </div>

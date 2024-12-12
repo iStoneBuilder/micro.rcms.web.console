@@ -21,7 +21,7 @@
             <el-statistic title="总共销售量" :value="outputValue" />
           </el-col>
         </el-row>
-        <UsedChart :data-info="{}" />
+        <UsedChart :data-info="{ name: '销售量' }" />
       </el-collapse-item>
     </el-collapse>
   </div>

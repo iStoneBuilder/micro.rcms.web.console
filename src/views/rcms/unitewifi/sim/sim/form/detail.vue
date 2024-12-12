@@ -40,7 +40,7 @@
         </div>
       </el-collapse-item>
       <el-collapse-item title="流量统计" name="3">
-        <UsedChart :data-info="{}" />
+        <UsedChart :data-info="{ name: '使用量' }" />
       </el-collapse-item>
     </el-collapse>
   </div>
