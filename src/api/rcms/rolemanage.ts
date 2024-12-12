@@ -53,7 +53,7 @@ export const getRolePermissionList = (roleId?: string) => {
 export const authorizeRolePerm = (roleId: string, data?: Array<any>) => {
   return http.request<ResultData>(
     "post",
-    `/test/services/rcms/base/role/records/${roleId}/authorize`,
+    `/test/services/rcms/base/role/records/${roleId}/permissions`,
     {
       data
     }

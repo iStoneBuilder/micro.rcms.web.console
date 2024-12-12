@@ -51,10 +51,6 @@ export function useMenu() {
         isAllEmpty(component) ? path : component
     },
     {
-      label: "权限标识",
-      prop: "auths"
-    },
-    {
       label: "排序",
       prop: "rankSort",
       width: 100
