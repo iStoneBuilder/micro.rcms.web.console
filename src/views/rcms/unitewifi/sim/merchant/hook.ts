@@ -12,7 +12,7 @@ export function buildColum() {
   const columns: PlusColumn[] = [
     {
       label: "卡商编码",
-      minWidth: 200,
+      width: 200,
       prop: "merchantCode",
       hideInForm: true,
       hideInSearch: true,

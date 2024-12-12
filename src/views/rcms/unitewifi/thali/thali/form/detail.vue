@@ -71,6 +71,12 @@ setOptions({
   legend: {
     icon: "circle"
   },
+  grid: {
+    left: "2%",
+    right: "2%",
+    bottom: "3%",
+    containLabel: true
+  },
   xAxis: {
     type: "category",
     data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]

@@ -124,6 +124,7 @@
               <div style="margin: 0 auto">
                 <el-button
                   type="primary"
+                  plain
                   :disabled="importLoading"
                   @click="handleClose"
                   >取消</el-button

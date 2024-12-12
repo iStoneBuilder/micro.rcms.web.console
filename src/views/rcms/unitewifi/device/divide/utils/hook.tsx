@@ -69,7 +69,7 @@ export function terminalManage() {
     {
       label: "分发批次号",
       prop: "divideId",
-      minWidth: 200,
+      width: 160,
       tableColumnProps: {
         fixed: true
       },
@@ -107,7 +107,7 @@ export function terminalManage() {
     {
       label: "处理数量",
       prop: "divideNum",
-      minWidth: 100,
+      width: 100,
       hideInSearch: true
     },
     {
@@ -137,7 +137,7 @@ export function terminalManage() {
       )
     },
     {
-      label: "设备SN",
+      label: "已分发-设备SN",
       prop: "deviceSns",
       minWidth: 200,
       hideInSearch: true,
@@ -146,18 +146,18 @@ export function terminalManage() {
     {
       label: "分发结果",
       prop: "divideStatus",
-      minWidth: 200,
+      width: 100,
       hideInSearch: true
     },
     {
       label: "操作者",
       prop: "divideUser",
-      minWidth: 200
+      width: 200
     },
     {
       label: "操作时间",
       prop: "divideTime",
-      minWidth: 200,
+      width: 160,
       hideInSearch: true,
       valueType: "date-picker"
     }

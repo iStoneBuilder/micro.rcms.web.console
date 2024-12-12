@@ -25,7 +25,7 @@ export function buildColum() {
             onClick={() => {
               addDrawer({
                 title: "SIM卡详情",
-                size: "50%",
+                size: "70%",
                 class: "rcms-drawer",
                 contentRenderer: ({}) => (
                   <DetailForm currentRow={row} tableColumns={columns} />

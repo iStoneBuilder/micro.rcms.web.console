@@ -10,7 +10,7 @@
         />
       </el-collapse-item>
       <el-collapse-item title="使用明细" name="2">
-        <div ref="pieChartRef" style="width: 100%; height: 44vh" />
+        <div ref="pieChartRef" style="width: 100%; height: 45vh" />
       </el-collapse-item>
     </el-collapse>
   </div>

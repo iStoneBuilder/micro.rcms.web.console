@@ -34,7 +34,7 @@
                 <div>
                   <el-select
                     v-model="targetMch"
-                    placeholder="请选择目标商户"
+                    placeholder="请选择目标(下级)商户"
                     clearable
                     @change="targetMchChange"
                   >
@@ -82,7 +82,7 @@
 </template>
 
 <script lang="tsx" setup>
-import { onMounted, ref, h } from "vue";
+import { onMounted, ref } from "vue";
 import { terminalManage } from "./utils/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import {
