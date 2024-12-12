@@ -1,145 +1,147 @@
 <template>
-  <div class="rcms-plus-page">
-    <el-alert title="SIM卡" type="success" :closable="false">
-      <div class="alert-item">
-        <p>
-          ① 商户级数据，可以查看当前商户及下级商户数据；②
-          只允许操作当前商户数据；③ 未绑定设备的ICCID允许删除。
-        </p>
-      </div>
-    </el-alert>
-    <PlusPage
-      ref="plusPageInstance"
-      :columns="columns"
-      :request="getList"
-      :search="{
-        labelWidth: '100px',
-        colProps: { span: 6 },
-        showNumber: 3
-      }"
-      :table="{
-        hasIndexColumn: true,
-        isSelection: true,
-        adaptive: { offsetBottom: 70 },
-        actionBar: { buttons, width: 210, type: 'link', showNumber: 4 },
-        onClickAction: handleTableOption
-      }"
-      :default-page-info="defaultPageInfo"
-      :default-page-size-list="[5, 15, 20, 50]"
+  <div>
+    <div class="rcms-plus-page">
+      <el-alert title="SIM卡" type="success" :closable="false">
+        <div class="alert-item">
+          <p>
+            ① 商户级数据，可以查看当前商户及下级商户数据；②
+            只允许操作当前商户数据；③ 未绑定设备的ICCID允许删除。
+          </p>
+        </div>
+      </el-alert>
+      <PlusPage
+        ref="plusPageInstance"
+        :columns="columns"
+        :request="getList"
+        :search="{
+          labelWidth: '100px',
+          colProps: { span: 6 },
+          showNumber: 3
+        }"
+        :table="{
+          hasIndexColumn: true,
+          isSelection: true,
+          adaptive: { offsetBottom: 70 },
+          actionBar: { buttons, width: 210, type: 'link', showNumber: 4 },
+          onClickAction: handleTableOption
+        }"
+        :default-page-info="defaultPageInfo"
+        :default-page-size-list="[5, 15, 20, 50]"
+      >
+        <template #table-title>
+          <el-row class="button-row">
+            <el-button
+              type="primary"
+              plain
+              :icon="useRenderIcon(Upload)"
+              @click="importData"
+            >
+              SIM卡导入
+            </el-button>
+            <el-button
+              type="primary"
+              plain
+              :icon="useRenderIcon(Download)"
+              @click="downloadTemp"
+            >
+              下载模板
+            </el-button>
+            <el-button type="primary" plain :icon="Compass">
+              停机/复机
+            </el-button>
+            <el-button type="primary" plain :icon="useRenderIcon(Check)">
+              流量校准
+            </el-button>
+          </el-row>
+        </template>
+      </PlusPage>
+      <!-- 弹窗编辑 -->
+      <PlusDialogForm
+        v-if="visible"
+        v-model:visible="visible"
+        v-model="editForm"
+        class="rcms-plus-form"
+        :form="{
+          columns: editColumns,
+          labelPosition: 'left',
+          rules,
+          labelWidth: '120px',
+          colProps: { span: 11 },
+          rowProps: { gutter: 24 }
+        }"
+        :dialog="{
+          title: title + 'SIM卡',
+          width: '800px',
+          top: '12vh',
+          loading
+        }"
+        @confirm="handleSubmitEdit"
+        @cancel="handleCancel"
+      />
+    </div>
+    <!-- 导入 -->
+    <PlusDialog
+      v-model="show"
+      :title="'SIM卡导入'"
+      :hasFooter="false"
+      :showClose="false"
+      width="500"
+      top="5%"
+      @close="handleClose"
     >
-      <template #table-title>
-        <el-row class="button-row">
-          <el-button
-            type="primary"
-            plain
-            :icon="useRenderIcon(Upload)"
-            @click="importData"
+      <template #default>
+        <el-card>
+          <PlusForm
+            v-if="show"
+            ref="importFormRef"
+            v-model="importForm"
+            labelWidth="110"
+            labelPosition="right"
+            :columns="importColumns"
+            :rules="importRules"
+            footerAlign="center"
+            :row-props="{ gutter: 20 }"
+            :col-props="{
+              span: 23
+            }"
+            @submit="handleSubmit"
           >
-            SIM卡导入
-          </el-button>
-          <el-button
-            type="primary"
-            plain
-            :icon="useRenderIcon(Download)"
-            @click="downloadTemp"
-          >
-            下载模板
-          </el-button>
-          <el-button type="primary" plain :icon="Compass">
-            停机/复机
-          </el-button>
-          <el-button type="primary" plain :icon="useRenderIcon(Check)">
-            流量校准
-          </el-button>
-        </el-row>
+            <template #plus-field-importBtn>
+              <div class="file-area">
+                <input
+                  type="file"
+                  accept=".xlsx,.xls"
+                  class="file-inp"
+                  @change="selectExcelFile"
+                />
+                <el-button type="primary" :disabled="importLoading"
+                  >选择文件</el-button
+                >
+              </div>
+              <label class="file-label">{{ importForm.fileName }}</label>
+            </template>
+            <template #footer="{ handleSubmit }">
+              <div style="margin: 0 auto">
+                <el-button
+                  type="primary"
+                  plain
+                  :disabled="importLoading"
+                  @click="handleClose"
+                  >取消</el-button
+                >
+                <el-button
+                  type="primary"
+                  :loading="importLoading"
+                  @click="handleSubmit"
+                  >提交</el-button
+                >
+              </div>
+            </template>
+          </PlusForm>
+        </el-card>
       </template>
-    </PlusPage>
-    <!-- 弹窗编辑 -->
-    <PlusDialogForm
-      v-if="visible"
-      v-model:visible="visible"
-      v-model="editForm"
-      class="rcms-plus-form"
-      :form="{
-        columns: editColumns,
-        labelPosition: 'left',
-        rules,
-        labelWidth: '120px',
-        colProps: { span: 11 },
-        rowProps: { gutter: 24 }
-      }"
-      :dialog="{
-        title: title + 'SIM卡',
-        width: '800px',
-        top: '12vh',
-        loading
-      }"
-      @confirm="handleSubmitEdit"
-      @cancel="handleCancel"
-    />
+    </PlusDialog>
   </div>
-  <!-- 导入 -->
-  <PlusDialog
-    v-model="show"
-    :title="'SIM卡导入'"
-    :hasFooter="false"
-    :showClose="false"
-    width="500"
-    top="5%"
-    @close="handleClose"
-  >
-    <template #default>
-      <el-card>
-        <PlusForm
-          v-if="show"
-          ref="importFormRef"
-          v-model="importForm"
-          labelWidth="110"
-          labelPosition="right"
-          :columns="importColumns"
-          :rules="importRules"
-          footerAlign="center"
-          :row-props="{ gutter: 20 }"
-          :col-props="{
-            span: 23
-          }"
-          @submit="handleSubmit"
-        >
-          <template #plus-field-importBtn>
-            <div class="file-area">
-              <input
-                type="file"
-                accept=".xlsx,.xls"
-                class="file-inp"
-                @change="selectExcelFile"
-              />
-              <el-button type="primary" :disabled="importLoading"
-                >选择文件</el-button
-              >
-            </div>
-            <label class="file-label">{{ importForm.fileName }}</label>
-          </template>
-          <template #footer="{ handleSubmit }">
-            <div style="margin: 0 auto">
-              <el-button
-                type="primary"
-                plain
-                :disabled="importLoading"
-                @click="handleClose"
-                >取消</el-button
-              >
-              <el-button
-                type="primary"
-                :loading="importLoading"
-                @click="handleSubmit"
-                >提交</el-button
-              >
-            </div>
-          </template>
-        </PlusForm>
-      </el-card>
-    </template>
-  </PlusDialog>
 </template>
 
 <script lang="ts" setup>

@@ -105,6 +105,7 @@ import { ElMessageBox } from "element-plus";
 import { hasDataPerms, hasPerms } from "@/utils/auth";
 import Item from "./item.vue";
 import { defaultPageInfo, buildColum, State } from "./hook";
+import { getEnterpriseId } from "@/utils/common";
 
 const show = ref(false);
 const currentRow = ref({ merchantName: "" });
@@ -149,8 +150,12 @@ buttons.value = [
     code: "update",
     props: { type: "primary", permission: "permission:merchant:update" },
     show: (row: any, index: number, button: ActionBarButtonsRow) => {
+      // 商户级+用户权限操作权限
       if (row && row["enterpriseId"]) {
-        return hasDataPerms(button.props["permission"]);
+        return hasDataPerms(
+          button.props["permission"],
+          "m:" + row["enterpriseId"]
+        );
       }
       return false;
     }
@@ -161,7 +166,10 @@ buttons.value = [
     props: { type: "danger", permission: "permission:merchant:delete" },
     show: (row: any, index: number, button: ActionBarButtonsRow) => {
       if (row && row["enterpriseId"]) {
-        return hasDataPerms(button.props["permission"]);
+        return hasDataPerms(
+          button.props["permission"],
+          "m:" + row["enterpriseId"]
+        );
       }
       return false;
     }
@@ -174,10 +182,8 @@ buttons.value = [
       permission: "permission:merchant:carrier:page:query"
     },
     show: (row: any, index: number, button: ActionBarButtonsRow) => {
-      if (row && row["enterpriseId"]) {
-        return hasDataPerms(button.props["permission"]);
-      }
-      return false;
+      // 只需要查看权限
+      return hasDataPerms(button.props["permission"]);
     }
   }
 ];

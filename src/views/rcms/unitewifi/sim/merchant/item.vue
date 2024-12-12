@@ -16,7 +16,12 @@
       <template #table-title>
         <el-row class="button-row">
           <el-button
-            v-if="hasPerms('permission:role:update')"
+            v-if="
+              hasDataPerms(
+                'permission:merchant:carrier:create',
+                'm:' + currentRow['enterpriseId']
+              )
+            "
             type="primary"
             plain
             :icon="Plus"
@@ -25,7 +30,12 @@
             新增
           </el-button>
           <el-button
-            v-if="hasPerms('permission:role:update')"
+            v-if="
+              hasDataPerms(
+                'permission:merchant:carrier:delete',
+                'm:' + currentRow['enterpriseId']
+              )
+            "
             type="danger"
             plain
             :icon="Delete"
@@ -80,7 +90,7 @@ import {
   updateMerchantCarrier,
   deleteMerchantCarrier
 } from "@/api/mifi/merchant";
-import { hasPerms } from "@/utils/auth";
+import { hasDataPerms } from "@/utils/auth";
 import { defaultPageInfo, buildChildColum, ChildState } from "./hook";
 
 const router = useRouter();

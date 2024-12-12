@@ -182,19 +182,19 @@ export const hasDataPerms = (
     return hasPerms(value);
   } else {
     if (hasPerms(value)) {
-      // tenantId,enterpriseId,person: 租户级，企业级，创建者级
+      // tenantId,enterpriseId,person: 租户级，商户级，创建者级
       const userInfo = getUserInfo();
       const tenantId = userInfo.extraInfo.tenantId;
       const enterpriseId = userInfo.extraInfo.id;
       const username = userInfo.username;
-      if (level.startsWith("tenantId:")) {
-        return level === "tenantId:" + tenantId;
+      if (level.startsWith("t:")) {
+        return level === "t:" + tenantId;
       }
-      if (level.startsWith("enterpriseId:")) {
-        return level === "enterpriseId:" + enterpriseId;
+      if (level.startsWith("m:")) {
+        return level === "m:" + enterpriseId;
       }
-      if (level.startsWith("created:")) {
-        return level === "created:" + username;
+      if (level.startsWith("c:")) {
+        return level === "c:" + username;
       }
     }
   }
