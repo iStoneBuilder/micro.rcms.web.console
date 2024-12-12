@@ -153,60 +153,49 @@ export default [
     ]
   },
   {
-    path: "/welcome4",
-    name: "Welcome4",
-    component: () => import("@/views/rcms/unitewifi/device/terminal/index.vue"),
+    path: "/flow",
+    name: "统计报表",
     meta: {
       icon: "ri:bar-chart-box-line",
       title: "统计报表",
       showLink: true
     },
+    redirect: "/flow/report",
     children: [
       {
-        path: "/welcome41",
-        name: "Welcome41",
-        component: () =>
-          import("@/views/rcms/unitewifi/device/terminal/index.vue"),
-        meta: {
-          title: "流量卡上报",
-          showLink: true
-        }
-      },
-      {
-        path: "/welcome42",
-        name: "Welcome42",
-        component: () =>
-          import("@/views/rcms/unitewifi/device/terminal/index.vue"),
+        path: "/flow/report",
+        name: "DeviceReport",
+        component: () => import("@/views/rcms/unitewifi/flow/deviceReport.vue"),
         meta: {
           title: "设备流量上报",
           showLink: true
         }
       },
       {
-        path: "/welcome43",
-        name: "Welcome43",
+        path: "/flow/sim",
+        name: "SimStatistics",
         component: () =>
-          import("@/views/rcms/unitewifi/device/terminal/index.vue"),
+          import("@/views/rcms/unitewifi/flow/simStatistics.vue"),
         meta: {
           title: "流量卡统计",
           showLink: true
         }
       },
       {
-        path: "/welcome44",
-        name: "Welcome44",
+        path: "/flow/device",
+        name: "DeviceStatistics",
         component: () =>
-          import("@/views/rcms/unitewifi/device/terminal/index.vue"),
+          import("@/views/rcms/unitewifi/flow/deviceStatistics.vue"),
         meta: {
           title: "设备流量统计",
           showLink: true
         }
       },
       {
-        path: "/welcome45",
-        name: "Welcome45",
+        path: "/flow/merchant",
+        name: "MerchantStatistics",
         component: () =>
-          import("@/views/rcms/unitewifi/device/terminal/index.vue"),
+          import("@/views/rcms/unitewifi/flow/merchantStatistics.vue"),
         meta: {
           title: "卡商流量统计",
           showLink: true
