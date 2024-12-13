@@ -153,7 +153,8 @@ const tableConfig: PlusColumn[] = [
     minWidth: 200,
     prop: "name",
     tableColumnProps: {
-      showOverflowTooltip: true
+      showOverflowTooltip: true,
+      fixed: true
     }
   },
   {

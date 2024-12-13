@@ -29,6 +29,7 @@ export function useMenu() {
       label: "菜单名称",
       prop: "title",
       align: "left",
+      width: 300,
       cellRenderer: ({ row }) => (
         <div>
           <span class="inline-block mr-1">
@@ -41,25 +42,37 @@ export function useMenu() {
       )
     },
     {
+      label: "路由名称",
+      prop: "name",
+      width: 200
+    },
+    {
       label: "路由路径",
-      prop: "path"
+      prop: "path",
+      width: 200
     },
     {
       label: "组件路径",
-      prop: "component",
-      formatter: ({ path, component }) =>
-        isAllEmpty(component) ? path : component
+      prop: "component"
     },
     {
       label: "排序",
       prop: "rankSort",
-      width: 100
+      width: 60
     },
     {
       label: "隐藏",
       prop: "showLink",
-      formatter: ({ showLink }) => (showLink ? "否" : "是"),
-      width: 100
+      width: 60,
+      align: "center",
+      cellRenderer: ({ row, props }) => (
+        <el-tag
+          size={props.size}
+          type={row.showLink === "true" ? "primary" : "success"}
+        >
+          {row.showLink === "true" ? "否" : "是"}
+        </el-tag>
+      )
     },
     {
       label: "操作",
