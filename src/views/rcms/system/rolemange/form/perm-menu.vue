@@ -141,7 +141,7 @@ onMounted(async () => {
   }
 }
 .menu-tree {
-  border: 1px solid gray;
+  border: 1px solid #eceef5;
   height: calc(100vh - 410px);
   .el-tree {
     overflow-y: scroll;

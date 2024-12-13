@@ -14,6 +14,14 @@
     >
       授权提交
     </el-button>
+    <el-button
+      :loading="isRefresh"
+      type="primary"
+      plain
+      @click="loadTreeData(true)"
+    >
+      刷新
+    </el-button>
   </div>
   <pure-table
     ref="tableRef"
@@ -22,6 +30,7 @@
     :columns="permissionColumns"
     adaptive
     border
+    :Loading="isRefresh"
     :adaptiveConfig="{ offsetBottom: 45 }"
     :header-cell-style="{
       background: 'var(--el-fill-color-light)',
@@ -42,10 +51,12 @@ import {
 import { nextTick } from "process";
 import { message } from "@/utils/message";
 import { getEnterpriseId } from "@/utils/common";
+import { Loading } from "vxe-table";
 
 const props = defineProps<{
   currentRow: any;
 }>();
+const isRefresh = ref(false);
 const rSelect = ref([]);
 const permissionColumns: TableColumnList = [
   {
@@ -107,11 +118,13 @@ const handleAuthorize = async function () {
     });
 };
 const { tableData } = useTable<object[]>();
-onMounted(async () => {
+const loadTreeData = async function (isRh?: boolean) {
+  isRefresh.value = isRh || false;
   // 当前企业的权限不允许修改(加载当前角色权限)
   if (getEnterpriseId() === props.currentRow.enterpriseId) {
     const pData = await getRolePermissionList(props.currentRow.id);
     tableData.value = pData.data;
+    isRefresh.value = false;
     return;
   }
   const pData = await getRolePermissionList(props.currentRow.parentId);
@@ -130,7 +143,11 @@ onMounted(async () => {
         }
       }
     });
+    isRefresh.value = false;
   });
+};
+onMounted(async () => {
+  loadTreeData();
 });
 </script>
 
