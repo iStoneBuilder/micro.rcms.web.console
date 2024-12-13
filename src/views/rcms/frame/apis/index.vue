@@ -82,14 +82,7 @@ import type {
   PlusPageInstance
 } from "plus-pro-components";
 import { ElButton } from "element-plus";
-import {
-  Search,
-  Refresh,
-  ArrowDown,
-  ArrowUp,
-  Plus,
-  Delete
-} from "@element-plus/icons-vue";
+import { Search, Refresh, Plus, Delete } from "@element-plus/icons-vue";
 import { getAccountPageList } from "@/api/rcms/account";
 import {
   getPermissionPageList,

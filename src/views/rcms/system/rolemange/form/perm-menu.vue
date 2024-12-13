@@ -36,7 +36,7 @@
     >
       <template #default="{ data }">
         <span class="custom-tree-node">
-          <span class="title">{{ data.name }}</span>
+          <span class="title">{{ data.title }}</span>
           <span class="path">{{ data.path }}</span>
           <span class="component">{{ data.component }}</span>
         </span>
