@@ -12,10 +12,10 @@
       <el-collapse-item title="角色授权" name="2">
         <el-tabs v-model="activeTab">
           <el-tab-pane label="菜单权限" name="first">
-            <permMenu :currentRow="currentRow" />
+            <permMenu v-if="activeTab === 'first'" :currentRow="currentRow" />
           </el-tab-pane>
           <el-tab-pane label="接口权限" name="second">
-            <permInter :currentRow="currentRow" />
+            <permInter v-if="activeTab === 'second'" :currentRow="currentRow" />
           </el-tab-pane>
         </el-tabs>
       </el-collapse-item>

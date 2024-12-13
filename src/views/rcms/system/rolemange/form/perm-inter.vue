@@ -22,7 +22,7 @@
     :columns="permissionColumns"
     adaptive
     border
-    :adaptiveConfig="{ offsetBottom: 400 }"
+    :adaptiveConfig="{ offsetBottom: 45 }"
     :header-cell-style="{
       background: 'var(--el-fill-color-light)',
       color: 'var(--el-text-color-primary)'
@@ -107,7 +107,6 @@ const handleAuthorize = async function () {
 };
 const { tableData } = useTable<object[]>();
 onMounted(async () => {
-  console.log(props.currentRow);
   // 当前企业的权限不允许修改(加载当前角色权限)
   if (getEnterpriseId() === props.currentRow.enterpriseId) {
     const pData = await getRolePermissionList(props.currentRow.id);
