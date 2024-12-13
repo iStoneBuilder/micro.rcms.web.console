@@ -35,10 +35,7 @@
 import { hasPerms } from "@/utils/auth";
 import { ref, defineProps, onMounted } from "vue";
 import { useTable } from "plus-pro-components";
-import {
-  authorizeRolePerm,
-  getRolePermissionList
-} from "@/api/rcms/rolemanage";
+import { authorizeRolePerm, getRoleMenuList } from "@/api/rcms/rolemanage";
 import { nextTick } from "process";
 import { message } from "@/utils/message";
 import { getEnterpriseId } from "@/utils/common";
@@ -55,17 +52,17 @@ const interfaceColumns: TableColumnList = [
   },
   {
     label: "菜单名称",
+    width: 140,
     prop: "name"
   },
   {
     label: "路由路径",
-    prop: "authCode"
+    width: 240,
+    prop: "path"
   },
   {
-    label: "是否隐藏",
-    prop: "serviceCode",
-    width: 140,
-    align: "center"
+    label: "组件路径",
+    prop: "component"
   }
 ];
 const multipleSelection = ref([]);
@@ -88,7 +85,7 @@ const handleAuthorize = async function () {
   const oldVl = btoa(encodeURI(JSON.stringify(rSelect.value)));
   const newVl = btoa(encodeURI(JSON.stringify(multipleSelection.value)));
   if (oldVl === newVl) {
-    message(`权限未修改！请勿提交`, {
+    message(`栏目数据未修改！请勿提交`, {
       type: "warning"
     });
     return;
@@ -97,7 +94,7 @@ const handleAuthorize = async function () {
   await authorizeRolePerm(props.currentRow["id"], multipleSelection.value)
     .then(() => {
       rSelect.value = multipleSelection.value;
-      message(`授权成功！`, {
+      message(`栏目授权成功！`, {
         type: "success"
       });
     })
@@ -107,19 +104,18 @@ const handleAuthorize = async function () {
 };
 const { tableData } = useTable<object[]>();
 onMounted(async () => {
-  let id =
-    props.currentRow.parentId === "0"
-      ? props.currentRow.id
-      : props.currentRow.parentId;
-  const pData = await getRolePermissionList(id);
-  tableData.value = pData.data;
-  if (props.currentRow.parentId === "0") {
+  // 加载当前起租权限
+  if (getEnterpriseId() === props.currentRow.enterpriseId) {
+    const pData = await getRoleMenuList(props.currentRow.id);
+    tableData.value = pData.data;
     return;
   }
+  const pData = await getRoleMenuList(props.currentRow.parentId);
+  tableData.value = pData.data;
   // 加载父角色权限
   nextTick(async () => {
     // 加载当前角色权限
-    const { data } = await getRolePermissionList(props.currentRow.id);
+    const { data } = await getRoleMenuList(props.currentRow.id);
     rSelect.value = data;
     data.forEach(item => {
       for (let index = 0; index < tableData.value.length; index++) {

@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref, defineOptions } from "vue";
-import { hasPerms } from "@/utils/auth";
+import { hasPerms, hasDataPerms } from "@/utils/auth";
 import { useDept } from "./utils/hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
 import Refresh from "@iconify-icons/ep/refresh";
+import { getEnterpriseId } from "@/utils/common";
 
 defineOptions({
   name: "RoleManage"
@@ -102,7 +103,9 @@ function onFullscreen() {
               新增
             </el-button>
             <el-button
-              v-if="hasPerms('permission:role:update')"
+              v-if="
+                !hasDataPerms('permission:role:update', 'm:' + row.enterpriseId)
+              "
               class="reset-margin"
               link
               :type="'primary'"
@@ -112,7 +115,7 @@ function onFullscreen() {
               修改
             </el-button>
             <el-button
-              v-if="hasPerms('permission:role:authorize')"
+              v-if="hasPerms('permission:role:permissions:authorize')"
               class="reset-margin"
               link
               :size="size"

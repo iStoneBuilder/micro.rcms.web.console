@@ -59,3 +59,18 @@ export const authorizeRolePerm = (roleId: string, data?: Array<any>) => {
     }
   );
 };
+export const getRoleMenuList = (roleId?: string) => {
+  return http.request<ResultArray>(
+    "get",
+    `/test/services/rcms/base/role/records/${roleId}/menus`
+  );
+};
+export const authorizeRoleMenuPerm = (roleId: string, data?: Array<any>) => {
+  return http.request<ResultData>(
+    "post",
+    `/test/services/rcms/base/role/records/${roleId}/menus`,
+    {
+      data
+    }
+  );
+};

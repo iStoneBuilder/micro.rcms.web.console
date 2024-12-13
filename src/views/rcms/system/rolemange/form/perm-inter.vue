@@ -107,15 +107,15 @@ const handleAuthorize = async function () {
 };
 const { tableData } = useTable<object[]>();
 onMounted(async () => {
-  let id =
-    props.currentRow.parentId === "0"
-      ? props.currentRow.id
-      : props.currentRow.parentId;
-  const pData = await getRolePermissionList(id);
-  tableData.value = pData.data;
-  if (props.currentRow.parentId === "0") {
+  console.log(props.currentRow);
+  // 当前企业的权限不允许修改(加载当前角色权限)
+  if (getEnterpriseId() === props.currentRow.enterpriseId) {
+    const pData = await getRolePermissionList(props.currentRow.id);
+    tableData.value = pData.data;
     return;
   }
+  const pData = await getRolePermissionList(props.currentRow.parentId);
+  tableData.value = pData.data;
   // 加载父角色权限
   nextTick(async () => {
     // 加载当前角色权限

@@ -35,9 +35,4 @@ const activeNames = ref(["1", "2"]);
 const activeTab = ref("first");
 const newColumns = cloneDeep(props.createColumns);
 newColumns.splice(-1, 1);
-newColumns.forEach(item => {
-  item["descriptionsItemProps"] = {
-    labelAlign: "right"
-  };
-});
 </script>
