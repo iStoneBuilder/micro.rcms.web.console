@@ -10,80 +10,57 @@
       "
       type="primary"
       plain
+      :loading="submitLoading"
       @click="handleAuthorize()"
     >
       授权提交
     </el-button>
   </div>
-  <pure-table
-    ref="tableRef"
-    row-key="authCode"
-    :data="tableData"
-    :columns="interfaceColumns"
-    adaptive
-    border
-    :adaptiveConfig="{ offsetBottom: 45 }"
-    :header-cell-style="{
-      background: 'var(--el-fill-color-light)',
-      color: 'var(--el-text-color-primary)'
-    }"
-    @selection-change="handleSelectionChange"
-  />
+  <div class="menu-tree">
+    <el-tree
+      ref="treeRef"
+      style="width: 100%"
+      :data="parentData"
+      :show-checkbox="showSelect"
+      node-key="id"
+      default-expand-all
+      :expand-on-click-node="false"
+    >
+      <template #default="{ data }">
+        <span class="custom-tree-node">
+          <span class="title">{{ data.name }}</span>
+          <span class="path">{{ data.path }}</span>
+          <span class="component">{{ data.component }}</span>
+        </span>
+      </template>
+    </el-tree>
+  </div>
 </template>
 
 <script lang="tsx" setup>
 import { hasPerms } from "@/utils/auth";
 import { ref, defineProps, onMounted } from "vue";
-import { useTable } from "plus-pro-components";
-import { authorizeRolePerm, getRoleMenuList } from "@/api/rcms/rolemanage";
+import { authorizeRoleMenuPerm, getRoleMenuList } from "@/api/rcms/rolemanage";
 import { nextTick } from "process";
 import { message } from "@/utils/message";
 import { getEnterpriseId } from "@/utils/common";
+import { handleTree } from "@/utils/tree";
+import { ElTree } from "element-plus";
 
 const props = defineProps<{
   currentRow: any;
 }>();
-const rSelect = ref([]);
-const interfaceColumns: TableColumnList = [
-  {
-    type: "selection",
-    align: "left",
-    hide: props.currentRow.enterpriseId === getEnterpriseId()
-  },
-  {
-    label: "菜单名称",
-    width: 140,
-    prop: "name"
-  },
-  {
-    label: "路由路径",
-    width: 240,
-    prop: "path"
-  },
-  {
-    label: "组件路径",
-    prop: "component"
-  }
-];
-const multipleSelection = ref([]);
-const handleSelectionChange = val => {
-  multipleSelection.value = val;
-};
-const tableRef = ref();
-const toggleSelection = (rows?: any) => {
-  const { toggleRowSelection, clearSelection } = tableRef.value.getTableRef();
-  if (rows) {
-    rows.forEach(row => {
-      toggleRowSelection(row, undefined);
-    });
-  } else {
-    clearSelection();
-  }
-};
+const showSelect = ref(true);
 const submitLoading = ref(false);
+const treeRef = ref<InstanceType<typeof ElTree>>();
+// 上级权限数据
+const parentData = ref([]);
+// 当前角色权限数据
+const selectOld = ref([]);
 const handleAuthorize = async function () {
-  const oldVl = btoa(encodeURI(JSON.stringify(rSelect.value)));
-  const newVl = btoa(encodeURI(JSON.stringify(multipleSelection.value)));
+  const selectNew = treeRef.value!.getCheckedNodes(false, false);
+  const oldVl = btoa(encodeURI(JSON.stringify(selectOld.value)));
+  const newVl = btoa(encodeURI(JSON.stringify(selectNew)));
   if (oldVl === newVl) {
     message(`栏目数据未修改！请勿提交`, {
       type: "warning"
@@ -91,9 +68,11 @@ const handleAuthorize = async function () {
     return;
   }
   submitLoading.value = true;
-  await authorizeRolePerm(props.currentRow["id"], multipleSelection.value)
+  // 角色ID 栏目列表
+  await authorizeRoleMenuPerm(props.currentRow["id"], selectNew)
     .then(() => {
-      rSelect.value = multipleSelection.value;
+      submitLoading.value = false;
+      selectOld.value = selectNew;
       message(`栏目授权成功！`, {
         type: "success"
       });
@@ -102,30 +81,27 @@ const handleAuthorize = async function () {
       submitLoading.value = false;
     });
 };
-const { tableData } = useTable<object[]>();
 onMounted(async () => {
+  showSelect.value = true;
   // 加载当前起租权限
   if (getEnterpriseId() === props.currentRow.enterpriseId) {
+    showSelect.value = false;
     const pData = await getRoleMenuList(props.currentRow.id);
-    tableData.value = pData.data;
+    parentData.value = handleTree(pData.data);
     return;
   }
   const pData = await getRoleMenuList(props.currentRow.parentId);
-  tableData.value = pData.data;
+  parentData.value = handleTree(pData.data);
   // 加载父角色权限
   nextTick(async () => {
     // 加载当前角色权限
     const { data } = await getRoleMenuList(props.currentRow.id);
-    rSelect.value = data;
     data.forEach(item => {
-      for (let index = 0; index < tableData.value.length; index++) {
-        const tItem = tableData.value[index];
-        if (item.authCode === tItem["authCode"]) {
-          toggleSelection([tItem]);
-          break;
-        }
+      if (item.parentId != 0) {
+        selectOld.value.push(item);
       }
     });
+    treeRef.value!.setCheckedNodes(selectOld.value, false);
   });
 });
 </script>
@@ -147,6 +123,27 @@ onMounted(async () => {
   }
   .el-alert {
     --el-alert-padding: 4px 10px;
+  }
+}
+.menu-tree {
+  border: 1px solid gray;
+  height: calc(100vh - 410px);
+  .el-tree {
+    overflow-y: scroll;
+    height: 100%;
+  }
+  .custom-tree-node {
+    display: flex;
+    width: 100%;
+    .title {
+      width: 25%;
+    }
+    .path {
+      width: 30%;
+    }
+    .component {
+      width: 45%;
+    }
   }
 }
 </style>

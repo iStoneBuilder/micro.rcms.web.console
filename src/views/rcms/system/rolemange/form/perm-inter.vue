@@ -94,6 +94,7 @@ const handleAuthorize = async function () {
     return;
   }
   submitLoading.value = true;
+  // 角色ID，权限列表
   await authorizeRolePerm(props.currentRow["id"], multipleSelection.value)
     .then(() => {
       rSelect.value = multipleSelection.value;
