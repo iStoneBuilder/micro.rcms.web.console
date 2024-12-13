@@ -15,6 +15,14 @@
     >
       授权提交
     </el-button>
+    <el-button
+      :loading="isRefresh"
+      type="primary"
+      plain
+      @click="loadTreeData(true)"
+    >
+      刷新
+    </el-button>
   </div>
   <div class="menu-tree">
     <el-tree
@@ -52,6 +60,7 @@ const props = defineProps<{
 }>();
 const showSelect = ref(true);
 const submitLoading = ref(false);
+const isRefresh = ref(false);
 const treeRef = ref<InstanceType<typeof ElTree>>();
 // 上级权限数据
 const parentData = ref([]);
@@ -81,13 +90,15 @@ const handleAuthorize = async function () {
       submitLoading.value = false;
     });
 };
-onMounted(async () => {
+const loadTreeData = async function (isRh?: boolean) {
+  isRefresh.value = isRh;
   showSelect.value = true;
   // 加载当前起租权限
   if (getEnterpriseId() === props.currentRow.enterpriseId) {
     showSelect.value = false;
     const pData = await getRoleMenuList(props.currentRow.id);
     parentData.value = handleTree(pData.data);
+    isRefresh.value = false;
     return;
   }
   const pData = await getRoleMenuList(props.currentRow.parentId);
@@ -102,7 +113,11 @@ onMounted(async () => {
       }
     });
     treeRef.value!.setCheckedNodes(selectOld.value, false);
+    isRefresh.value = false;
   });
+};
+onMounted(async () => {
+  loadTreeData();
 });
 </script>
 
