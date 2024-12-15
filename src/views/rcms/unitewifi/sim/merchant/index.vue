@@ -22,7 +22,10 @@
         isSelection: true,
         adaptive: { offsetBottom: 70 },
         actionBar: { buttons, width: 160 },
-        onClickAction: handleTableOption
+        onClickAction: handleTableOption,
+        treeProps: {
+          children: 'children'
+        }
       }"
       :default-page-info="defaultPageInfo"
       :default-page-size-list="[5, 15, 20, 50]"

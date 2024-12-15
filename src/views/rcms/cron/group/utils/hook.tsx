@@ -25,7 +25,7 @@ export function buildTableColum() {
             onClick={() => {
               toDetail({ quartzGroupCode: value }, "query", {
                 path: "/cron/task",
-                name: "任务列表",
+                name: "TaskManage",
                 meta: { title: "任务列表" }
               });
             }}

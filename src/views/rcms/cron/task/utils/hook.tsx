@@ -43,7 +43,7 @@ export function buildTableColum() {
             onClick={() => {
               toDetail({ quartzName: value }, "query", {
                 path: "/cron/job",
-                name: "任务调度列表",
+                name: "CronTaskJob",
                 meta: { title: "任务调度列表" }
               });
             }}
@@ -74,7 +74,10 @@ export function buildTableColum() {
       label: "请求地址",
       prop: "requestPath",
       minWidth: 400,
-      hideInSearch: true
+      hideInSearch: true,
+      tableColumnProps: {
+        showOverflowTooltip: true
+      }
     },
     {
       label: "任务状态",

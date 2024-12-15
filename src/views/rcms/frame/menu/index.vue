@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useMenu } from "./utils/hook";
-import { transformI18n } from "@/plugins/i18n";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
-import Delete from "@iconify-icons/ep/delete";
-import EditPen from "@iconify-icons/ep/edit-pen";
 import Refresh from "@iconify-icons/ep/refresh";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 
@@ -24,8 +21,7 @@ const {
   onSearch,
   resetForm,
   openDialog,
-  handleDelete,
-  handleSelectionChange
+  handleDelete
 } = useMenu();
 
 function onFullscreen() {
@@ -75,10 +71,11 @@ function onFullscreen() {
       <template #buttons>
         <el-button
           type="primary"
+          plain
           :icon="useRenderIcon(AddFill)"
           @click="openDialog()"
         >
-          新增菜单
+          新增
         </el-button>
       </template>
       <template v-slot="{ size, dynamicColumns }">
@@ -87,7 +84,6 @@ function onFullscreen() {
           class="rcms-pure-table"
           adaptive
           :adaptiveConfig="{ offsetBottom: 60 }"
-          align-whole="center"
           row-key="id"
           showOverflowTooltip
           table-layout="auto"
@@ -100,7 +96,6 @@ function onFullscreen() {
             background: 'var(--el-fill-color-light)',
             color: 'var(--el-text-color-primary)'
           }"
-          @selection-change="handleSelectionChange"
         >
           <template #operation="{ row }">
             <el-button
@@ -108,7 +103,6 @@ function onFullscreen() {
               link
               type="primary"
               :size="size"
-              :icon="useRenderIcon(EditPen)"
               @click="openDialog('修改', row)"
             >
               修改
@@ -119,7 +113,6 @@ function onFullscreen() {
               link
               type="primary"
               :size="size"
-              :icon="useRenderIcon(AddFill)"
               @click="openDialog('新增', { parentId: row.id } as any)"
             >
               新增
@@ -129,7 +122,6 @@ function onFullscreen() {
               link
               type="primary"
               :size="size"
-              :icon="useRenderIcon(Delete)"
               @click="handleDelete(row)"
             >
               删除

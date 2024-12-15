@@ -57,7 +57,7 @@ const { title, getDropdownItemStyle, getDropdownItemClass } = useNav();
 const { locale, translationCh, translationEn } = useTranslationLang();
 
 const ruleForm = reactive({
-  username: "shark-admin",
+  username: "superAdmin",
   password: "RCMS_123456789",
   verifyCode: ""
 });

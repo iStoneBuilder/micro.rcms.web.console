@@ -131,6 +131,10 @@ import {
 } from "@/api/cron/task";
 import { getItemList } from "@/api/rcms/fram-common";
 
+defineOptions({
+  name: "TaskManage"
+});
+
 // --- 查询条件区域 ---
 const searchForm = ref({});
 // --- Table ---

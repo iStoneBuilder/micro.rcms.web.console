@@ -77,14 +77,10 @@ export function useMenu() {
     {
       label: "操作",
       fixed: "right",
-      width: 210,
+      width: 160,
       slot: "operation"
     }
   ];
-
-  function handleSelectionChange(val) {
-    console.log("handleSelectionChange", val);
-  }
 
   function resetForm(formEl) {
     if (!formEl) return;
@@ -226,7 +222,6 @@ export function useMenu() {
     /** 新增、修改菜单 */
     openDialog,
     /** 删除菜单 */
-    handleDelete,
-    handleSelectionChange
+    handleDelete
   };
 }
