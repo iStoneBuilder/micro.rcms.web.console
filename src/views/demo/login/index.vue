@@ -170,7 +170,11 @@ watch(loginDay, value => {
       </div>
       <div class="login-box">
         <div class="login-form">
-          <avatar class="avatar" />
+          <!-- <avatar class="avatar" /> -->
+          <el-image
+            style="width: 60px; height: 60px"
+            src="../../../../public/logo-b.png"
+          />
           <Motion>
             <h2 class="outline-none">
               <TypeIt
