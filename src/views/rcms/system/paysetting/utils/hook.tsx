@@ -2,12 +2,13 @@ import { ref } from "vue";
 import { useTable } from "plus-pro-components";
 import type { PlusColumn } from "plus-pro-components";
 import { getBussList, getItemList } from "@/api/rcms/fram-common";
-import { getTenantId } from "@/utils/common";
+import { getTenantId, getEType, getEnterpriseId } from "@/utils/common";
 
 export function terminalManage() {
   const pageInfo = { page: 1, pageSize: 15 };
   const loading = ref(false);
   const selectData = ref([]);
+  const isPlatform = getEType() === "platform";
   const tableColumns: PlusColumn[] = [
     {
       label: "租户名称",
@@ -17,16 +18,16 @@ export function terminalManage() {
       hideInForm: true,
       valueType: "select",
       options: getBussList(
-        "/test/services/rcms/base/enterprise/records/list",
+        `/test/services/rcms/base/enterprise/records${isPlatform ? "/list" : ""}`,
         "name",
         "id",
-        { parentId: getTenantId() }
+        isPlatform ? { parentId: getEnterpriseId() } : { id: getTenantId() }
       )
     },
     {
       label: "支付方式",
       prop: "payWay",
-      minWidth: 100,
+      width: 100,
       align: "left",
       hideInSearch: true,
       valueType: "select",

@@ -13,11 +13,7 @@
         ref="plusPageInstance"
         :columns="tableColumns"
         :request="getList"
-        :search="{
-          labelWidth: '100px',
-          colProps: { span: 6 },
-          showNumber: 3
-        }"
+        :search="false"
         :table="{
           isSelection: true,
           adaptive: { offsetBottom: 70 },

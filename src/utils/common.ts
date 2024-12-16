@@ -87,3 +87,7 @@ export function getTenantId() {
   const userInfo = getUserInfo();
   return userInfo?.extraInfo?.tenantId ?? "000000000000";
 }
+export function getEType() {
+  const userInfo = getUserInfo();
+  return userInfo?.extraInfo?.type ?? "enterprise";
+}
