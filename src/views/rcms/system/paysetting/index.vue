@@ -83,7 +83,7 @@ import { Plus } from "@element-plus/icons-vue";
 
 import CreateForm from "./form/create.vue";
 
-const service = "mifi/data-plan";
+const service = "pay/pay-config";
 const { pageInfo, loading, tableColumns, createColumns, buttons, selectData } =
   terminalManage();
 
@@ -141,18 +141,14 @@ function handleCreateBack(op) {
 }
 
 const handleDelete = async (row): Promise<void> => {
-  ElMessageBox.confirm(
-    `你确定删除（${row.dataPlanName}）数据吗，确认是否继续?`,
-    "温馨提示",
-    {
-      confirmButtonText: "确认",
-      cancelButtonText: "取消",
-      type: "warning",
-      draggable: true
-    }
-  )
+  ElMessageBox.confirm(`你确定删除该数据吗，确认是否继续?`, "温馨提示", {
+    confirmButtonText: "确认",
+    cancelButtonText: "取消",
+    type: "warning",
+    draggable: true
+  })
     .then(async () => {
-      await deleteRecord(service, row?.dataPlanNo);
+      await deleteRecord(service, row?.payConfigId);
       message(`删除成功！`, {
         type: "success"
       });

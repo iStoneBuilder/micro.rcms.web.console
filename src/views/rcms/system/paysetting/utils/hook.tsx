@@ -17,107 +17,111 @@ export function terminalManage() {
       hideInForm: true,
       valueType: "select",
       options: getBussList(
-        "/test/services/rcms/base/enterprise/records",
+        "/test/services/rcms/base/enterprise/records/list",
         "name",
         "id",
-        { id: getTenantId() }
+        { parentId: getTenantId() }
       )
     },
     {
       label: "支付方式",
-      prop: "dataPlanCost",
+      prop: "payWay",
       minWidth: 100,
       align: "left",
-      hideInSearch: true
-    },
-    {
-      label: "状态",
-      prop: "dataPlanPrice",
-      minWidth: 100,
-      align: "left",
-      hideInSearch: true
+      hideInSearch: true,
+      valueType: "select",
+      options: getItemList("RCMS_SYS_PAYWAY")
     },
     {
       label: "渠道",
-      prop: "dataPlanFlow",
+      prop: "payType",
       minWidth: 160,
       align: "left",
-      hideInSearch: true
+      hideInSearch: true,
+      valueType: "select",
+      options: getItemList("RCMS_SYS_CHANNEL"),
+      fieldProps: {
+        multiple: true
+      }
     },
     {
       label: "更新时间",
-      prop: "dataPlanVoidFlow",
-      minWidth: 160,
+      prop: "updateDate",
+      width: 160,
       align: "left",
+      valueType: "date-picker",
       hideInSearch: true
     }
   ];
   const createColumns: PlusColumn[] = [
     {
       label: "支付方式",
-      prop: "dataPlanCost",
+      prop: "payWay",
       valueType: "select",
       options: getItemList("RCMS_SYS_PAYWAY")
     },
     {
       label: "渠道",
-      prop: "dataPlanCost",
+      prop: "payType",
       valueType: "select",
-      options: getItemList("RCMS_SYS_CHANNEL")
+      options: getItemList("RCMS_SYS_CHANNEL"),
+      fieldProps: {
+        multiple: true
+      }
     },
     {
       label: "小程序appid",
-      prop: "dataPlanCost"
+      prop: "miniAppId"
     },
     {
       label: "小程序app秘钥",
-      prop: "dataPlanCost"
+      prop: "miniAppSecret"
     },
     {
       label: "公众号appid",
-      prop: "dataPlanCost"
+      prop: "publicAppId"
     },
     {
       label: "公众号app秘钥",
-      prop: "dataPlanCost"
+      prop: "publicAppSecret"
     },
     {
-      label: "微信支付商户ID",
-      prop: "dataPlanCost"
+      label: "支付商户ID",
+      prop: "mchId"
     },
     {
-      label: "微信支付V2秘钥",
-      prop: "dataPlanCost"
+      label: "支付V2秘钥",
+      prop: "payV2Key"
     },
     {
-      label: "微信支付V3秘钥",
-      prop: "dataPlanCost"
+      label: "支付V3秘钥",
+      prop: "payV3Key"
     },
     {
-      label: "微信支付证书序列号",
-      prop: "dataPlanCost"
+      label: "支付证书序列号",
+      prop: "mchSerialNumber"
     },
     {
-      label: "微信支付回调url",
-      prop: "dataPlanCost",
+      label: "支付回调url",
+      prop: "notifyUrl",
       colProps: {
         span: 24
       }
     },
     {
-      label: "微信退款回调url",
-      prop: "dataPlanCost",
+      label: "退款回调url",
+      prop: "refundNotifyUrl",
       colProps: {
         span: 24
       }
     },
     {
-      label: "微信支付商户私钥",
-      prop: "dataPlanCost"
+      label: "支付商户私钥",
+      prop: "payPrivateKey"
     },
     {
-      label: "微信支付商户证书",
-      prop: "dataPlanCost"
+      label: "支付商户证书",
+      prop: "payCert"
     }
   ];
   const { buttons } = useTable();

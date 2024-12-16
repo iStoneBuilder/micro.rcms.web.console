@@ -3,7 +3,8 @@ import { message } from "@/utils/message";
 import { ref, defineProps, defineEmits } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 import { createRecord, updateRecord } from "@/api/rcms/fram-common";
-const service = "mifi/data-plan";
+import { cloneDeep } from "@pureadmin/utils";
+const service = "pay/pay-config";
 // 父节点传值
 const props = defineProps<{
   currentRow: any;
@@ -12,140 +13,45 @@ const props = defineProps<{
 const emit = defineEmits(["dialogEvent"]);
 const createLoading = ref(false);
 const formModel = ref({
-  dataPlanNo: "",
-  dataPlanType: "domestic",
-  localCardMode: "Y",
-  typeId: "",
-  isRecommend: "N",
-  isGift: "N",
-  isSale: "Y",
-  limitSpeed: "N",
-  giftDuration: 0,
-  limitNo: 0,
-  sort: 0
+  payConfigId: ""
 });
-const disabled = ref(false);
 if (props.currentRow) {
-  formModel.value = { ...props.currentRow };
-  disabled.value = true;
+  formModel.value = cloneDeep(props.currentRow);
+  formModel.value["payType"] = (props.currentRow["payType"] + "").split(",");
 }
 const newColumns = [...props.createColumns];
 const createRules = {
-  dataPlanName: [
+  payWay: [
     {
       required: true,
-      message: "请输入套餐名称"
+      message: "请选择支付方式"
     }
   ],
-  dataPlanType: [
+  payType: [
     {
       required: true,
-      message: "请选择计费类型"
-    }
-  ],
-  dataPlanCost: [
-    {
-      required: true,
-      message: "请设置套餐成本"
-    }
-  ],
-  dataPlanPrice: [
-    {
-      required: true,
-      message: "请设置销售价格"
-    }
-  ],
-  dataPlanFlow: [
-    {
-      required: true,
-      message: "必填，请设置套餐总流量"
-    }
-  ],
-  dataPlanVoidFlow: [
-    {
-      required: true,
-      message: "必填，请设置套餐虚量"
-    }
-  ],
-  chargeType: [
-    {
-      required: true,
-      message: "必填，请选择计费类型"
-    }
-  ],
-  validDuration: [
-    {
-      required: true,
-      message: "必填，请设置有效期"
-    }
-  ],
-  limitSpeed: [
-    {
-      required: true,
-      message: "必填，请选择是否限速"
-    }
-  ],
-  giftDuration: [
-    {
-      required: true,
-      message: "必填，请设置赠送月份"
-    }
-  ],
-  isSale: [
-    {
-      required: true,
-      message: "必填，请选择是否上架"
-    }
-  ],
-  limitNo: [
-    {
-      required: true,
-      message: "必填，请输入限制购买次数"
-    }
-  ],
-  isGift: [
-    {
-      required: true,
-      message: "必填，请选择是否赠送"
-    }
-  ],
-  isRecommend: [
-    {
-      required: true,
-      message: "必填，请选择是否推荐"
-    }
-  ],
-  sort: [
-    {
-      required: true,
-      message: "必填，请输入排序值"
-    }
-  ],
-  dataPlanRules: [
-    {
-      required: true,
-      message: "必填，请输入套餐规则"
+      message: "请选择支付渠道"
     }
   ]
 };
 async function handleSubmit() {
   createLoading.value = true;
-  if (formModel.value.dataPlanNo !== "") {
+  const submitData = cloneDeep(formModel.value);
+  submitData["payType"] = formModel.value["payType"].toString();
+  if (formModel.value.payConfigId !== "") {
     // 没有更改
-    if (JSON.stringify(props.currentRow) === JSON.stringify(formModel.value)) {
+    if (JSON.stringify(props.currentRow) === JSON.stringify(submitData)) {
       message(`数据未更改，请勿提交！`, {
         type: "warning"
       });
       createLoading.value = false;
       return;
     }
-    await updateRecord(
-      service,
-      formModel.value.dataPlanNo,
-      formModel.value
-    ).catch(() => {
-      createLoading.value = false;
-    });
+    await updateRecord(service, submitData.payConfigId, submitData).catch(
+      () => {
+        createLoading.value = false;
+      }
+    );
     if (!createLoading.value) {
       return;
     }
@@ -153,7 +59,7 @@ async function handleSubmit() {
       type: "success"
     });
   } else {
-    await createRecord(service, formModel.value).catch(() => {
+    await createRecord(service, submitData).catch(() => {
       createLoading.value = false;
     });
     if (!createLoading.value) {
@@ -176,7 +82,7 @@ function handleClose(op = "cancel") {
     <PlusForm
       ref="createFormRef"
       v-model="formModel"
-      labelWidth="170"
+      labelWidth="140"
       labelPosition="right"
       :columns="newColumns"
       :rules="createRules"
