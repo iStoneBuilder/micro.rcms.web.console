@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useMenu } from "./utils/hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+import MenuForm from "./form/menu.vue";
 
 import Refresh from "@iconify-icons/ep/refresh";
 import AddFill from "@iconify-icons/ri/add-circle-line";
@@ -15,13 +16,17 @@ const formRef = ref();
 const tableRef = ref();
 const {
   form,
+  show,
+  opTitle,
+  currRow,
   loading,
   columns,
   dataList,
   onSearch,
   resetForm,
   openDialog,
-  handleDelete
+  handleDelete,
+  handleCallBack
 } = useMenu();
 
 function onFullscreen() {
@@ -130,6 +135,23 @@ function onFullscreen() {
         </pure-table>
       </template>
     </PureTableBar>
+    <PlusDialog
+      v-model="show"
+      :title="opTitle + '栏目'"
+      :hasFooter="false"
+      :showClose="false"
+      width="800"
+      top="5%"
+    >
+      <template #default>
+        <MenuForm
+          v-if="show"
+          :currRow="currRow"
+          :dataList="dataList"
+          @dialogEvent="handleCallBack"
+        />
+      </template>
+    </PlusDialog>
   </div>
 </template>
 
