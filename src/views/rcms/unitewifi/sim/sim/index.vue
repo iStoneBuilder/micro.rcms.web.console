@@ -246,6 +246,13 @@ const handleTableOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
   }
 };
 const handleDelete = async (row): Promise<void> => {
+  console.log(row.deviceSn);
+  if (row.deviceSn != undefined) {
+    message(`已关联设备的ICCID不允许删除`, {
+      type: "warning"
+    });
+    return;
+  }
   ElMessageBox.confirm("你确定删除当前数据吗，是否继续?", "温馨提示", {
     confirmButtonText: "确认",
     cancelButtonText: "取消",

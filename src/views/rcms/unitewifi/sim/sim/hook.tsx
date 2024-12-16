@@ -13,7 +13,7 @@ export function buildColum() {
     {
       label: "iccid",
       prop: "iccid",
-      width: 180,
+      width: 200,
       align: "left",
       tableColumnProps: {
         fixed: true

@@ -11,20 +11,6 @@ export function terminalManage() {
   const isPlatform = getEType() === "platform";
   const tableColumns: PlusColumn[] = [
     {
-      label: "租户名称",
-      prop: "enterpriseId",
-      minWidth: 180,
-      align: "left",
-      hideInForm: true,
-      valueType: "select",
-      options: getBussList(
-        `/test/services/rcms/base/enterprise/records${isPlatform ? "/list" : ""}`,
-        "name",
-        "id",
-        isPlatform ? { parentId: getEnterpriseId() } : { id: getTenantId() }
-      )
-    },
-    {
       label: "支付方式",
       prop: "payWay",
       width: 100,
@@ -44,6 +30,20 @@ export function terminalManage() {
       fieldProps: {
         multiple: true
       }
+    },
+    {
+      label: "租户名称",
+      prop: "enterpriseId",
+      minWidth: 180,
+      align: "left",
+      hideInForm: true,
+      valueType: "select",
+      options: getBussList(
+        `/test/services/rcms/base/enterprise/records${isPlatform ? "/list" : ""}`,
+        "name",
+        "id",
+        isPlatform ? { parentId: getEnterpriseId() } : { id: getTenantId() }
+      )
     },
     {
       label: "更新时间",

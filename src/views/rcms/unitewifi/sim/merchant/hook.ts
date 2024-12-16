@@ -109,6 +109,11 @@ export function buildChildColum(handleClickButton: Function) {
       options: []
     },
     {
+      label: "接口地址",
+      minWidth: 400,
+      prop: "address"
+    },
+    {
       label: "appKey",
       minWidth: 200,
       prop: "appKey"

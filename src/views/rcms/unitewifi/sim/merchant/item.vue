@@ -73,7 +73,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from "vue-router";
 import { ElMessageBox } from "element-plus";
 import { getItemList } from "@/api/rcms/fram-common";
 import { message } from "@/utils/message";
@@ -93,7 +92,6 @@ import {
 import { hasDataPerms } from "@/utils/auth";
 import { defaultPageInfo, buildChildColum, ChildState } from "./hook";
 
-const router = useRouter();
 const langOptions = ref([]);
 const props = defineProps<{
   currentRow: any;
@@ -157,6 +155,21 @@ const state = reactive<ChildState>({
       {
         required: true,
         message: "请选择运营商"
+      }
+    ],
+    address: [
+      {
+        required: true,
+        message: "请输入接口地址"
+      },
+      {
+        validator: (rule, value, callback) => {
+          if (value.length > 50) {
+            callback(new Error("最多包含300个字符"));
+          }
+          callback();
+        },
+        trigger: "blur"
       }
     ],
     appKey: [

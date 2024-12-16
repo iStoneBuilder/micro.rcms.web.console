@@ -86,7 +86,7 @@
 import { ref, defineOptions } from "vue";
 import { terminalManage } from "./utils/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import { getPageRecordList } from "@/api/mifi/device-manage";
+import { deleteRecord, getPageRecordList } from "@/api/mifi/device-manage";
 import type {
   PageInfo,
   ButtonsCallBackParams,
@@ -99,6 +99,7 @@ import ActiveForm from "./form/active.vue";
 import ControlForm from "./form/control.vue";
 
 import { message } from "@/utils/message";
+import { ElMessageBox } from "element-plus";
 
 defineOptions({
   name: "DeviceTerminal"
@@ -127,11 +128,36 @@ const handleOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
     case "update":
       break;
     case "delete":
+      handleDelete(row);
       break;
     case "setting":
       break;
   }
-  refresh();
+};
+const handleDelete = function (data) {
+  if (data.activeUser !== undefined) {
+    message(`已激活的设备不允许删除！`, {
+      type: "warning"
+    });
+  } else {
+    ElMessageBox.confirm("你确定删除当前数据吗，是否继续?", "温馨提示", {
+      confirmButtonText: "确认",
+      cancelButtonText: "取消",
+      type: "warning",
+      draggable: true
+    })
+      .then(async () => {
+        deleteRecord(data.deviceSn).then(() => {
+          message(`删除成功！`, {
+            type: "success"
+          });
+          refresh();
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 };
 const handleSelect = (data: any) => {
   selectData.value = data;
