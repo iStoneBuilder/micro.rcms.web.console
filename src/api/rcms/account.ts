@@ -8,7 +8,7 @@ export const getAccountPageList = (
 ) => {
   return http.request<ResultPage>(
     "get",
-    `/test/services/rcms/base/account/records/page/${curPage}/${pageSize}`,
+    `/test/services/api/base/account/records/page/${curPage}/${pageSize}`,
     {
       params
     }
@@ -17,7 +17,7 @@ export const getAccountPageList = (
 export const createAccount = (data?: object) => {
   return http.request<ResultData>(
     "post",
-    "/test/services/rcms/base/account/records",
+    "/test/services/api/base/account/records",
     {
       data
     }
@@ -26,7 +26,7 @@ export const createAccount = (data?: object) => {
 export const updateAccount = (code: string, data?: object) => {
   return http.request<ResultData>(
     "put",
-    `/test/services/rcms/base/account/records/${code}`,
+    `/test/services/api/base/account/records/${code}`,
     {
       data
     }
@@ -35,6 +35,6 @@ export const updateAccount = (code: string, data?: object) => {
 export const deleteAccount = (code?: string) => {
   return http.request<ResultData>(
     "delete",
-    `/test/services/rcms/base/role/records/${code}`
+    `/test/services/api/base/role/records/${code}`
   );
 };

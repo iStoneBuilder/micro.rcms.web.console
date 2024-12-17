@@ -14,7 +14,7 @@ export async function enabled() {
 
 export async function groups() {
   return await getBussList(
-    "/cron/services/rcms/quzrtz/group/records/list",
+    "/cron/services/api/quzrtz/group/records/list",
     "quartzGroupName",
     "quartzGroupCode",
     {}

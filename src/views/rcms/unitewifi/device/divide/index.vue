@@ -198,7 +198,7 @@ const handleDivide = function () {
 };
 onMounted(async () => {
   targetOptions.value = await getBussList(
-    "/test/services/rcms/base/enterprise/records/list",
+    "/test/services/api/base/enterprise/records/list",
     "name",
     "id",
     { parentId: getEnterpriseId() }

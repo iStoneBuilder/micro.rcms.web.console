@@ -119,7 +119,7 @@ const deviceColumns: PlusColumn[] = [
     prop: "enterpriseId",
     valueType: "select",
     options: getBussList(
-      "/test/services/rcms/base/enterprise/records",
+      "/test/services/api/base/enterprise/records",
       "name",
       "id",
       { id: getTenantId() }
@@ -130,7 +130,7 @@ const deviceColumns: PlusColumn[] = [
     prop: "deviceGroup",
     valueType: "select",
     options: getBussList(
-      "/test/services/rcms/mifi/device-group/records",
+      "/test/services/api/mifi/device-group/records",
       "groupName",
       "groupId"
     )

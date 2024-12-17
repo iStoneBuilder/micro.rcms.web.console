@@ -56,7 +56,7 @@ export function buildColum() {
       align: "left",
       valueType: "select",
       options: getBussList(
-        "/test/services/rcms/base/enterprise/records",
+        "/test/services/api/base/enterprise/records",
         "name",
         "id",
         { id: getTenantId() }
@@ -69,7 +69,7 @@ export function buildColum() {
       align: "left",
       valueType: "select",
       options: getBussList(
-        "/test/services/rcms/mifi/merchant/records",
+        "/test/services/api/mifi/merchant/records",
         "merchantName",
         "merchantCode"
       )
@@ -203,7 +203,7 @@ export function buildEditColum() {
       align: "left",
       valueType: "select",
       options: getBussList(
-        "/test/services/rcms/base/enterprise/records",
+        "/test/services/api/base/enterprise/records",
         "name",
         "id",
         { id: getTenantId() }
@@ -219,7 +219,7 @@ export function buildEditColum() {
       align: "left",
       valueType: "select",
       options: getBussList(
-        "/test/services/rcms/mifi/merchant/records",
+        "/test/services/api/mifi/merchant/records",
         "merchantName",
         "merchantCode"
       ),

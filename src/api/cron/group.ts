@@ -8,7 +8,7 @@ export const getCornGroupPageList = (
 ) => {
   return http.request<ResultPage>(
     "get",
-    `/cron/services/rcms/quzrtz/group/records/page/${curPage}/${pageSize}`,
+    `/cron/services/api/quzrtz/group/records/page/${curPage}/${pageSize}`,
     {
       params
     }
@@ -18,7 +18,7 @@ export const getCornGroupPageList = (
 export const createCronGroup = (data?: object) => {
   return http.request<ResultData>(
     "post",
-    "/cron/services/rcms/quzrtz/group/records",
+    "/cron/services/api/quzrtz/group/records",
     {
       data
     }
@@ -27,7 +27,7 @@ export const createCronGroup = (data?: object) => {
 export const updateCronGroup = (code: string, data?: object) => {
   return http.request<ResultData>(
     "put",
-    `/cron/services/rcms/quzrtz/group/records/${code}`,
+    `/cron/services/api/quzrtz/group/records/${code}`,
     {
       data
     }
@@ -36,6 +36,6 @@ export const updateCronGroup = (code: string, data?: object) => {
 export const deleteCronGroup = (code?: string) => {
   return http.request<ResultData>(
     "delete",
-    `/cron/services/rcms/quzrtz/group/records/${code}`
+    `/cron/services/api/quzrtz/group/records/${code}`
   );
 };

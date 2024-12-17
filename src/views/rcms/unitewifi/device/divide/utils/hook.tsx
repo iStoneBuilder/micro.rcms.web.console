@@ -41,7 +41,7 @@ export function terminalManage() {
       minWidth: 100,
       valueType: "select",
       options: getBussList(
-        "/test/services/rcms/mifi/device-type/records",
+        "/test/services/api/mifi/device-type/records",
         "typeName",
         "typeCode",
         {}
@@ -53,7 +53,7 @@ export function terminalManage() {
       minWidth: 300,
       valueType: "select",
       options: getBussList(
-        "/test/services/rcms/base/enterprise/records",
+        "/test/services/api/base/enterprise/records",
         "name",
         "id",
         { id: getTenantId() }
@@ -117,7 +117,7 @@ export function terminalManage() {
       hideInSearch: true,
       valueType: "select",
       options: getBussList(
-        "/test/services/rcms/base/enterprise/records",
+        "/test/services/api/base/enterprise/records",
         "name",
         "id",
         { id: getTenantId() }
@@ -130,7 +130,7 @@ export function terminalManage() {
       hideInSearch: true,
       valueType: "select",
       options: getBussList(
-        "/test/services/rcms/base/enterprise/records",
+        "/test/services/api/base/enterprise/records",
         "name",
         "id",
         { id: getTenantId() }

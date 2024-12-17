@@ -319,7 +319,7 @@ const importColumns: PlusColumn[] = [
     valueType: "select",
     prop: "merchantCode",
     options: getBussList(
-      "/test/services/rcms/mifi/merchant/records",
+      "/test/services/api/mifi/merchant/records",
       "merchantName",
       "merchantCode"
     )

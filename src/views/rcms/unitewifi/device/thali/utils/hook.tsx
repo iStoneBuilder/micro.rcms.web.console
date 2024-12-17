@@ -60,7 +60,7 @@ export function terminalManage() {
       width: 300,
       valueType: "select",
       options: getBussList(
-        "/test/services/rcms/mifi/data-plan/records",
+        "/test/services/api/mifi/data-plan/records",
         "dataPlanName",
         "dataPlanNo",
         { id: getTenantId() }

@@ -8,7 +8,7 @@ export const getPermissionPageList = (
 ) => {
   return http.request<ResultPage>(
     "get",
-    `/test/services/rcms/base/permission/records/page/${curPage}/${pageSize}`,
+    `/test/services/api/base/permission/records/page/${curPage}/${pageSize}`,
     {
       params
     }
@@ -17,7 +17,7 @@ export const getPermissionPageList = (
 export const refreshPerm = (data?: object) => {
   return http.request<ResultData>(
     "post",
-    "/test/services/rcms/base/permission/records/refresh",
+    "/test/services/api/base/permission/records/refresh",
     {
       data
     }
@@ -26,7 +26,7 @@ export const refreshPerm = (data?: object) => {
 export const authorizeAppPerm = (appId: string, data?: Array<any>) => {
   return http.request<ResultData>(
     "post",
-    `/test/services/rcms/base/permission/records/authorize/${appId}`,
+    `/test/services/api/base/permission/records/authorize/${appId}`,
     {
       data
     }

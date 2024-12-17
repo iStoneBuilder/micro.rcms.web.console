@@ -20,7 +20,7 @@ const groupColumns: PlusColumn[] = [
     valueType: "select",
     prop: "deviceGroup",
     options: getBussList(
-      "/test/services/rcms/mifi/device-group/records",
+      "/test/services/api/mifi/device-group/records",
       "groupName,groupId",
       "groupId"
     )

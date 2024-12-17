@@ -25,7 +25,7 @@ const importColumns = [
     valueType: "select",
     prop: "deviceType",
     options: getBussList(
-      "/test/services/rcms/mifi/device-type/records",
+      "/test/services/api/mifi/device-type/records",
       "typeName",
       "typeCode"
     )

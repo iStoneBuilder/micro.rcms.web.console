@@ -72,7 +72,7 @@ const tableColumns: PlusColumn[] = [
     align: "left",
     valueType: "select",
     options: getBussList(
-      "/test/services/rcms/base/enterprise/records",
+      "/test/services/api/base/enterprise/records",
       "name",
       "id",
       { id: getTenantId() }

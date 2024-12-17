@@ -8,7 +8,7 @@ export const getPageRecordList = (
 ) => {
   return http.request<ResultPage>(
     "get",
-    `/test/services/rcms/mifi/device-manage/records/page/${curPage}/${pageSize}`,
+    `/test/services/api/mifi/device-manage/records/page/${curPage}/${pageSize}`,
     {
       params
     }
@@ -18,7 +18,7 @@ export const getPageRecordList = (
 export const importRecords = (data?: Array<any>) => {
   return http.request<ResultData>(
     "post",
-    "/test/services/rcms/mifi/device-manage/records",
+    "/test/services/api/mifi/device-manage/records",
     {
       data
     }
@@ -28,7 +28,7 @@ export const importRecords = (data?: Array<any>) => {
 export const updateRecord = (id: string, data?: object) => {
   return http.request<ResultData>(
     "put",
-    `/test/services/rcms/mifi/device-manage/records/${id}`,
+    `/test/services/api/mifi/device-manage/records/${id}`,
     {
       data
     }
@@ -37,7 +37,7 @@ export const updateRecord = (id: string, data?: object) => {
 export const updateRecordGroup = (data?: Array<any>) => {
   return http.request<ResultData>(
     "put",
-    `/test/services/rcms/mifi/device-manage/records/group`,
+    `/test/services/api/mifi/device-manage/records/group`,
     {
       data
     }
@@ -46,6 +46,6 @@ export const updateRecordGroup = (data?: Array<any>) => {
 export const deleteRecord = (id?: string) => {
   return http.request<ResultData>(
     "delete",
-    `/test/services/rcms/mifi/device-manage/records/${id}`
+    `/test/services/api/mifi/device-manage/records/${id}`
   );
 };

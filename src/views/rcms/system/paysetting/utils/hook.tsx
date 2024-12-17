@@ -39,7 +39,7 @@ export function terminalManage() {
       hideInForm: true,
       valueType: "select",
       options: getBussList(
-        `/test/services/rcms/base/enterprise/records${isPlatform ? "/list" : ""}`,
+        `/test/services/api/base/enterprise/records${isPlatform ? "/list" : ""}`,
         "name",
         "id",
         isPlatform ? { parentId: getEnterpriseId() } : { id: getTenantId() }
@@ -103,6 +103,14 @@ export function terminalManage() {
       prop: "mchSerialNumber"
     },
     {
+      label: "支付商户私钥",
+      prop: "payPrivateKey"
+    },
+    {
+      label: "支付商户证书",
+      prop: "payCert"
+    },
+    {
       label: "支付回调url",
       prop: "notifyUrl",
       colProps: {
@@ -115,14 +123,6 @@ export function terminalManage() {
       colProps: {
         span: 24
       }
-    },
-    {
-      label: "支付商户私钥",
-      prop: "payPrivateKey"
-    },
-    {
-      label: "支付商户证书",
-      prop: "payCert"
     }
   ];
   const { buttons } = useTable();

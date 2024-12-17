@@ -22,10 +22,12 @@ import {
   getItemList,
   getPageRecordList
 } from "@/api/rcms/fram-common";
-import { getTenantId } from "@/utils/common";
+import { getEnterpriseId, getTenantId } from "@/utils/common";
 import { addDrawer, closeDrawer } from "@/components/ReDrawer";
 import DetailForm from "../../../thali/form/detail.vue";
+import { useRoute } from "vue-router";
 
+const route = useRoute();
 const loading = ref(false);
 const pageInfo = { page: 1, pageSize: 15 };
 const tableColumns: PlusColumn[] = [
@@ -74,7 +76,7 @@ const tableColumns: PlusColumn[] = [
     width: 200,
     valueType: "select",
     options: getBussList(
-      "/test/services/rcms/mifi/data-plan/records",
+      "/test/services/api/mifi/data-plan/records",
       "dataPlanName",
       "dataPlanNo",
       { id: getTenantId() }
@@ -164,6 +166,8 @@ async function getList(query: PageInfo) {
   const params = { ...query };
   delete params.page;
   delete params.pageSize;
+  params["deviceSn"] = route.query.deviceSn;
+  params["enterpriseId"] = getEnterpriseId();
   const { data } = await getPageRecordList(
     "mifi/device-data-plan",
     page,

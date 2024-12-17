@@ -8,7 +8,7 @@ export const getCornTaskPageList = (
 ) => {
   return http.request<ResultPage>(
     "get",
-    `/cron/services/rcms/quzrtz/task/records/page/${curPage}/${pageSize}`,
+    `/cron/services/api/quzrtz/task/records/page/${curPage}/${pageSize}`,
     {
       params
     }
@@ -18,7 +18,7 @@ export const getCornTaskPageList = (
 export const createCornTask = (data?: object) => {
   return http.request<ResultData>(
     "post",
-    "/cron/services/rcms/quzrtz/task/records",
+    "/cron/services/api/quzrtz/task/records",
     {
       data
     }
@@ -27,7 +27,7 @@ export const createCornTask = (data?: object) => {
 export const updateCornTask = (id: string, data?: object) => {
   return http.request<ResultData>(
     "put",
-    `/cron/services/rcms/quzrtz/task/records/${id}`,
+    `/cron/services/api/quzrtz/task/records/${id}`,
     {
       data
     }
@@ -36,14 +36,14 @@ export const updateCornTask = (id: string, data?: object) => {
 export const deleteCornTask = (id?: string) => {
   return http.request<ResultData>(
     "delete",
-    `/cron/services/rcms/quzrtz/task/records/${id}`
+    `/cron/services/api/quzrtz/task/records/${id}`
   );
 };
 
 export const opertionCornTask = (op: string, id: string) => {
   return http.request<ResultData>(
     "post",
-    `/cron/services/rcms/quzrtz/task/records/${op}/${id}`
+    `/cron/services/api/quzrtz/task/records/${op}/${id}`
   );
 };
 
@@ -54,7 +54,7 @@ export const getCornJobPageList = (
 ) => {
   return http.request<ResultPage>(
     "get",
-    `/cron/services/rcms/quzrtz/job/records/page/${curPage}/${pageSize}`,
+    `/cron/services/api/quzrtz/job/records/page/${curPage}/${pageSize}`,
     {
       params
     }
