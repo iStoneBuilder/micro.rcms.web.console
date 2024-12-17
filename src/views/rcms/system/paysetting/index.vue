@@ -79,7 +79,7 @@ import { Plus } from "@element-plus/icons-vue";
 
 import CreateForm from "./form/create.vue";
 
-const service = "pay/pay-config";
+const service = "pay/config";
 const { pageInfo, loading, tableColumns, createColumns, buttons, selectData } =
   terminalManage();
 
