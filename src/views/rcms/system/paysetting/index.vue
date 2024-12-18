@@ -15,7 +15,7 @@
         :request="getList"
         :search="false"
         :table="{
-          isSelection: true,
+          isSelection: false,
           adaptive: { offsetBottom: 70 },
           actionBar: {
             buttons,

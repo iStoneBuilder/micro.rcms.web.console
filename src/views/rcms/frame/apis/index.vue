@@ -157,7 +157,7 @@ const tableConfig: PlusColumn[] = [
   },
   {
     label: "服务提供商",
-    width: 100,
+    width: 160,
     prop: "serviceCode",
     tableColumnProps: {
       align: "center"

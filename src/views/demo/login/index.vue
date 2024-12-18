@@ -18,7 +18,7 @@ import LoginUpdate from "./components/LoginUpdate.vue";
 import LoginQrCode from "./components/LoginQrCode.vue";
 import { useUserStoreHook } from "@/store/modules/user";
 import { initRouter, getTopMenu } from "@/router/utils";
-import { bg, avatar, illustration } from "./utils/static";
+import { bg, avatar, illustration, logoB } from "./utils/static";
 import { ReImageVerify } from "@/components/ReImageVerify";
 import { ref, toRaw, reactive, watch, computed } from "vue";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
@@ -171,10 +171,7 @@ watch(loginDay, value => {
       <div class="login-box">
         <div class="login-form">
           <!-- <avatar class="avatar" /> -->
-          <el-image
-            style="width: 60px; height: 60px"
-            src="../../../../public/logo-b.png"
-          />
+          <el-image style="width: 60px; height: 60px" :src="logoB" />
           <Motion>
             <h2 class="outline-none">
               <TypeIt
