@@ -1,6 +1,7 @@
 import { ref } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 import { useDetail } from "@/utils/toDetail";
+import { getItemList } from "@/api/rcms/fram-common";
 
 export function terminalManage() {
   const pageInfo = { page: 1, pageSize: 15 };
@@ -36,43 +37,46 @@ export function terminalManage() {
     ,
     {
       label: "实名用户",
-      prop: "enterpriseId",
+      prop: "realName",
       minWidth: 200
     },
     {
       label: "ICCID",
-      prop: "deviceType",
-      minWidth: 120
-    },
-    {
-      label: "msisdn",
-      prop: "batchNo",
-      minWidth: 200,
-      hideInSearch: true
+      prop: "iccid",
+      minWidth: 200
     },
     {
       label: "认证方式",
-      prop: "batchNo",
-      minWidth: 200,
-      hideInSearch: true
+      prop: "authWay",
+      minWidth: 100,
+      hideInSearch: true,
+      valueType: "select",
+      options: getItemList("MIFI_AUTH_WAY")
     },
     {
       label: "认证状态",
-      prop: "batchNo",
-      minWidth: 200,
-      hideInSearch: true
+      prop: "authStatus",
+      minWidth: 100,
+      hideInSearch: true,
+      valueType: "select",
+      options: getItemList("MIFI_NAME_STATUS"),
+      tableColumnProps: {
+        align: "center"
+      }
     },
     {
-      label: "认证时间",
-      prop: "batchNo",
-      minWidth: 200,
-      hideInSearch: true
+      label: "认证申请时间",
+      prop: "authApplyTime",
+      minWidth: 160,
+      hideInSearch: true,
+      valueType: "date-picker"
     },
     {
       label: "认证通过时间",
-      prop: "batchNo",
-      minWidth: 200,
-      hideInSearch: true
+      prop: "authPassTime",
+      minWidth: 160,
+      hideInSearch: true,
+      valueType: "date-picker"
     }
   ];
   const divideColumns: PlusColumn[] = [

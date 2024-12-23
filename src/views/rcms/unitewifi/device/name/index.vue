@@ -26,19 +26,13 @@
             :table="{
               isSelection: true,
               adaptive: { offsetBottom: 80 },
+              actionBar: { buttons, width: 150, type: 'link', showNumber: 4 },
+              onClickAction: handleTableOption,
               onSelectionChange: handleSelect
             }"
             :default-page-info="pageInfo"
             :default-page-size-list="[5, 15, 20, 50]"
-          >
-            <template #table-title>
-              <el-row class="button-row">
-                <el-button type="primary" plain :icon="useRenderIcon(Delete)">
-                  删除
-                </el-button>
-              </el-row>
-            </template>
-          </PlusPage>
+          />
         </el-tab-pane>
         <el-tab-pane label="实名清除记录">
           <PlusPage
@@ -69,13 +63,14 @@ import { ref } from "vue";
 import { terminalManage } from "./utils/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import { getPageRecordList } from "@/api/rcms/fram-common";
-import type {
-  PageInfo,
-  ButtonsCallBackParams,
-  PlusPageInstance
+import {
+  type PageInfo,
+  type ButtonsCallBackParams,
+  type PlusPageInstance,
+  useTable
 } from "plus-pro-components";
 import Delete from "@iconify-icons/ep/delete";
-import { getEnterpriseId } from "@/utils/common";
+import { syncDeviceSimName } from "@/api/mifi/device-name";
 
 const { pageInfo, loading, tableColumns, divideColumns, selectData } =
   terminalManage();
@@ -86,9 +81,8 @@ async function getList(query: PageInfo) {
   const params = { ...query };
   delete params.page;
   delete params.pageSize;
-  params["enterpriseId"] = getEnterpriseId();
   const { data } = await getPageRecordList(
-    "mifi/device-manage",
+    "mifi/device-name",
     page,
     pageSize,
     params
@@ -100,14 +94,30 @@ async function getList(query: PageInfo) {
   });
   return { data: data.data, success: true, total: data.meta.totalRows };
 }
+
+const { buttons } = useTable();
+buttons.value = [
+  {
+    text: "实名同步",
+    code: "sync",
+    props: { type: "primary", plain: true }
+  },
+  {
+    text: "清除实名",
+    code: "clean",
+    props: { type: "danger", plain: true }
+  }
+];
 // 列表按钮
-const handleOption = ({ row, buttonRow }: ButtonsCallBackParams): void => {
+const handleTableOption = async ({
+  row,
+  buttonRow
+}: ButtonsCallBackParams): Promise<void> => {
   switch (buttonRow.code) {
-    case "update":
+    case "sync":
+      await syncDeviceSimName(row.iccid, row);
       break;
-    case "delete":
-      break;
-    case "setting":
+    case "clean":
       break;
   }
   refresh();
