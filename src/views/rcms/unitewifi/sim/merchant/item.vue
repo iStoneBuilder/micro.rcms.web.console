@@ -236,7 +236,11 @@ const handleSubmit = async () => {
         type: "success"
       });
     } else {
-      await updateMerchantCarrier(params.carrierCode, params);
+      await updateMerchantCarrier(
+        params.merchantCode,
+        params.carrierCode,
+        params
+      );
       message(`${title.value}成功！`, {
         type: "success"
       });

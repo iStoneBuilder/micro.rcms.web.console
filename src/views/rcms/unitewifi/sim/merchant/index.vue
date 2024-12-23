@@ -19,7 +19,7 @@
       }"
       :table="{
         hasIndexColumn: true,
-        isSelection: true,
+        isSelection: false,
         adaptive: { offsetBottom: 70 },
         actionBar: { buttons, width: 160 },
         onClickAction: handleTableOption,

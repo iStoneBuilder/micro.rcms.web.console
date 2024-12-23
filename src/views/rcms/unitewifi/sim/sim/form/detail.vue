@@ -19,7 +19,7 @@
           <PlusDescriptions
             :column="2"
             :columns="mchSimBsColumns"
-            :data="currentRow"
+            :data="simData"
             :descriptionsItemProps="{ labelAlign: 'right' }"
             :label-width="'140px'"
           />
@@ -57,10 +57,11 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, ref } from "vue";
+import { defineProps, onMounted, ref } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 import { cloneDeep } from "@pureadmin/utils";
 import UsedChart from "../../../coms/usedChart.vue";
+import { getSimDetail } from "@/api/mifi/sim";
 const props = defineProps<{
   currentRow: any;
   tableColumns: PlusColumn[];
@@ -70,26 +71,28 @@ const activeCollapse = ref(["1", "2", "3"]);
 const simColumns = cloneDeep(props.tableColumns);
 delete simColumns[0]["render"];
 // --- SIM卡运营商信息
+const simData = ref({});
 const mchSimBsColumns: PlusColumn[] = [
   {
     label: "iccid",
-    prop: "enterpriseId"
+    prop: "iccid"
   },
   {
     label: "imsi",
-    prop: "enterpriseId"
+    prop: "imsi"
   },
   {
     label: "运营商",
-    prop: "enterpriseId"
+    prop: "operator"
   },
   {
     label: "msisdn",
-    prop: "enterpriseId"
+    prop: "msisdn"
   },
   {
     label: "开卡时间",
-    prop: "enterpriseId"
+    prop: "openTime",
+    valueType: "date-picker"
   },
   {
     label: "激活时间",
@@ -112,6 +115,11 @@ const mchSimBsColumns: PlusColumn[] = [
     prop: "enterpriseId"
   }
 ];
+onMounted(async () => {
+  // 加载SIM详情
+  const { data } = await getSimDetail(props.currentRow["iccid"]);
+  simData.value = data.carrierInfo;
+});
 </script>
 <style lang="scss" scoped>
 :deep(.el-descriptions__content) {

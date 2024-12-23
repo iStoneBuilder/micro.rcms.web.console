@@ -22,8 +22,9 @@
           hasIndexColumn: true,
           isSelection: true,
           adaptive: { offsetBottom: 70 },
-          actionBar: { buttons, width: 210, type: 'link', showNumber: 4 },
-          onClickAction: handleTableOption
+          actionBar: { buttons, width: 150, type: 'link', showNumber: 4 },
+          onClickAction: handleTableOption,
+          onSelectionChange: handleSelect
         }"
         :default-page-info="defaultPageInfo"
         :default-page-size-list="[5, 15, 20, 50]"
@@ -49,7 +50,12 @@
             <el-button type="primary" plain :icon="Compass">
               停机/复机
             </el-button>
-            <el-button type="primary" plain :icon="useRenderIcon(Check)">
+            <el-button
+              type="primary"
+              plain
+              :icon="useRenderIcon(Check)"
+              @click="checkSim"
+            >
               流量校准
             </el-button>
           </el-row>
@@ -161,7 +167,8 @@ import {
   getSimPageList,
   updateSim,
   deleteSim,
-  importSim
+  importSim,
+  checkSimDp
 } from "@/api/mifi/sim";
 import {
   defaultPageInfo,
@@ -223,11 +230,6 @@ buttons.value = [
     text: "限速",
     code: "limit",
     props: { type: "primary", plain: true }
-  },
-  {
-    text: "同步流量",
-    code: "sync",
-    props: { type: "primary", plain: true }
   }
 ];
 const editForm = ref({ iccid: "" });
@@ -271,6 +273,21 @@ const handleDelete = async (row): Promise<void> => {
       console.log(error);
     });
 };
+const selectData = ref([]);
+const handleSelect = (data: any) => {
+  selectData.value = data;
+};
+function checkSim() {
+  if (selectData.value.length > 0) {
+    selectData.value.forEach(sim => {
+      checkSimDp(sim.iccid, sim);
+    });
+    return;
+  }
+  message(`请至少选择一条数据！`, {
+    type: "warning"
+  });
+}
 // 取消
 const handleCancel = () => {
   state.visible = false;

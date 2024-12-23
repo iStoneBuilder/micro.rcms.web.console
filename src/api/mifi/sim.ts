@@ -40,3 +40,20 @@ export const deleteSim = (id?: string) => {
     `/test/services/api/mifi/sim/records/${id}`
   );
 };
+
+export const checkSimDp = (iccid: string, data: any) => {
+  return http.request<ResultData>(
+    "put",
+    `/test/services/api/mifi/sim/records/${iccid}/sync-dp`,
+    {
+      data
+    }
+  );
+};
+export const getSimDetail = (iccid: string, params?: any) => {
+  return http.request<ResultData>(
+    "get",
+    `/test/services/api/mifi/sim/records/${iccid}`,
+    { params }
+  );
+};

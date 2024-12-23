@@ -64,10 +64,14 @@ export const createMerchantCarrier = (data?: object) => {
   );
 };
 
-export const updateMerchantCarrier = (id: string, data?: object) => {
+export const updateMerchantCarrier = (
+  merCode: string,
+  id: string,
+  data?: object
+) => {
   return http.request<ResultData>(
     "put",
-    `/test/services/api/mifi/merchant/carrier/records/${id}`,
+    `/test/services/api/mifi/merchant/carrier/records/${merCode}/${id}`,
     {
       data
     }

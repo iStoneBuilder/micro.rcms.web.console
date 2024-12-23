@@ -99,6 +99,14 @@ export function buildColum() {
       }
     },
     {
+      label: "已使用流量",
+      prop: "flowUsed",
+      minWidth: 120,
+      align: "left",
+      hideInSearch: true,
+      hideInForm: true
+    },
+    {
       label: "剩余流量",
       prop: "flowRemain",
       minWidth: 200,
@@ -119,8 +127,13 @@ export function buildColum() {
     {
       label: "流量状态",
       prop: "flowStatus",
-      minWidth: 200,
-      align: "left"
+      minWidth: 100,
+      align: "left",
+      valueType: "select",
+      options: getItemList("MIFI_FLOW_STATUS"),
+      tableColumnProps: {
+        align: "center"
+      }
     },
     {
       label: "在线状态",
@@ -131,8 +144,13 @@ export function buildColum() {
     {
       label: "实名状态",
       prop: "nameStatus",
-      minWidth: 200,
-      align: "left"
+      minWidth: 100,
+      align: "left",
+      valueType: "select",
+      options: getItemList("MIFI_NAME_STATUS"),
+      tableColumnProps: {
+        align: "center"
+      }
     },
     {
       label: "SIM卡分类",
