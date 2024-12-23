@@ -34,7 +34,6 @@ export function terminalManage() {
         );
       }
     },
-    ,
     {
       label: "实名用户",
       prop: "realName",
