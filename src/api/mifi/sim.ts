@@ -50,6 +50,15 @@ export const checkSimDp = (iccid: string, data: any) => {
     }
   );
 };
+export const openStopSim = (iccid: string, data: any) => {
+  return http.request<ResultData>(
+    "post",
+    `/test/services/api/mifi/sim/records/${iccid}/open-stop`,
+    {
+      data
+    }
+  );
+};
 export const getSimDetail = (iccid: string, params?: any) => {
   return http.request<ResultData>(
     "get",

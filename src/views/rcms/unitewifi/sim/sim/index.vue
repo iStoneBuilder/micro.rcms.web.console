@@ -47,7 +47,7 @@
             >
               下载模板
             </el-button>
-            <el-button type="primary" plain :icon="Compass">
+            <el-button type="primary" plain :icon="Compass" @click="openStop">
               停机/复机
             </el-button>
             <el-button
@@ -168,7 +168,8 @@ import {
   updateSim,
   deleteSim,
   importSim,
-  checkSimDp
+  checkSimDp,
+  openStopSim
 } from "@/api/mifi/sim";
 import {
   defaultPageInfo,
@@ -281,6 +282,17 @@ function checkSim() {
   if (selectData.value.length > 0) {
     selectData.value.forEach(sim => {
       checkSimDp(sim.iccid, sim);
+    });
+    return;
+  }
+  message(`请至少选择一条数据！`, {
+    type: "warning"
+  });
+}
+function openStop() {
+  if (selectData.value.length > 0) {
+    selectData.value.forEach(sim => {
+      openStopSim(sim.iccid, sim);
     });
     return;
   }
