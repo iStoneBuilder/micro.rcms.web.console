@@ -78,7 +78,7 @@ type ResultTable = {
 
 /** 登录 */
 export const getLogin = (data?: object) => {
-  return http.request<UserResult>("post", "/test/services/api/user/login", {
+  return http.request<UserResult>("post", "/test/services/api/admin/login", {
     data
   });
 };
@@ -87,7 +87,7 @@ export const getLogin = (data?: object) => {
 export const refreshTokenApi = (data?: object) => {
   return http.request<RefreshTokenResult>(
     "post",
-    "/test/services/api/user/refresh/login",
+    "/test/services/api/admin/refresh/login",
     { data }
   );
 };

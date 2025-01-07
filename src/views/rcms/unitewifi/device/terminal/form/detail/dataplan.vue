@@ -76,7 +76,7 @@ const tableColumns: PlusColumn[] = [
     width: 200,
     valueType: "select",
     options: getBussList(
-      "/test/services/api/mifi/data-plan/records",
+      "/test/services/api/flow/data-plan/records",
       "dataPlanName",
       "dataPlanNo",
       { id: getTenantId() }
@@ -169,7 +169,7 @@ async function getList(query: PageInfo) {
   params["deviceSn"] = route.query.deviceSn;
   params["enterpriseId"] = getEnterpriseId();
   const { data } = await getPageRecordList(
-    "mifi/device-data-plan",
+    "device/device-data-plan",
     page,
     pageSize,
     params

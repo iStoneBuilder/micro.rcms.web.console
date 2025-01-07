@@ -6,5 +6,5 @@ type Result = {
 };
 // return http.request<Result>("get", "/get-async-routes");
 export const getAsyncRoutes = () => {
-  return http.request<Result>("get", "/test/services/api/web/home/records");
+  return http.request<Result>("get", "/test/services/api/admin/home");
 };

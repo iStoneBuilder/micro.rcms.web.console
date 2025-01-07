@@ -69,7 +69,7 @@ export function buildColum() {
       align: "left",
       valueType: "select",
       options: getBussList(
-        "/test/services/api/mifi/merchant/records",
+        "/test/services/api/sim/merchant/records",
         "merchantName",
         "merchantCode"
       )
@@ -237,7 +237,7 @@ export function buildEditColum() {
       align: "left",
       valueType: "select",
       options: getBussList(
-        "/test/services/api/mifi/merchant/records",
+        "/test/services/api/sim/merchant/records",
         "merchantName",
         "merchantCode"
       ),

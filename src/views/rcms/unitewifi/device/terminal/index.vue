@@ -78,6 +78,11 @@
         :currentRow="selectData"
         @dialogEvent="handleCallBack"
       />
+      <ChargeForm
+        v-if="currForm === 'charge'"
+        :currentRow="selectData"
+        @dialogEvent="handleCallBack"
+      />
     </PlusDialog>
   </div>
 </template>
@@ -97,6 +102,7 @@ import ImportForm from "./form/import.vue";
 import GroupForm from "./form/group.vue";
 import ActiveForm from "./form/active.vue";
 import ControlForm from "./form/control.vue";
+import ChargeForm from "./form/recharge.vue";
 
 import { message } from "@/utils/message";
 import { ElMessageBox } from "element-plus";

@@ -87,7 +87,7 @@ async function getList(query: PageInfo) {
   delete params.pageSize;
   params["deviceSn"] = route.query.deviceSn;
   const { data } = await getPageRecordList(
-    "mifi/device-name",
+    "device/device-name",
     page,
     pageSize,
     params

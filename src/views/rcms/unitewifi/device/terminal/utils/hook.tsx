@@ -96,7 +96,7 @@ export function terminalManage() {
       align: "left",
       valueType: "select",
       options: getBussList(
-        "/test/services/api/mifi/device-type/records",
+        "/test/services/api/device/device-type/records",
         "typeName",
         "typeCode",
         {}
@@ -109,7 +109,7 @@ export function terminalManage() {
       align: "left",
       valueType: "select",
       options: getBussList(
-        "/test/services/api/mifi/device-group/records",
+        "/test/services/api/device/device-group/records",
         "groupName",
         "groupId"
       )
@@ -193,10 +193,10 @@ export function terminalManage() {
     },
     {
       name: "设备充值",
-      code: "store",
+      code: "charge",
       content: "请选择至少一条数据，允许批量操作",
       icon: Wallet,
-      isBatch: true
+      isBatch: false
     },
     {
       name: "套餐转移",

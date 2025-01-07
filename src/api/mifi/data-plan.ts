@@ -4,7 +4,7 @@ import type { ResultData } from "../types";
 export const updateRecordSell = (id: string, data?: object) => {
   return http.request<ResultData>(
     "put",
-    `/test/services/api/mifi/data-plan/records/${id}/sell`,
+    `/test/services/api/flow/data-plan/records/${id}/sell`,
     {
       data
     }
