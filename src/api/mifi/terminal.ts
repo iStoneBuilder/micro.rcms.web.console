@@ -8,7 +8,7 @@ export const getPageRecordList = (
 ) => {
   return http.request<ResultPage>(
     "get",
-    `/test/services/api/sim/records/page/${curPage}/${pageSize}`,
+    `/test/services/api/mifi-sim/records/page/${curPage}/${pageSize}`,
     {
       params
     }
@@ -16,15 +16,19 @@ export const getPageRecordList = (
 };
 
 export const importRecords = (data?: Array<any>) => {
-  return http.request<ResultData>("post", "/test/services/api/sim/records", {
-    data
-  });
+  return http.request<ResultData>(
+    "post",
+    "/test/services/api/mifi-sim/records",
+    {
+      data
+    }
+  );
 };
 
 export const updateRecord = (id: string, data?: object) => {
   return http.request<ResultData>(
     "put",
-    `/test/services/api/sim/records/${id}`,
+    `/test/services/api/mifi-sim/records/${id}`,
     {
       data
     }
@@ -33,6 +37,6 @@ export const updateRecord = (id: string, data?: object) => {
 export const deleteRecord = (id?: string) => {
   return http.request<ResultData>(
     "delete",
-    `/test/services/api/sim/records/${id}`
+    `/test/services/api/mifi-sim/records/${id}`
   );
 };

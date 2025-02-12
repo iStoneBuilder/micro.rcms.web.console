@@ -110,7 +110,7 @@ async function getList(query: PageInfo) {
   params["activeStatus"] = "N";
   params["enterpriseId"] = getEnterpriseId();
   const { data } = await getPageRecordList(
-    "device/device-manage",
+    "mifi-device/device-manage",
     page,
     pageSize,
     params
@@ -129,7 +129,7 @@ async function getDivideList(query: PageInfo) {
   delete params.page;
   delete params.pageSize;
   const { data } = await getPageRecordList(
-    "device/device-divide",
+    "mifi-device/device-divide",
     page,
     pageSize,
     params
@@ -181,7 +181,7 @@ const handleDivide = function () {
         targetMch: targetMch.value["value"],
         list: selectData.value
       };
-      await createRecord("device/device-divide", divideData)
+      await createRecord("mifi-device/device-divide", divideData)
         .then(() => {
           message(`分发成功！`, {
             type: "success"

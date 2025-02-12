@@ -3,7 +3,7 @@ import { message } from "@/utils/message";
 import { ref, defineProps, defineEmits } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 import { createRecord, updateRecord } from "@/api/rcms/fram-common";
-const service = "mifi/data-plan";
+const service = "mifi-flow/data-plan";
 // 父节点传值
 const props = defineProps<{
   currentRow: any;

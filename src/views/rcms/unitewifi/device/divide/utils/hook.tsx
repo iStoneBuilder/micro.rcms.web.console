@@ -41,7 +41,7 @@ export function terminalManage() {
       minWidth: 100,
       valueType: "select",
       options: getBussList(
-        "/test/services/api/device/device-type/records",
+        "/test/services/api/mifi-device/device-type/records",
         "typeName",
         "typeCode",
         {}

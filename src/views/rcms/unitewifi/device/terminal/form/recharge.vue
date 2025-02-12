@@ -80,7 +80,7 @@ const chargeColumns = [
     valueType: "select",
     prop: "dataPlan",
     options: getBussList(
-      "/test/services/api/device/device-type/records",
+      "/test/services/api/mifi-device/device-type/records",
       "typeName",
       "typeCode"
     )

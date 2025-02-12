@@ -130,7 +130,7 @@ const deviceColumns: PlusColumn[] = [
     prop: "deviceGroup",
     valueType: "select",
     options: getBussList(
-      "/test/services/api/device/device-group/records",
+      "/test/services/api/mifi-device/device-group/records",
       "groupName",
       "groupId"
     )
@@ -321,7 +321,7 @@ const handleDeviceCheck = function () {
 onMounted(async () => {
   const route = useRoute();
   const { data } = await getRecord(
-    "device/device-manage",
+    "mifi-device/device-manage",
     route.query.deviceSn as string
   );
   detailData.value = { ...data };

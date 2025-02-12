@@ -4,7 +4,7 @@ import { ref, defineProps, defineEmits } from "vue";
 import type { PlusColumn } from "plus-pro-components";
 import { createRecord, updateRecord } from "@/api/rcms/fram-common";
 import { cloneDeep } from "@pureadmin/utils";
-const service = "pay/config";
+const service = "base/pay-config";
 // 父节点传值
 const props = defineProps<{
   currentRow: any;

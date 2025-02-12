@@ -87,7 +87,7 @@ async function getList(query: PageInfo) {
   delete params.page;
   delete params.pageSize;
   const { data } = await getPageRecordList(
-    "device/device-manage",
+    "mifi-device/device-manage",
     page,
     pageSize,
     params

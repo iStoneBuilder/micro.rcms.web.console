@@ -52,7 +52,7 @@ const newColumns: PlusColumn[] = [
       multiple: true
     },
     options: getBussList(
-      "/test/services/api/device/device-type/records",
+      "/test/services/api/mifi-device/device-type/records",
       "typeName",
       "typeCode",
       {}
@@ -68,7 +68,7 @@ const newColumns: PlusColumn[] = [
       multiple: true
     },
     options: getBussList(
-      "/test/services/api/device/device-group/records",
+      "/test/services/api/mifi-device/device-group/records",
       "groupName,groupId",
       "groupId",
       {

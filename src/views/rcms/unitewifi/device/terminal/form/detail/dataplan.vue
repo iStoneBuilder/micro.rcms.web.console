@@ -169,7 +169,7 @@ async function getList(query: PageInfo) {
   params["deviceSn"] = route.query.deviceSn;
   params["enterpriseId"] = getEnterpriseId();
   const { data } = await getPageRecordList(
-    "device/device-data-plan",
+    "mifi-device/device-data-plan",
     page,
     pageSize,
     params

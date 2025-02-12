@@ -8,7 +8,7 @@ export const getMerchantPageList = (
 ) => {
   return http.request<ResultPage>(
     "get",
-    `/test/services/api/sim/merchant/records/page/${curPage}/${pageSize}`,
+    `/test/services/api/mifi-sim/merchant/records/page/${curPage}/${pageSize}`,
     {
       params
     }
@@ -18,7 +18,7 @@ export const getMerchantPageList = (
 export const createMerchant = (data?: object) => {
   return http.request<ResultData>(
     "post",
-    "/test/services/api/sim/merchant/records",
+    "/test/services/api/mifi-sim/merchant/records",
     {
       data
     }
@@ -28,7 +28,7 @@ export const createMerchant = (data?: object) => {
 export const updateMerchant = (id: string, data?: object) => {
   return http.request<ResultData>(
     "put",
-    `/test/services/api/sim/merchant/records/${id}`,
+    `/test/services/api/mifi-sim/merchant/records/${id}`,
     {
       data
     }
@@ -37,7 +37,7 @@ export const updateMerchant = (id: string, data?: object) => {
 export const deleteMerchant = (id?: string) => {
   return http.request<ResultData>(
     "delete",
-    `/test/services/api/sim/merchant/records/${id}`
+    `/test/services/api/mifi-sim/merchant/records/${id}`
   );
 };
 export const getMerchantCarrierList = (
@@ -47,7 +47,7 @@ export const getMerchantCarrierList = (
 ) => {
   return http.request<ResultPage>(
     "get",
-    `/test/services/api/sim/merchant/carrier/records/page/${curPage}/${pageSize}`,
+    `/test/services/api/mifi-sim/merchant/carrier/records/page/${curPage}/${pageSize}`,
     {
       params
     }
@@ -57,7 +57,7 @@ export const getMerchantCarrierList = (
 export const createMerchantCarrier = (data?: object) => {
   return http.request<ResultData>(
     "post",
-    "/test/services/api/sim/merchant/carrier/records",
+    "/test/services/api/mifi-sim/merchant/carrier/records",
     {
       data
     }
@@ -71,7 +71,7 @@ export const updateMerchantCarrier = (
 ) => {
   return http.request<ResultData>(
     "put",
-    `/test/services/api/sim/merchant/carrier/records/${merCode}/${id}`,
+    `/test/services/api/mifi-sim/merchant/carrier/records/${merCode}/${id}`,
     {
       data
     }
@@ -80,6 +80,6 @@ export const updateMerchantCarrier = (
 export const deleteMerchantCarrier = (id?: string) => {
   return http.request<ResultData>(
     "delete",
-    `/test/services/api/sim/merchant/carrier/records/${id}`
+    `/test/services/api/mifi-sim/merchant/carrier/records/${id}`
   );
 };

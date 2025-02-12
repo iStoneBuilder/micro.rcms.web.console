@@ -19,7 +19,7 @@ const groupColumns = [
     valueType: "select",
     prop: "deviceGroup",
     options: getBussList(
-      "/test/services/api/device/device-group/records",
+      "/test/services/api/mifi-device/device-group/records",
       "groupName,groupId",
       "groupId",
       {

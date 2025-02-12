@@ -103,7 +103,7 @@ import DetailForm from "./form/detail.vue";
 import SellConfig from "./form/sellConfig.vue";
 import { addDrawer, closeDrawer } from "@/components/ReDrawer";
 
-const service = "mifi/data-plan";
+const service = "mifi-flow/data-plan";
 const { pageInfo, loading, tableColumns, buttons, selectData } =
   terminalManage();
 tableColumns[0].render = (value, data) => {
